@@ -275,6 +275,22 @@
             line-height: 1.6;
         }
 
+        /* Subsection Headers */
+        .subsection-header {
+            margin-bottom: 40px;
+        }
+        .subsection-title {
+            font-family: 'Raleway', 'Inter', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+        .subsection-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-light);
+        }
+
         /* Executive Education Section */
         .education-section {
             margin-top: 60px;
@@ -883,63 +899,97 @@
         <div class="container">
             <div class="section-header fade-in">
                 <h2>How We Help</h2>
-                <p>We turn your data into pricing power and marketing clarity</p>
+                <p>We partner with businesses in two ways: hands-on consulting that solves your toughest marketing and pricing problems, and executive training that builds these capabilities in-house.</p>
+            </div>
+
+            <!-- Consulting Services Subsection -->
+            <div class="subsection-header fade-in">
+                <h3 class="subsection-title">Consulting Services</h3>
+                <p class="subsection-subtitle">We dig into your data and deliver actionable recommendations.</p>
             </div>
 
             <div class="services-grid">
+                <!-- PRICING -->
                 <div class="service-card fade-in fade-in-delay-1">
                     <div class="service-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
                     </div>
                     <h3>Find Your Optimal Price</h3>
-                    <p>Stop guessing. We estimate how your customers respond to price changes and find the sweet spot that maximizes profit — backed by quantitative evidence, not gut feel.</p>
+                    <p>We estimate how customers respond to price and find the profit-maximizing sweet spot — backed by data, not gut feel.</p>
                 </div>
                 <div class="service-card fade-in fade-in-delay-2">
                     <div class="service-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
                     </div>
-                    <h3>Adapt Prices in Real Time</h3>
-                    <p>Markets shift. Competitors move. Demand fluctuates. We build dynamic pricing systems that adjust intelligently — capturing revenue you'd otherwise leave behind.</p>
+                    <h3>Price Dynamically</h3>
+                    <p>Markets shift. Competitors move. We build systems that adjust prices in real time to capture revenue you'd otherwise miss.</p>
                 </div>
                 <div class="service-card fade-in fade-in-delay-3">
                     <div class="service-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                     </div>
-                    <h3>Launch with Confidence</h3>
-                    <p>New product? We forecast market share for each of your prototype products before you go to market using conjoint analysis, and predict your product's lifecycle by relying on diffusion models — so you have the right product and price from day one, and plan the path forward.</p>
+                    <h3>Use Pricing Psychology</h3>
+                    <p>Price increases don't have to sting. Framing, anchoring, timing — we make your prices easier to accept.</p>
                 </div>
+                <!-- CUSTOMERS -->
                 <div class="service-card fade-in fade-in-delay-4">
                     <div class="service-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
                     </div>
-                    <h3>Decode Your Customer Base</h3>
-                    <p>Who's price-sensitive? Who cares about value? Who should be kept versus let go? We segment your market based on behavioral patterns — allowing you to customize products, prices, and marketing for each segment.</p>
+                    <h3>Segment Your Market</h3>
+                    <p>Who's price-sensitive? Who values quality? Who should you fire? We reveal the groups hiding in your data so you can treat them differently.</p>
                 </div>
                 <div class="service-card fade-in fade-in-delay-5">
                     <div class="service-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/></svg>
                     </div>
-                    <h3>Understand Why They Choose</h3>
-                    <p>Why do customers pick you — or your competitor? We quantify the trade-offs people make between price, features, and brand so you can position to win.</p>
+                    <h3>Model the Full Decision Journey</h3>
+                    <p>Store choice, category, product, spend — we model each step so you optimize the whole path, not just the final sale.</p>
                 </div>
                 <div class="service-card fade-in fade-in-delay-6">
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                    </div>
+                    <h3>Outsmart the Competition</h3>
+                    <p>Why do they pick rivals over you? We quantify the trade-offs and show you how to win — and when to respond.</p>
+                </div>
+                <!-- PRODUCTS & CHANNELS -->
+                <div class="service-card fade-in fade-in-delay-7">
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    </div>
+                    <h3>Launch with Confidence</h3>
+                    <p>We forecast share before launch with conjoint and predict lifecycle with diffusion models — so you nail product and price from day one.</p>
+                </div>
+                <div class="service-card fade-in fade-in-delay-8">
+                    <div class="service-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/></svg>
+                    </div>
+                    <h3>Coordinate Your Channel</h3>
+                    <p>Retailers and distributors eat your margins. We structure channel pricing to align incentives and protect profit.</p>
+                </div>
+                <div class="service-card fade-in fade-in-delay-9">
                     <div class="service-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z"/></svg>
                     </div>
                     <h3>Make Promotions Pay</h3>
-                    <p>Most discounts destroy margin. We identify which customers actually respond to promotions versus those who would have bought anyway — so every dollar drives incremental sales.</p>
+                    <p>Most discounts destroy margin. We find who actually responds — so every promo dollar drives incremental sales.</p>
                 </div>
             </div>
 
-            <!-- Executive Education Subsection -->
+            <!-- Executive Training Subsection -->
             <div class="education-section fade-in">
+                <div class="subsection-header">
+                    <h3 class="subsection-title">Executive Training</h3>
+                    <p class="subsection-subtitle">Don't just get answers — build the skills to find them yourself.</p>
+                </div>
                 <div class="education-header">
                     <div class="education-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
                     </div>
                     <div class="education-text">
                         <h3>Build Analytics Capabilities In-House</h3>
-                        <p>Don't just get recommendations — build the skills to make smarter marketing and pricing decisions yourself. We offer customized executive training programs, from half-day workshops to multi-session courses, using the same curriculum and interactive tools taught at a top-ranked business school.</p>
+                        <p>We offer customized executive training programs, from half-day workshops to multi-session courses, using the same curriculum and interactive tools taught at a top-ranked business school.</p>
                     </div>
                 </div>
                 <div class="tools-showcase">
@@ -955,7 +1005,7 @@
                                 </div>
                                 <strong>Price Optimization & Elasticity</strong>
                             </div>
-                            <p>Calculate price and income elasticities from real data. Optimize prices under linear and constant-elasticity demand. Compare revenue vs. profit maximization. Assess price sensitivity using qualitative market factors when data is scarce.</p>
+                            <p>Calculate price and income elasticities from real data. Optimize prices under linear and constant-elasticity demand. Compare revenue vs. profit maximization.</p>
                         </div>
                         <div class="tool-category fade-in fade-in-delay-2">
                             <div class="tool-category-header">
@@ -964,7 +1014,7 @@
                                 </div>
                                 <strong>Regression & Choice Modeling</strong>
                             </div>
-                            <p>Run linear, Poisson, and logistic regressions directly in the browser. Estimate multinomial and conditional logit models for consumer choice analysis. Uncover hidden customer segments with latent class regression — all without writing code.</p>
+                            <p>Run linear, Poisson, and logistic regressions directly in the browser. Estimate multinomial and conditional logit models. Uncover hidden segments with latent class regression.</p>
                         </div>
                         <div class="tool-category fade-in fade-in-delay-3">
                             <div class="tool-category-header">
@@ -973,7 +1023,7 @@
                                 </div>
                                 <strong>Conjoint & Experiment Design</strong>
                             </div>
-                            <p>Design fractional factorial experiments for conjoint analysis. Define product attributes and levels, generate efficient survey designs, and export profiles with dummy coding ready for analysis.</p>
+                            <p>Design fractional factorial experiments for conjoint analysis. Define product attributes and levels, generate efficient survey designs, and export profiles ready for analysis.</p>
                         </div>
                         <div class="tool-category fade-in fade-in-delay-4">
                             <div class="tool-category-header">
@@ -982,10 +1032,10 @@
                                 </div>
                                 <strong>Competitive & Channel Strategy</strong>
                             </div>
-                            <p>Compute Bertrand-Nash equilibrium prices for competing brands. Optimize producer pricing across channel structures — from vertical integration to Stackelberg games. Quantify double marginalization and compare outcomes when rivals sell through a common retailer.</p>
+                            <p>Compute Bertrand-Nash equilibrium prices for competing brands. Optimize producer pricing across channel structures. Quantify double marginalization effects.</p>
                         </div>
                     </div>
-                    <p class="tools-cta">These tools are available exclusively through our training engagements. <a href="#contact">Contact us</a> to discuss a customized program for your team.</p>
+                    <p class="tools-cta">We can also create new tools or customize existing ones for your specific use case and business context. <a href="#contact">Contact us</a> to discuss a customized program for your team.</p>
                 </div>
             </div>
         </div>
