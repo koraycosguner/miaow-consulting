@@ -448,6 +448,26 @@
             line-height: 1.6;
             margin: 0;
         }
+        .tools-cta-row {
+            display: flex;
+            gap: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        .tools-cta-row .tools-cta {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 0;
+            padding: 0;
+            border: none;
+        }
+        .tools-cta-row .tools-cta:first-child {
+            text-align: left;
+        }
+        .tools-cta-row .tools-cta:last-child {
+            text-align: right;
+        }
         .tools-cta {
             font-size: 0.95rem;
             color: var(--text-light);
@@ -463,6 +483,16 @@
         }
         .tools-cta a:hover {
             text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .tools-cta-row {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .tools-cta-row .tools-cta:first-child,
+            .tools-cta-row .tools-cta:last-child {
+                text-align: center;
+            }
         }
         @media (max-width: 768px) {
             .education-header {
@@ -1040,8 +1070,10 @@
                             <p>Compute Bertrand-Nash equilibrium prices for competing brands. Optimize producer pricing across channel structures. Quantify double marginalization effects.</p>
                         </div>
                     </div>
-                    <p class="tools-cta" style="border-top: none; padding-top: 0; margin-bottom: 20px;"><strong>No coding required.</strong> Our tools let you perform sophisticated quantitative analysis without any programming or data science skills. Upload your data, click a few buttons, and get strategies, results, and presentation-ready figures instantly.</p>
-                    <p class="tools-cta"><strong>Need something different?</strong> These are just examples. We can build custom tools tailored to your specific business context — whether it's a new pricing model, a forecasting dashboard, or an optimization engine for your unique workflow. <a href="#contact">Contact us</a> to discuss a program for your team.</p>
+                    <div class="tools-cta-row">
+                        <p class="tools-cta"><strong>No coding required.</strong> Our tools let you perform sophisticated quantitative analysis without any programming or data science skills. Upload your data, click a few buttons, and get strategies, results, and presentation-ready figures instantly.</p>
+                        <p class="tools-cta"><strong>Need something different?</strong> These are just examples. We can build custom tools tailored to your specific business context — whether it's a new pricing model, a forecasting dashboard, or an optimization engine for your unique workflow. <a href="#contact">Contact us</a> to discuss a program for your team.</p>
+                    </div>
                 </div>
             </div>
         </div>
