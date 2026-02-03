@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications | Koray Cosguner</title>
+
+    <style>
+        :root {
+            --primary: #990000; /* IU Crimson */
+            --text-main: #111827; /* Near Black */
+            --text-light: #4b5563; /* Grey */
+            --bg: #ffffff;
+            --surface: #f9fafb;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+        .nav-links a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        /* Page Header */
+        .page-header {
+            padding: 60px 24px 40px;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .page-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
+        }
+
+        /* Main Content */
+        .section {
+            padding: 0 24px 80px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Paper Styling */
+        .paper {
+            padding: 28px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .paper:first-child {
+            border-top: 1px solid var(--border);
+        }
+        .paper:last-child {
+            border-bottom: none;
+        }
+
+        .paper-header {
+            display: flex;
+            gap: 24px;
+        }
+
+        .paper-cover {
+            flex-shrink: 0;
+            width: 90px;
+        }
+        .paper-cover img {
+            width: 90px;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .paper-info {
+            flex: 1;
+        }
+
+        .paper-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .paper-authors {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+        .paper-authors strong {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .paper-journal {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            font-style: italic;
+            margin-bottom: 6px;
+        }
+
+        .paper-abstract {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-top: 16px;
+        }
+
+        .paper-link {
+            margin-top: 12px;
+        }
+        .paper-link a {
+            font-size: 0.85rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .paper-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 24px;
+            background: var(--surface);
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Mobile Navigation */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-main);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .nav-toggle {
+                display: flex;
+            }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 16px 24px;
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links a {
+                margin-left: 0;
+                padding: 12px 0;
+                font-size: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+            .nav-container {
+                position: relative;
+            }
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            .page-header {
+                padding: 40px 24px 30px;
+            }
+            .paper {
+                padding: 24px 0;
+            }
+            .paper-header {
+                gap: 16px;
+            }
+            .paper-cover {
+                width: 120px;
+            }
+            .paper-cover img {
+                width: 120px;
+            }
+            .paper-title {
+                font-size: 1rem;
+            }
+            .paper-authors,
+            .paper-journal,
+            .paper-link,
+            .paper-abstract {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="iu-logo.png" alt="IU Logo" style="height: 32px;">
+                <a href="index.html" class="brand">Koray Cosguner</a>
+            </div>
+            <div class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="research.html" class="active">Research</a>
+                <a href="tools.html">Pricing & Analytics Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h1>Publications</h1>
+    </div>
+
+    <div class="section">
+        <div class="container">
+
+            <!-- Paper 1 -->
+            <div class="paper">
+                <div class="paper-header">
+                    <div class="paper-cover">
+                        <img src="mnsc.png" alt="Management Science">
+                    </div>
+                    <div class="paper-info">
+                        <div class="paper-title">Dynamic Pricing for New Products Using a Utility-Based Generalization of the Bass Diffusion Model</div>
+                        <div class="paper-authors"><strong>Koray Cosguner</strong> and P. B. Seetharaman (2022) — <em>Equal Authorship</em></div>
+                    </div>
+                </div>
+                <div class="paper-abstract">The Bass Model (BM) has an excellent track record in the realm of new product sales forecasting. However, its use for optimal dynamic pricing or advertising is relatively limited because the Generalized Bass Model (GBM), which extends the BM to handle marketing variables, uses only percentage changes in marketing variables, rather than their actual values. This restricts the GBM's prescriptive use, for example, to derive the optimal price path for a new product, conditional on an assumed launch price, but not the launch price itself. In this paper, we employ a utility-based extension of the BM, which can yield normative prescriptions regarding both the introductory price and the price path after launch, for the new product. We offer two versions of this utility-based diffusion model, namely, the Bass-Gumbel Diffusion Model (BGDM) and the Bass-Logit Diffusion Model (BLDM), the latter of which has been previously used. We show that both the BGDM and BLDM handily outperform the GBM in forecasting new product sales using empirical data from four product categories. We discuss how to estimate the BGDM and BLDM in the absence of past sales data. We compare the optimal pricing policy of the BLDM with the GBM and derive optimal pricing policies that are implied by the BLDM under various ranges of model parameters. We illustrate a dynamic pricing approach that allows managers to derive optimal marketing policies in a computationally convenient manner and extend this approach to a competitive, multiproduct case.</div>
+                <div class="paper-link"><a href="https://doi.org/10.1287/mnsc.2021.4257" target="_blank">View Publication</a></div>
+            </div>
+
+            <!-- Paper 2 -->
+            <div class="paper">
+                <div class="paper-header">
+                    <div class="paper-cover">
+                        <img src="mksc.png" alt="Marketing Science">
+                    </div>
+                    <div class="paper-info">
+                        <div class="paper-title">Profiting from the Decoy Effect: A Case Study of an Online Diamond Retailer</div>
+                        <div class="paper-authors">Chunhua Wu and <strong>Koray Cosguner</strong> (2020)</div>
+                    </div>
+                </div>
+                <div class="paper-abstract">The decoy effect (DE) has been robustly documented across dozens of product categories and choice settings using laboratory experiments. However, it has never been verified in a real product market in the literature. In this paper, we empirically test and quantify the DE in the diamond sales of a leading online jewelry retailer. We develop a diamond-level proportional hazard framework by jointly modeling market-level decoy–dominant detection probabilities and the boost in sales upon detection of dominants. Results suggest that decoy–dominant detection probabilities are low (11%–25%) in the diamond market; however, upon detection, the DE increases dominant diamonds' sale hazards significantly (1.8–3.2 times). In terms of the managerial significance, we find that the DE substantially increases the diamond retailer's gross profit by 14.3%. We further conduct simulation studies to understand the DE's profit impact under various dominance scenarios.</div>
+                <div class="paper-link"><a href="https://doi.org/10.1287/mksc.2020.1231" target="_blank">View Publication</a></div>
+            </div>
+
+            <!-- Paper 3 -->
+            <div class="paper">
+                <div class="paper-header">
+                    <div class="paper-cover">
+                        <img src="jmr.png" alt="Journal of Marketing Research">
+                    </div>
+                    <div class="paper-info">
+                        <div class="paper-title">Modeling Emerging-Market Firms' Competitive Retail Distribution Strategies</div>
+                        <div class="paper-authors">Amalesh Sharma, V. Kumar, and <strong>Koray Cosguner</strong> (2019) — <em>Equal Authorship</em></div>
+                    </div>
+                </div>
+                <div class="paper-abstract">In emerging markets, the effective implementation of distribution strategies is challenged by underdeveloped road infrastructure and a low penetration of retail stores that are insufficient in meeting customer needs. In addition, products are typically distributed in multiple forms through multiple retail channels. Given the competitive landscape, manufacturers' distribution strategies should be based on anticipation of competitor reactions. Accordingly, the authors develop a manufacturer-level competition model to study the distribution and price decisions of insecticide manufacturers competing across multiple product forms and retail channels. Their study shows that both consumer preferences and estimated production and distribution costs vary across brands, product forms, and retail channels; that ignoring distribution and solely focusing on price competition results in up to a 55% overestimation of manufacturer profit margins; and that observed pricing and distribution patterns support competition rather than collusion among manufacturers. Through counterfactual studies, the authors find that manufacturers respond to decreases in distribution costs and to the exclusive distribution of more preferred manufacturers by asymmetrically changing their price and distribution decisions across different retail channels.</div>
+                <div class="paper-link"><a href="https://doi.org/10.1177/0022243718823711" target="_blank">View Publication</a></div>
+            </div>
+
+            <!-- Paper 4 -->
+            <div class="paper">
+                <div class="paper-header">
+                    <div class="paper-cover">
+                        <img src="mnsc.png" alt="Management Science">
+                    </div>
+                    <div class="paper-info">
+                        <div class="paper-title">Dynamic Pricing in a Distribution Channel in the Presence of Switching Costs</div>
+                        <div class="paper-authors"><strong>Koray Cosguner</strong>, Tat Y. Chan, and P. B. Seetharaman (2018)</div>
+                    </div>
+                </div>
+                <div class="paper-abstract">We advance the literature on dynamic oligopoly pricing models in the presence of switching costs by additionally modeling the strategic pricing role of the retailer within the distribution channel. In doing this, we study the relative dynamic pricing implications of how current retail and wholesale prices for a brand must optimally take into account past and future demand, respectively, for the brand. Using scanner data from the cola market, we find that while the retailer exploits the benefit of inertial demand by appropriately increasing the retail profit margin, the cost of investing is borne entirely by the manufacturers. We use simulation studies to show how the retailer will lose its ability to leverage the benefits of inertial demand as consumers become more price sensitive. We also show that when inertia of the more price-sensitive customer segment increases, the aggregate welfare of consumers, the retailer, and manufacturers may increase.</div>
+                <div class="paper-link"><a href="https://doi.org/10.1287/mnsc.2016.2649" target="_blank">View Publication</a></div>
+            </div>
+
+            <!-- Paper 5 -->
+            <div class="paper">
+                <div class="paper-header">
+                    <div class="paper-cover">
+                        <img src="jmr.png" alt="Journal of Marketing Research">
+                    </div>
+                    <div class="paper-info">
+                        <div class="paper-title">Dynamically Managing a Profitable Email Marketing Program</div>
+                        <div class="paper-authors">Xi (Alan) Zhang, V. Kumar, and <strong>Koray Cosguner</strong> (2017) — <em>Equal Authorship</em></div>
+                    </div>
+                </div>
+                <div class="paper-abstract">Although email marketing is highly profitable and widely used by marketers, it has received limited attention in the marketing literature. Extant research has focused on either customers' email responses or the "average" effect of emails on purchases. In this article, the authors use data from a U.S. home improvement retailer to study customers' email open and purchase behaviors by using a unified hidden Markov and copula framework. Contrary to conventional wisdom, the authors find that email-active customers are not necessarily active in purchases, and vice versa. Furthermore, the number of emails sent by the retailer has a nonlinear effect on both the retailer's short- and long-term profitability. Through a counterfactual study, the authors provide a decision support system to guide retailers in making optimal email contact decisions. This study shows that sending the right number of emails is vital for long-term profitability. For example, sending four (ten) emails instead of the optimal number of seven emails can cause the retailer to lose 32% (16%) of its lifetime profit per customer.</div>
+                <div class="paper-link"><a href="https://doi.org/10.1509/jmr.16.0210" target="_blank">View Publication</a></div>
+            </div>
+
+            <!-- Paper 6 -->
+            <div class="paper">
+                <div class="paper-header">
+                    <div class="paper-cover">
+                        <img src="mksc.png" alt="Marketing Science">
+                    </div>
+                    <div class="paper-info">
+                        <div class="paper-title">Behavioral Price Discrimination in the Presence of Switching Costs</div>
+                        <div class="paper-authors"><strong>Koray Cosguner</strong>, Tat Y. Chan, and P. B. Seetharaman (2017)</div>
+                    </div>
+                </div>
+                <div class="paper-abstract">We study the strategic impacts of behavioral price discrimination (BPD) on manufacturers and retailers in a distribution channel when there are switching costs in consumer demand. Unlike previous empirical studies of behavioral price discrimination, which rely only on differences in price elasticity across customers, our pricing model allows the firm strategies to additionally account for differences in price elasticity across time (due to switching costs). We estimate a dynamic pricing model using empirical data from the cola category and, through a series of counterfactuals, we find that the retailer should simply outsource the data analytics and customization of coupons to manufacturers and improve its profit beyond what it can achieve by proactively couponing on its own. We further find that serving as an information broker to sell its customer database to manufacturers can be a vital source of profit to the retailer. By contrast, manufacturers end up worse off, illustrating that customer information is a potent source of channel power to the retailer. Finally, we show that simply using customers' most recent purchase information can significantly impact firms' profits. BPD based on this information is easy to implement and of low cost to manufacturers and retailers.</div>
+                <div class="paper-link"><a href="https://doi.org/10.1287/mksc.2016.1024" target="_blank">View Publication</a></div>
+            </div>
+
+            <!-- Paper 7 -->
+            <div class="paper">
+                <div class="paper-header">
+                    <div class="paper-cover">
+                        <img src="jretail.png" alt="Journal of Retailing">
+                    </div>
+                    <div class="paper-info">
+                        <div class="paper-title">Channel Intermediaries and Manufacturer Performance: An Exploratory Investigation in an Emerging Market</div>
+                        <div class="paper-authors">Amalesh Sharma, <strong>Koray Cosguner</strong>, Tarun K. Sharma, and Manoj Motiani (2021)</div>
+                    </div>
+                </div>
+                <div class="paper-abstract">Channel intermediaries (hereafter, intermediaries) are among the most critical elements of any supply chain as the bulk of manufacturing output is transported through them. However, we have a limited understanding of the approach a manufacturer should take to achieve the dual goal of increasing profitability and intermediary satisfaction. To provide manufacturers with practical strategies to boost their performance and their intermediaries' satisfaction, we rely on three related studies. In Study 1, through interviews with managers and intermediaries, we find that distribution alignment across intermediary, market, and product types may be a practical strategy for both manufacturers and intermediaries. In Study 2, by using a robust empirical methodology with data from a construction product manufacturer operating in an emerging market, we find that various combinations of intermediary, market, and product types affect the manufacturer's performance differently. Accordingly, through a supply-side examination, we quantify the revenue impact of reallocating the studied manufacturer's retail distribution resources among different intermediary-, market-, and product-type combinations. In Study 3, through a field implementation, we find that our recommended intermediary alignment strategy from Study 2 substantially boosts both the manufacturer's performance (by fourteen percent in revenue and thirteen percent in profit) and intermediaries' satisfaction (by 7.71%). Thus, with our qualitative, empirical, and field studies, we contribute to the existing research in channel management, emerging market retailing, retail distribution, and marketing strategy.</div>
+                <div class="paper-link"><a href="https://doi.org/10.1016/j.jretai.2020.09.005" target="_blank">View Publication</a></div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Koray Cosguner. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

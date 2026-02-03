@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Pricing & Analytics Tools</title>
+    <style>
+        :root {
+            --primary: #990000;
+            --text-main: #111827;
+            --text-light: #4b5563;
+            --bg: #ffffff;
+            --surface: #f9fafb;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            text-align: center;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .logo-section {
+            margin-bottom: 50px;
+        }
+
+        .logo-section img {
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .login-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px 30px;
+        }
+
+        .login-box p {
+            margin: 0 0 25px 0;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .google-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .google-btn:hover {
+            background: var(--surface);
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .google-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .error-message {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fee2e2;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #991b1b;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+            color: var(--text-light);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 20px;
+            }
+            .login-box {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="logo-section">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 30px;">
+                <img src="iu-logo.png" alt="Indiana University" style="height: 42px; margin-bottom: 0;">
+                <span style="color: #4b5563; font-size: 1rem; font-weight: 500;">Kelley School of Business, Indiana University</span>
+            </div>
+            <h1>Pricing & Analytics Tools</h1>
+            <p style="margin-top: 16px; color: #4b5563; font-size: 1.15rem; max-width: 650px; margin-left: auto; margin-right: auto; line-height: 1.7;">
+                Interactive tools for pricing strategy, demand analysis, and marketing analytics.
+            </p>
+            <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                <p style="margin: 0; color: #111827; font-size: 1.05rem; font-weight: 600;">Created by Dr. Koray Cosguner</p>
+                <p style="margin: 6px 0 0 0; color: #4b5563; font-size: 0.95rem;">Associate Professor of Marketing</p>
+                <p style="margin: 4px 0 0 0; color: #4b5563; font-size: 0.95rem;">John Rau KSB Faculty Fellow</p>
+            </div>
+        </div>
+
+        <div class="login-box">
+            <p>Sign in with your Google account to access the tools.</p>
+
+            <button class="google-btn" onclick="signInWithGoogle()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                Sign in with Google
+            </button>
+
+            <div class="error-message" id="error-message"></div>
+            <div class="loading" id="loading">Signing in...</div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Dr. Koray Cosguner. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBg3LJDwVIRGWtFZb_mM_CSRJMNCJUta20",
+            authDomain: "iu-pricing-tools.firebaseapp.com",
+            projectId: "iu-pricing-tools",
+            storageBucket: "iu-pricing-tools.firebasestorage.app",
+            messagingSenderId: "659335573790",
+            appId: "1:659335573790:web:00013a166787efecb3d90f",
+            measurementId: "G-NGKNY08XWP"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Check if already signed in
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                window.location.href = 'tools.html';
+            }
+        });
+
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            // Force account selection
+            provider.setCustomParameters({
+                prompt: 'select_account'
+            });
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error-message').style.display = 'none';
+
+            firebase.auth().signInWithPopup(provider)
+                .then(function(result) {
+                    window.location.href = 'tools.html';
+                })
+                .catch(function(error) {
+                    console.error('Sign in error:', error);
+                    showError('Sign in failed. Please try again.');
+                })
+                .finally(function() {
+                    document.getElementById('loading').style.display = 'none';
+                });
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('error-message');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            document.getElementById('loading').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

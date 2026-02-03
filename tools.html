@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing & Analytics Tools</title>
+    <style>
+        :root {
+            --primary: #990000;
+            --text-main: #111827;
+            --text-light: #4b5563;
+            --bg: #ffffff;
+            --surface: #f9fafb;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .header {
+            padding: 100px 24px 60px;
+            position: relative;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: radial-gradient(circle at center, #ffffff 0%, #f9fafb 100%);
+        }
+        h1 { margin: 0; font-size: 2.5rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em; }
+        .subtitle { margin-top: 15px; font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        .container { max-width: 1000px; margin: 60px auto; padding: 0 24px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 40px;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.06);
+            border-color: var(--primary);
+        }
+
+        .tool-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+            background: #fdf2f2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .icon-box {
+            width: 50px; height: 50px;
+            background: var(--surface);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; font-weight: 700; }
+        .card p { margin: 0 0 25px 0; color: var(--text-light); line-height: 1.5; font-size: 0.95rem; }
+        .citation {
+            font-size: 0.8rem; color: #9ca3af; margin-top: auto; border-top: 1px solid #f3f4f6; padding-top: 15px; width: 100%;
+        }
+        .link-text { margin-top: 15px; color: var(--primary); font-weight: 600; font-size: 0.95rem; display: inline-block;}
+
+        footer { text-align: center; padding: 60px 20px; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid var(--border); margin-top: 80px; }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 640px) {
+            .header {
+                padding: 60px 20px 40px;
+            }
+            .header > div:first-child {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .header > div:first-child span {
+                font-size: 0.9rem !important;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            .subtitle {
+                font-size: 0.95rem;
+            }
+            .container {
+                margin: 30px auto;
+                padding: 0 16px;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .card {
+                padding: 20px;
+            }
+            .card h3 {
+                font-size: 1.1rem;
+            }
+            .card p {
+                font-size: 0.9rem;
+                margin-bottom: 15px;
+            }
+            .icon-box {
+                width: 40px;
+                height: 40px;
+                font-size: 1.25rem;
+                margin-bottom: 15px;
+            }
+            .tool-label {
+                margin-bottom: 15px;
+            }
+            .citation {
+                font-size: 0.75rem;
+                padding-top: 12px;
+            }
+            .link-text {
+                font-size: 0.9rem;
+                margin-top: 12px;
+            }
+            footer {
+                padding: 40px 20px;
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth check - redirect to login if not signed in -->
+    <div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+        <p style="color: var(--text-light);">Loading...</p>
+    </div>
+
+    <div id="main-content" style="display: none;">
+
+    <div class="header">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 30px;">
+            <img src="iu-logo.png" alt="Indiana University" style="height: 42px;">
+            <span style="color: var(--text-light); font-size: 1rem; font-weight: 500;">Kelley School of Business, Indiana University</span>
+        </div>
+        <!-- User info and sign out button -->
+        <div id="user-info" style="position: absolute; top: 20px; right: 24px; display: flex; align-items: center; gap: 12px;">
+            <span id="user-email" style="color: var(--text-light); font-size: 0.85rem;"></span>
+            <button onclick="signOut()" style="background: none; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; font-size: 0.85rem; color: var(--text-light); cursor: pointer;">Sign Out</button>
+        </div>
+        <h1>Pricing & Analytics Tools</h1>
+        <p style="margin-top: 16px; color: var(--text-light); font-size: 1.15rem; max-width: 650px; margin-left: auto; margin-right: auto; line-height: 1.7;">
+            Interactive tools for pricing strategy, demand analysis, and marketing analytics.
+        </p>
+        <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border);">
+            <p style="margin: 0; color: var(--text-main); font-size: 1.05rem; font-weight: 600;">Created by <a href="https://koraycosguner.github.io" style="color: var(--text-main); text-decoration: none;">Dr. Koray Cosguner</a></p>
+            <p style="margin: 6px 0 0 0; color: var(--text-light); font-size: 0.95rem;">Associate Professor of Marketing</p>
+            <p style="margin: 4px 0 0 0; color: var(--text-light); font-size: 0.95rem;">John Rau KSB Faculty Fellow</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="grid">
+            
+            <a href="PEM.html" class="card">
+                <span class="tool-label">Tool 1</span>
+                <div class="icon-box">📊</div>
+                <h3>Pricing Effectiveness Matrix</h3>
+                <p>A diagnostic scorecard to evaluate organizational pricing maturity across strategy, execution, and analytics dimensions.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Gemini 3.0. Adapted from Rockney Walters, Professor of Marketing, Stephen Brown, MBA, and Will Charron, MBA.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="QEAT.html" class="card">
+                <span class="tool-label">Tool 2</span>
+                <div class="icon-box">🧮</div>
+                <h3>Qualitative Elasticity Assessment</h3>
+                <p>Assess price sensitivity based on qualitative market factors (e.g., uniqueness, switching costs).</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Gemini 3.0.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="PED_Calculation.html" class="card">
+                <span class="tool-label">Tool 3</span>
+                <div class="icon-box">📉</div>
+                <h3>Price Elasticity Calculator</h3>
+                <p>Calculate Price Elasticities using direct price/quantity changes.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Gemini 3.0.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="YED_Calculation.html" class="card">
+                <span class="tool-label">Tool 4</span>
+                <div class="icon-box">💰</div>
+                <h3>Income Elasticity (YED)</h3>
+                <p>Calculate Income Elasticity of Demand to categorize products as Necessities, Luxuries, or Inferior goods.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Gemini 3.0.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="optimizer.html" class="card">
+                <span class="tool-label">Tool 5</span>
+                <div class="icon-box">🎯</div>
+                <h3>Price Optimizer (Linear)</h3>
+                <p>Solver for Linear Demand (Q = A + BP). Calculates optimal price for Revenue vs. Profit maximization.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Gemini 3.0.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="constant_elasticity.html" class="card">
+                <span class="tool-label">Tool 6</span>
+                <div class="icon-box">⚡</div>
+                <h3>Single-Point Price Optimizer</h3>
+                <p>Optimize price when you lack historical data. Extrapolates a full demand curve from a single price/quantity point.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Gemini 3.0.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="glm-tool.html" class="card">
+                <span class="tool-label">Tool 7</span>
+                <div class="icon-box">📈</div>
+                <h3>Linear, Poisson, Binary Logistic Regressions</h3>
+                <p>Preview data, view statistics, filter subsets. Run regressions with variable transformations. Filter by significance level, view equations, and make predictions.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Claude.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="conjoint-design.html" class="card">
+                <span class="tool-label">Tool 8</span>
+                <div class="icon-box">🧪</div>
+                <h3>Conjoint Fractional Factorial Design</h3>
+                <p>Generate fractional factorial designs for conjoint analysis. Define attributes and levels, then export profiles with dummy coding.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Claude.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="latent-class.html" class="card">
+                <span class="tool-label">Tool 9</span>
+                <div class="icon-box">🎯</div>
+                <h3>Latent Class Regression</h3>
+                <p>Estimate segment-level regression models using finite mixture modeling ("flexmix") package in R. Supports Linear, Poisson, and Binary Logistic models.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Claude.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="mlogit-tool.html" class="card">
+                <span class="tool-label">Tool 10</span>
+                <div class="icon-box">🔀</div>
+                <h3>Multinomial and Conditional Logistic Regressions</h3>
+                <p>Estimate multinomial and conditional logit models using the "mlogit" package in R. Analyze consumer choice data with alternative-specific attributes.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Claude.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="profit-optimizer.html" class="card">
+                <span class="tool-label">Tool 11</span>
+                <div class="icon-box">⚙️</div>
+                <h3>General Purpose Optimizer</h3>
+                <p>Define custom equations with decision and control variables. Optimize single or multiple variables, generate R code, and visualize objective functions.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Claude.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="bertrand-equilibrium.html" class="card">
+                <span class="tool-label">Tool 12</span>
+                <div class="icon-box">⚖️</div>
+                <h3>Price Equilibrium Calculator</h3>
+                <p>Bertrand Nash Equilibrium for two competing brands with differentiated products and linear demand. Visualizes best response functions and compares equilibrium to collusion outcomes.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Claude.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="channel-pricing.html" class="card">
+                <span class="tool-label">Tool 13</span>
+                <div class="icon-box">🏭</div>
+                <h3>Channel Pricing Optimizer</h3>
+                <p>Optimize producer pricing in vertical channels with three retailer types: vertically integrated, cost-plus markup, and strategic (Stackelberg). Compares double marginalization effects.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Claude.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+            <a href="competitive-channel.html" class="card">
+                <span class="tool-label">Tool 14</span>
+                <div class="icon-box">🔗</div>
+                <h3>Competitive Channel Pricing</h3>
+                <p>Compare pricing outcomes across channel structures: monopoly direct, double marginalization, Bertrand competition, and two producers selling through a common retailer.</p>
+                <div class="citation">
+                    Created by Dr. Koray Cosguner with the help of Claude.
+                </div>
+                <span class="link-text">Launch Tool &rarr;</span>
+            </a>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>Created by <a href="https://koraycosguner.github.io" style="color: var(--primary); text-decoration: none;">Dr. Koray Cosguner</a>, Indiana University</p>
+        <p style="margin-top: 8px; font-size: 0.85rem;">&copy; 2026 All Rights Reserved.</p>
+    </footer>
+
+    </div> <!-- end main-content -->
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBg3LJDwVIRGWtFZb_mM_CSRJMNCJUta20",
+            authDomain: "iu-pricing-tools.firebaseapp.com",
+            projectId: "iu-pricing-tools",
+            storageBucket: "iu-pricing-tools.firebasestorage.app",
+            messagingSenderId: "659335573790",
+            appId: "1:659335573790:web:00013a166787efecb3d90f",
+            measurementId: "G-NGKNY08XWP"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Check authentication state
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // User is signed in - show main content
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('user-email').textContent = user.email;
+            } else {
+                // User is not signed in - redirect to login
+                window.location.href = 'login.html';
+            }
+        });
+
+        function signOut() {
+            firebase.auth().signOut().then(function() {
+                window.location.href = 'login.html';
+            });
+        }
+    </script>
+
+</body>
+</html>

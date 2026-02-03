@@ -1,0 +1,2884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Tool for Running Regression Models | Koray Cosguner</title>
+    <style>
+        :root {
+            --iu-crimson: #990000;
+            --iu-crimson-dark: #7a0000;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f5f5f5;
+            --white: #fff;
+            --border: #ddd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--iu-crimson);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--iu-crimson);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Tool Container */
+        .tool-container {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--iu-crimson);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--iu-crimson);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .disclaimer-title {
+            font-weight: 700;
+            color: var(--iu-crimson);
+            margin-bottom: 0.5rem;
+        }
+        .disclaimer ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .disclaimer li {
+            margin-bottom: 0.25rem;
+        }
+        .disclaimer li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border);
+            border-top-color: var(--iu-crimson);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        /* File Upload */
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--iu-crimson);
+            background: rgba(153, 0, 0, 0.05);
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--iu-crimson);
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--iu-crimson);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+        }
+
+        .var-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.35rem 0.5rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .var-row:hover {
+            background: rgba(153, 0, 0, 0.05);
+        }
+
+        .indep-var-log:disabled {
+            opacity: 0.4;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--iu-crimson);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--iu-crimson);
+            color: var(--white);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--iu-crimson-dark);
+        }
+
+        .btn-primary:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--iu-crimson);
+            border: 2px solid var(--iu-crimson);
+        }
+
+        .btn-secondary:hover {
+            background: var(--iu-crimson);
+            color: var(--white);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Results */
+        .results-container {
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .results-container.visible {
+            display: block;
+        }
+
+        .results-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.9rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        /* Data Preview */
+        .data-preview {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .data-preview.visible {
+            display: block;
+        }
+
+        .preview-table-container {
+            overflow-x: auto;
+            max-height: 300px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .preview-table th,
+        .preview-table td {
+            padding: 0.5rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .preview-table th {
+            background: var(--iu-crimson);
+            color: var(--white);
+            position: sticky;
+            top: 0;
+        }
+
+        .preview-table tr:hover {
+            background: rgba(153, 0, 0, 0.05);
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .status-message.visible {
+            display: block;
+        }
+
+        .status-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .status-message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .status-message.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .tool-container {
+                padding: 1rem;
+            }
+
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+        /* Coefficients Table */
+        .coef-table-container {
+            margin-top: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .coef-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            background: var(--white);
+        }
+
+        .coef-table th,
+        .coef-table td {
+            padding: 0.6rem 1rem;
+            text-align: right;
+            border: 1px solid var(--border);
+        }
+
+        .coef-table th {
+            background: var(--iu-crimson);
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .coef-table td:first-child,
+        .coef-table th:first-child {
+            text-align: left;
+        }
+
+        .coef-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .coef-table tr:hover {
+            background: rgba(153, 0, 0, 0.05);
+        }
+
+        .copy-hint {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        /* Interaction Terms */
+        .interaction-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-light);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        .interaction-row .interaction-label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            min-width: 70px;
+        }
+
+        .interaction-row select {
+            padding: 0.4rem 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .interaction-row .interaction-symbol {
+            font-weight: 700;
+            color: var(--iu-crimson);
+            font-size: 1.1rem;
+        }
+
+        .interaction-row .remove-interaction {
+            background: none;
+            border: none;
+            color: #dc2626;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 0.3rem;
+            line-height: 1;
+            margin-left: auto;
+        }
+
+        .interaction-row .remove-interaction:hover {
+            color: #991b1b;
+        }
+
+        /* Prediction Section */
+        .prediction-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .prediction-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .prediction-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .prediction-input-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .prediction-input-group input,
+        .prediction-input-group select {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .prediction-input-group input:focus,
+        .prediction-input-group select:focus {
+            outline: none;
+            border-color: var(--iu-crimson);
+        }
+
+        .prediction-result {
+            padding: 1rem;
+            background: var(--white);
+            border-radius: 6px;
+            border: 2px solid var(--iu-crimson);
+            text-align: center;
+        }
+
+        .prediction-result-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .prediction-result-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--iu-crimson);
+        }
+
+        /* Estimated Equation Section */
+        .equation-section {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: #fefce8;
+            border: 1px solid #fde047;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .equation-section.visible {
+            display: block;
+        }
+
+        .equation-section h4 {
+            margin-bottom: 0.75rem;
+            color: #854d0e;
+            font-size: 1rem;
+        }
+
+        .equation-box-container {
+            position: relative;
+        }
+
+        .equation-box {
+            background: var(--white);
+            padding: 1rem 1.25rem;
+            padding-right: 3.5rem;
+            border-radius: 6px;
+            border: 1px solid #fde047;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .copy-equation-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #fef3c7;
+            border: 1px solid #fde047;
+            border-radius: 4px;
+            padding: 0.35rem 0.6rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            color: #854d0e;
+            transition: all 0.2s;
+        }
+
+        .copy-equation-btn:hover {
+            background: #fde047;
+        }
+
+        .copy-equation-btn.copied {
+            background: #86efac;
+            border-color: #22c55e;
+            color: #166534;
+        }
+
+        .equation-note {
+            margin-top: 0.75rem;
+            font-size: 0.8rem;
+            color: #a16207;
+            font-style: italic;
+        }
+
+        .significance-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .significance-selector label {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .significance-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .significance-options input[type="radio"] {
+            display: none;
+        }
+
+        .significance-options label {
+            padding: 0.4rem 0.75rem;
+            border: 1px solid #fde047;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            background: var(--white);
+            color: #854d0e;
+            transition: all 0.2s;
+        }
+
+        .significance-options label:hover {
+            background: #fef3c7;
+        }
+
+        .significance-options input[type="radio"]:checked + label {
+            background: #fde047;
+            border-color: #eab308;
+            font-weight: 600;
+        }
+
+        /* Descriptive Statistics Table */
+        .desc-stats-container {
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .desc-stats-container.visible {
+            display: block;
+        }
+
+        .desc-stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            background: var(--white);
+        }
+
+        .desc-stats-table th,
+        .desc-stats-table td {
+            padding: 0.5rem 0.75rem;
+            text-align: right;
+            border: 1px solid var(--border);
+        }
+
+        .desc-stats-table th {
+            background: var(--iu-crimson);
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .desc-stats-table td:first-child,
+        .desc-stats-table th:first-child {
+            text-align: left;
+        }
+
+        .desc-stats-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* Data Filter Section */
+        .data-filter-section {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .data-filter-section.visible {
+            display: block;
+        }
+
+        .data-choice {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .data-choice label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--white);
+        }
+
+        .data-choice label:hover {
+            border-color: var(--iu-crimson);
+        }
+
+        .data-choice input[type="radio"] {
+            accent-color: var(--iu-crimson);
+            width: 18px;
+            height: 18px;
+        }
+
+        .data-choice input[type="radio"]:checked + span {
+            color: var(--iu-crimson);
+            font-weight: 600;
+        }
+
+        .data-choice label:has(input:checked) {
+            border-color: var(--iu-crimson);
+            background: rgba(153, 0, 0, 0.05);
+        }
+
+        .filter-conditions {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #bae6fd;
+        }
+
+        .filter-conditions.visible {
+            display: block;
+        }
+
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: var(--white);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .filter-row select,
+        .filter-row input {
+            padding: 0.4rem 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .filter-row select:focus,
+        .filter-row input:focus {
+            outline: none;
+            border-color: var(--iu-crimson);
+        }
+
+        .filter-var-select {
+            min-width: 150px;
+        }
+
+        .filter-operator-select {
+            min-width: 120px;
+        }
+
+        .filter-value-input {
+            min-width: 120px;
+        }
+
+        .filter-value-input-2 {
+            min-width: 100px;
+        }
+
+        .filter-row .remove-filter {
+            background: none;
+            border: none;
+            color: #dc2626;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 0.5rem;
+            line-height: 1;
+        }
+
+        .filter-row .remove-filter:hover {
+            color: #991b1b;
+        }
+
+        .filter-summary {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            background: var(--white);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .filter-summary .count {
+            font-weight: 700;
+            color: var(--iu-crimson);
+        }
+
+        .add-filter-btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            background: var(--white);
+            color: var(--iu-crimson);
+            border: 1px solid var(--iu-crimson);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-filter-btn:hover {
+            background: var(--iu-crimson);
+            color: var(--white);
+        }
+
+        .between-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+<!-- Auth check -->
+<div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <p style="color: #64748b;">Loading...</p>
+</div>
+<div id="main-content" style="display: none;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 20px 2rem 0;">
+        <a href="tools.html" style="display: inline-flex; align-items: center; gap: 6px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 500;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Pricing & Analytics Tools
+        </a>
+    </div>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p class="loading-text">Loading WebR (R in your browser)...</p>
+        <p class="loading-hint" style="font-size: 0.9rem; color: #999; margin-top: 0.5rem;">This may take a moment on first load</p>
+    </div>
+
+
+    <!-- Main Content -->
+    <main>
+        <section class="hero">
+            <h1>Web Tool for Running Regression Models</h1>
+            <ul style="text-align: left; display: inline-block; margin: 0 auto; padding-left: 1.5rem; color: var(--text-light); font-size: 1rem; line-height: 1.8;">
+                <li>Upload CSV data to preview and explore descriptive statistics</li>
+                <li>Filter to create subsets</li>
+                <li>Run Linear, Poisson, or Binary Logistic regression with variable transformations (log, quadratic)</li>
+                <li>Set insignificant coefficients to zero at 5% or 10% levels</li>
+                <li>View the estimated regression equation and make predictions</li>
+            </ul>
+        </section>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <div class="disclaimer-title">Disclaimer</div>
+            <ul>
+                <li><strong>Results may contain errors.</strong> The output from this tool may be inaccurate, incomplete, or incorrect. Users should independently verify all results.</li>
+                <li><strong>No warranty.</strong> This tool is provided "as is" without any warranty of any kind.</li>
+                <li><strong>User assumes all risk.</strong> Users assume full responsibility for reviewing and validating any output.</li>
+            </ul>
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(153, 0, 0, 0.2);">
+                <strong>📧 Report issues:</strong> If you encounter any issues, problems, or errors while using this tool, please contact Dr. Cosguner at <a href="mailto:kcosgun@iu.edu" style="color: var(--iu-crimson); font-weight: 600;">kcosgun@iu.edu</a> so they can be resolved promptly.
+            </div>
+        </div>
+
+        <div class="tool-container">
+            <!-- Status Messages -->
+            <div class="status-message" id="statusMessage"></div>
+
+            <!-- Step 1: Upload -->
+            <h2 class="section-title">1. Upload Your Data</h2>
+            <div class="upload-area" id="uploadArea">
+                <input type="file" id="fileInput" accept=".csv">
+                <div class="upload-icon">📊</div>
+                <p class="upload-text">Click to upload or drag and drop</p>
+                <p class="upload-hint">CSV files only</p>
+            </div>
+
+            <!-- Data Preview -->
+            <div class="data-preview" id="dataPreview">
+                <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Data Preview (first 10 rows)</h3>
+                <div class="preview-table-container">
+                    <table class="preview-table" id="previewTable"></table>
+                </div>
+            </div>
+
+            <!-- Descriptive Statistics -->
+            <div class="desc-stats-container" id="descStatsContainer">
+                <h3 style="margin-bottom: 0.75rem; color: var(--text-dark);">Descriptive Statistics</h3>
+                <div style="overflow-x: auto;">
+                    <table class="desc-stats-table" id="descStatsTable"></table>
+                </div>
+                <p class="copy-hint">Select the table and copy (Ctrl+C / Cmd+C) to paste into Excel.</p>
+                <p style="font-size: 0.8rem; color: var(--text-light); font-style: italic; margin-top: 0.25rem;">Note: For each variable, missing values are excluded from the calculations of descriptive statistics.</p>
+            </div>
+
+            <!-- Data Filter Section -->
+            <div class="data-filter-section" id="dataFilterSection">
+                <h3 style="margin-bottom: 0.75rem; color: #0369a1;">Data Selection</h3>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">
+                    Choose whether to use the full dataset or filter to a subset based on specific conditions.
+                </p>
+
+                <div class="data-choice">
+                    <label>
+                        <input type="radio" name="dataChoice" value="full" checked>
+                        <span>Use Full Data</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="dataChoice" value="filtered">
+                        <span>Filter Data (Create a Subset)</span>
+                    </label>
+                </div>
+
+                <div class="filter-conditions" id="filterConditions">
+                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.75rem;">
+                        Add filter conditions below. Multiple conditions are combined with AND logic.
+                    </p>
+                    <div id="filterRows"></div>
+                    <button type="button" class="add-filter-btn" id="addFilterBtn">+ Add Filter Condition</button>
+
+                    <div class="filter-summary" id="filterSummary" style="display: none;">
+                        <span>Filtered data: <span class="count" id="filteredCount">0</span> rows</span>
+                        <span style="margin-left: 1rem; color: var(--text-light);">(Original: <span id="originalCount">0</span> rows)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Model Configuration -->
+            <div id="modelConfig" style="display: none;">
+                <h2 class="section-title" style="margin-top: 2rem;">2. Configure Your Model</h2>
+
+                <div class="form-group">
+                    <label for="modelType">Model Type</label>
+                    <select id="modelType">
+                        <option value="linear">Linear Regression</option>
+                        <option value="poisson">Poisson Regression</option>
+                        <option value="binomial">Binary Logistic Regression</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dependentVar">Dependent Variable (Y)</label>
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <select id="dependentVar" style="flex: 1;">
+                            <option value="">-- Select dependent variable --</option>
+                        </select>
+                        <select id="dvTransform" style="width: 120px;">
+                            <option value="linear">Linear</option>
+                            <option value="log">ln(Y)</option>
+                            <option value="log1p">ln(Y + 1)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Independent Variables (X)</label>
+                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem;">Select variables and choose transformation: Linear, ln(X), ln(X + 1), or X + X² (quadratic)</p>
+                    <div class="checkbox-group" id="independentVars"></div>
+                </div>
+
+                <!-- Interaction Terms -->
+                <div class="form-group">
+                    <label>Interaction Terms (Optional)</label>
+                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem;">Add interaction effects between two variables. Only numeric variables can be interacted.</p>
+                    <div id="interactionTerms"></div>
+                    <button type="button" class="btn btn-secondary" id="addInteraction" style="margin-top: 0.5rem; padding: 0.4rem 0.8rem; font-size: 0.85rem;">
+                        + Add Interaction
+                    </button>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" id="runButton" disabled>Run Regression</button>
+                    <button class="btn btn-secondary" id="clearButton">Clear All</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Results -->
+            <div class="results-container" id="resultsContainer">
+                <h2 class="section-title" style="margin-top: 2rem;">3. Results</h2>
+
+                <!-- Coefficients Table -->
+                <h3 style="margin-bottom: 0.75rem; color: var(--text-dark);">Coefficient Estimates</h3>
+                <div class="coef-table-container">
+                    <table class="coef-table" id="coefTable"></table>
+                </div>
+                <p class="copy-hint">Select the table and copy (Ctrl+C / Cmd+C) to paste into Excel.</p>
+
+                <!-- Estimated Equation -->
+                <div class="equation-section" id="equationSection">
+                    <h4>Estimated Regression Equation</h4>
+                    <div class="significance-selector">
+                        <label>Include coefficients with:</label>
+                        <div class="significance-options">
+                            <input type="radio" name="sigLevel" id="sigAll" value="all" checked>
+                            <label for="sigAll">Any p-value</label>
+                            <input type="radio" name="sigLevel" id="sig05" value="0.05">
+                            <label for="sig05">p-value &lt; 0.05</label>
+                            <input type="radio" name="sigLevel" id="sig10" value="0.10">
+                            <label for="sig10">p-value &lt; 0.10</label>
+                        </div>
+                    </div>
+                    <div class="equation-box-container">
+                        <div class="equation-box" id="equationBox"></div>
+                        <button class="copy-equation-btn" id="copyEquationBtn" title="Copy equation">Copy</button>
+                    </div>
+                    <p class="equation-note" id="equationNote"></p>
+                </div>
+
+                <!-- Full R Output -->
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.75rem; color: var(--text-dark);">Full R Output</h3>
+                <pre class="results-output" id="resultsOutput"></pre>
+                <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" id="downloadScript" style="flex: 1;">
+                        Download R Script
+                    </button>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem;">
+                    Download the R script to run or verify the analysis locally in R/RStudio.
+                </p>
+
+                <!-- Prediction Section -->
+                <div class="prediction-section" id="predictionSection" style="display: none;">
+                    <h3 style="margin-bottom: 1rem; color: var(--text-dark);">Make a Prediction</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem;">Enter values for the independent variables to calculate a prediction.</p>
+                    <div class="prediction-inputs" id="predictionInputs"></div>
+                    <button class="btn btn-primary" id="predictButton" style="margin-bottom: 1rem;">Calculate Prediction</button>
+                    <div class="prediction-result" id="predictionResult" style="display: none;">
+                        <div class="prediction-result-label" id="predictionLabel"></div>
+                        <div class="prediction-result-value" id="predictionValue"></div>
+                        <p class="prediction-note" id="predictionNote" style="display: none; margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-light); font-style: italic;"></p>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-secondary" id="downloadPredictionScript">
+                            Download R Script with Prediction
+                        </button>
+                        <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 0.5rem;">
+                            Download R script including the prediction code with your input values.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Koray Cosguner. All Rights Reserved.</p>
+    </footer>
+
+    <!-- WebR -->
+    <script type="module">
+        import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
+
+        // Global state
+        let webR = null;
+        let csvData = null;
+        let columnNames = [];
+        let lastRScript = ''; // Store the last generated R script for download
+        let lastModelCoefs = null; // Store coefficients for prediction
+        let lastModelType = null; // Store model type for prediction
+        let lastIndepVarsData = null; // Store IV info for prediction
+        let lastDepVar = null; // Store DV name for prediction label
+        let lastPredictionValues = null; // Store prediction input values for R script
+        let lastInteractions = null; // Store interaction terms for prediction
+        let lastDvTransform = null; // Store DV transform for back-transformation in prediction
+
+        // DOM Elements
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const dataPreview = document.getElementById('dataPreview');
+        const previewTable = document.getElementById('previewTable');
+        const modelConfig = document.getElementById('modelConfig');
+        const modelType = document.getElementById('modelType');
+        const dependentVar = document.getElementById('dependentVar');
+        const dvTransform = document.getElementById('dvTransform');
+        const independentVars = document.getElementById('independentVars');
+        const runButton = document.getElementById('runButton');
+        const clearButton = document.getElementById('clearButton');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultsOutput = document.getElementById('resultsOutput');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Handle model type change - disable DV transform for non-linear models
+        modelType.addEventListener('change', () => {
+            const isLinear = modelType.value === 'linear';
+            dvTransform.disabled = !isLinear;
+            if (!isLinear) {
+                dvTransform.value = 'linear';
+                dvTransform.style.opacity = '0.5';
+                dvTransform.title = 'DV transformation is only available for Linear Regression';
+            } else {
+                dvTransform.style.opacity = '1';
+                dvTransform.title = '';
+            }
+        });
+
+        // Initialize WebR
+        async function initWebR() {
+            try {
+                webR = new WebR();
+                await webR.init();
+                loadingOverlay.classList.add('hidden');
+                showStatus('WebR loaded successfully. Ready to analyze data.', 'success');
+            } catch (error) {
+                loadingOverlay.innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <p style="color: #991b1b; font-size: 1.2rem;">Failed to load WebR</p>
+                        <p style="color: #666; margin-top: 1rem;">${error.message}</p>
+                        <p style="color: #666; margin-top: 0.5rem;">Please refresh the page to try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Show status message
+        function showStatus(message, type = 'info') {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message visible ${type}`;
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusMessage.classList.remove('visible');
+                }, 3000);
+            }
+        }
+
+        // Render coefficients table
+        function renderCoefTable(data, isLinear) {
+            const coefTable = document.getElementById('coefTable');
+
+            // Column headers - same for all model types
+            const headers = ['Variable', 'Estimate', 'Std. Error', 'p-value'];
+
+            let html = '<thead><tr>';
+            headers.forEach(h => {
+                html += `<th>${h}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            data.forEach(row => {
+                html += '<tr>';
+                html += `<td>${row.Variable}</td>`;
+                html += `<td>${formatNumber(row.Estimate)}</td>`;
+                html += `<td>${formatNumber(row['Std. Error'])}</td>`;
+                // Handle both p-value column names
+                const pVal = row['Pr(>|t|)'] !== undefined ? row['Pr(>|t|)'] : row['Pr(>|z|)'];
+                html += `<td>${formatPValue(pVal)}</td>`;
+                html += '</tr>';
+            });
+            html += '</tbody>';
+
+            coefTable.innerHTML = html;
+        }
+
+        // Format numbers for display
+        function formatNumber(num) {
+            if (num === null || num === undefined) return 'NA';
+            return parseFloat(num).toFixed(4);
+        }
+
+        // Format p-values
+        function formatPValue(p) {
+            if (p === null || p === undefined) return 'NA';
+            p = parseFloat(p);
+            if (p < 0.0001) return '< 0.0001';
+            return p.toFixed(4);
+        }
+
+        // Parse CSV
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+                if (values.length === headers.length) {
+                    const row = {};
+                    headers.forEach((h, j) => {
+                        row[h] = values[j];
+                    });
+                    data.push(row);
+                }
+            }
+
+            return { headers, data };
+        }
+
+        // Check if a column is numeric
+        function isNumericColumn(data, colName) {
+            // Check first 100 rows (or all if less)
+            const sampleSize = Math.min(data.length, 100);
+            let numericCount = 0;
+
+            for (let i = 0; i < sampleSize; i++) {
+                const val = data[i][colName];
+                if (val === '' || val === null || val === undefined) continue;
+                if (!isNaN(parseFloat(val)) && isFinite(val)) {
+                    numericCount++;
+                }
+            }
+
+            // Consider numeric if at least 80% of non-empty values are numeric
+            return numericCount >= sampleSize * 0.8;
+        }
+
+        // Display data preview
+        function displayPreview(headers, data) {
+            const previewData = data.slice(0, 10);
+
+            // Remove any existing header notes first
+            const existingNotes = dataPreview.querySelectorAll('.column-count-note');
+            existingNotes.forEach(note => note.remove());
+
+            // Add note if many columns
+            if (headers.length > 10) {
+                const headerNote = document.createElement('p');
+                headerNote.className = 'column-count-note';
+                headerNote.style.cssText = 'font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.5rem;';
+                headerNote.textContent = `Showing all ${headers.length} columns. Scroll horizontally to see more.`;
+                const previewContainer = dataPreview.querySelector('.preview-table-container');
+                previewContainer.parentNode.insertBefore(headerNote, previewContainer);
+            }
+
+            let html = '<thead><tr>';
+            headers.forEach(h => {
+                html += `<th>${h}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            previewData.forEach(row => {
+                html += '<tr>';
+                headers.forEach(h => {
+                    html += `<td>${row[h]}</td>`;
+                });
+                html += '</tr>';
+            });
+            html += '</tbody>';
+
+            previewTable.innerHTML = html;
+            dataPreview.classList.add('visible');
+        }
+
+        // Populate variable selectors
+        function populateVariables(headers) {
+            columnNames = headers;
+
+            // Detect numeric vs categorical columns
+            const columnTypes = {};
+            headers.forEach(h => {
+                columnTypes[h] = isNumericColumn(csvData.data, h) ? 'numeric' : 'categorical';
+            });
+
+            // Store column types globally
+            csvData.columnTypes = columnTypes;
+
+            // Dependent variable dropdown (with type indicator)
+            dependentVar.innerHTML = '<option value="">-- Select dependent variable --</option>';
+            headers.forEach(h => {
+                const typeLabel = columnTypes[h] === 'numeric' ? '' : ' (categorical)';
+                dependentVar.innerHTML += `<option value="${h}">${h}${typeLabel}</option>`;
+            });
+
+            // Independent variables checkboxes with transformation dropdown
+            independentVars.innerHTML = '';
+            headers.forEach(h => {
+                const isNumeric = columnTypes[h] === 'numeric';
+                const typeIndicator = isNumeric
+                    ? '<span style="font-size: 0.7rem; color: #2563eb; margin-left: 4px;">(Numerical)</span>'
+                    : '<span style="font-size: 0.7rem; color: #9333ea; margin-left: 4px;">(Non-numerical)</span>';
+
+                // Different options for numeric vs categorical
+                const transformOptions = isNumeric
+                    ? `<option value="linear">Linear</option>
+                       <option value="log">ln(X)</option>
+                       <option value="log1p">ln(X+1)</option>
+                       <option value="quadratic">X + X²</option>`
+                    : `<option value="factor">Factor</option>`;
+
+                independentVars.innerHTML += `
+                    <div class="var-row" data-type="${columnTypes[h]}">
+                        <label class="checkbox-item" style="flex: 1;">
+                            <input type="checkbox" value="${h}" class="indep-var">
+                            ${h} ${typeIndicator}
+                        </label>
+                        <select class="iv-transform" data-var="${h}" style="width: 110px; padding: 0.25rem; font-size: 0.85rem; border-radius: 4px; border: 1px solid var(--border);" disabled>
+                            ${transformOptions}
+                        </select>
+                    </div>
+                `;
+            });
+
+            // Enable/disable transform dropdown based on variable selection
+            independentVars.querySelectorAll('.indep-var').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const transformSelect = e.target.closest('.var-row').querySelector('.iv-transform');
+                    transformSelect.disabled = !e.target.checked;
+                    if (!e.target.checked) {
+                        const varRow = e.target.closest('.var-row');
+                        transformSelect.value = varRow.dataset.type === 'numeric' ? 'linear' : 'factor';
+                    }
+                });
+            });
+
+            modelConfig.style.display = 'block';
+
+            // Display descriptive statistics
+            displayDescriptiveStats(headers);
+
+            // Initialize data filter UI
+            initDataFilterUI(headers, columnTypes);
+
+            // Initialize interaction terms
+            initInteractionUI(headers, columnTypes);
+        }
+
+        // Initialize interaction terms UI
+        function initInteractionUI(headers, columnTypes) {
+            const interactionTerms = document.getElementById('interactionTerms');
+            const addInteractionBtn = document.getElementById('addInteraction');
+
+            // Clear existing interactions
+            interactionTerms.innerHTML = '';
+
+            // Get only numeric variables for interactions
+            const numericVars = headers.filter(h => columnTypes[h] === 'numeric');
+
+            // Store numeric vars for later use
+            window.numericVarsForInteraction = numericVars;
+
+            // Add interaction button handler
+            addInteractionBtn.onclick = () => {
+                if (numericVars.length < 2) {
+                    showStatus('Need at least 2 numeric variables for interactions.', 'error');
+                    return;
+                }
+                addInteractionRow(numericVars);
+            };
+        }
+
+        // Add a new interaction row
+        function addInteractionRow(numericVars) {
+            const interactionTerms = document.getElementById('interactionTerms');
+            const rowId = 'interaction_' + Date.now();
+            const interactionNum = interactionTerms.querySelectorAll('.interaction-row').length + 1;
+
+            const row = document.createElement('div');
+            row.className = 'interaction-row';
+            row.id = rowId;
+
+            // Variable options
+            let var1Options = numericVars.map(v => `<option value="${v}">${v}</option>`).join('');
+            let var2Options = numericVars.map((v, i) =>
+                `<option value="${v}" ${i === 1 ? 'selected' : ''}>${v}</option>`
+            ).join('');
+
+            row.innerHTML = `
+                <span class="interaction-label">Interaction ${interactionNum}:</span>
+                <select class="interaction-var1">${var1Options}</select>
+                <select class="interaction-transform1">
+                    <option value="linear">Linear</option>
+                    <option value="log">ln(X)</option>
+                    <option value="log1p">ln(X+1)</option>
+                </select>
+                <span class="interaction-symbol">×</span>
+                <select class="interaction-var2">${var2Options}</select>
+                <select class="interaction-transform2">
+                    <option value="linear">Linear</option>
+                    <option value="log">ln(X)</option>
+                    <option value="log1p">ln(X+1)</option>
+                </select>
+                <button type="button" class="remove-interaction" title="Remove this interaction">×</button>
+            `;
+
+            // Add remove handler
+            row.querySelector('.remove-interaction').onclick = () => {
+                row.remove();
+                // Renumber remaining interactions
+                renumberInteractions();
+            };
+
+            interactionTerms.appendChild(row);
+        }
+
+        // Renumber interaction labels after removal
+        function renumberInteractions() {
+            const rows = document.querySelectorAll('.interaction-row');
+            rows.forEach((row, index) => {
+                const label = row.querySelector('.interaction-label');
+                if (label) {
+                    label.textContent = `Interaction ${index + 1}:`;
+                }
+            });
+        }
+
+        // Get interaction terms from UI
+        function getInteractionTerms() {
+            const interactions = [];
+            const rows = document.querySelectorAll('.interaction-row');
+
+            rows.forEach(row => {
+                const var1 = row.querySelector('.interaction-var1').value;
+                const transform1 = row.querySelector('.interaction-transform1').value;
+                const var2 = row.querySelector('.interaction-var2').value;
+                const transform2 = row.querySelector('.interaction-transform2').value;
+
+                interactions.push({ var1, transform1, var2, transform2 });
+            });
+
+            return interactions;
+        }
+
+        // Reset state when loading new data
+        function resetStateForNewData() {
+            // Clear previous results
+            resultsContainer.classList.remove('visible');
+
+            // Reset equation section
+            document.getElementById('equationSection').classList.remove('visible');
+            document.getElementById('sigAll').checked = true;
+            lastEquationParams = null;
+            currentSignificanceLevel = 'all';
+
+            // Reset filter state
+            document.getElementById('dataFilterSection').classList.remove('visible');
+            document.getElementById('filterConditions').classList.remove('visible');
+            document.getElementById('filterRows').innerHTML = '';
+            document.getElementById('filterSummary').style.display = 'none';
+            document.querySelector('input[name="dataChoice"][value="full"]').checked = true;
+            filteredData = null;
+            useFilteredData = false;
+
+            // Reset prediction state
+            lastModelCoefs = null;
+            lastModelType = null;
+            lastIndepVarsData = null;
+            lastDepVar = null;
+            lastPredictionValues = null;
+            lastInteractions = null;
+            lastDvTransform = null;
+            lastRScript = '';
+
+            // Clear interaction terms
+            document.getElementById('interactionTerms').innerHTML = '';
+
+            // Hide status message
+            statusMessage.classList.remove('visible');
+        }
+
+        // Handle file upload
+        function handleFile(file) {
+            if (!file || !file.name.endsWith('.csv')) {
+                showStatus('Please upload a CSV file.', 'error');
+                return;
+            }
+
+            // Reset state before loading new data
+            resetStateForNewData();
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const { headers, data } = parseCSV(e.target.result);
+                    csvData = { headers, data, raw: e.target.result };
+                    displayPreview(headers, data);
+                    populateVariables(headers);
+                    showStatus(`Loaded ${data.length} rows with ${headers.length} columns.`, 'success');
+                } catch (error) {
+                    showStatus('Error parsing CSV file: ' + error.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Upload area events
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        // Update run button state
+        function updateRunButton() {
+            const depVar = dependentVar.value;
+            const indepVars = Array.from(document.querySelectorAll('.indep-var:checked')).map(cb => cb.value);
+            runButton.disabled = !depVar || indepVars.length === 0;
+        }
+
+        // Update IV list when DV changes (disable/enable based on DV selection)
+        function updateIVList() {
+            const selectedDV = dependentVar.value;
+
+            independentVars.querySelectorAll('.var-row').forEach(row => {
+                const checkbox = row.querySelector('.indep-var');
+                const transformSelect = row.querySelector('.iv-transform');
+                const varName = checkbox.value;
+
+                if (varName === selectedDV) {
+                    // Disable and uncheck the variable that's selected as DV
+                    checkbox.checked = false;
+                    checkbox.disabled = true;
+                    transformSelect.disabled = true;
+                    transformSelect.value = row.dataset.type === 'numeric' ? 'linear' : 'factor';
+                    row.style.opacity = '0.4';
+                } else {
+                    // Re-enable variables that are not the DV
+                    checkbox.disabled = false;
+                    row.style.opacity = '1';
+                }
+            });
+
+            updateRunButton();
+        }
+
+        dependentVar.addEventListener('change', updateIVList);
+        independentVars.addEventListener('change', updateRunButton);
+
+        // Run GLM analysis
+        runButton.addEventListener('click', async () => {
+            const depVar = dependentVar.value;
+            const dvTransform = document.getElementById('dvTransform').value;
+
+            // Get selected IVs and their transformation status
+            const indepVarsData = Array.from(document.querySelectorAll('.indep-var:checked'))
+                .map(cb => {
+                    const varRow = cb.closest('.var-row');
+                    const transformSelect = varRow.querySelector('.iv-transform');
+                    return {
+                        name: cb.value,
+                        transform: transformSelect ? transformSelect.value : 'linear'
+                    };
+                })
+                .filter(v => v.name !== depVar);
+
+            if (!depVar || indepVarsData.length === 0) {
+                showStatus('Please select dependent and independent variables.', 'error');
+                return;
+            }
+
+            const family = modelType.value;
+
+            runButton.disabled = true;
+            runButton.textContent = 'Running...';
+            showStatus('Running regression analysis...', 'info');
+
+            try {
+                // Helper: only add backticks if variable name needs them (has spaces, special chars, or starts with number)
+                const wrapVar = (varName) => {
+                    if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(varName)) {
+                        return varName; // Simple name, no backticks needed
+                    }
+                    return `\`${varName}\``; // Needs backticks
+                };
+
+                // Build formula with transformations
+                const applyTransform = (varName, transform) => {
+                    const v = wrapVar(varName);
+                    if (transform === 'log') return `log(${v})`;
+                    if (transform === 'log1p') return `log(${v} + 1)`;
+                    if (transform === 'quadratic') return `${v} + I(${v}^2)`;
+                    if (transform === 'factor') return `factor(${v})`;
+                    return v;
+                };
+
+                const dvPart = applyTransform(depVar, dvTransform);
+                const ivTerms = indepVarsData.map(v => applyTransform(v.name, v.transform));
+
+                // Get interaction terms
+                const interactions = getInteractionTerms();
+                const interactionTerms = interactions.map(int => {
+                    const term1 = applyTransform(int.var1, int.transform1);
+                    const term2 = applyTransform(int.var2, int.transform2);
+                    return `I(${term1} * ${term2})`;
+                });
+
+                // Combine all terms
+                const allTerms = [...ivTerms, ...interactionTerms];
+
+                // Single-line formula for internal use
+                const formula = `${dvPart} ~ ${allTerms.join(' + ')}`;
+
+                // Multi-line formula for R script display
+                const formulaMultiLine = `${dvPart} ~ ${allTerms.join(' + \n')}`;
+
+                // Clean formula for display
+                const formulaDisplay = formula.replace(/`/g, '');
+
+                // Model type labels
+                const modelLabels = {
+                    'linear': 'Linear Regression',
+                    'poisson': 'Poisson Regression',
+                    'binomial': 'Binary Logistic Regression'
+                };
+
+                // Get the data to use (filtered or full)
+                const analysisData = getDataForAnalysis();
+                const analysisDataCSV = dataToCSV(analysisData, csvData.headers);
+
+                // Show data info in status
+                const dataInfo = useFilteredData && filteredData
+                    ? `Using filtered data: ${filteredData.length} of ${csvData.data.length} rows`
+                    : `Using full data: ${csvData.data.length} rows`;
+
+                // Escape CSV for R string (handle quotes and newlines)
+                const csvEscaped = analysisDataCSV
+                    .replace(/\\/g, '\\\\')
+                    .replace(/"/g, '\\"')
+                    .replace(/\n/g, '\\n')
+                    .replace(/\r/g, '');
+
+                // Build R code - use lm() for linear, glm() for others
+                const isLinear = family === 'linear';
+                let modelCall, modelCallMultiLine;
+
+                if (isLinear) {
+                    modelCall = `lm(${formula}, data = data)`;
+                    modelCallMultiLine = `lm(${formulaMultiLine}, \ndata = data)`;
+                } else {
+                    modelCall = `glm(${formula}, data = data, family = ${family})`;
+                    modelCallMultiLine = `glm(${formulaMultiLine}, \ndata = data, family = ${family})`;
+                }
+
+                // Generate clean R script for download
+                const additionalStats = isLinear
+                    ? `cat("R-squared:", summary(model)$r.squared, "\\n")
+cat("Adjusted R-squared:", summary(model)$adj.r.squared, "\\n")
+cat("F-statistic:", summary(model)$fstatistic[1], "on", summary(model)$fstatistic[2], "and", summary(model)$fstatistic[3], "DF\\n")`
+                    : `cat("Null Deviance:", model$null.deviance, "on", model$df.null, "df\\n")
+cat("Residual Deviance:", model$deviance, "on", model$df.residual, "df\\n")`;
+
+                // Get the uploaded filename
+                const fileName = fileInput.files[0] ? fileInput.files[0].name : 'your_data.csv';
+
+                // Build filter R code for script
+                let filterRCode = '';
+                if (useFilteredData && filteredData) {
+                    const filterRows = document.querySelectorAll('.filter-row');
+                    const filterConditions = [];
+
+                    filterRows.forEach(row => {
+                        const varName = row.querySelector('.filter-var-select').value;
+                        const operator = row.querySelector('.filter-operator-select').value;
+                        const value1 = row.querySelector('.filter-value-input').value;
+                        const value2 = row.querySelector('.filter-value-input-2')?.value || '';
+                        const varType = csvData.columnTypes[varName];
+
+                        // Wrap variable name for R if it has special characters
+                        const rVarName = /^[a-zA-Z_][a-zA-Z0-9_]*$/.test(varName)
+                            ? `data$${varName}`
+                            : `data[["${varName}"]]`;
+
+                        if (varType === 'numeric') {
+                            if (operator === 'between') {
+                                const minVal = Math.min(parseFloat(value1), parseFloat(value2));
+                                const maxVal = Math.max(parseFloat(value1), parseFloat(value2));
+                                filterConditions.push(`!is.na(${rVarName}) & ${rVarName} >= ${minVal} & ${rVarName} <= ${maxVal}`);
+                            } else {
+                                const rOp = operator === '!=' ? '!=' : operator;
+                                filterConditions.push(`!is.na(${rVarName}) & ${rVarName} ${rOp} ${value1}`);
+                            }
+                        } else {
+                            // Categorical/string - need quotes around value
+                            const rOp = operator === '!=' ? '!=' : '==';
+                            filterConditions.push(`!is.na(${rVarName}) & ${rVarName} ${rOp} "${value1}"`);
+                        }
+                    });
+
+                    if (filterConditions.length > 0) {
+                        filterRCode = `
+# Filter data (${filteredData.length} of ${csvData.data.length} rows)
+data = data[${filterConditions.join(' & ')}, ]
+`;
+                    }
+                }
+
+                lastRScript = `# Save this R script and your data file in the same folder before running.
+
+# Load data
+data = read.csv("${fileName}")
+${filterRCode}
+# Fit model
+model = ${modelCallMultiLine}
+
+# Summary
+summary(model)
+`;
+
+                // Additional stats R code based on model type
+                const additionalStatsR = isLinear
+                    ? `cat("R-squared:", summary(model)$r.squared, "\\n")
+                        cat("Adjusted R-squared:", summary(model)$adj.r.squared, "\\n")
+                        cat("F-statistic:", summary(model)$fstatistic[1], "on", summary(model)$fstatistic[2], "and", summary(model)$fstatistic[3], "DF\\n")`
+                    : `cat("Null Deviance:", model$null.deviance, "on", model$df.null, "df\\n")
+                        cat("Residual Deviance:", model$deviance, "on", model$df.residual, "df\\n")`;
+
+                const rCode = `
+                    # Read data
+                    csv_text = "${csvEscaped}"
+                    data = read.csv(text = csv_text, stringsAsFactors = FALSE)
+
+                    # Convert columns to appropriate types
+                    for (col in names(data)) {
+                        num_val = suppressWarnings(as.numeric(data[[col]]))
+                        if (!all(is.na(num_val)) && sum(is.na(num_val)) <= sum(is.na(data[[col]]))) {
+                            data[[col]] = num_val
+                        }
+                    }
+
+                    # Fit model
+                    model = ${modelCall}
+
+                    # Get coefficients table - manual JSON generation
+                    coef_summary = summary(model)$coefficients
+                    coef_rows = c()
+                    col_names = colnames(coef_summary)
+                    for (i in 1:nrow(coef_summary)) {
+                        var_name = gsub('"', '\\\\"', rownames(coef_summary)[i])
+                        vals = coef_summary[i, ]
+                        row_json = paste0('{"Variable":"', var_name, '"')
+                        for (j in 1:length(col_names)) {
+                            col_name = gsub('\\\\|', '|', col_names[j])
+                            row_json = paste0(row_json, ',"', col_name, '":', vals[j])
+                        }
+                        row_json = paste0(row_json, '}')
+                        coef_rows = c(coef_rows, row_json)
+                    }
+                    coef_json = paste0('COEF_JSON:[', paste(coef_rows, collapse = ','), ']:END_COEF_JSON')
+
+                    # Capture summary output
+                    output = capture.output({
+                        cat("============================================\\n")
+                        cat("REGRESSION RESULTS\\n")
+                        cat("============================================\\n\\n")
+                        cat("Model Type: ${modelLabels[family]}\\n")
+                        cat("Formula: ${formulaDisplay}\\n")
+                        cat("Observations:", nrow(data), "\\n\\n")
+                        cat("--------------------------------------------\\n")
+                        cat("MODEL SUMMARY\\n")
+                        cat("--------------------------------------------\\n\\n")
+                        print(summary(model))
+                        cat("\\n--------------------------------------------\\n")
+                        cat("ADDITIONAL STATISTICS\\n")
+                        cat("--------------------------------------------\\n\\n")
+                        cat("AIC:", AIC(model), "\\n")
+                        cat("BIC:", BIC(model), "\\n")
+                        ${additionalStatsR}
+                        cat("\\n--------------------------------------------\\n")
+                        cat("COEFFICIENTS WITH CONFIDENCE INTERVALS\\n")
+                        cat("--------------------------------------------\\n\\n")
+                        print(confint(model))
+                    })
+                    paste(c(coef_json, output), collapse = "\\n")
+                `;
+
+                const result = await webR.evalR(rCode);
+                const outputObj = await result.toJs();
+
+                // Extract the string value from WebR result
+                let output;
+                if (typeof outputObj === 'string') {
+                    output = outputObj;
+                } else if (outputObj && outputObj.values) {
+                    output = Array.isArray(outputObj.values) ? outputObj.values.join('\n') : outputObj.values;
+                } else if (Array.isArray(outputObj)) {
+                    output = outputObj.join('\n');
+                } else {
+                    output = String(outputObj);
+                }
+
+                // Extract coefficients JSON and render table
+                const coefMatch = output.match(/COEF_JSON:(.*?):END_COEF_JSON/);
+                if (coefMatch) {
+                    try {
+                        const coefData = JSON.parse(coefMatch[1]);
+                        renderCoefTable(coefData, isLinear);
+                        // Store for predictions
+                        lastModelCoefs = coefData;
+                        lastModelType = family;
+                        lastIndepVarsData = indepVarsData;
+                        lastDepVar = depVar;
+                        lastInteractions = interactions;
+                        lastDvTransform = dvTransform;
+                        // Setup prediction UI
+                        setupPredictionUI(indepVarsData, family);
+                        // Generate and display estimated equation
+                        displayEstimatedEquation(coefData, depVar, dvTransform, family);
+                    } catch (e) {
+                        console.error('Failed to parse coefficients:', e);
+                    }
+                    // Remove the JSON from the output
+                    output = output.replace(/COEF_JSON:.*?:END_COEF_JSON\n?/, '');
+                }
+
+                resultsOutput.textContent = output;
+                resultsContainer.classList.add('visible');
+                showStatus(`Analysis completed successfully! ${dataInfo}`, 'success');
+
+                // Scroll to results
+                resultsContainer.scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                showStatus('Error running analysis: ' + error.message, 'error');
+                console.error(error);
+            } finally {
+                runButton.disabled = false;
+                runButton.textContent = 'Run Regression';
+            }
+        });
+
+        // Clear all
+        clearButton.addEventListener('click', () => {
+            // Reset shared state
+            resetStateForNewData();
+
+            // Additional resets specific to full clear
+            csvData = null;
+            columnNames = [];
+            fileInput.value = '';
+            dataPreview.classList.remove('visible');
+            modelConfig.style.display = 'none';
+            dependentVar.innerHTML = '<option value="">-- Select dependent variable --</option>';
+            independentVars.innerHTML = '';
+            document.getElementById('descStatsContainer').classList.remove('visible');
+
+            // Remove any column count notes
+            const existingNotes = dataPreview.querySelectorAll('.column-count-note');
+            existingNotes.forEach(note => note.remove());
+        });
+
+        // Download R script
+        document.getElementById('downloadScript').addEventListener('click', () => {
+            if (!lastRScript) {
+                showStatus('No analysis to download. Run a regression first.', 'error');
+                return;
+            }
+            const blob = new Blob([lastRScript], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'regression_analysis.R';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Calculate mean for numeric column
+        function calculateMean(colName) {
+            const values = csvData.data
+                .map(row => parseFloat(row[colName]))
+                .filter(v => !isNaN(v));
+            if (values.length === 0) return 0;
+            return values.reduce((a, b) => a + b, 0) / values.length;
+        }
+
+        // Calculate standard deviation
+        function calculateSD(colName) {
+            const values = csvData.data
+                .map(row => parseFloat(row[colName]))
+                .filter(v => !isNaN(v));
+            if (values.length === 0) return 0;
+            const mean = values.reduce((a, b) => a + b, 0) / values.length;
+            const squaredDiffs = values.map(v => Math.pow(v - mean, 2));
+            return Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / values.length);
+        }
+
+        // Calculate min
+        function calculateMin(colName) {
+            const values = csvData.data
+                .map(row => parseFloat(row[colName]))
+                .filter(v => !isNaN(v));
+            if (values.length === 0) return 0;
+            return Math.min(...values);
+        }
+
+        // Calculate max
+        function calculateMax(colName) {
+            const values = csvData.data
+                .map(row => parseFloat(row[colName]))
+                .filter(v => !isNaN(v));
+            if (values.length === 0) return 0;
+            return Math.max(...values);
+        }
+
+        // Display descriptive statistics table
+        function displayDescriptiveStats(headers) {
+            const descStatsTable = document.getElementById('descStatsTable');
+            const descStatsContainer = document.getElementById('descStatsContainer');
+
+            let html = '<thead><tr><th>Variable</th><th>Type</th><th>Mean</th><th>SD</th><th>Min</th><th>Max</th></tr></thead><tbody>';
+
+            headers.forEach(h => {
+                const isNumeric = csvData.columnTypes[h] === 'numeric';
+                if (isNumeric) {
+                    const mean = calculateMean(h);
+                    const sd = calculateSD(h);
+                    const min = calculateMin(h);
+                    const max = calculateMax(h);
+                    html += `<tr>
+                        <td>${h}</td>
+                        <td>Numerical</td>
+                        <td>${mean.toFixed(2)}</td>
+                        <td>${sd.toFixed(2)}</td>
+                        <td>${min.toFixed(2)}</td>
+                        <td>${max.toFixed(2)}</td>
+                    </tr>`;
+                } else {
+                    html += `<tr>
+                        <td>${h}</td>
+                        <td>Non-numerical</td>
+                        <td colspan="4" style="text-align: center; font-style: italic; color: var(--text-light);">Descriptive statistics cannot be calculated for non-numerical variables.</td>
+                    </tr>`;
+                }
+            });
+
+            html += '</tbody>';
+            descStatsTable.innerHTML = html;
+            descStatsContainer.classList.add('visible');
+        }
+
+        // Store equation params for regeneration when significance level changes
+        let lastEquationParams = null;
+        let currentSignificanceLevel = 'all';
+
+        // Clean up variable name for display (remove I(), backticks, factor(), simplify)
+        function cleanVarName(varName) {
+            let clean = varName;
+            // Remove I() wrapper
+            if (clean.startsWith('I(') && clean.endsWith(')')) {
+                clean = clean.slice(2, -1);
+            }
+            // Remove factor() wrapper but keep level - e.g., "factor(Gender)Male" becomes "GenderMale"
+            // Need to keep level for multi-level categorical variables (e.g., RegionNorth, RegionSouth)
+            const factorMatch = clean.match(/^factor\((`?[^)`]+`?)\)(.*)$/);
+            if (factorMatch) {
+                const baseVar = factorMatch[1].replace(/`/g, '');
+                const level = factorMatch[2];
+                clean = baseVar + level;
+            }
+            // Remove backticks
+            clean = clean.replace(/`/g, '');
+            // Replace log() with ln() for clearer notation
+            clean = clean.replace(/\blog\(/g, 'ln(');
+            return clean;
+        }
+
+        // Get the p-value column name from coefficient data
+        function getPValueColumnName(coefData) {
+            if (coefData.length === 0) return null;
+            const firstRow = coefData[0];
+            // Common p-value column names in R output
+            const possibleNames = ['Pr(>|t|)', 'Pr(>|z|)', 'p-value', 'pvalue', 'P(>|t|)', 'P(>|z|)'];
+            for (const name of possibleNames) {
+                if (name in firstRow) return name;
+            }
+            return null;
+        }
+
+        // Get adjusted coefficients based on significance level
+        function getAdjustedCoefficients(coefData, sigLevel) {
+            if (sigLevel === 'all') {
+                return coefData.map(coef => ({
+                    ...coef,
+                    adjustedEstimate: parseFloat(coef.Estimate)
+                }));
+            }
+
+            const pValueCol = getPValueColumnName(coefData);
+            const threshold = parseFloat(sigLevel);
+
+            return coefData.map(coef => {
+                const pValue = pValueCol ? parseFloat(coef[pValueCol]) : 0;
+                // Set non-significant coefficients to 0 (including intercept)
+                const isSignificant = pValueCol && pValue < threshold;
+
+                return {
+                    ...coef,
+                    adjustedEstimate: isSignificant ? parseFloat(coef.Estimate) : 0
+                };
+            });
+        }
+
+        // Format number with appropriate precision (avoid 0.0000 for small numbers)
+        function formatCoefficient(num) {
+            const absNum = Math.abs(num);
+            if (absNum === 0) return '0';
+            if (absNum >= 0.0001) {
+                // For numbers >= 0.0001, use 4 decimal places but trim trailing zeros
+                return parseFloat(num.toFixed(4)).toString();
+            }
+            // For very small numbers, use enough decimals to show significant digits
+            // Find first significant digit and show 4 significant figures
+            const str = num.toExponential(4);
+            return str;
+        }
+
+        // Build equation from coefficients
+        function buildEquation(adjustedCoefs, depVar, dvTransform, modelType) {
+            // Build the linear predictor (right-hand side)
+            let terms = [];
+            adjustedCoefs.forEach(coef => {
+                const varName = coef.Variable;
+                const estimate = coef.adjustedEstimate;
+
+                if (varName === '(Intercept)') {
+                    // Format the intercept
+                    terms.push(formatCoefficient(estimate));
+                } else if (estimate !== 0) {
+                    // Only include non-zero coefficients
+                    const cleanName = cleanVarName(varName);
+                    const sign = estimate >= 0 ? ' + ' : ' - ';
+                    const absVal = formatCoefficient(Math.abs(estimate));
+                    terms.push(`${sign}${absVal} * ${cleanName}`);
+                }
+            });
+
+            const linearPredictor = terms.join('');
+
+            // Build the full equation based on model type and DV transform
+            let equation = '';
+            let note = '';
+
+            if (modelType === 'linear') {
+                if (dvTransform === 'log') {
+                    equation = `${depVar} = EXP(${linearPredictor})`;
+                    note = 'Note: Since the dependent variable was log-transformed, the equation is back-transformed using EXP().';
+                } else if (dvTransform === 'log1p') {
+                    equation = `${depVar} = EXP(${linearPredictor}) - 1`;
+                    note = 'Note: Since the dependent variable was log(Y+1) transformed, the equation uses EXP() - 1 for back-transformation.';
+                } else {
+                    equation = `${depVar} = ${linearPredictor}`;
+                    note = '';
+                }
+            } else if (modelType === 'poisson') {
+                equation = `Mean_${depVar} = EXP(${linearPredictor})`;
+                note = 'Note: Poisson regression uses a log link, so the mean is obtained by exponentiating the linear predictor.';
+            } else if (modelType === 'binomial') {
+                equation = `Prob_${depVar} = EXP(${linearPredictor}) / (1 + EXP(${linearPredictor}))`;
+                note = `Note: Prob_${depVar} = Pr(${depVar} = 1). If you are interested in Pr(${depVar} = 0), calculate 1 - Prob_${depVar}.`;
+            }
+
+            return { equation, note };
+        }
+
+        // Display estimated regression equation
+        function displayEstimatedEquation(coefData, depVar, dvTransform, modelType) {
+            const equationSection = document.getElementById('equationSection');
+            const equationBox = document.getElementById('equationBox');
+            const equationNote = document.getElementById('equationNote');
+
+            // Store params for regeneration
+            lastEquationParams = { coefData, depVar, dvTransform, modelType };
+
+            // Reset significance level to 'all'
+            currentSignificanceLevel = 'all';
+            document.getElementById('sigAll').checked = true;
+
+            // Build and display equation
+            const adjustedCoefs = getAdjustedCoefficients(coefData, currentSignificanceLevel);
+            const { equation, note } = buildEquation(adjustedCoefs, depVar, dvTransform, modelType);
+
+            equationBox.textContent = equation;
+            equationNote.textContent = note;
+            equationSection.classList.add('visible');
+
+            // Setup significance level radio button listeners
+            document.querySelectorAll('input[name="sigLevel"]').forEach(radio => {
+                radio.onchange = () => {
+                    currentSignificanceLevel = radio.value;
+                    updateEquationDisplay();
+                    // Also update prediction if result is visible
+                    if (document.getElementById('predictionResult').style.display !== 'none') {
+                        document.getElementById('predictButton').click();
+                    }
+                };
+            });
+
+            // Setup copy button
+            setupCopyButton();
+        }
+
+        // Update equation display when significance level changes
+        function updateEquationDisplay() {
+            if (!lastEquationParams) return;
+
+            const { coefData, depVar, dvTransform, modelType } = lastEquationParams;
+            const equationBox = document.getElementById('equationBox');
+            const equationNote = document.getElementById('equationNote');
+
+            const adjustedCoefs = getAdjustedCoefficients(coefData, currentSignificanceLevel);
+            const { equation, note } = buildEquation(adjustedCoefs, depVar, dvTransform, modelType);
+
+            equationBox.textContent = equation;
+            equationNote.textContent = note;
+
+            // Re-setup copy button with new equation
+            setupCopyButton();
+        }
+
+        // Setup copy button
+        function setupCopyButton() {
+            const copyBtn = document.getElementById('copyEquationBtn');
+            const equationBox = document.getElementById('equationBox');
+
+            copyBtn.onclick = () => {
+                navigator.clipboard.writeText(equationBox.textContent).then(() => {
+                    copyBtn.textContent = 'Copied!';
+                    copyBtn.classList.add('copied');
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy';
+                        copyBtn.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy:', err);
+                });
+            };
+        }
+
+        // =====================================================
+        // DATA FILTER FUNCTIONALITY
+        // =====================================================
+
+        let filteredData = null; // Store the filtered data subset
+        let useFilteredData = false; // Flag to track if using filtered data
+
+        // Initialize data filter UI
+        function initDataFilterUI(headers, columnTypes) {
+            const dataFilterSection = document.getElementById('dataFilterSection');
+            const filterConditions = document.getElementById('filterConditions');
+            const filterRows = document.getElementById('filterRows');
+            const addFilterBtn = document.getElementById('addFilterBtn');
+            const filterSummary = document.getElementById('filterSummary');
+
+            // Store for later use (MUST be set before event handlers)
+            window.filterHeaders = headers;
+            window.filterColumnTypes = columnTypes;
+
+            // Show the filter section
+            dataFilterSection.classList.add('visible');
+
+            // Reset state
+            filterRows.innerHTML = '';
+            filteredData = null;
+            useFilteredData = false;
+            filterSummary.style.display = 'none';
+
+            // Reset radio to "Use full data"
+            document.querySelector('input[name="dataChoice"][value="full"]').checked = true;
+            filterConditions.classList.remove('visible');
+
+            // Set original count
+            document.getElementById('originalCount').textContent = csvData.data.length;
+
+            // Remove old event listeners by cloning and replacing elements
+            document.querySelectorAll('input[name="dataChoice"]').forEach(radio => {
+                const newRadio = radio.cloneNode(true);
+                radio.parentNode.replaceChild(newRadio, radio);
+            });
+
+            // Handle radio button changes (use window variables to get current data)
+            document.querySelectorAll('input[name="dataChoice"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    if (e.target.value === 'filtered') {
+                        filterConditions.classList.add('visible');
+                        useFilteredData = true;
+                        // Add initial filter row if none exist
+                        if (filterRows.children.length === 0) {
+                            addFilterRow(window.filterHeaders, window.filterColumnTypes);
+                        }
+                        applyFilters();
+                    } else {
+                        filterConditions.classList.remove('visible');
+                        useFilteredData = false;
+                        filteredData = null;
+                    }
+                });
+            });
+
+            // Add filter button handler (use window variables)
+            addFilterBtn.onclick = () => {
+                addFilterRow(window.filterHeaders, window.filterColumnTypes);
+            };
+        }
+
+        // Add a filter row
+        function addFilterRow(headers, columnTypes) {
+            const filterRows = document.getElementById('filterRows');
+            const rowId = 'filter_' + Date.now();
+
+            const row = document.createElement('div');
+            row.className = 'filter-row';
+            row.id = rowId;
+
+            // Variable options
+            const varOptions = headers.map(h => {
+                const typeLabel = columnTypes[h] === 'numeric' ? '(Num)' : '(Non-num)';
+                return `<option value="${h}" data-type="${columnTypes[h]}">${h} ${typeLabel}</option>`;
+            }).join('');
+
+            // Check if first variable is categorical to set initial value input
+            const firstVarType = columnTypes[headers[0]];
+            let valueInputHtml;
+            if (firstVarType === 'categorical') {
+                const uniqueVals = getUniqueValues(headers[0]);
+                valueInputHtml = `<select class="filter-value-input">${uniqueVals.map(v => `<option value="${v}">${v}</option>`).join('')}</select>`;
+            } else {
+                valueInputHtml = `<input type="text" class="filter-value-input" placeholder="Value">`;
+            }
+
+            row.innerHTML = `
+                <select class="filter-var-select">${varOptions}</select>
+                <select class="filter-operator-select">
+                    <option value="=">=</option>
+                    <option value="!=">≠</option>
+                    <option value=">">&gt;</option>
+                    <option value=">=">&gt;=</option>
+                    <option value="<">&lt;</option>
+                    <option value="<=">&lt;=</option>
+                    <option value="between">Between</option>
+                </select>
+                ${valueInputHtml}
+                <span class="between-label" style="display: none;">and</span>
+                <input type="text" class="filter-value-input-2" placeholder="Value 2" style="display: none;">
+                <button type="button" class="remove-filter" title="Remove filter">×</button>
+            `;
+
+            // Add event listeners
+            const varSelect = row.querySelector('.filter-var-select');
+            const operatorSelect = row.querySelector('.filter-operator-select');
+            const valueInput2 = row.querySelector('.filter-value-input-2');
+            const betweenLabel = row.querySelector('.between-label');
+
+            // Update operators based on variable type
+            updateFilterOperatorsForRow(row, firstVarType);
+
+            // Helper to update value input based on variable type
+            function updateValueInput(selectedVar, varType) {
+                const oldInput = row.querySelector('.filter-value-input');
+
+                if (varType === 'categorical') {
+                    // Replace with dropdown of unique values
+                    const uniqueVals = getUniqueValues(selectedVar);
+                    const newSelect = document.createElement('select');
+                    newSelect.className = 'filter-value-input';
+                    newSelect.innerHTML = uniqueVals.map(v => `<option value="${v}">${v}</option>`).join('');
+                    newSelect.addEventListener('change', applyFilters);
+                    oldInput.replaceWith(newSelect);
+                } else {
+                    // Replace with text input
+                    if (oldInput.tagName === 'SELECT') {
+                        const newInput = document.createElement('input');
+                        newInput.type = 'text';
+                        newInput.className = 'filter-value-input';
+                        newInput.placeholder = 'Value';
+                        newInput.addEventListener('input', applyFilters);
+                        oldInput.replaceWith(newInput);
+                    }
+                }
+            }
+
+            // Variable change - update operators and value input
+            varSelect.addEventListener('change', () => {
+                const selectedVar = varSelect.value;
+                const varType = columnTypes[selectedVar];
+                updateFilterOperatorsForRow(row, varType);
+                updateValueInput(selectedVar, varType);
+                applyFilters();
+            });
+
+            // Operator change - show/hide between inputs
+            operatorSelect.addEventListener('change', () => {
+                if (operatorSelect.value === 'between') {
+                    betweenLabel.style.display = '';
+                    valueInput2.style.display = '';
+                } else {
+                    betweenLabel.style.display = 'none';
+                    valueInput2.style.display = 'none';
+                }
+                applyFilters();
+            });
+
+            // Value change - reapply filters (for initial input)
+            const initialValueInput = row.querySelector('.filter-value-input');
+            if (initialValueInput.tagName === 'SELECT') {
+                initialValueInput.addEventListener('change', applyFilters);
+            } else {
+                initialValueInput.addEventListener('input', applyFilters);
+            }
+            valueInput2.addEventListener('input', applyFilters);
+
+            // Remove button
+            row.querySelector('.remove-filter').onclick = () => {
+                row.remove();
+                applyFilters();
+            };
+
+            filterRows.appendChild(row);
+
+            // Apply filters after adding
+            applyFilters();
+        }
+
+        // Update operators for a specific row based on variable type
+        function updateFilterOperatorsForRow(row, varType) {
+            const operatorSelect = row.querySelector('.filter-operator-select');
+            const currentValue = operatorSelect.value;
+
+            if (varType === 'numeric') {
+                operatorSelect.innerHTML = `
+                    <option value="=">=</option>
+                    <option value="!=">≠</option>
+                    <option value=">">&gt;</option>
+                    <option value=">=">&gt;=</option>
+                    <option value="<">&lt;</option>
+                    <option value="<=">&lt;=</option>
+                    <option value="between">Between</option>
+                `;
+            } else {
+                operatorSelect.innerHTML = `
+                    <option value="=">=</option>
+                    <option value="!=">≠</option>
+                `;
+            }
+
+            // Try to restore previous value if still valid
+            const options = Array.from(operatorSelect.options).map(o => o.value);
+            if (options.includes(currentValue)) {
+                operatorSelect.value = currentValue;
+            }
+        }
+
+        // Get unique values for a categorical column
+        function getUniqueValues(colName) {
+            const values = new Set();
+            csvData.data.forEach(row => {
+                const val = row[colName];
+                if (val !== '' && val !== null && val !== undefined) {
+                    values.add(val);
+                }
+            });
+            return Array.from(values).sort();
+        }
+
+        // Apply all filter conditions
+        function applyFilters() {
+            if (!useFilteredData) {
+                filteredData = null;
+                return;
+            }
+
+            const filterRows = document.querySelectorAll('.filter-row');
+            const filterSummary = document.getElementById('filterSummary');
+
+            if (filterRows.length === 0) {
+                filteredData = csvData.data;
+                document.getElementById('filteredCount').textContent = filteredData.length;
+                filterSummary.style.display = 'block';
+                return;
+            }
+
+            // Collect all filter conditions
+            const conditions = [];
+            filterRows.forEach(row => {
+                const varSelect = row.querySelector('.filter-var-select');
+                const operatorSelect = row.querySelector('.filter-operator-select');
+                const valueInput = row.querySelector('.filter-value-input');
+                const valueInput2 = row.querySelector('.filter-value-input-2');
+
+                const varName = varSelect.value;
+                const operator = operatorSelect.value;
+                const value1 = valueInput.value;
+                const value2 = valueInput2 ? valueInput2.value : '';
+
+                if (value1 !== '' || operator === 'between') {
+                    conditions.push({
+                        variable: varName,
+                        operator: operator,
+                        value1: value1,
+                        value2: value2,
+                        type: csvData.columnTypes[varName]
+                    });
+                }
+            });
+
+            // Apply filters
+            filteredData = csvData.data.filter(row => {
+                return conditions.every(cond => {
+                    const rowValue = row[cond.variable];
+
+                    if (rowValue === '' || rowValue === null || rowValue === undefined) {
+                        return false; // Exclude rows with missing values for filtered variables
+                    }
+
+                    if (cond.type === 'numeric') {
+                        const numVal = parseFloat(rowValue);
+                        const condVal1 = parseFloat(cond.value1);
+                        const condVal2 = parseFloat(cond.value2);
+
+                        if (isNaN(numVal)) return false;
+
+                        switch (cond.operator) {
+                            case '=': return numVal === condVal1;
+                            case '!=': return numVal !== condVal1;
+                            case '>': return numVal > condVal1;
+                            case '>=': return numVal >= condVal1;
+                            case '<': return numVal < condVal1;
+                            case '<=': return numVal <= condVal1;
+                            case 'between':
+                                if (isNaN(condVal1) || isNaN(condVal2)) return true;
+                                return numVal >= Math.min(condVal1, condVal2) && numVal <= Math.max(condVal1, condVal2);
+                            default: return true;
+                        }
+                    } else {
+                        // Categorical comparison (string)
+                        const strVal = String(rowValue);
+                        const condStr = String(cond.value1);
+
+                        switch (cond.operator) {
+                            case '=': return strVal === condStr;
+                            case '!=': return strVal !== condStr;
+                            default: return true;
+                        }
+                    }
+                });
+            });
+
+            // Update summary
+            document.getElementById('filteredCount').textContent = filteredData.length;
+            filterSummary.style.display = 'block';
+        }
+
+        // Get the data to use for analysis (filtered or full)
+        function getDataForAnalysis() {
+            if (useFilteredData && filteredData) {
+                return filteredData;
+            }
+            return csvData.data;
+        }
+
+        // Convert data array to CSV string
+        function dataToCSV(data, headers) {
+            const lines = [headers.join(',')];
+            data.forEach(row => {
+                const values = headers.map(h => {
+                    const val = row[h];
+                    // Quote values that contain commas or quotes
+                    if (typeof val === 'string' && (val.includes(',') || val.includes('"'))) {
+                        return '"' + val.replace(/"/g, '""') + '"';
+                    }
+                    return val;
+                });
+                lines.push(values.join(','));
+            });
+            return lines.join('\n');
+        }
+
+        // =====================================================
+        // END DATA FILTER FUNCTIONALITY
+        // =====================================================
+
+        // Get mode (most frequent value) for categorical column
+        function calculateMode(colName) {
+            const counts = {};
+            csvData.data.forEach(row => {
+                const val = row[colName];
+                if (val !== '' && val !== null && val !== undefined) {
+                    counts[val] = (counts[val] || 0) + 1;
+                }
+            });
+            let maxCount = 0;
+            let mode = '';
+            for (const val in counts) {
+                if (counts[val] > maxCount) {
+                    maxCount = counts[val];
+                    mode = val;
+                }
+            }
+            return mode;
+        }
+
+        // Setup prediction UI
+        function setupPredictionUI(indepVarsData, modelType) {
+            const predictionInputs = document.getElementById('predictionInputs');
+            const predictionSection = document.getElementById('predictionSection');
+            const predictionResult = document.getElementById('predictionResult');
+
+            predictionInputs.innerHTML = '';
+            predictionResult.style.display = 'none';
+
+            indepVarsData.forEach(iv => {
+                const isNumeric = csvData.columnTypes[iv.name] === 'numeric';
+
+                if (isNumeric) {
+                    // Calculate mean
+                    const mean = calculateMean(iv.name);
+                    const meanDisplay = mean.toFixed(2);
+
+                    // Numeric input
+                    let label = iv.name;
+                    if (iv.transform === 'log') label = `${iv.name} (will apply ln)`;
+                    if (iv.transform === 'log1p') label = `${iv.name} (will apply ln+1)`;
+                    if (iv.transform === 'quadratic') label = `${iv.name} (will apply X + X²)`;
+
+                    predictionInputs.innerHTML += `
+                        <div class="prediction-input-group">
+                            <label>${label} (${meanDisplay})</label>
+                            <input type="number" step="any" id="pred_${iv.name}" data-var="${iv.name}" data-transform="${iv.transform}" data-mean="${mean}" placeholder="Enter value">
+                        </div>
+                    `;
+                } else {
+                    // Categorical - dropdown with unique values
+                    const uniqueVals = [...new Set(csvData.data.map(row => row[iv.name]))].filter(v => v !== '');
+                    const mode = calculateMode(iv.name);
+                    let options = uniqueVals.map(v => `<option value="${v}">${v}</option>`).join('');
+
+                    predictionInputs.innerHTML += `
+                        <div class="prediction-input-group">
+                            <label>${iv.name} (${mode})</label>
+                            <select id="pred_${iv.name}" data-var="${iv.name}" data-transform="factor" data-mode="${mode}">
+                                ${options}
+                            </select>
+                        </div>
+                    `;
+                }
+            });
+
+            // Add footnote
+            predictionInputs.innerHTML += `
+                <div style="grid-column: 1 / -1; margin-top: 0.5rem;">
+                    <p style="font-size: 0.8rem; color: var(--text-light); font-style: italic;">
+                        Means are calculated after rows with missing data are dropped. If you leave a numeric field empty, the prediction will use that mean.
+                    </p>
+                </div>
+            `;
+
+            predictionSection.style.display = 'block';
+        }
+
+        // Calculate prediction
+        document.getElementById('predictButton').addEventListener('click', () => {
+            if (!lastModelCoefs || !lastIndepVarsData) {
+                showStatus('No model available for prediction.', 'error');
+                return;
+            }
+
+            // Get adjusted coefficients based on current significance level
+            const adjustedCoefs = getAdjustedCoefficients(lastModelCoefs, currentSignificanceLevel);
+
+            // Get intercept
+            const interceptRow = adjustedCoefs.find(r => r.Variable === '(Intercept)');
+            let xBeta = interceptRow ? interceptRow.adjustedEstimate : 0;
+
+            // Build coefficient lookup with adjusted estimates
+            const coefLookup = {};
+            adjustedCoefs.forEach(row => {
+                coefLookup[row.Variable] = row.adjustedEstimate;
+            });
+
+            // Store prediction values for R script
+            lastPredictionValues = {};
+
+            // Calculate X*Beta
+            lastIndepVarsData.forEach(iv => {
+                const input = document.getElementById(`pred_${iv.name}`);
+                if (!input) return;
+
+                const isNumeric = csvData.columnTypes[iv.name] === 'numeric';
+
+                if (isNumeric) {
+                    let val = parseFloat(input.value);
+                    // Use mean if field is empty
+                    if (isNaN(val) || input.value === '') {
+                        val = parseFloat(input.dataset.mean) || 0;
+                    }
+                    lastPredictionValues[iv.name] = val;
+
+                    // Apply transformation and find coefficient
+                    if (iv.transform === 'log') {
+                        // log(X)
+                        const coefName = `log(\`${iv.name}\`)`;
+                        const coef = coefLookup[coefName] || coefLookup[`log(${iv.name})`] || 0;
+                        xBeta += coef * Math.log(val);
+                    } else if (iv.transform === 'log1p') {
+                        // log(X + 1)
+                        const coefName = `log(\`${iv.name}\` + 1)`;
+                        const coef = coefLookup[coefName] || coefLookup[`log(${iv.name} + 1)`] || 0;
+                        xBeta += coef * Math.log(val + 1);
+                    } else if (iv.transform === 'quadratic') {
+                        // X + X^2
+                        const coefLinear = coefLookup[`\`${iv.name}\``] || coefLookup[iv.name] || 0;
+                        const coefSquared = coefLookup[`I(\`${iv.name}\`^2)`] || coefLookup[`I(${iv.name}^2)`] || 0;
+                        xBeta += coefLinear * val + coefSquared * val * val;
+                    } else {
+                        // Linear
+                        const coef = coefLookup[`\`${iv.name}\``] || coefLookup[iv.name] || 0;
+                        xBeta += coef * val;
+                    }
+                } else {
+                    // Factor variable - find the matching coefficient
+                    const selectedVal = input.value;
+                    lastPredictionValues[iv.name] = `"${selectedVal}"`;
+                    // R creates dummy variables like factor(VarName)Value
+                    const coefName = `factor(\`${iv.name}\`)${selectedVal}`;
+                    const coefNameAlt = `factor(${iv.name})${selectedVal}`;
+                    const coef = coefLookup[coefName] || coefLookup[coefNameAlt] || 0;
+                    xBeta += coef;
+                }
+            });
+
+            // Add interaction terms to prediction
+            if (lastInteractions && lastInteractions.length > 0) {
+                lastInteractions.forEach(int => {
+                    // Get values for both variables
+                    const val1 = lastPredictionValues[int.var1];
+                    const val2 = lastPredictionValues[int.var2];
+
+                    if (val1 === undefined || val2 === undefined) return;
+
+                    // Apply transformations
+                    let transformedVal1, transformedVal2;
+
+                    if (int.transform1 === 'log') {
+                        transformedVal1 = Math.log(val1);
+                    } else if (int.transform1 === 'log1p') {
+                        transformedVal1 = Math.log(val1 + 1);
+                    } else {
+                        transformedVal1 = val1;
+                    }
+
+                    if (int.transform2 === 'log') {
+                        transformedVal2 = Math.log(val2);
+                    } else if (int.transform2 === 'log1p') {
+                        transformedVal2 = Math.log(val2 + 1);
+                    } else {
+                        transformedVal2 = val2;
+                    }
+
+                    // Build coefficient name to match R output for I(X * Y) format
+                    const term1 = int.transform1 === 'log' ? `log(${int.var1})` :
+                                  int.transform1 === 'log1p' ? `log(${int.var1} + 1)` :
+                                  int.var1;
+                    const term2 = int.transform2 === 'log' ? `log(${int.var2})` :
+                                  int.transform2 === 'log1p' ? `log(${int.var2} + 1)` :
+                                  int.var2;
+
+                    // Try different coefficient name formats for I(X * Y)
+                    const coefName1 = `I(${term1} * ${term2})`;
+                    const coefName2 = `I(${term2} * ${term1})`; // R might swap order
+
+                    const coef = coefLookup[coefName1] || coefLookup[coefName2] || 0;
+
+                    xBeta += coef * transformedVal1 * transformedVal2;
+                });
+            }
+
+            // Calculate final prediction based on model type
+            let prediction;
+            let label;
+
+            if (lastModelType === 'linear') {
+                // Apply back-transformation if DV was log-transformed
+                if (lastDvTransform === 'log') {
+                    prediction = Math.exp(xBeta);
+                    label = `Predicted ${lastDepVar} (back-transformed from ln)`;
+                } else if (lastDvTransform === 'log1p') {
+                    prediction = Math.exp(xBeta) - 1;
+                    label = `Predicted ${lastDepVar} (back-transformed from ln+1)`;
+                } else {
+                    prediction = xBeta;
+                    label = `Predicted ${lastDepVar}`;
+                }
+            } else if (lastModelType === 'poisson') {
+                prediction = Math.exp(xBeta);
+                label = `Predicted Mean ${lastDepVar}`;
+            } else if (lastModelType === 'binomial') {
+                prediction = Math.exp(xBeta) / (1 + Math.exp(xBeta));
+                label = `Predicted Pr(${lastDepVar} = 1)`;
+            }
+
+            // Display result
+            document.getElementById('predictionLabel').textContent = label;
+            document.getElementById('predictionValue').textContent = prediction.toFixed(4);
+            document.getElementById('predictionResult').style.display = 'block';
+
+            // Update prediction note based on significance level
+            const predictionNote = document.getElementById('predictionNote');
+            if (currentSignificanceLevel === 'all') {
+                predictionNote.textContent = 'Prediction uses coefficients with any p-value.';
+            } else {
+                predictionNote.textContent = `Prediction uses only coefficients with p-value < ${currentSignificanceLevel}. Other coefficients are set to zero.`;
+            }
+            predictionNote.style.display = 'block';
+        });
+
+        // Download R script with prediction
+        document.getElementById('downloadPredictionScript').addEventListener('click', () => {
+            if (!lastRScript || !lastPredictionValues) {
+                showStatus('Please run a prediction first.', 'error');
+                return;
+            }
+
+            // Helper: only add backticks if variable name needs them
+            const wrapVarName = (varName) => {
+                if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(varName)) {
+                    return varName;
+                }
+                return `\`${varName}\``;
+            };
+
+            // Build newdata argument for predict()
+            const newdataArgs = Object.entries(lastPredictionValues)
+                .map(([name, val]) => `    ${wrapVarName(name)} = ${val}`)
+                .join(',\n');
+
+            // Determine predict type based on model
+            let predictCall;
+            if (lastModelType === 'linear') {
+                predictCall = `predict(model, newdata = newdata)`;
+            } else {
+                // Poisson, Negative Binomial, and Binomial all use type = "response"
+                predictCall = `predict(model, newdata = newdata, type = "response")`;
+            }
+
+            const scriptWithPrediction = lastRScript + `
+# Make a prediction
+newdata = data.frame(
+${newdataArgs}
+)
+
+${predictCall}
+`;
+
+            const blob = new Blob([scriptWithPrediction], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'regression_with_prediction.R';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Initialize
+        initWebR();
+    </script>
+
+</div> <!-- end main-content -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBg3LJDwVIRGWtFZb_mM_CSRJMNCJUta20",
+        authDomain: "iu-pricing-tools.firebaseapp.com",
+        projectId: "iu-pricing-tools",
+        storageBucket: "iu-pricing-tools.firebasestorage.app",
+        messagingSenderId: "659335573790",
+        appId: "1:659335573790:web:00013a166787efecb3d90f",
+        measurementId: "G-NGKNY08XWP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+</body>
+</html>

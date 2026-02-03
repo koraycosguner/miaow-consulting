@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price Equilibrium Calculator | Koray Cosguner</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --iu-crimson: #990000;
+            --iu-crimson-dark: #7a0000;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f5f5f5;
+            --white: #fff;
+            --border: #ddd;
+            --success: #059669;
+            --success-light: #ecfdf5;
+            --brand1: #2563eb;
+            --brand2: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .tool-container {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--iu-crimson);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--iu-crimson);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-number {
+            background: var(--iu-crimson);
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Model Display */
+        .model-display {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .model-display .equation {
+            margin: 0.5rem 0;
+        }
+
+        .model-display .brand1 { color: var(--brand1); font-weight: 600; }
+        .model-display .brand2 { color: var(--brand2); font-weight: 600; }
+
+        /* Input Grid */
+        .params-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .brand-section {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 1.25rem;
+            border: 2px solid var(--border);
+        }
+
+        .brand-section.brand1 {
+            border-color: var(--brand1);
+        }
+
+        .brand-section.brand2 {
+            border-color: var(--brand2);
+        }
+
+        .brand-header {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .brand-header.brand1 { color: var(--brand1); }
+        .brand-header.brand2 { color: var(--brand2); }
+
+        .brand-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .brand-dot.brand1 { background: var(--brand1); }
+        .brand-dot.brand2 { background: var(--brand2); }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-row label {
+            width: 180px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .input-row input {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: white;
+            max-width: 100px;
+        }
+
+        .input-row input:focus {
+            outline: none;
+            border-color: var(--iu-crimson);
+            box-shadow: 0 0 0 2px rgba(153, 0, 0, 0.1);
+        }
+
+        .param-hint {
+            font-size: 0.75rem;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Calculate Button */
+        .calculate-btn {
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: var(--iu-crimson);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+
+        .calculate-btn:hover {
+            background: var(--iu-crimson-dark);
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: #fef2f2;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
+            display: none;
+        }
+
+        .error-message.visible { display: block; }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .disclaimer-title {
+            font-weight: 700;
+            color: var(--iu-crimson);
+            margin-bottom: 0.5rem;
+        }
+        .disclaimer ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .disclaimer li {
+            margin-bottom: 0.25rem;
+        }
+        .disclaimer li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Results Section */
+        #resultsSection {
+            display: none;
+        }
+
+        .solution-box {
+            background: var(--success-light);
+            border: 2px solid var(--success);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .solution-box h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .solution-box h3::before {
+            content: "✓";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.8rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .result-card h4 {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-card.brand1 h4 { color: var(--brand1); }
+        .result-card.brand2 h4 { color: var(--brand2); }
+
+        .result-value {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.35rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .result-value:last-child {
+            border-bottom: none;
+        }
+
+        .result-value .label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .result-value .value {
+            font-weight: 600;
+            font-family: 'Monaco', monospace;
+        }
+
+        /* Best Response Functions */
+        .br-functions {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .br-functions h4 {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .br-equation {
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+            padding: 0.4rem 0;
+        }
+
+        .br-equation .brand1 { color: var(--brand1); font-weight: 600; }
+        .br-equation .brand2 { color: var(--brand2); font-weight: 600; }
+
+        /* Chart */
+        .chart-container {
+            height: 400px;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1rem;
+            gap: 0.25rem;
+        }
+
+        .tab {
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--iu-crimson);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--iu-crimson);
+            color: var(--iu-crimson);
+            font-weight: 600;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-light);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .comparison-table td {
+            font-family: 'Monaco', monospace;
+        }
+
+        .comparison-table tr:hover {
+            background: #fafafa;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .params-grid {
+                grid-template-columns: 1fr;
+            }
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            .input-row {
+                flex-wrap: wrap;
+            }
+            .input-row label {
+                width: 100%;
+                margin-bottom: 0.25rem;
+            }
+            .input-row input {
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Auth check -->
+<div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <p style="color: #64748b;">Loading...</p>
+</div>
+<div id="main-content" style="display: none;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 20px 2rem 0;">
+        <a href="tools.html" style="display: inline-flex; align-items: center; gap: 6px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 500;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Pricing & Analytics Tools
+        </a>
+    </div>
+
+    <main style="padding-top: 0;">
+        <div class="hero">
+            <h1>Price Equilibrium Calculator</h1>
+            <p>Bertrand Nash Equilibrium for two competing brands with differentiated products and linear demand.</p>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <div class="disclaimer-title">Disclaimer</div>
+            <ul>
+                <li><strong>Results may contain errors.</strong> The output from this tool may be inaccurate, incomplete, or incorrect. Users should independently verify all results.</li>
+                <li><strong>No warranty.</strong> This tool is provided "as is" without any warranty of any kind.</li>
+                <li><strong>User assumes all risk.</strong> Users assume full responsibility for reviewing and validating any output.</li>
+            </ul>
+        </div>
+
+        <!-- Model Display -->
+        <div class="tool-container">
+            <h2 class="section-title"><span class="step-number">1</span> Model Setup</h2>
+
+            <div class="model-display">
+                <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--text-dark);">Linear Demand Functions</div>
+                <div class="equation">
+                    <span class="brand1">Q<sub>1</sub></span> = a<sub>1</sub> − b<sub>1</sub>·<span class="brand1">P<sub>1</sub></span> + c<sub>1</sub>·<span class="brand2">P<sub>2</sub></span>
+                </div>
+                <div class="equation">
+                    <span class="brand2">Q<sub>2</sub></span> = a<sub>2</sub> − b<sub>2</sub>·<span class="brand2">P<sub>2</sub></span> + c<sub>2</sub>·<span class="brand1">P<sub>1</sub></span>
+                </div>
+                <div style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-light);">
+                    Profit<sub>i</sub> = (P<sub>i</sub> − MC<sub>i</sub>) · Q<sub>i</sub>
+                </div>
+            </div>
+
+            <!-- Notation Definitions -->
+            <div style="background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                <div style="font-weight: 600; margin-bottom: 0.5rem; color: var(--text-dark);">Notation</div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; color: var(--text-light);">
+                    <div><strong>Q<sub>i</sub></strong> = Quantity demanded for brand i</div>
+                    <div><strong>P<sub>i</sub></strong> = Price of brand i</div>
+                    <div><strong>a<sub>i</sub></strong> = Base demand (intercept)</div>
+                    <div><strong>MC<sub>i</sub></strong> = Marginal cost for brand i</div>
+                    <div><strong>b<sub>i</sub></strong> = Own-price sensitivity (how much demand falls when own price rises)</div>
+                    <div><strong>c<sub>i</sub></strong> = Cross-price sensitivity (how much demand rises when competitor's price rises)</div>
+                </div>
+            </div>
+
+            <div class="params-grid">
+                <div class="brand-section brand1">
+                    <div class="brand-header brand1">
+                        <span class="brand-dot brand1"></span>
+                        Brand 1
+                    </div>
+                    <div class="input-row">
+                        <label>a<sub>1</sub> (base demand)</label>
+                        <input type="number" id="a1" value="100" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>b<sub>1</sub> (own-price effect)</label>
+                        <input type="number" id="b1" value="2" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>c<sub>1</sub> (cross-price effect)</label>
+                        <input type="number" id="c1" value="1" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>MC<sub>1</sub> (marginal cost)</label>
+                        <input type="number" id="mc1" value="10" step="any">
+                    </div>
+                </div>
+
+                <div class="brand-section brand2">
+                    <div class="brand-header brand2">
+                        <span class="brand-dot brand2"></span>
+                        Brand 2
+                    </div>
+                    <div class="input-row">
+                        <label>a<sub>2</sub> (base demand)</label>
+                        <input type="number" id="a2" value="100" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>b<sub>2</sub> (own-price effect)</label>
+                        <input type="number" id="b2" value="2" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>c<sub>2</sub> (cross-price effect)</label>
+                        <input type="number" id="c2" value="1" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>MC<sub>2</sub> (marginal cost)</label>
+                        <input type="number" id="mc2" value="10" step="any">
+                    </div>
+                </div>
+            </div>
+
+            <div class="param-hint" style="margin-top: 1rem; text-align: center;">
+                Note: b<sub>i</sub> > 0 (higher own price reduces demand), c<sub>i</sub> > 0 (higher rival price increases demand)
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+            <button class="calculate-btn" onclick="calculateEquilibrium()">Find Price Equilibrium</button>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsSection">
+            <div class="solution-box">
+                <h3>Nash Equilibrium Found</h3>
+                <div class="results-grid">
+                    <div class="result-card brand1">
+                        <h4>Brand 1</h4>
+                        <div class="result-value">
+                            <span class="label">Equilibrium Price</span>
+                            <span class="value" id="p1Star">-</span>
+                        </div>
+                        <div class="result-value">
+                            <span class="label">Quantity Sold</span>
+                            <span class="value" id="q1Star">-</span>
+                        </div>
+                        <div class="result-value">
+                            <span class="label">Profit</span>
+                            <span class="value" id="profit1Star">-</span>
+                        </div>
+                    </div>
+                    <div class="result-card brand2">
+                        <h4>Brand 2</h4>
+                        <div class="result-value">
+                            <span class="label">Equilibrium Price</span>
+                            <span class="value" id="p2Star">-</span>
+                        </div>
+                        <div class="result-value">
+                            <span class="label">Quantity Sold</span>
+                            <span class="value" id="q2Star">-</span>
+                        </div>
+                        <div class="result-value">
+                            <span class="label">Profit</span>
+                            <span class="value" id="profit2Star">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="br-functions">
+                    <h4>Best Response Functions</h4>
+                    <div class="br-equation" id="br1Equation"></div>
+                    <div class="br-equation" id="br2Equation"></div>
+                    <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.75rem;">
+                        Each best response function shows the profit-maximizing price for one brand, given the competitor's price.
+                        The Nash equilibrium occurs where both functions intersect—neither brand can improve profits by unilaterally changing its price.
+                    </p>
+                </div>
+
+                <!-- Interpretation -->
+                <div id="interpretationBox" style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 1rem 1.25rem; margin-top: 1rem;">
+                    <div style="font-weight: 600; color: #0369a1; margin-bottom: 0.5rem;">Interpretation</div>
+                    <div id="interpretationText" style="font-size: 0.9rem; color: var(--text-light); line-height: 1.6;"></div>
+                </div>
+            </div>
+
+            <div class="tool-container">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('chart')">Best Response Chart</div>
+                    <div class="tab" onclick="switchTab('comparison')">Equilibrium vs Collusion</div>
+                </div>
+
+                <div id="chartTab" class="tab-content active">
+                    <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                        The chart shows each brand's best response function. Brand 1's best response (blue) shows P₁ as a function of P₂.
+                        Brand 2's best response (red) shows P₂ as a function of P₁. The green dot marks the Nash equilibrium where the curves intersect.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="brChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="comparisonTab" class="tab-content">
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">
+                        Comparison between Nash equilibrium (competition) and joint profit maximization (collusion).
+                    </p>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Nash Equilibrium</th>
+                                <th>Collusion</th>
+                                <th>Difference</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparisonBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Koray Cosguner. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        let brChart = null;
+        let lastResult = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+        });
+
+        function initChart() {
+            const ctx = document.getElementById('brChart').getContext('2d');
+            brChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: []
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Best Response Functions',
+                            font: { size: 14, weight: '600' },
+                            color: '#333'
+                        },
+                        legend: {
+                            labels: { usePointStyle: true, padding: 15 }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'P₁ (Brand 1 Price)', font: { weight: '500' } },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'P₂ (Brand 2 Price)', font: { weight: '500' } },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function getParams() {
+            return {
+                a1: parseFloat(document.getElementById('a1').value),
+                b1: parseFloat(document.getElementById('b1').value),
+                c1: parseFloat(document.getElementById('c1').value),
+                mc1: parseFloat(document.getElementById('mc1').value),
+                a2: parseFloat(document.getElementById('a2').value),
+                b2: parseFloat(document.getElementById('b2').value),
+                c2: parseFloat(document.getElementById('c2').value),
+                mc2: parseFloat(document.getElementById('mc2').value)
+            };
+        }
+
+        function validateParams(p) {
+            if (Object.values(p).some(v => isNaN(v))) {
+                return 'All parameters must be valid numbers.';
+            }
+            if (p.b1 <= 0 || p.b2 <= 0) {
+                return 'Own-price effects (b₁, b₂) must be positive.';
+            }
+            if (p.c1 < 0 || p.c2 < 0) {
+                return 'Cross-price effects (c₁, c₂) should be non-negative for substitutes.';
+            }
+            return null;
+        }
+
+        function calculateEquilibrium() {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.classList.remove('visible');
+
+            const p = getParams();
+            const error = validateParams(p);
+            if (error) {
+                errorEl.textContent = error;
+                errorEl.classList.add('visible');
+                return;
+            }
+
+            // Best Response Functions derived from FOC of profit maximization:
+            // Profit1 = (P1 - MC1) * (a1 - b1*P1 + c1*P2)
+            // FOC: a1 - 2*b1*P1 + c1*P2 + b1*MC1 = 0
+            // => P1* = (a1 + c1*P2 + b1*MC1) / (2*b1)
+            // Similarly for Brand 2
+
+            // BR1: P1 = (a1 + b1*MC1) / (2*b1) + (c1 / (2*b1)) * P2
+            // BR2: P2 = (a2 + b2*MC2) / (2*b2) + (c2 / (2*b2)) * P1
+
+            const br1_intercept = (p.a1 + p.b1 * p.mc1) / (2 * p.b1);
+            const br1_slope = p.c1 / (2 * p.b1);
+
+            const br2_intercept = (p.a2 + p.b2 * p.mc2) / (2 * p.b2);
+            const br2_slope = p.c2 / (2 * p.b2);
+
+            // Solve for equilibrium:
+            // P1 = br1_intercept + br1_slope * P2
+            // P2 = br2_intercept + br2_slope * P1
+            // Substituting:
+            // P1 = br1_intercept + br1_slope * (br2_intercept + br2_slope * P1)
+            // P1 = br1_intercept + br1_slope * br2_intercept + br1_slope * br2_slope * P1
+            // P1 * (1 - br1_slope * br2_slope) = br1_intercept + br1_slope * br2_intercept
+
+            const denom = 1 - br1_slope * br2_slope;
+            if (Math.abs(denom) < 1e-10) {
+                errorEl.textContent = 'No unique equilibrium exists (parallel best response functions).';
+                errorEl.classList.add('visible');
+                return;
+            }
+
+            const p1Star = (br1_intercept + br1_slope * br2_intercept) / denom;
+            const p2Star = br2_intercept + br2_slope * p1Star;
+
+            // Calculate quantities and profits
+            const q1Star = p.a1 - p.b1 * p1Star + p.c1 * p2Star;
+            const q2Star = p.a2 - p.b2 * p2Star + p.c2 * p1Star;
+            const profit1Star = (p1Star - p.mc1) * q1Star;
+            const profit2Star = (p2Star - p.mc2) * q2Star;
+
+            // Check for validity
+            if (q1Star < 0 || q2Star < 0) {
+                errorEl.textContent = 'Warning: Equilibrium results in negative quantity. Check your parameters.';
+                errorEl.classList.add('visible');
+            }
+
+            // Calculate collusion outcome (joint profit maximization)
+            const collusion = calculateCollusion(p);
+
+            lastResult = {
+                params: p,
+                p1Star, p2Star, q1Star, q2Star, profit1Star, profit2Star,
+                br1_intercept, br1_slope, br2_intercept, br2_slope,
+                collusion
+            };
+
+            displayResults();
+            updateChart();
+            updateComparison();
+        }
+
+        function calculateCollusion(p) {
+            // Joint profit = (P1 - MC1)(a1 - b1*P1 + c1*P2) + (P2 - MC2)(a2 - b2*P2 + c2*P1)
+            // FOC w.r.t P1: (a1 - b1*P1 + c1*P2) + (P1 - MC1)*(-b1) + (P2 - MC2)*c2 = 0
+            // FOC w.r.t P2: (P1 - MC1)*c1 + (a2 - b2*P2 + c2*P1) + (P2 - MC2)*(-b2) = 0
+
+            // Simplify:
+            // a1 - 2*b1*P1 + c1*P2 + b1*MC1 + c2*P2 - c2*MC2 = 0
+            // a1 + b1*MC1 - c2*MC2 = 2*b1*P1 - (c1 + c2)*P2
+
+            // c1*P1 - c1*MC1 + a2 - 2*b2*P2 + c2*P1 + b2*MC2 = 0
+            // a2 + b2*MC2 - c1*MC1 = -(c1 + c2)*P1 + 2*b2*P2
+
+            // Matrix form: [2*b1, -(c1+c2)] [P1]   [a1 + b1*MC1 - c2*MC2]
+            //              [-(c1+c2), 2*b2] [P2] = [a2 + b2*MC2 - c1*MC1]
+
+            const A = 2 * p.b1;
+            const B = -(p.c1 + p.c2);
+            const C = -(p.c1 + p.c2);
+            const D = 2 * p.b2;
+            const E = p.a1 + p.b1 * p.mc1 - p.c2 * p.mc2;
+            const F = p.a2 + p.b2 * p.mc2 - p.c1 * p.mc1;
+
+            const det = A * D - B * C;
+            if (Math.abs(det) < 1e-10) {
+                return null;
+            }
+
+            const p1Coll = (E * D - B * F) / det;
+            const p2Coll = (A * F - E * C) / det;
+            const q1Coll = p.a1 - p.b1 * p1Coll + p.c1 * p2Coll;
+            const q2Coll = p.a2 - p.b2 * p2Coll + p.c2 * p1Coll;
+            const profit1Coll = (p1Coll - p.mc1) * q1Coll;
+            const profit2Coll = (p2Coll - p.mc2) * q2Coll;
+
+            return { p1Coll, p2Coll, q1Coll, q2Coll, profit1Coll, profit2Coll };
+        }
+
+        function displayResults() {
+            document.getElementById('resultsSection').style.display = 'block';
+
+            const r = lastResult;
+            const p = r.params;
+            document.getElementById('p1Star').textContent = r.p1Star.toFixed(2);
+            document.getElementById('p2Star').textContent = r.p2Star.toFixed(2);
+            document.getElementById('q1Star').textContent = r.q1Star.toFixed(2);
+            document.getElementById('q2Star').textContent = r.q2Star.toFixed(2);
+            document.getElementById('profit1Star').textContent = r.profit1Star.toFixed(2);
+            document.getElementById('profit2Star').textContent = r.profit2Star.toFixed(2);
+
+            // Best response equations
+            const sign1 = r.br1_slope >= 0 ? '+' : '−';
+            const sign2 = r.br2_slope >= 0 ? '+' : '−';
+
+            document.getElementById('br1Equation').innerHTML =
+                `<span class="brand1">P<sub>1</sub>*</span> = ${r.br1_intercept.toFixed(2)} ${sign1} ${Math.abs(r.br1_slope).toFixed(4)}·<span class="brand2">P<sub>2</sub></span>`;
+            document.getElementById('br2Equation').innerHTML =
+                `<span class="brand2">P<sub>2</sub>*</span> = ${r.br2_intercept.toFixed(2)} ${sign2} ${Math.abs(r.br2_slope).toFixed(4)}·<span class="brand1">P<sub>1</sub></span>`;
+
+            // Generate interpretation
+            generateInterpretation();
+        }
+
+        function generateInterpretation() {
+            const r = lastResult;
+            const p = r.params;
+            const c = r.collusion;
+
+            let interpretation = [];
+
+            // Price comparison
+            if (Math.abs(r.p1Star - r.p2Star) < 0.01) {
+                interpretation.push(`Both brands set identical equilibrium prices of $${r.p1Star.toFixed(2)}.`);
+            } else if (r.p1Star > r.p2Star) {
+                interpretation.push(`Brand 1 prices higher ($${r.p1Star.toFixed(2)}) than Brand 2 ($${r.p2Star.toFixed(2)}).`);
+            } else {
+                interpretation.push(`Brand 2 prices higher ($${r.p2Star.toFixed(2)}) than Brand 1 ($${r.p1Star.toFixed(2)}).`);
+            }
+
+            // Markup analysis
+            const markup1 = r.p1Star - p.mc1;
+            const markup2 = r.p2Star - p.mc2;
+            const markupPct1 = ((markup1 / p.mc1) * 100).toFixed(1);
+            const markupPct2 = ((markup2 / p.mc2) * 100).toFixed(1);
+            interpretation.push(`Brand 1's markup is $${markup1.toFixed(2)} (${markupPct1}% over cost), Brand 2's markup is $${markup2.toFixed(2)} (${markupPct2}% over cost).`);
+
+            // Profit comparison
+            if (Math.abs(r.profit1Star - r.profit2Star) < 0.01) {
+                interpretation.push(`Both brands earn equal profits of $${r.profit1Star.toFixed(2)}.`);
+            } else if (r.profit1Star > r.profit2Star) {
+                interpretation.push(`Brand 1 earns higher profits ($${r.profit1Star.toFixed(2)} vs $${r.profit2Star.toFixed(2)}).`);
+            } else {
+                interpretation.push(`Brand 2 earns higher profits ($${r.profit2Star.toFixed(2)} vs $${r.profit1Star.toFixed(2)}).`);
+            }
+
+            // Collusion comparison
+            if (c) {
+                const totalNash = r.profit1Star + r.profit2Star;
+                const totalColl = c.profit1Coll + c.profit2Coll;
+                const priceDiff = ((c.p1Coll + c.p2Coll) / 2) - ((r.p1Star + r.p2Star) / 2);
+                const profitGain = totalColl - totalNash;
+
+                if (profitGain > 0) {
+                    interpretation.push(`Under collusion, prices would be $${priceDiff.toFixed(2)} higher on average, increasing total industry profit by $${profitGain.toFixed(2)} (${((profitGain/totalNash)*100).toFixed(1)}%).`);
+                }
+            }
+
+            // Strategic complements
+            if (r.br1_slope > 0 && r.br2_slope > 0) {
+                interpretation.push(`Prices are strategic complements: when one brand raises its price, the other's optimal response is also to raise price.`);
+            }
+
+            document.getElementById('interpretationText').innerHTML = interpretation.map(s => `<p style="margin-bottom: 0.5rem;">${s}</p>`).join('');
+        }
+
+        function updateChart() {
+            const r = lastResult;
+
+            // Determine price range for plotting
+            const priceMax = Math.max(r.p1Star, r.p2Star) * 1.5;
+            const priceMin = 0;
+
+            // Generate BR1 line: P1 as function of P2
+            // We plot this as P2 on x-axis would need to invert, but let's plot P1 on x-axis
+            // BR1: P1 = br1_intercept + br1_slope * P2  => P2 = (P1 - br1_intercept) / br1_slope
+            // BR2: P2 = br2_intercept + br2_slope * P1
+
+            const br1Data = [];
+            const br2Data = [];
+
+            for (let p1 = priceMin; p1 <= priceMax; p1 += priceMax / 100) {
+                // BR1 inverted: given P1, what P2 makes Brand 1 choose this P1?
+                if (Math.abs(r.br1_slope) > 1e-10) {
+                    const p2_for_br1 = (p1 - r.br1_intercept) / r.br1_slope;
+                    if (p2_for_br1 >= priceMin && p2_for_br1 <= priceMax) {
+                        br1Data.push({ x: p1, y: p2_for_br1 });
+                    }
+                }
+
+                // BR2: P2 = br2_intercept + br2_slope * P1
+                const p2_for_br2 = r.br2_intercept + r.br2_slope * p1;
+                if (p2_for_br2 >= priceMin && p2_for_br2 <= priceMax) {
+                    br2Data.push({ x: p1, y: p2_for_br2 });
+                }
+            }
+
+            brChart.data.datasets = [
+                {
+                    label: 'BR₁(P₂) - Brand 1\'s Best Response',
+                    data: br1Data,
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                    showLine: true,
+                    pointRadius: 0,
+                    borderWidth: 2,
+                    tension: 0
+                },
+                {
+                    label: 'BR₂(P₁) - Brand 2\'s Best Response',
+                    data: br2Data,
+                    borderColor: '#dc2626',
+                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                    showLine: true,
+                    pointRadius: 0,
+                    borderWidth: 2,
+                    tension: 0
+                },
+                {
+                    label: 'Nash Equilibrium',
+                    data: [{ x: r.p1Star, y: r.p2Star }],
+                    borderColor: '#059669',
+                    backgroundColor: '#059669',
+                    pointRadius: 10,
+                    pointHoverRadius: 12,
+                    showLine: false
+                }
+            ];
+
+            brChart.options.scales.x.min = priceMin;
+            brChart.options.scales.x.max = priceMax;
+            brChart.options.scales.y.min = priceMin;
+            brChart.options.scales.y.max = priceMax;
+
+            brChart.update();
+        }
+
+        function updateComparison() {
+            const r = lastResult;
+            const c = r.collusion;
+
+            if (!c) {
+                document.getElementById('comparisonBody').innerHTML =
+                    '<tr><td colspan="4">Could not calculate collusion outcome.</td></tr>';
+                return;
+            }
+
+            const rows = [
+                ['P₁ (Brand 1 Price)', r.p1Star, c.p1Coll, c.p1Coll - r.p1Star],
+                ['P₂ (Brand 2 Price)', r.p2Star, c.p2Coll, c.p2Coll - r.p2Star],
+                ['Q₁ (Brand 1 Quantity)', r.q1Star, c.q1Coll, c.q1Coll - r.q1Star],
+                ['Q₂ (Brand 2 Quantity)', r.q2Star, c.q2Coll, c.q2Coll - r.q2Star],
+                ['Profit₁ (Brand 1)', r.profit1Star, c.profit1Coll, c.profit1Coll - r.profit1Star],
+                ['Profit₂ (Brand 2)', r.profit2Star, c.profit2Coll, c.profit2Coll - r.profit2Star],
+                ['Total Profit', r.profit1Star + r.profit2Star, c.profit1Coll + c.profit2Coll,
+                    (c.profit1Coll + c.profit2Coll) - (r.profit1Star + r.profit2Star)]
+            ];
+
+            document.getElementById('comparisonBody').innerHTML = rows.map(row => {
+                const diff = row[3];
+                const diffStr = diff >= 0 ? `+${diff.toFixed(2)}` : diff.toFixed(2);
+                const diffColor = diff >= 0 ? 'color: #059669' : 'color: #dc2626';
+                return `<tr>
+                    <td style="font-family: inherit;">${row[0]}</td>
+                    <td>${row[1].toFixed(2)}</td>
+                    <td>${row[2].toFixed(2)}</td>
+                    <td style="${diffColor}">${diffStr}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+    </script>
+
+</div> <!-- end main-content -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBg3LJDwVIRGWtFZb_mM_CSRJMNCJUta20",
+        authDomain: "iu-pricing-tools.firebaseapp.com",
+        projectId: "iu-pricing-tools",
+        storageBucket: "iu-pricing-tools.firebasestorage.app",
+        messagingSenderId: "659335573790",
+        appId: "1:659335573790:web:00013a166787efecb3d90f",
+        measurementId: "G-NGKNY08XWP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitive Channel Pricing | Koray Cosguner</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --iu-crimson: #990000;
+            --iu-crimson-dark: #7a0000;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f5f5f5;
+            --white: #fff;
+            --border: #ddd;
+            --success: #059669;
+            --success-light: #ecfdf5;
+            --producer1: #2563eb;
+            --producer2: #dc2626;
+            --retailer: #7c3aed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tool-container {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--iu-crimson);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--iu-crimson);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-number {
+            background: var(--iu-crimson);
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .disclaimer-title {
+            font-weight: 700;
+            color: var(--iu-crimson);
+            margin-bottom: 0.5rem;
+        }
+        .disclaimer ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .disclaimer li {
+            margin-bottom: 0.25rem;
+        }
+        .disclaimer li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Model Display */
+        .model-display {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+        }
+
+        .model-display .equation {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .model-display .producer1 { color: var(--producer1); font-weight: 600; }
+        .model-display .producer2 { color: var(--producer2); font-weight: 600; }
+        .model-display .retailer { color: var(--retailer); font-weight: 600; }
+
+        /* Notation */
+        .notation-box {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .notation-box h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .notation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            color: var(--text-light);
+        }
+
+        /* Input Grid */
+        .params-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .producer-section {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 1.25rem;
+            border: 2px solid var(--border);
+        }
+
+        .producer-section.producer1 {
+            border-color: var(--producer1);
+        }
+
+        .producer-section.producer2 {
+            border-color: var(--producer2);
+        }
+
+        .producer-header {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .producer-header.producer1 { color: var(--producer1); }
+        .producer-header.producer2 { color: var(--producer2); }
+
+        .producer-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .producer-dot.producer1 { background: var(--producer1); }
+        .producer-dot.producer2 { background: var(--producer2); }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-row label {
+            width: 200px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .input-row input {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: white;
+            max-width: 100px;
+        }
+
+        .input-row input:focus {
+            outline: none;
+            border-color: var(--iu-crimson);
+            box-shadow: 0 0 0 2px rgba(153, 0, 0, 0.1);
+        }
+
+        .param-hint {
+            font-size: 0.8rem;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Calculate Button */
+        .calculate-btn {
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: var(--iu-crimson);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: background 0.2s;
+        }
+
+        .calculate-btn:hover {
+            background: var(--iu-crimson-dark);
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: #fef2f2;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
+            display: none;
+        }
+
+        .error-message.visible { display: block; }
+
+        /* Results */
+        #resultsSection {
+            display: none;
+        }
+
+        .scenario-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .scenario-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.25rem;
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .scenario-card h4 {
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .scenario-card.highlight {
+            border-color: var(--success);
+            background: var(--success-light);
+        }
+
+        .scenario-card.highlight h4 {
+            color: var(--success);
+        }
+
+        .scenario-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .metric {
+            padding: 0.4rem 0;
+        }
+
+        .metric .label {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            display: block;
+        }
+
+        .metric .value {
+            font-weight: 600;
+            font-family: 'Monaco', monospace;
+            font-size: 0.95rem;
+        }
+
+        .metric .value.producer1 { color: var(--producer1); }
+        .metric .value.producer2 { color: var(--producer2); }
+        .metric .value.retailer { color: var(--retailer); }
+
+        /* Interpretation */
+        .interpretation-box {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .interpretation-box h4 {
+            font-weight: 600;
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+        }
+
+        .interpretation-box p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .interpretation-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Chart */
+        .chart-container {
+            height: 400px;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1rem;
+            gap: 0.25rem;
+        }
+
+        .tab {
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--iu-crimson);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--iu-crimson);
+            color: var(--iu-crimson);
+            font-weight: 600;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-light);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .comparison-table td {
+            font-family: 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table tr:hover {
+            background: #fafafa;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .params-grid, .scenario-cards {
+                grid-template-columns: 1fr;
+            }
+            .notation-grid, .scenario-metrics {
+                grid-template-columns: 1fr;
+            }
+            .input-row {
+                flex-wrap: wrap;
+            }
+            .input-row label {
+                width: 100%;
+                margin-bottom: 0.25rem;
+            }
+            .input-row input {
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Auth check -->
+<div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <p style="color: #64748b;">Loading...</p>
+</div>
+<div id="main-content" style="display: none;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 20px 2rem 0;">
+        <a href="tools.html" style="display: inline-flex; align-items: center; gap: 6px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 500;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Pricing & Analytics Tools
+        </a>
+    </div>
+
+    <main style="padding-top: 0;">
+        <div class="hero">
+            <h1>Competitive Channel Pricing</h1>
+            <p>Analyze a linear demand system with asymmetric product differentiation. Two products are sold either <strong>directly to consumers</strong> or through a <strong>single common retailer</strong>. <strong>Predict</strong> demand at any price point, calculate <strong>own-price and cross-price elasticities</strong>, and <strong>compare optimal pricing</strong> across four business scenarios.</p>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <div class="disclaimer-title">Disclaimer</div>
+            <ul>
+                <li><strong>Results may contain errors.</strong> The output from this tool may be inaccurate, incomplete, or incorrect. Users should independently verify all results.</li>
+                <li><strong>No warranty.</strong> This tool is provided "as is" without any warranty of any kind.</li>
+                <li><strong>User assumes all risk.</strong> Users assume full responsibility for reviewing and validating any output.</li>
+            </ul>
+        </div>
+
+        <!-- Model Display -->
+        <div class="tool-container">
+            <h2 class="section-title"><span class="step-number">1</span> Model Setup</h2>
+
+            <div class="model-display">
+                <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--text-dark);">Linear Demand System</div>
+                <div class="equation">
+                    <span class="producer1">Q<sub>1</sub></span> = a<sub>1</sub> − b<sub>1</sub>·<span class="producer1">P<sub>1</sub></span> + c<sub>1</sub>·<span class="producer2">P<sub>2</sub></span>
+                </div>
+                <div class="equation">
+                    <span class="producer2">Q<sub>2</sub></span> = a<sub>2</sub> − b<sub>2</sub>·<span class="producer2">P<sub>2</sub></span> + c<sub>2</sub>·<span class="producer1">P<sub>1</sub></span>
+                </div>
+                <div style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-light);">
+                    Each product has its own base demand (a<sub>i</sub>), own-price sensitivity (b<sub>i</sub>), and cross-price effect (c<sub>i</sub>)
+                </div>
+            </div>
+
+            <div class="notation-box">
+                <h4>Notation</h4>
+                <div class="notation-grid">
+                    <div><strong>P<sub>i</sub></strong> = Retail price of product i (to consumers)</div>
+                    <div><strong>W<sub>i</sub></strong> = Wholesale price (producer i to retailer)</div>
+                    <div><strong>C<sub>i</sub></strong> = Producer i's marginal cost</div>
+                    <div><strong>Q<sub>i</sub></strong> = Quantity demanded for product i</div>
+                    <div><strong>a<sub>i</sub></strong> = Base demand for product i (intercept)</div>
+                    <div><strong>b<sub>i</sub></strong> = Own-price sensitivity for product i</div>
+                    <div><strong>c<sub>1</sub></strong> = Effect of P₂ on Q₁ (c₁ > 0: substitutes, c₁ < 0: complements)</div>
+                    <div><strong>c<sub>2</sub></strong> = Effect of P₁ on Q₂ (c₂ > 0: substitutes, c₂ < 0: complements)</div>
+                </div>
+            </div>
+
+            <div class="params-grid">
+                <div class="producer-section producer1">
+                    <div class="producer-header producer1">
+                        <span class="producer-dot producer1"></span>
+                        Product 1
+                    </div>
+                    <div class="input-row">
+                        <label>a<sub>1</sub> (base demand)</label>
+                        <input type="number" id="a1" value="1000" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>b<sub>1</sub> (own-price effect)</label>
+                        <input type="number" id="b1" value="50" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>C<sub>1</sub> (marginal cost)</label>
+                        <input type="number" id="c1" value="10" step="any">
+                    </div>
+                </div>
+
+                <div class="producer-section producer2">
+                    <div class="producer-header producer2">
+                        <span class="producer-dot producer2"></span>
+                        Product 2
+                    </div>
+                    <div class="input-row">
+                        <label>a<sub>2</sub> (base demand)</label>
+                        <input type="number" id="a2" value="1000" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>b<sub>2</sub> (own-price effect)</label>
+                        <input type="number" id="b2" value="50" step="any">
+                    </div>
+                    <div class="input-row">
+                        <label>C<sub>2</sub> (marginal cost)</label>
+                        <input type="number" id="c2" value="10" step="any">
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: var(--bg-light); border-radius: 10px; padding: 1.25rem; margin-top: 1.5rem; border: 1px solid var(--border);">
+                <div style="font-weight: 600; margin-bottom: 1rem; color: var(--text-dark);">Cross-Price Effects</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div>
+                        <div class="input-row" style="margin-bottom: 0.5rem;">
+                            <label style="color: var(--producer1);">c<sub>1</sub> (P₂ → Q₁)</label>
+                            <input type="number" id="crossPrice1" value="10" step="any">
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-light);">
+                            How P₂ affects Q₁: positive = substitutes, negative = complements
+                        </div>
+                    </div>
+                    <div>
+                        <div class="input-row" style="margin-bottom: 0.5rem;">
+                            <label style="color: var(--producer2);">c<sub>2</sub> (P₁ → Q₂)</label>
+                            <input type="number" id="crossPrice2" value="10" step="any">
+                        </div>
+                        <div style="font-size: 0.8rem; color: var(--text-light);">
+                            How P₁ affects Q₂: positive = substitutes, negative = complements
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="param-hint" style="margin-top: 1rem; text-align: center;">
+                Demand: Q₁ = a₁ - b₁·P₁ + c₁·P₂ &nbsp;&nbsp;|&nbsp;&nbsp; Q₂ = a₂ - b₂·P₂ + c₂·P₁
+            </div>
+
+            <!-- Demand Prediction Section -->
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                <div style="font-weight: 700; font-size: 1.1rem; color: var(--iu-crimson); margin-bottom: 1rem;">
+                    Demand Prediction
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem; line-height: 1.6;">
+                    Given prices P₁ and P₂, calculate the predicted quantities Q₁ and Q₂ using the demand functions above.
+                </p>
+
+                <div style="background: #faf5ff; border: 2px solid var(--retailer); border-radius: 10px; padding: 1.25rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr auto 1fr; gap: 1.5rem; align-items: end;">
+                        <div>
+                            <div class="input-row" style="margin-bottom: 0;">
+                                <label style="width: 60px; color: var(--producer1); font-weight: 600;">P₁</label>
+                                <input type="number" id="pred_p1" value="15" step="any">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-row" style="margin-bottom: 0;">
+                                <label style="width: 60px; color: var(--producer2); font-weight: 600;">P₂</label>
+                                <input type="number" id="pred_p2" value="15" step="any">
+                            </div>
+                        </div>
+                        <div>
+                            <button onclick="calculatePrediction()" style="padding: 0.5rem 1.25rem; background: var(--retailer); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; white-space: nowrap;">
+                                Predict Demand
+                            </button>
+                        </div>
+                        <div id="predictionResults" style="display: none;">
+                            <div style="display: flex; gap: 1.5rem;">
+                                <div style="background: white; padding: 0.5rem 1rem; border-radius: 6px; text-align: center;">
+                                    <div style="font-size: 0.75rem; color: var(--text-light);">Q₁</div>
+                                    <div style="font-weight: 700; font-size: 1.1rem; color: var(--producer1);" id="pred_q1">—</div>
+                                </div>
+                                <div style="background: white; padding: 0.5rem 1rem; border-radius: 6px; text-align: center;">
+                                    <div style="font-size: 0.75rem; color: var(--text-light);">Q₂</div>
+                                    <div style="font-weight: 700; font-size: 1.1rem; color: var(--producer2);" id="pred_q2">—</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="predictionDetail" style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--text-light); display: none;"></div>
+                </div>
+            </div>
+
+            <!-- Elasticity Calculator Section -->
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                <div style="font-weight: 700; font-size: 1.1rem; color: var(--iu-crimson); margin-bottom: 1rem;">
+                    Elasticity Calculator
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem; line-height: 1.6;">
+                    Calculate own-price and cross-price elasticities using the demand functions above.
+                    <strong>Own-price elasticity</strong> measures how quantity responds to changes in its own price.
+                    <strong>Cross-price elasticity</strong> measures how quantity of one product responds to price changes of the other.
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <!-- Box 1: Change P1, hold P2 constant -->
+                    <div style="background: #f0f4ff; border: 2px solid var(--producer1); border-radius: 10px; padding: 1.25rem;">
+                        <div style="font-weight: 600; color: var(--producer1); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 10px; height: 10px; background: var(--producer1); border-radius: 50%;"></span>
+                            Vary P₁ (hold P₂ constant)
+                        </div>
+                        <div class="input-row" style="margin-bottom: 0.5rem;">
+                            <label style="width: 140px;">P₁ (initial)</label>
+                            <input type="number" id="elast_p1_old" value="15" step="any">
+                        </div>
+                        <div class="input-row" style="margin-bottom: 0.5rem;">
+                            <label style="width: 140px;">P₁ (new)</label>
+                            <input type="number" id="elast_p1_new" value="16" step="any">
+                        </div>
+                        <div class="input-row" style="margin-bottom: 0.75rem;">
+                            <label style="width: 140px;">P₂ (held constant)</label>
+                            <input type="number" id="elast_p2_const" value="15" step="any">
+                        </div>
+                        <button onclick="calculateElasticityBox1()" style="width: 100%; padding: 0.5rem; background: var(--producer1); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                            Calculate Elasticities
+                        </button>
+                        <div id="elastBox1Results" style="margin-top: 0.75rem; font-size: 0.9rem; display: none;">
+                            <div style="background: white; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem;">
+                                <div style="color: var(--text-light); font-size: 0.8rem;">Own-Price Elasticity of Q₁</div>
+                                <div style="font-weight: 700; font-size: 1.1rem; color: var(--producer1);" id="elast1_own">—</div>
+                                <div style="font-size: 0.75rem; color: var(--text-light);" id="elast1_own_detail"></div>
+                            </div>
+                            <div style="background: white; padding: 0.75rem; border-radius: 6px;">
+                                <div style="color: var(--text-light); font-size: 0.8rem;">Cross-Price Elasticity of Q₂ (w.r.t. P₁)</div>
+                                <div style="font-weight: 700; font-size: 1.1rem; color: var(--producer2);" id="elast1_cross">—</div>
+                                <div style="font-size: 0.75rem; color: var(--text-light);" id="elast1_cross_detail"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Box 2: Change P2, hold P1 constant -->
+                    <div style="background: #fff0f0; border: 2px solid var(--producer2); border-radius: 10px; padding: 1.25rem;">
+                        <div style="font-weight: 600; color: var(--producer2); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="width: 10px; height: 10px; background: var(--producer2); border-radius: 50%;"></span>
+                            Vary P₂ (hold P₁ constant)
+                        </div>
+                        <div class="input-row" style="margin-bottom: 0.5rem;">
+                            <label style="width: 140px;">P₂ (initial)</label>
+                            <input type="number" id="elast_p2_old" value="15" step="any">
+                        </div>
+                        <div class="input-row" style="margin-bottom: 0.5rem;">
+                            <label style="width: 140px;">P₂ (new)</label>
+                            <input type="number" id="elast_p2_new" value="16" step="any">
+                        </div>
+                        <div class="input-row" style="margin-bottom: 0.75rem;">
+                            <label style="width: 140px;">P₁ (held constant)</label>
+                            <input type="number" id="elast_p1_const" value="15" step="any">
+                        </div>
+                        <button onclick="calculateElasticityBox2()" style="width: 100%; padding: 0.5rem; background: var(--producer2); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+                            Calculate Elasticities
+                        </button>
+                        <div id="elastBox2Results" style="margin-top: 0.75rem; font-size: 0.9rem; display: none;">
+                            <div style="background: white; padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem;">
+                                <div style="color: var(--text-light); font-size: 0.8rem;">Own-Price Elasticity of Q₂</div>
+                                <div style="font-weight: 700; font-size: 1.1rem; color: var(--producer2);" id="elast2_own">—</div>
+                                <div style="font-size: 0.75rem; color: var(--text-light);" id="elast2_own_detail"></div>
+                            </div>
+                            <div style="background: white; padding: 0.75rem; border-radius: 6px;">
+                                <div style="color: var(--text-light); font-size: 0.8rem;">Cross-Price Elasticity of Q₁ (w.r.t. P₂)</div>
+                                <div style="font-weight: 700; font-size: 1.1rem; color: var(--producer1);" id="elast2_cross">—</div>
+                                <div style="font-size: 0.75rem; color: var(--text-light);" id="elast2_cross_detail"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem; padding: 1rem; background: #f8fafc; border-radius: 8px; font-size: 0.85rem; color: var(--text-light);">
+                    <strong>Interpretation:</strong>
+                    <span style="color: var(--producer1);">Own-price elasticity</span> is typically negative (price↑ → quantity↓).
+                    <span style="color: var(--producer2);">Cross-price elasticity</span> is positive for substitutes (rival's price↑ → your quantity↑)
+                    and negative for complements (partner's price↑ → your quantity↓).
+                    Elasticity = (% change in Q) / (% change in P).
+                </div>
+            </div>
+
+            <!-- Four Scenarios Explained -->
+            <div class="notation-box" style="background: #f0fdf4; border-color: #bbf7d0; margin-top: 1.5rem;">
+                <h4 style="color: #166534;">Four Business Scenarios</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                    <div>
+                        <strong>1. Single Owner, Direct Sales:</strong> One manufacturer owns both products and sells directly to consumers (e.g., Apple selling iPhones and AirPods through apple.com). This is the ideal case—the manufacturer can coordinate pricing across products to maximize total profit.
+                    </div>
+                    <div>
+                        <strong>2. Single Owner, Through Retailer:</strong> One manufacturer owns both products but sells both through a single retailer (e.g., Samsung selling TVs and soundbars through Best Buy). The retailer sets consumer prices for both products and adds their own markup, raising prices and reducing sales volume compared to direct sales.
+                    </div>
+                    <div>
+                        <strong>3. Competing Brands, Direct Sales:</strong> Two separate manufacturers each sell their own product directly to consumers (e.g., Nike.com vs Adidas.com). For substitutes, this drives prices down. For complements (like a game console and games from different makers), separate ownership leads to higher prices.
+                    </div>
+                    <div>
+                        <strong>4. Competing Brands, Through Retailer:</strong> Two competing manufacturers both sell through a single retailer (e.g., Coca-Cola and Pepsi both sold at Kroger). The retailer controls pricing for both products and adds markups on top of competition effects.
+                    </div>
+                </div>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+            <button class="calculate-btn" onclick="calculateAll()">Compare All Scenarios</button>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsSection">
+            <div class="tool-container">
+                <h2 class="section-title">Results: All Four Scenarios</h2>
+
+                <div class="scenario-cards">
+                    <div class="scenario-card highlight">
+                        <h4>Scenario 1: Single Owner, Direct Sales (Benchmark)</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.75rem;">
+                            One manufacturer owns both products and sells directly to consumers
+                        </p>
+                        <div class="scenario-metrics">
+                            <div class="metric">
+                                <span class="label">Price P₁</span>
+                                <span class="value producer1" id="s1_p1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Price P₂</span>
+                                <span class="value producer2" id="s1_p2">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Quantity Q₁</span>
+                                <span class="value" id="s1_q1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Quantity Q₂</span>
+                                <span class="value" id="s1_q2">-</span>
+                            </div>
+                            <div class="metric" style="grid-column: span 2;">
+                                <span class="label">Total Producer Profit (both products)</span>
+                                <span class="value" id="s1_profit1">-</span>
+                            </div>
+                            <div class="metric" style="grid-column: span 2;">
+                                <span class="label">Total Channel Profit</span>
+                                <span class="value" id="s1_total">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card">
+                        <h4>Scenario 2: Single Owner, Through Retailer</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.75rem;">
+                            One manufacturer owns both products but sells through a single retailer who sets consumer prices
+                        </p>
+                        <div class="scenario-metrics">
+                            <div class="metric">
+                                <span class="label">Wholesale W₁</span>
+                                <span class="value producer1" id="s2_w1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Wholesale W₂</span>
+                                <span class="value producer2" id="s2_w2">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Retail P₁</span>
+                                <span class="value retailer" id="s2_p1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Retail P₂</span>
+                                <span class="value retailer" id="s2_p2">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Quantity Q₁</span>
+                                <span class="value" id="s2_q1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Quantity Q₂</span>
+                                <span class="value" id="s2_q2">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Producer Profit (both)</span>
+                                <span class="value producer1" id="s2_profit1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Retailer Profit</span>
+                                <span class="value retailer" id="s2_retailer">-</span>
+                            </div>
+                            <div class="metric" style="grid-column: span 2;">
+                                <span class="label">Total Channel Profit</span>
+                                <span class="value" id="s2_total">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card">
+                        <h4>Scenario 3: Competing Brands, Direct Sales</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.75rem;">
+                            Two separate manufacturers each sell their own product directly to consumers
+                        </p>
+                        <div class="scenario-metrics">
+                            <div class="metric">
+                                <span class="label">Price P₁</span>
+                                <span class="value producer1" id="s3_p1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Price P₂</span>
+                                <span class="value producer2" id="s3_p2">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Quantity Q₁</span>
+                                <span class="value" id="s3_q1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Quantity Q₂</span>
+                                <span class="value" id="s3_q2">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Producer 1 Profit</span>
+                                <span class="value producer1" id="s3_profit1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Producer 2 Profit</span>
+                                <span class="value producer2" id="s3_profit2">-</span>
+                            </div>
+                            <div class="metric" style="grid-column: span 2;">
+                                <span class="label">Total Industry Profit</span>
+                                <span class="value" id="s3_total">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card">
+                        <h4>Scenario 4: Competing Brands, Through Retailer</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.75rem;">
+                            Two competing manufacturers both sell through the same single retailer
+                        </p>
+                        <div class="scenario-metrics">
+                            <div class="metric">
+                                <span class="label">Wholesale W₁</span>
+                                <span class="value producer1" id="s4_w1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Wholesale W₂</span>
+                                <span class="value producer2" id="s4_w2">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Retail P₁</span>
+                                <span class="value retailer" id="s4_p1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Retail P₂</span>
+                                <span class="value retailer" id="s4_p2">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Producer 1 Profit</span>
+                                <span class="value producer1" id="s4_profit1">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Producer 2 Profit</span>
+                                <span class="value producer2" id="s4_profit2">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Retailer Profit</span>
+                                <span class="value retailer" id="s4_retailer">-</span>
+                            </div>
+                            <div class="metric">
+                                <span class="label">Total Channel Profit</span>
+                                <span class="value" id="s4_total">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interpretation-box">
+                    <h4>Key Insights</h4>
+                    <div id="interpretationText"></div>
+                </div>
+            </div>
+
+            <div class="tool-container">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('chart')">Profit Comparison</div>
+                    <div class="tab" onclick="switchTab('comparison')">Full Comparison Table</div>
+                </div>
+
+                <div id="chartTab" class="tab-content active">
+                    <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                        Comparison of profits across all four scenarios. Shows how channel structure and competition affect profit distribution.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="comparisonTab" class="tab-content">
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">
+                        Full comparison of outcomes across all scenarios.
+                    </p>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>1. Single Owner Direct</th>
+                                <th>2. Single Owner+Retailer</th>
+                                <th>3. Competitors Direct</th>
+                                <th>4. Competitors+Retailer</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparisonBody">
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Koray Cosguner. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        let profitChart = null;
+        let results = {};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+        });
+
+        function initChart() {
+            const ctx = document.getElementById('profitChart').getContext('2d');
+            profitChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: []
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Profit Distribution by Scenario',
+                            font: { size: 14, weight: '600' },
+                            color: '#333'
+                        },
+                        legend: {
+                            labels: { usePointStyle: true, padding: 15 }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: { display: false }
+                        },
+                        y: {
+                            stacked: true,
+                            title: { display: true, text: 'Profit', font: { weight: '500' } },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function getParams() {
+            return {
+                a1: parseFloat(document.getElementById('a1').value),
+                a2: parseFloat(document.getElementById('a2').value),
+                b1: parseFloat(document.getElementById('b1').value),
+                b2: parseFloat(document.getElementById('b2').value),
+                c1: parseFloat(document.getElementById('crossPrice1').value),
+                c2: parseFloat(document.getElementById('crossPrice2').value),
+                C1: parseFloat(document.getElementById('c1').value),
+                C2: parseFloat(document.getElementById('c2').value)
+            };
+        }
+
+        function validateParams(p) {
+            if (Object.values(p).some(v => isNaN(v))) {
+                return 'All parameters must be valid numbers.';
+            }
+            if (p.b1 <= 0 || p.b2 <= 0) {
+                return 'Own-price effects (b₁, b₂) must be positive.';
+            }
+            // For stability, need b1*b2 > c1*c2 (ensures positive definite Hessian)
+            if (p.c1 * p.c2 >= p.b1 * p.b2) {
+                return 'For stability: b₁·b₂ > c₁·c₂ (own-price effects must dominate cross-price effects).';
+            }
+            return null;
+        }
+
+        // Scenario 1: Monopoly Direct (two products, one owner)
+        // One firm owns both products, sells directly, maximizes joint profit
+        // max (P1 - C1)*Q1 + (P2 - C2)*Q2
+        // where Q1 = a1 - b1*P1 + c1*P2, Q2 = a2 - b2*P2 + c2*P1
+        // FOC for P1: (a1 - b1*P1 + c1*P2) + (P1-C1)*(-b1) + (P2-C2)*c2 = 0
+        //   a1 + b1*C1 - c2*C2 = 2*b1*P1 - (c1+c2)*P2
+        // FOC for P2: (P1-C1)*c1 + (a2 - b2*P2 + c2*P1) + (P2-C2)*(-b2) = 0
+        //   a2 - c1*C1 + b2*C2 = -(c1+c2)*P1 + 2*b2*P2
+        // Matrix: [2*b1,    -(c1+c2)] [P1]   [a1 + b1*C1 - c2*C2]
+        //         [-(c1+c2), 2*b2   ] [P2] = [a2 - c1*C1 + b2*C2]
+        function solveMonopolyDirect(p) {
+            const { a1, a2, b1, b2, c1, c2, C1, C2 } = p;
+            const cSum = c1 + c2;
+            const det = 4 * b1 * b2 - cSum * cSum;
+            const RHS1 = a1 + b1 * C1 - c2 * C2;
+            const RHS2 = a2 - c1 * C1 + b2 * C2;
+
+            // Cramer's rule
+            const P1 = (2 * b2 * RHS1 + cSum * RHS2) / det;
+            const P2 = (cSum * RHS1 + 2 * b1 * RHS2) / det;
+
+            const Q1 = a1 - b1 * P1 + c1 * P2;
+            const Q2 = a2 - b2 * P2 + c2 * P1;
+
+            const profit1 = (P1 - C1) * Q1 + (P2 - C2) * Q2; // Total profit for both products
+
+            return {
+                P1, P2, Q1, Q2, profit1,
+                profit2: 0, // No second producer in monopoly
+                retailerProfit: 0,
+                totalProfit: profit1
+            };
+        }
+
+        // Scenario 2: Monopoly + Strategic Retailer (two products, one owner)
+        // One firm owns both products, sells through retailer
+        // Producer sets W1, W2 to maximize joint profit, anticipating retailer's response
+        // Retailer sets P1, P2 to maximize (P1-W1)*Q1 + (P2-W2)*Q2
+        // where Q1 = a1 - b1*P1 + c1*P2, Q2 = a2 - b2*P2 + c2*P1
+        //
+        // Retailer FOCs:
+        // ∂πR/∂P1: Q1 + (P1-W1)(-b1) + (P2-W2)(c2) = 0
+        //   => 2*b1*P1 - (c1+c2)*P2 = a1 + b1*W1 - c2*W2
+        // ∂πR/∂P2: (P1-W1)(c1) + Q2 + (P2-W2)(-b2) = 0
+        //   => -(c1+c2)*P1 + 2*b2*P2 = a2 - c1*W1 + b2*W2
+        //
+        // Solving this 2x2 system gives P1(W1,W2), P2(W1,W2)
+        // Then monopolist maximizes (W1-C1)*Q1 + (W2-C2)*Q2 over W1, W2
+
+        function solveMonopolyRetailer(p) {
+            const { a1, a2, b1, b2, c1, c2, C1, C2 } = p;
+            const cSum = c1 + c2;
+            const detR = 4 * b1 * b2 - cSum * cSum;
+
+            // Retailer's optimal prices given W1, W2
+            function retailerOptimalPrices(W1, W2) {
+                const RHS1 = a1 + b1 * W1 - c2 * W2;
+                const RHS2 = a2 - c1 * W1 + b2 * W2;
+                const P1 = (2 * b2 * RHS1 + cSum * RHS2) / detR;
+                const P2 = (cSum * RHS1 + 2 * b1 * RHS2) / detR;
+                return { P1, P2 };
+            }
+
+            // Monopolist maximizes: (W1-C1)*Q1 + (W2-C2)*Q2
+            // where Q1, Q2 depend on W1, W2 through the retailer's response
+
+            // For the analytical solution, we substitute P1(W), P2(W) into the profit
+            // and take FOCs with respect to W1, W2.
+            //
+            // P1 = (2*b2*(a1 + b1*W1 - c2*W2) + cSum*(a2 - c1*W1 + b2*W2)) / detR
+            //    = (2*b2*a1 + cSum*a2)/detR + W1*(2*b1*b2 - c1*cSum)/detR + W2*(-2*b2*c2 + b2*cSum)/detR
+            //    = (2*b2*a1 + cSum*a2)/detR + W1*(2*b1*b2 - c1*cSum)/detR + W2*(b2*(cSum - 2*c2))/detR
+            //    = (2*b2*a1 + cSum*a2)/detR + W1*(2*b1*b2 - c1*cSum)/detR + W2*(b2*(c1 - c2))/detR
+            //
+            // This is getting complex. Use numerical optimization with better starting point.
+
+            function producerJointProfit(W1, W2) {
+                const { P1, P2 } = retailerOptimalPrices(W1, W2);
+                const Q1 = a1 - b1 * P1 + c1 * P2;
+                const Q2 = a2 - b2 * P2 + c2 * P1;
+                return (W1 - C1) * Q1 + (W2 - C2) * Q2;
+            }
+
+            // Grid search with multiple refinement iterations for high precision
+            // Use simple monopoly price as upper bound for wholesale price
+            const W1_upper = (a1 + b1 * C1) / (2 * b1);
+            const W2_upper = (a2 + b2 * C2) / (2 * b2);
+
+            let bestW1 = C1, bestW2 = C2, bestProfit = -Infinity;
+            const initialSteps = 100;
+
+            // Initial grid search
+            for (let i = 0; i <= initialSteps; i++) {
+                for (let j = 0; j <= initialSteps; j++) {
+                    const W1 = C1 + (W1_upper - C1) * i / initialSteps;
+                    const W2 = C2 + (W2_upper - C2) * j / initialSteps;
+                    const profit = producerJointProfit(W1, W2);
+                    if (profit > bestProfit) {
+                        bestProfit = profit;
+                        bestW1 = W1;
+                        bestW2 = W2;
+                    }
+                }
+            }
+
+            // 8 refinement iterations for very high precision
+            const initialDelta1 = (W1_upper - C1) / initialSteps;
+            const initialDelta2 = (W2_upper - C2) / initialSteps;
+
+            for (let round = 0; round < 8; round++) {
+                const refineSteps = 30;
+                const shrinkFactor = Math.pow(5, round);
+                const range1 = initialDelta1 / shrinkFactor;
+                const range2 = initialDelta2 / shrinkFactor;
+                const startW1 = bestW1, startW2 = bestW2;
+
+                for (let i = -refineSteps; i <= refineSteps; i++) {
+                    for (let j = -refineSteps; j <= refineSteps; j++) {
+                        const W1 = Math.max(C1, startW1 + range1 * i / refineSteps);
+                        const W2 = Math.max(C2, startW2 + range2 * j / refineSteps);
+                        const profit = producerJointProfit(W1, W2);
+                        if (profit > bestProfit) {
+                            bestProfit = profit;
+                            bestW1 = W1;
+                            bestW2 = W2;
+                        }
+                    }
+                }
+            }
+
+            // Round to 2 decimal places and re-evaluate for final result
+            bestW1 = Math.round(bestW1 * 100) / 100;
+            bestW2 = Math.round(bestW2 * 100) / 100;
+
+            const W1 = bestW1, W2 = bestW2;
+            const { P1, P2 } = retailerOptimalPrices(W1, W2);
+            const Q1 = a1 - b1 * P1 + c1 * P2;
+            const Q2 = a2 - b2 * P2 + c2 * P1;
+            const profit1 = (W1 - C1) * Q1 + (W2 - C2) * Q2;
+            const retailerProfit = (P1 - W1) * Q1 + (P2 - W2) * Q2;
+
+            return {
+                W1, W2, P1, P2, Q1, Q2,
+                profit1,
+                profit2: 0,
+                retailerProfit,
+                totalProfit: profit1 + retailerProfit
+            };
+        }
+
+        // Scenario 3: Bertrand Direct (two producers, no retailer)
+        // Each producer i sets Pi to maximize (Pi - Ci) * Qi
+        // Q1 = a1 - b1*P1 + c1*P2, Q2 = a2 - b2*P2 + c2*P1
+        // FOC for producer 1: a1 - 2*b1*P1 + c1*P2 + b1*C1 = 0
+        // BR1: P1 = (a1 + b1*C1 + c1*P2) / (2*b1)
+        // FOC for producer 2: a2 - 2*b2*P2 + c2*P1 + b2*C2 = 0
+        // BR2: P2 = (a2 + b2*C2 + c2*P1) / (2*b2)
+        // Solve system for Nash equilibrium
+        function solveBertrandDirect(p) {
+            const { a1, a2, b1, b2, c1, c2, C1, C2 } = p;
+
+            // BR1: P1 = (a1 + b1*C1)/(2*b1) + (c1/(2*b1))*P2
+            // BR2: P2 = (a2 + b2*C2)/(2*b2) + (c2/(2*b2))*P1
+            const br1_int = (a1 + b1 * C1) / (2 * b1);
+            const br1_slope = c1 / (2 * b1);
+            const br2_int = (a2 + b2 * C2) / (2 * b2);
+            const br2_slope = c2 / (2 * b2);
+
+            // P1 = br1_int + br1_slope * (br2_int + br2_slope * P1)
+            // P1 (1 - br1_slope * br2_slope) = br1_int + br1_slope * br2_int
+            const denom = 1 - br1_slope * br2_slope;
+            const P1 = (br1_int + br1_slope * br2_int) / denom;
+            const P2 = br2_int + br2_slope * P1;
+
+            const Q1 = a1 - b1 * P1 + c1 * P2;
+            const Q2 = a2 - b2 * P2 + c2 * P1;
+            const profit1 = (P1 - C1) * Q1;
+            const profit2 = (P2 - C2) * Q2;
+
+            return {
+                P1, P2, Q1, Q2, profit1, profit2,
+                retailerProfit: 0,
+                totalProfit: profit1 + profit2
+            };
+        }
+
+        // Scenario 4: Bertrand + Common Retailer
+        // Two producers set wholesale prices W1, W2 (Nash)
+        // Retailer sets retail prices P1, P2 to maximize total retailer profit
+        // Q1 = a1 - b1*P1 + c1*P2, Q2 = a2 - b2*P2 + c2*P1
+        //
+        // For the asymmetric case, we use numerical optimization for the Nash equilibrium
+
+        function solveBertrandRetailer(p) {
+            const { a1, a2, b1, b2, c1, c2, C1, C2 } = p;
+
+            const cSum = c1 + c2;
+            const det = 4 * b1 * b2 - cSum * cSum;
+            if (Math.abs(det) < 1e-10) {
+                return null; // Degenerate case
+            }
+
+            // Retailer's optimal prices given W1, W2
+            function retailerOptimalPrices(W1, W2) {
+                const RHS1 = a1 + b1 * W1 - c2 * W2;
+                const RHS2 = a2 - c1 * W1 + b2 * W2;
+                const P1 = (2 * b2 * RHS1 + cSum * RHS2) / det;
+                const P2 = (cSum * RHS1 + 2 * b1 * RHS2) / det;
+                return { P1, P2 };
+            }
+
+            // Producer profit functions
+            function producer1Profit(W1, W2) {
+                const { P1, P2 } = retailerOptimalPrices(W1, W2);
+                const Q1 = a1 - b1 * P1 + c1 * P2;
+                return (W1 - C1) * Q1;
+            }
+
+            function producer2Profit(W1, W2) {
+                const { P1, P2 } = retailerOptimalPrices(W1, W2);
+                const Q2 = a2 - b2 * P2 + c2 * P1;
+                return (W2 - C2) * Q2;
+            }
+
+            // Best response using golden section search with very high precision
+            function br1(W2) {
+                let lo = C1, hi = Math.max(a1 / b1, a2 / b2) + C1;
+                const gr = (Math.sqrt(5) - 1) / 2;
+                let c_lo = hi - gr * (hi - lo), c_hi = lo + gr * (hi - lo);
+                for (let i = 0; i < 500; i++) {
+                    if (producer1Profit(c_lo, W2) < producer1Profit(c_hi, W2)) {
+                        lo = c_lo; c_lo = c_hi; c_hi = lo + gr * (hi - lo);
+                    } else {
+                        hi = c_hi; c_hi = c_lo; c_lo = hi - gr * (hi - lo);
+                    }
+                    if (Math.abs(hi - lo) < 1e-14) break;
+                }
+                return (lo + hi) / 2;
+            }
+
+            function br2(W1) {
+                let lo = C2, hi = Math.max(a1 / b1, a2 / b2) + C2;
+                const gr = (Math.sqrt(5) - 1) / 2;
+                let c_lo = hi - gr * (hi - lo), c_hi = lo + gr * (hi - lo);
+                for (let i = 0; i < 500; i++) {
+                    if (producer2Profit(W1, c_lo) < producer2Profit(W1, c_hi)) {
+                        lo = c_lo; c_lo = c_hi; c_hi = lo + gr * (hi - lo);
+                    } else {
+                        hi = c_hi; c_hi = c_lo; c_lo = hi - gr * (hi - lo);
+                    }
+                    if (Math.abs(hi - lo) < 1e-14) break;
+                }
+                return (lo + hi) / 2;
+            }
+
+            // Iterate to find Nash equilibrium with very high precision
+            let W1 = (a1 + b1 * C1) / (2 * b1);
+            let W2 = (a2 + b2 * C2) / (2 * b2);
+
+            for (let i = 0; i < 500; i++) {
+                const newW1 = br1(W2);
+                const newW2 = br2(W1);
+                if (Math.abs(newW1 - W1) < 1e-14 && Math.abs(newW2 - W2) < 1e-14) break;
+                W1 = newW1;
+                W2 = newW2;
+            }
+
+            // Round wholesale prices to 2 decimal places
+            W1 = Math.round(W1 * 100) / 100;
+            W2 = Math.round(W2 * 100) / 100;
+
+            const { P1, P2 } = retailerOptimalPrices(W1, W2);
+            const Q1 = a1 - b1 * P1 + c1 * P2;
+            const Q2 = a2 - b2 * P2 + c2 * P1;
+
+            // Profits
+            const profit1 = (W1 - C1) * Q1;
+            const profit2 = (W2 - C2) * Q2;
+            const retailerProfit = (P1 - W1) * Q1 + (P2 - W2) * Q2;
+
+            return {
+                W1, W2, P1, P2, Q1, Q2,
+                profit1, profit2, retailerProfit,
+                totalProfit: profit1 + profit2 + retailerProfit
+            };
+        }
+
+        function calculateAll() {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.classList.remove('visible');
+
+            const p = getParams();
+            const error = validateParams(p);
+            if (error) {
+                errorEl.textContent = error;
+                errorEl.classList.add('visible');
+                return;
+            }
+
+            // Calculate all scenarios
+            results = {
+                s1: solveMonopolyDirect(p),
+                s2: solveMonopolyRetailer(p),
+                s3: solveBertrandDirect(p),
+                s4: solveBertrandRetailer(p)
+            };
+
+            if (!results.s4) {
+                errorEl.textContent = 'Could not solve Scenario 4. Check parameters.';
+                errorEl.classList.add('visible');
+                return;
+            }
+
+            displayResults(p);
+            updateChart();
+            updateComparison();
+        }
+
+        function displayResults(p) {
+            document.getElementById('resultsSection').style.display = 'block';
+
+            // Scenario 1 (now two products)
+            document.getElementById('s1_p1').textContent = results.s1.P1.toFixed(2);
+            document.getElementById('s1_p2').textContent = results.s1.P2.toFixed(2);
+            document.getElementById('s1_q1').textContent = results.s1.Q1.toFixed(2);
+            document.getElementById('s1_q2').textContent = results.s1.Q2.toFixed(2);
+            document.getElementById('s1_profit1').textContent = results.s1.profit1.toFixed(2);
+            document.getElementById('s1_total').textContent = results.s1.totalProfit.toFixed(2);
+
+            // Scenario 2 (now two products)
+            document.getElementById('s2_w1').textContent = results.s2.W1.toFixed(2);
+            document.getElementById('s2_w2').textContent = results.s2.W2.toFixed(2);
+            document.getElementById('s2_p1').textContent = results.s2.P1.toFixed(2);
+            document.getElementById('s2_p2').textContent = results.s2.P2.toFixed(2);
+            document.getElementById('s2_q1').textContent = results.s2.Q1.toFixed(2);
+            document.getElementById('s2_q2').textContent = results.s2.Q2.toFixed(2);
+            document.getElementById('s2_profit1').textContent = results.s2.profit1.toFixed(2);
+            document.getElementById('s2_retailer').textContent = results.s2.retailerProfit.toFixed(2);
+            document.getElementById('s2_total').textContent = results.s2.totalProfit.toFixed(2);
+
+            // Scenario 3
+            document.getElementById('s3_p1').textContent = results.s3.P1.toFixed(2);
+            document.getElementById('s3_p2').textContent = results.s3.P2.toFixed(2);
+            document.getElementById('s3_q1').textContent = results.s3.Q1.toFixed(2);
+            document.getElementById('s3_q2').textContent = results.s3.Q2.toFixed(2);
+            document.getElementById('s3_profit1').textContent = results.s3.profit1.toFixed(2);
+            document.getElementById('s3_profit2').textContent = results.s3.profit2.toFixed(2);
+            document.getElementById('s3_total').textContent = results.s3.totalProfit.toFixed(2);
+
+            // Scenario 4
+            document.getElementById('s4_w1').textContent = results.s4.W1.toFixed(2);
+            document.getElementById('s4_w2').textContent = results.s4.W2.toFixed(2);
+            document.getElementById('s4_p1').textContent = results.s4.P1.toFixed(2);
+            document.getElementById('s4_p2').textContent = results.s4.P2.toFixed(2);
+            document.getElementById('s4_profit1').textContent = results.s4.profit1.toFixed(2);
+            document.getElementById('s4_profit2').textContent = results.s4.profit2.toFixed(2);
+            document.getElementById('s4_retailer').textContent = results.s4.retailerProfit.toFixed(2);
+            document.getElementById('s4_total').textContent = results.s4.totalProfit.toFixed(2);
+
+            // Generate interpretation
+            generateInterpretation(p);
+        }
+
+        function generateInterpretation(p) {
+            let html = '';
+            // Use average of c1 and c2 for overall relationship classification
+            const avgCross = (p.c1 + p.c2) / 2;
+            const isComplement = avgCross < 0;
+            const crossEffect = (Math.abs(p.c1) + Math.abs(p.c2)) / 2;
+            const avgOwnEffect = (p.b1 + p.b2) / 2;
+            const crossStrength = crossEffect / avgOwnEffect;
+
+            // Product relationship context
+            const relationshipType = isComplement ? 'complementary products' : 'competing products';
+            const strengthLabel = crossStrength > 0.5 ? 'strongly' : crossStrength > 0.2 ? 'moderately' : 'weakly';
+            html += `<p><strong>How These Products Relate:</strong> These are <em>${strengthLabel} ${relationshipType}</em>. `;
+            if (isComplement) {
+                html += `When one product's price goes up, demand for the other <em>goes down</em>—they're bought together (like printers and ink, or video game consoles and games).</p>`;
+            } else {
+                html += `When one product's price goes up, demand for the other <em>goes up</em>—customers switch to the alternative (like Coke vs Pepsi, or Nike vs Adidas).</p>`;
+            }
+
+            // Double marginalization effect (S1 vs S2)
+            const dmLoss = ((results.s1.totalProfit - results.s2.totalProfit) / results.s1.totalProfit * 100).toFixed(1);
+            const producerLoss = ((results.s1.profit1 - results.s2.profit1) / results.s1.profit1 * 100).toFixed(1);
+            const retailPriceIncreaseS2 = ((results.s2.P1 - results.s1.P1) / results.s1.P1 * 100).toFixed(1);
+            const wholesaleVsDirect = ((results.s2.W1 - results.s1.P1) / results.s1.P1 * 100).toFixed(1);
+            html += `<p><strong>Impact of Selling Through a Retailer (S1 vs S2):</strong> When you sell through a retailer instead of direct, consumer prices rise ${retailPriceIncreaseS2}% (from $${results.s1.P1.toFixed(2)} to $${results.s2.P1.toFixed(2)}). The manufacturer sets wholesale at $${results.s2.W1.toFixed(2)}, then the retailer adds their markup. This "stacking of markups" reduces total sales volume and overall profit by ${dmLoss}%. The manufacturer loses ${producerLoss}% of their profit, with $${results.s2.retailerProfit.toFixed(2)} going to the retailer.</p>`;
+
+            // Competition effect (S1 vs S3) - different interpretation for complements vs substitutes
+            const totalS3 = results.s3.profit1 + results.s3.profit2;
+            const competitionProfitChange = ((results.s1.profit1 - totalS3) / results.s1.profit1 * 100).toFixed(1);
+            const priceChangeS3 = ((results.s3.P1 - results.s1.P1) / results.s1.P1 * 100).toFixed(1);
+            const priceChangeAbs = Math.abs(parseFloat(priceChangeS3)).toFixed(1);
+
+            if (isComplement) {
+                html += `<p><strong>Competition Effect (S1 vs S3):</strong> When complementary products are owned by separate companies, prices <em>rise</em> by ${priceChangeAbs}%. Why? Each company ignores that lowering its price would boost sales of the partner product. A single owner would coordinate pricing to grow the overall pie. Industry profit falls by ${competitionProfitChange}% due to this coordination failure.</p>`;
+            } else {
+                html += `<p><strong>Competition Effect (S1 vs S3):</strong> When competing products are owned by separate companies, prices <em>fall</em> by ${priceChangeAbs}%. Each company tries to win customers from the rival by cutting prices—but when both cut, margins shrink for everyone. A single owner avoids this price war. Industry profit falls by ${competitionProfitChange}%.</p>`;
+            }
+
+            // Combined effect (S3 vs S4)
+            const producerTotalS4 = results.s4.profit1 + results.s4.profit2;
+            const producerLossChannel = ((totalS3 - producerTotalS4) / totalS3 * 100).toFixed(1);
+            const priceChangeS4 = ((results.s4.P1 - results.s3.P1) / results.s3.P1 * 100).toFixed(1);
+
+            if (isComplement) {
+                html += `<p><strong>Adding a Retailer to Competing Brands (S3 vs S4):</strong> When competitors sell through a common retailer, retail prices rise by ${priceChangeS4}%. The retailer, who sells both products, can partially coordinate pricing. Manufacturer profits fall by ${producerLossChannel}%, with $${results.s4.retailerProfit.toFixed(2)} going to the retailer.</p>`;
+            } else {
+                html += `<p><strong>Adding a Retailer to Competing Brands (S3 vs S4):</strong> When competitors sell through a common retailer, retail prices rise by ${priceChangeS4}%. The retailer adds their markup on top of the wholesale prices. Manufacturer profits fall by ${producerLossChannel}%, with $${results.s4.retailerProfit.toFixed(2)} going to the retailer.</p>`;
+            }
+
+            // Price comparison - find highest and lowest
+            const prices = [
+                { label: 'S1 (Single Owner Direct)', p: results.s1.P1 },
+                { label: 'S2 (Single Owner+Retailer)', p: results.s2.P1 },
+                { label: 'S3 (Competitors Direct)', p: results.s3.P1 },
+                { label: 'S4 (Competitors+Retailer)', p: results.s4.P1 }
+            ];
+            prices.sort((a, b) => b.p - a.p);
+
+            html += `<p><strong>Consumer Price Ranking:</strong> ${prices[0].label} ($${prices[0].p.toFixed(2)}) > ${prices[1].label} ($${prices[1].p.toFixed(2)}) > ${prices[2].label} ($${prices[2].p.toFixed(2)}) > ${prices[3].label} ($${prices[3].p.toFixed(2)}). `;
+            if (isComplement) {
+                html += `<strong>Key insight:</strong> For complementary products (like razors and blades), having separate owners leads to higher prices. A single owner or common retailer can coordinate to offer better deals and grow sales.</p>`;
+            } else {
+                html += `<strong>Key insight:</strong> For competing products, head-to-head competition drives prices down—good for consumers, tough on margins. Adding a retailer raises prices because it adds another layer of markup.</p>`;
+            }
+
+            document.getElementById('interpretationText').innerHTML = html;
+        }
+
+        function updateChart() {
+            profitChart.data.labels = [
+                '1. Single Owner Direct',
+                '2. Single Owner+Retailer',
+                '3. Competitors Direct',
+                '4. Competitors+Retailer'
+            ];
+
+            // For S1 and S2, both products are owned by same firm
+            // For S3 and S4, products are owned by separate competing firms
+            profitChart.data.datasets = [
+                {
+                    label: 'Owner / Brand 1',
+                    data: [
+                        results.s1.profit1,  // Monopolist owns both products
+                        results.s2.profit1,  // Monopolist owns both products
+                        results.s3.profit1,  // Producer 1 only
+                        results.s4.profit1   // Producer 1 only
+                    ],
+                    backgroundColor: '#2563eb',
+                    borderColor: '#2563eb',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Brand 2 (Competitor)',
+                    data: [
+                        0,  // No separate producer 2 in monopoly
+                        0,  // No separate producer 2 in monopoly
+                        results.s3.profit2,
+                        results.s4.profit2
+                    ],
+                    backgroundColor: '#dc2626',
+                    borderColor: '#dc2626',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Retailer Profit',
+                    data: [
+                        0,
+                        results.s2.retailerProfit,
+                        0,
+                        results.s4.retailerProfit
+                    ],
+                    backgroundColor: '#7c3aed',
+                    borderColor: '#7c3aed',
+                    borderWidth: 1
+                }
+            ];
+
+            profitChart.update();
+        }
+
+        function updateComparison() {
+            const rows = [
+                ['Wholesale Price W₁', 'N/A', results.s2.W1, 'N/A', results.s4.W1],
+                ['Wholesale Price W₂', 'N/A', results.s2.W2, 'N/A', results.s4.W2],
+                ['Consumer Price P₁', results.s1.P1, results.s2.P1, results.s3.P1, results.s4.P1],
+                ['Consumer Price P₂', results.s1.P2, results.s2.P2, results.s3.P2, results.s4.P2],
+                ['Units Sold Q₁', results.s1.Q1, results.s2.Q1, results.s3.Q1, results.s4.Q1],
+                ['Units Sold Q₂', results.s1.Q2, results.s2.Q2, results.s3.Q2, results.s4.Q2],
+                ['Owner / Brand 1 Profit', results.s1.profit1, results.s2.profit1, results.s3.profit1, results.s4.profit1],
+                ['Brand 2 Profit', 'N/A (same owner)', 'N/A (same owner)', results.s3.profit2, results.s4.profit2],
+                ['Retailer Profit', 0, results.s2.retailerProfit, 0, results.s4.retailerProfit],
+                ['Total Channel Profit', results.s1.totalProfit, results.s2.totalProfit, results.s3.totalProfit, results.s4.totalProfit]
+            ];
+
+            document.getElementById('comparisonBody').innerHTML = rows.map(row => {
+                return `<tr>
+                    <td style="font-family: inherit; font-weight: 500;">${row[0]}</td>
+                    <td>${typeof row[1] === 'number' ? row[1].toFixed(2) : row[1]}</td>
+                    <td>${typeof row[2] === 'number' ? row[2].toFixed(2) : row[2]}</td>
+                    <td>${typeof row[3] === 'number' ? row[3].toFixed(2) : row[3]}</td>
+                    <td>${typeof row[4] === 'number' ? row[4].toFixed(2) : row[4]}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+
+        // Elasticity Calculator Functions
+        // Using the demand functions: Q1 = a1 - b1*P1 + c1*P2, Q2 = a2 - b2*P2 + c2*P1
+        // Elasticity = ((Q_new - Q_old) / Q_old) / ((P_new - P_old) / P_old)
+
+        function calculateElasticityBox1() {
+            // Box 1: Vary P1, hold P2 constant
+            const p = getParams();
+            const P1_old = parseFloat(document.getElementById('elast_p1_old').value);
+            const P1_new = parseFloat(document.getElementById('elast_p1_new').value);
+            const P2 = parseFloat(document.getElementById('elast_p2_const').value);
+
+            if (isNaN(P1_old) || isNaN(P1_new) || isNaN(P2)) {
+                alert('Please enter valid price values.');
+                return;
+            }
+            if (P1_old === P1_new) {
+                alert('Initial and new P₁ must be different to calculate elasticity.');
+                return;
+            }
+            if (P1_old <= 0) {
+                alert('Initial P₁ must be positive for elasticity calculation.');
+                return;
+            }
+
+            // Calculate quantities at old and new P1
+            const Q1_old = p.a1 - p.b1 * P1_old + p.c1 * P2;
+            const Q1_new = p.a1 - p.b1 * P1_new + p.c1 * P2;
+            const Q2_old = p.a2 - p.b2 * P2 + p.c2 * P1_old;
+            const Q2_new = p.a2 - p.b2 * P2 + p.c2 * P1_new;
+
+            if (Q1_old <= 0) {
+                alert('Initial Q₁ is not positive at the given prices. Choose different price levels.');
+                return;
+            }
+            if (Q2_old <= 0) {
+                alert('Initial Q₂ is not positive at the given prices. Choose different price levels.');
+                return;
+            }
+
+            // Own-price elasticity of Q1 w.r.t. P1
+            const pctChangeQ1 = (Q1_new - Q1_old) / Q1_old;
+            const pctChangeP1 = (P1_new - P1_old) / P1_old;
+            const ownElast = pctChangeQ1 / pctChangeP1;
+
+            // Cross-price elasticity of Q2 w.r.t. P1
+            const pctChangeQ2 = (Q2_new - Q2_old) / Q2_old;
+            const crossElast = pctChangeQ2 / pctChangeP1;
+
+            // Display results
+            document.getElementById('elastBox1Results').style.display = 'block';
+            document.getElementById('elast1_own').textContent = ownElast.toFixed(4);
+            document.getElementById('elast1_own_detail').innerHTML =
+                `Q₁: ${Q1_old.toFixed(2)} → ${Q1_new.toFixed(2)} (${(pctChangeQ1*100).toFixed(2)}%)<br>` +
+                `P₁: ${P1_old.toFixed(2)} → ${P1_new.toFixed(2)} (${(pctChangeP1*100).toFixed(2)}%)`;
+
+            document.getElementById('elast1_cross').textContent = crossElast.toFixed(4);
+            document.getElementById('elast1_cross_detail').innerHTML =
+                `Q₂: ${Q2_old.toFixed(2)} → ${Q2_new.toFixed(2)} (${(pctChangeQ2*100).toFixed(2)}%)<br>` +
+                `P₁: ${P1_old.toFixed(2)} → ${P1_new.toFixed(2)} (${(pctChangeP1*100).toFixed(2)}%)`;
+        }
+
+        function calculateElasticityBox2() {
+            // Box 2: Vary P2, hold P1 constant
+            const p = getParams();
+            const P2_old = parseFloat(document.getElementById('elast_p2_old').value);
+            const P2_new = parseFloat(document.getElementById('elast_p2_new').value);
+            const P1 = parseFloat(document.getElementById('elast_p1_const').value);
+
+            if (isNaN(P2_old) || isNaN(P2_new) || isNaN(P1)) {
+                alert('Please enter valid price values.');
+                return;
+            }
+            if (P2_old === P2_new) {
+                alert('Initial and new P₂ must be different to calculate elasticity.');
+                return;
+            }
+            if (P2_old <= 0) {
+                alert('Initial P₂ must be positive for elasticity calculation.');
+                return;
+            }
+
+            // Calculate quantities at old and new P2
+            const Q1_old = p.a1 - p.b1 * P1 + p.c1 * P2_old;
+            const Q1_new = p.a1 - p.b1 * P1 + p.c1 * P2_new;
+            const Q2_old = p.a2 - p.b2 * P2_old + p.c2 * P1;
+            const Q2_new = p.a2 - p.b2 * P2_new + p.c2 * P1;
+
+            if (Q2_old <= 0) {
+                alert('Initial Q₂ is not positive at the given prices. Choose different price levels.');
+                return;
+            }
+            if (Q1_old <= 0) {
+                alert('Initial Q₁ is not positive at the given prices. Choose different price levels.');
+                return;
+            }
+
+            // Own-price elasticity of Q2 w.r.t. P2
+            const pctChangeQ2 = (Q2_new - Q2_old) / Q2_old;
+            const pctChangeP2 = (P2_new - P2_old) / P2_old;
+            const ownElast = pctChangeQ2 / pctChangeP2;
+
+            // Cross-price elasticity of Q1 w.r.t. P2
+            const pctChangeQ1 = (Q1_new - Q1_old) / Q1_old;
+            const crossElast = pctChangeQ1 / pctChangeP2;
+
+            // Display results
+            document.getElementById('elastBox2Results').style.display = 'block';
+            document.getElementById('elast2_own').textContent = ownElast.toFixed(4);
+            document.getElementById('elast2_own_detail').innerHTML =
+                `Q₂: ${Q2_old.toFixed(2)} → ${Q2_new.toFixed(2)} (${(pctChangeQ2*100).toFixed(2)}%)<br>` +
+                `P₂: ${P2_old.toFixed(2)} → ${P2_new.toFixed(2)} (${(pctChangeP2*100).toFixed(2)}%)`;
+
+            document.getElementById('elast2_cross').textContent = crossElast.toFixed(4);
+            document.getElementById('elast2_cross_detail').innerHTML =
+                `Q₁: ${Q1_old.toFixed(2)} → ${Q1_new.toFixed(2)} (${(pctChangeQ1*100).toFixed(2)}%)<br>` +
+                `P₂: ${P2_old.toFixed(2)} → ${P2_new.toFixed(2)} (${(pctChangeP2*100).toFixed(2)}%)`;
+        }
+
+        // Demand Prediction Function
+        function calculatePrediction() {
+            const p = getParams();
+            const P1 = parseFloat(document.getElementById('pred_p1').value);
+            const P2 = parseFloat(document.getElementById('pred_p2').value);
+
+            if (isNaN(P1) || isNaN(P2)) {
+                alert('Please enter valid price values.');
+                return;
+            }
+
+            // Calculate quantities using demand functions
+            const Q1 = p.a1 - p.b1 * P1 + p.c1 * P2;
+            const Q2 = p.a2 - p.b2 * P2 + p.c2 * P1;
+
+            // Display results
+            document.getElementById('predictionResults').style.display = 'block';
+            document.getElementById('pred_q1').textContent = Q1.toFixed(2);
+            document.getElementById('pred_q2').textContent = Q2.toFixed(2);
+
+            // Show detail with demand function substitution
+            let detailHtml = `<strong>Calculation:</strong><br>`;
+            detailHtml += `Q₁ = ${p.a1} − ${p.b1}×${P1.toFixed(2)} + ${p.c1}×${P2.toFixed(2)} = <span style="color: var(--producer1); font-weight: 600;">${Q1.toFixed(2)}</span><br>`;
+            detailHtml += `Q₂ = ${p.a2} − ${p.b2}×${P2.toFixed(2)} + ${p.c2}×${P1.toFixed(2)} = <span style="color: var(--producer2); font-weight: 600;">${Q2.toFixed(2)}</span>`;
+
+            // Add warnings if quantities are negative
+            if (Q1 < 0 || Q2 < 0) {
+                detailHtml += `<br><span style="color: #dc2626; font-weight: 600;">⚠ Warning: Negative quantity indicates prices are outside the valid demand range.</span>`;
+            }
+
+            document.getElementById('predictionDetail').style.display = 'block';
+            document.getElementById('predictionDetail').innerHTML = detailHtml;
+        }
+
+    </script>
+
+</div> <!-- end main-content -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBg3LJDwVIRGWtFZb_mM_CSRJMNCJUta20",
+        authDomain: "iu-pricing-tools.firebaseapp.com",
+        projectId: "iu-pricing-tools",
+        storageBucket: "iu-pricing-tools.firebasestorage.app",
+        messagingSenderId: "659335573790",
+        appId: "1:659335573790:web:00013a166787efecb3d90f",
+        measurementId: "G-NGKNY08XWP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+</body>
+</html>

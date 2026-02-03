@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Channel Pricing Optimizer | Koray Cosguner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --iu-crimson: #990000;
+            --iu-crimson-dark: #7a0000;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f5f5f5;
+            --white: #fff;
+            --border: #ddd;
+            --success: #059669;
+            --success-light: #ecfdf5;
+            --producer: #7c3aed;
+            --retailer: #0891b2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .tool-container {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--iu-crimson);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--iu-crimson);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-number {
+            background: var(--iu-crimson);
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .disclaimer-title {
+            font-weight: 700;
+            color: var(--iu-crimson);
+            margin-bottom: 0.5rem;
+        }
+        .disclaimer ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        .disclaimer li {
+            margin-bottom: 0.25rem;
+        }
+        .disclaimer li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Model Display */
+        .model-display {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-family: 'Georgia', serif;
+            font-size: 1rem;
+        }
+
+        .model-display .equation {
+            margin: 0.5rem 0;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 6px;
+        }
+
+        .model-display .producer { color: var(--producer); font-weight: 600; }
+        .model-display .retailer { color: var(--retailer); font-weight: 600; }
+
+        /* Notation */
+        .notation-box {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .notation-box h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .notation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            color: var(--text-light);
+        }
+
+        /* Input Groups */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: white;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--iu-crimson);
+            box-shadow: 0 0 0 2px rgba(153, 0, 0, 0.1);
+        }
+
+        .input-group .hint {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.35rem;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Channel Type Selection */
+        .channel-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .channel-type {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .channel-type:hover {
+            border-color: var(--iu-crimson);
+        }
+
+        .channel-type.selected {
+            border-color: var(--iu-crimson);
+            background: #fef2f2;
+        }
+
+        .channel-type h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .channel-type p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .channel-type .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Markup Input */
+        .markup-input {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f0f9ff;
+            border-radius: 8px;
+            border: 1px solid #bae6fd;
+        }
+
+        .markup-input.visible {
+            display: block;
+        }
+
+        .markup-input label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #0369a1;
+        }
+
+        .markup-input input {
+            width: 120px;
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        /* Calculate Button */
+        .calculate-btn {
+            width: 100%;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            background: var(--iu-crimson);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.2s;
+        }
+
+        .calculate-btn:hover {
+            background: var(--iu-crimson-dark);
+        }
+
+        /* Error Message */
+        .error-message {
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: #fef2f2;
+            border-radius: 8px;
+            border: 1px solid #fecaca;
+            display: none;
+        }
+
+        .error-message.visible { display: block; }
+
+        /* Results */
+        #resultsSection {
+            display: none;
+        }
+
+        .solution-box {
+            background: var(--success-light);
+            border: 2px solid var(--success);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .solution-box h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .solution-box h3::before {
+            content: "✓";
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.8rem;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .result-card h4 {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-card.producer h4 { color: var(--producer); }
+        .result-card.retailer h4 { color: var(--retailer); }
+        .result-card.market h4 { color: var(--iu-crimson); }
+
+        .result-value {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+
+        .result-value:last-child {
+            border-bottom: none;
+        }
+
+        .result-value .label {
+            color: var(--text-light);
+        }
+
+        .result-value .value {
+            font-weight: 600;
+            font-family: 'Monaco', monospace;
+        }
+
+        /* Interpretation */
+        .interpretation-box {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .interpretation-box h4 {
+            font-weight: 600;
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+        }
+
+        .interpretation-box p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .interpretation-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Chart */
+        .chart-container {
+            height: 350px;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 1rem;
+            gap: 0.25rem;
+        }
+
+        .tab {
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            color: var(--text-light);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--iu-crimson);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--iu-crimson);
+            color: var(--iu-crimson);
+            font-weight: 600;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-light);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .comparison-table td {
+            font-family: 'Monaco', monospace;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table tr:hover {
+            background: #fafafa;
+        }
+
+        /* R Code Box */
+        .r-code-section {
+            margin-top: 1rem;
+        }
+
+        .r-code-section h4 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .r-code-box {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .r-code-box .comment { color: #6a9955; }
+        .r-code-box .keyword { color: #569cd6; }
+        .r-code-box .string { color: #ce9178; }
+        .r-code-box .number { color: #b5cea8; }
+        .r-code-box .function { color: #dcdcaa; }
+
+        .copy-btn {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            background: var(--iu-crimson);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--iu-crimson-dark);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .channel-types {
+                grid-template-columns: 1fr;
+            }
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+            .notation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Auth check -->
+<div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <p style="color: #64748b;">Loading...</p>
+</div>
+<div id="main-content" style="display: none;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 20px 2rem 0;">
+        <a href="tools.html" style="display: inline-flex; align-items: center; gap: 6px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 500;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Pricing & Analytics Tools
+        </a>
+    </div>
+
+    <main style="padding-top: 0;">
+        <div class="hero">
+            <h1>Channel Pricing Optimizer</h1>
+            <p>Optimize producer pricing in a vertical channel with different retailer response models.</p>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <div class="disclaimer-title">Disclaimer</div>
+            <ul>
+                <li><strong>Results may contain errors.</strong> The output from this tool may be inaccurate, incomplete, or incorrect. Users should independently verify all results.</li>
+                <li><strong>No warranty.</strong> This tool is provided "as is" without any warranty of any kind.</li>
+                <li><strong>User assumes all risk.</strong> Users assume full responsibility for reviewing and validating any output.</li>
+            </ul>
+        </div>
+
+        <!-- Model Display -->
+        <div class="tool-container">
+            <h2 class="section-title"><span class="step-number">1</span> Model Setup</h2>
+
+            <div class="model-display">
+                <div style="font-weight: 600; margin-bottom: 0.75rem; color: var(--text-dark);">Channel Structure</div>
+                <div class="equation">
+                    <span class="producer">Producer Profit</span> = (W − C) · Q
+                </div>
+                <div class="equation">
+                    <span class="retailer">Retailer Profit</span> = (P − W) · Q
+                </div>
+                <div class="equation" style="margin-top: 0.75rem;">
+                    Q = f(P) &nbsp;&nbsp;<span style="color: var(--text-light); font-size: 0.9rem;">(demand as function of retail price)</span>
+                </div>
+            </div>
+
+            <div class="notation-box">
+                <h4>Notation</h4>
+                <div class="notation-grid">
+                    <div><strong>P</strong> = Retail price (to consumers)</div>
+                    <div><strong>W</strong> = Wholesale price (producer to retailer)</div>
+                    <div><strong>C</strong> = Producer's marginal cost</div>
+                    <div><strong>Q</strong> = Quantity demanded</div>
+                </div>
+            </div>
+
+            <div class="notation-box" style="background: #f0fdf4; border-color: #bbf7d0;">
+                <h4 style="color: #166534;">Solution Method</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem; margin: 0;">
+                    For <strong>linear demand</strong> (Q = a − b·P), exact analytical solutions are provided using first-order conditions.
+                    For <strong>non-linear demand</strong> functions, solutions are approximate, obtained via grid search optimization.
+                </p>
+            </div>
+
+            <div class="input-group">
+                <label>Demand Function Q(P)</label>
+                <input type="text" id="demandFunction" value="100 - 2*P" placeholder="e.g., 100 - 2*P">
+                <div class="hint">Enter demand as a function of P. Use: +, -, *, /, ^, exp(), log(), sqrt()</div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Producer's Marginal Cost (C)</label>
+                    <input type="number" id="producerCost" value="10" step="any">
+                </div>
+                <div class="input-group">
+                    <label>Price Range (for optimization)</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="number" id="priceMin" value="0" step="any" style="width: 80px;">
+                        <span>to</span>
+                        <input type="number" id="priceMax" value="50" step="any" style="width: 80px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Channel Type Selection -->
+        <div class="tool-container">
+            <h2 class="section-title"><span class="step-number">2</span> Retailer Type</h2>
+
+            <div class="channel-types">
+                <div class="channel-type selected" data-type="integrated" onclick="selectChannelType('integrated')">
+                    <div class="icon">🏭</div>
+                    <h4>Vertically Integrated</h4>
+                    <p>Producer sets retail price P directly. No separate retailer margin.</p>
+                </div>
+                <div class="channel-type" data-type="costplus" onclick="selectChannelType('costplus')">
+                    <div class="icon">📊</div>
+                    <h4>Cost-Plus Retailer</h4>
+                    <p>Retailer applies fixed markup to wholesale price: P = W × (1 + markup)</p>
+                </div>
+                <div class="channel-type" data-type="strategic" onclick="selectChannelType('strategic')">
+                    <div class="icon">🎯</div>
+                    <h4>Strategic Retailer</h4>
+                    <p>Retailer optimizes own profit given W. Producer anticipates this response.</p>
+                </div>
+            </div>
+
+            <div id="markupInput" class="markup-input">
+                <label>Retailer Markup (%)</label>
+                <input type="number" id="retailerMarkup" value="50" step="any">
+                <span style="margin-left: 0.5rem; color: var(--text-light);">e.g., 50 means P = W × 1.5</span>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+            <button class="calculate-btn" onclick="optimize()">Optimize Channel Pricing</button>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsSection">
+            <div class="solution-box">
+                <h3 id="solutionTitle">Optimal Solution Found</h3>
+                <div class="results-grid">
+                    <div class="result-card producer">
+                        <h4>Producer</h4>
+                        <div class="result-value">
+                            <span class="label">Wholesale Price (W*)</span>
+                            <span class="value" id="optW">-</span>
+                        </div>
+                        <div class="result-value">
+                            <span class="label">Profit</span>
+                            <span class="value" id="producerProfit">-</span>
+                        </div>
+                    </div>
+                    <div class="result-card retailer">
+                        <h4>Retailer</h4>
+                        <div class="result-value">
+                            <span class="label">Retail Price (P*)</span>
+                            <span class="value" id="optP">-</span>
+                        </div>
+                        <div class="result-value">
+                            <span class="label">Profit</span>
+                            <span class="value" id="retailerProfit">-</span>
+                        </div>
+                    </div>
+                    <div class="result-card market">
+                        <h4>Market</h4>
+                        <div class="result-value">
+                            <span class="label">Quantity (Q*)</span>
+                            <span class="value" id="optQ">-</span>
+                        </div>
+                        <div class="result-value">
+                            <span class="label">Total Channel Profit</span>
+                            <span class="value" id="totalProfit">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interpretation-box">
+                    <h4>Interpretation</h4>
+                    <div id="interpretationText"></div>
+                </div>
+            </div>
+
+            <div class="tool-container">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('chart')">Profit Chart</div>
+                    <div class="tab" onclick="switchTab('comparison')">Compare All Types</div>
+                    <div class="tab" onclick="switchTab('rcode')">R Code</div>
+                </div>
+
+                <div id="chartTab" class="tab-content active">
+                    <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;" id="chartDescription">
+                        Producer profit as a function of the decision variable.
+                    </p>
+                    <div class="chart-container">
+                        <canvas id="profitChart"></canvas>
+                    </div>
+                </div>
+
+                <div id="comparisonTab" class="tab-content">
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">
+                        Comparison of optimal outcomes across all three retailer types.
+                    </p>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Integrated</th>
+                                <th>Cost-Plus</th>
+                                <th>Strategic</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparisonBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="rcodeTab" class="tab-content">
+                    <div class="r-code-section">
+                        <h4>
+                            <span>R Code for Channel Pricing Optimization</span>
+                            <button class="copy-btn" onclick="copyRCode()">Copy</button>
+                        </h4>
+                        <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.9rem;">
+                            This R code replicates the optimization for all three channel types. Copy and run in R or RStudio.
+                        </p>
+                        <div class="r-code-box" id="rCodeOutput"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Koray Cosguner. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        let selectedType = 'integrated';
+        let profitChart = null;
+        let lastResult = null;
+        let allResults = {};
+        let isLinearDemand = false;
+        let linearParams = null; // {a, b} for Q = a - b*P
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+        });
+
+        // Check if demand is linear (Q = a - b*P) and extract parameters
+        function parseLinearDemand(demandStr) {
+            // Normalize the string
+            const normalized = demandStr.replace(/\s+/g, '').toLowerCase();
+
+            // Pattern: a - b*P or a - b*p or a-bP etc.
+            // Match patterns like: 100-2*P, 100-2P, 100 - 2 * P, etc.
+            const patterns = [
+                /^([\d.]+)-([\d.]+)\*?p$/i,      // 100-2*P or 100-2P
+                /^([\d.]+)-([\d.]+)p$/i,          // 100-2P
+                /^-([\d.]+)\*?p\+([\d.]+)$/i,     // -2*P+100
+                /^([\d.]+)-([\d.]+)\*p$/i,        // 100-2*P
+            ];
+
+            for (const pattern of patterns) {
+                const match = normalized.match(pattern);
+                if (match) {
+                    if (pattern.source.startsWith('^-')) {
+                        // Pattern like -2*P+100
+                        return { a: parseFloat(match[2]), b: parseFloat(match[1]) };
+                    } else {
+                        return { a: parseFloat(match[1]), b: parseFloat(match[2]) };
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('profitChart').getContext('2d');
+            profitChart = new Chart(ctx, {
+                type: 'line',
+                data: { labels: [], datasets: [] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Producer Profit',
+                            font: { size: 14, weight: '600' },
+                            color: '#333'
+                        },
+                        legend: {
+                            labels: { usePointStyle: true, padding: 15 }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: '', font: { weight: '500' } },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Profit', font: { weight: '500' } },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function selectChannelType(type) {
+            selectedType = type;
+            document.querySelectorAll('.channel-type').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.querySelector(`.channel-type[data-type="${type}"]`).classList.add('selected');
+
+            // Show/hide markup input
+            const markupInput = document.getElementById('markupInput');
+            if (type === 'costplus') {
+                markupInput.classList.add('visible');
+            } else {
+                markupInput.classList.remove('visible');
+            }
+        }
+
+        function evalDemand(P) {
+            const demandStr = document.getElementById('demandFunction').value;
+            try {
+                const normalized = demandStr.replace(/\bEXP\b/gi, 'exp')
+                    .replace(/\bLOG\b/gi, 'log')
+                    .replace(/\bLN\b/gi, 'log')
+                    .replace(/\bSQRT\b/gi, 'sqrt');
+                return math.evaluate(normalized, { P: P });
+            } catch (e) {
+                return NaN;
+            }
+        }
+
+        function optimizeIntegrated(C, priceMin, priceMax) {
+            // Producer sets P directly to maximize (P - C) * Q(P)
+
+            // If linear demand Q = a - b*P, analytical solution:
+            // Profit = (P - C) * (a - b*P) = aP - bP² - aC + bCP
+            // FOC: a - 2bP + bC = 0  =>  P* = (a + bC) / (2b)
+            if (isLinearDemand && linearParams) {
+                const { a, b } = linearParams;
+                let bestP = (a + b * C) / (2 * b);
+
+                // Constrain to price range
+                bestP = Math.max(priceMin, Math.min(priceMax, bestP));
+
+                const Q = a - b * bestP;
+                const profit = (bestP - C) * Q;
+
+                return {
+                    W: C,
+                    P: bestP,
+                    Q: Math.max(0, Q),
+                    producerProfit: profit,
+                    retailerProfit: 0,
+                    totalProfit: profit,
+                    method: 'analytical'
+                };
+            }
+
+            // Grid search for non-linear demand
+            let bestP = priceMin, bestProfit = -Infinity;
+
+            const step = (priceMax - priceMin) / 200;
+            for (let P = priceMin; P <= priceMax; P += step) {
+                const Q = evalDemand(P);
+                if (Q < 0 || isNaN(Q)) continue;
+                const profit = (P - C) * Q;
+                if (profit > bestProfit) {
+                    bestProfit = profit;
+                    bestP = P;
+                }
+            }
+
+            // Refine
+            const refineStep = step / 20;
+            for (let P = bestP - step; P <= bestP + step; P += refineStep) {
+                if (P < priceMin || P > priceMax) continue;
+                const Q = evalDemand(P);
+                if (Q < 0 || isNaN(Q)) continue;
+                const profit = (P - C) * Q;
+                if (profit > bestProfit) {
+                    bestProfit = profit;
+                    bestP = P;
+                }
+            }
+
+            const Q = evalDemand(bestP);
+            return {
+                W: C,
+                P: bestP,
+                Q: Q,
+                producerProfit: bestProfit,
+                retailerProfit: 0,
+                totalProfit: bestProfit,
+                method: 'grid_search'
+            };
+        }
+
+        function optimizeCostPlus(C, markup, priceMin, priceMax) {
+            // Retailer sets P = W * (1 + markup/100) = W * m
+            // Producer maximizes (W - C) * Q(P) where P = W * m
+            // Substituting: Q = a - b*W*m
+            // Profit = (W - C) * (a - b*m*W)
+            // FOC: a - 2*b*m*W + b*m*C = 0  =>  W* = (a + b*m*C) / (2*b*m)
+            const m = 1 + markup / 100;
+
+            if (isLinearDemand && linearParams) {
+                const { a, b } = linearParams;
+                let bestW = (a + b * m * C) / (2 * b * m);
+
+                // Constrain
+                const wMin = Math.max(C, priceMin / m);
+                const wMax = priceMax / m;
+                bestW = Math.max(wMin, Math.min(wMax, bestW));
+
+                const P = bestW * m;
+                const Q = a - b * P;
+                const producerProfit = (bestW - C) * Q;
+                const retailerProfit = (P - bestW) * Q;
+
+                return {
+                    W: bestW,
+                    P: P,
+                    Q: Math.max(0, Q),
+                    producerProfit: producerProfit,
+                    retailerProfit: retailerProfit,
+                    totalProfit: producerProfit + retailerProfit,
+                    method: 'analytical'
+                };
+            }
+
+            // Grid search for non-linear demand
+            let bestW = C, bestProfit = -Infinity;
+
+            const wMin = Math.max(C, priceMin / m);
+            const wMax = priceMax / m;
+
+            const step = (wMax - wMin) / 200;
+            for (let W = wMin; W <= wMax; W += step) {
+                const P = W * m;
+                const Q = evalDemand(P);
+                if (Q < 0 || isNaN(Q)) continue;
+                const profit = (W - C) * Q;
+                if (profit > bestProfit) {
+                    bestProfit = profit;
+                    bestW = W;
+                }
+            }
+
+            // Refine
+            const refineStep = step / 20;
+            for (let W = bestW - step; W <= bestW + step; W += refineStep) {
+                if (W < wMin || W > wMax) continue;
+                const P = W * m;
+                const Q = evalDemand(P);
+                if (Q < 0 || isNaN(Q)) continue;
+                const profit = (W - C) * Q;
+                if (profit > bestProfit) {
+                    bestProfit = profit;
+                    bestW = W;
+                }
+            }
+
+            const P = bestW * m;
+            const Q = evalDemand(P);
+            const retailerProfit = (P - bestW) * Q;
+
+            return {
+                W: bestW,
+                P: P,
+                Q: Q,
+                producerProfit: bestProfit,
+                retailerProfit: retailerProfit,
+                totalProfit: bestProfit + retailerProfit,
+                method: 'grid_search'
+            };
+        }
+
+        function retailerBestResponse(W, priceMin, priceMax) {
+            // Given W, retailer maximizes (P - W) * Q(P)
+            // For linear Q = a - b*P:
+            // Profit = (P - W)(a - bP)
+            // FOC: a - 2bP + bW = 0  =>  P* = (a + bW) / (2b)
+            if (isLinearDemand && linearParams) {
+                const { a, b } = linearParams;
+                let bestP = (a + b * W) / (2 * b);
+                bestP = Math.max(W, Math.min(priceMax, bestP));
+                return bestP;
+            }
+
+            // Grid search for non-linear demand
+            let bestP = W, bestProfit = -Infinity;
+
+            const step = (priceMax - W) / 100;
+            for (let P = W; P <= priceMax; P += step) {
+                const Q = evalDemand(P);
+                if (Q < 0 || isNaN(Q)) continue;
+                const profit = (P - W) * Q;
+                if (profit > bestProfit) {
+                    bestProfit = profit;
+                    bestP = P;
+                }
+            }
+
+            // Refine
+            const refineStep = step / 20;
+            for (let P = bestP - step; P <= bestP + step; P += refineStep) {
+                if (P < W || P > priceMax) continue;
+                const Q = evalDemand(P);
+                if (Q < 0 || isNaN(Q)) continue;
+                const profit = (P - W) * Q;
+                if (profit > bestProfit) {
+                    bestProfit = profit;
+                    bestP = P;
+                }
+            }
+
+            return bestP;
+        }
+
+        function optimizeStrategic(C, priceMin, priceMax) {
+            // Producer sets W, anticipating retailer's optimal response P*(W)
+            // Producer maximizes (W - C) * Q(P*(W))
+
+            // For linear Q = a - b*P:
+            // Retailer's BR: P*(W) = (a + bW) / (2b)
+            // Substituting into Q: Q = a - b*(a + bW)/(2b) = a - (a + bW)/2 = (a - bW)/2
+            // Producer profit: (W - C) * (a - bW)/2
+            // FOC: (a - bW)/2 + (W - C)*(-b/2) = 0
+            //      (a - bW)/2 - b(W - C)/2 = 0
+            //      a - bW - bW + bC = 0
+            //      a + bC = 2bW
+            //      W* = (a + bC) / (2b)
+            // Then P* = (a + bW*) / (2b) = (a + b*(a+bC)/(2b)) / (2b) = (a + (a+bC)/2) / (2b)
+            //         = (2a + a + bC) / (4b) = (3a + bC) / (4b)
+            if (isLinearDemand && linearParams) {
+                const { a, b } = linearParams;
+                let bestW = (a + b * C) / (2 * b);
+
+                // Constrain W
+                const wMax = priceMax * 0.9;
+                bestW = Math.max(C, Math.min(wMax, bestW));
+
+                const bestP = (a + b * bestW) / (2 * b);
+                const Q = a - b * bestP;
+                const producerProfit = (bestW - C) * Q;
+                const retailerProfit = (bestP - bestW) * Q;
+
+                return {
+                    W: bestW,
+                    P: bestP,
+                    Q: Math.max(0, Q),
+                    producerProfit: producerProfit,
+                    retailerProfit: retailerProfit,
+                    totalProfit: producerProfit + retailerProfit,
+                    method: 'analytical'
+                };
+            }
+
+            // Grid search for non-linear demand
+            let bestW = C, bestProducerProfit = -Infinity, bestP = 0;
+
+            const wMax = priceMax * 0.9;
+            const step = (wMax - C) / 100;
+
+            for (let W = C; W <= wMax; W += step) {
+                const P = retailerBestResponse(W, priceMin, priceMax);
+                const Q = evalDemand(P);
+                if (Q < 0 || isNaN(Q)) continue;
+                const producerProfit = (W - C) * Q;
+                if (producerProfit > bestProducerProfit) {
+                    bestProducerProfit = producerProfit;
+                    bestW = W;
+                    bestP = P;
+                }
+            }
+
+            // Refine
+            const refineStep = step / 20;
+            for (let W = bestW - step; W <= bestW + step; W += refineStep) {
+                if (W < C || W > wMax) continue;
+                const P = retailerBestResponse(W, priceMin, priceMax);
+                const Q = evalDemand(P);
+                if (Q < 0 || isNaN(Q)) continue;
+                const producerProfit = (W - C) * Q;
+                if (producerProfit > bestProducerProfit) {
+                    bestProducerProfit = producerProfit;
+                    bestW = W;
+                    bestP = P;
+                }
+            }
+
+            const Q = evalDemand(bestP);
+            const retailerProfit = (bestP - bestW) * Q;
+
+            return {
+                W: bestW,
+                P: bestP,
+                Q: Q,
+                producerProfit: bestProducerProfit,
+                retailerProfit: retailerProfit,
+                totalProfit: bestProducerProfit + retailerProfit,
+                method: 'grid_search'
+            };
+        }
+
+        function optimize() {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.classList.remove('visible');
+
+            const C = parseFloat(document.getElementById('producerCost').value);
+            const priceMin = parseFloat(document.getElementById('priceMin').value);
+            const priceMax = parseFloat(document.getElementById('priceMax').value);
+            const markup = parseFloat(document.getElementById('retailerMarkup').value);
+            const demandStr = document.getElementById('demandFunction').value;
+
+            // Validate
+            if (isNaN(C) || isNaN(priceMin) || isNaN(priceMax)) {
+                errorEl.textContent = 'Please enter valid numbers for cost and price range.';
+                errorEl.classList.add('visible');
+                return;
+            }
+
+            // Test demand function
+            const testQ = evalDemand((priceMin + priceMax) / 2);
+            if (isNaN(testQ)) {
+                errorEl.textContent = 'Invalid demand function. Check your syntax.';
+                errorEl.classList.add('visible');
+                return;
+            }
+
+            // Check if demand is linear
+            linearParams = parseLinearDemand(demandStr);
+            isLinearDemand = linearParams !== null;
+
+            // Run all optimizations for comparison
+            allResults = {
+                integrated: optimizeIntegrated(C, priceMin, priceMax),
+                costplus: optimizeCostPlus(C, markup, priceMin, priceMax),
+                strategic: optimizeStrategic(C, priceMin, priceMax)
+            };
+
+            lastResult = allResults[selectedType];
+
+            displayResults();
+            updateChart(C, priceMin, priceMax, markup);
+            updateComparison();
+            generateRCode();
+        }
+
+        function displayResults() {
+            document.getElementById('resultsSection').style.display = 'block';
+
+            const r = lastResult;
+            const typeNames = {
+                integrated: 'Vertically Integrated',
+                costplus: 'Cost-Plus Retailer',
+                strategic: 'Strategic Retailer'
+            };
+
+            const methodLabel = r.method === 'analytical' ? ' (Exact)' : ' (Approximate)';
+            document.getElementById('solutionTitle').textContent = `Optimal Solution (${typeNames[selectedType]})${methodLabel}`;
+
+            document.getElementById('optW').textContent = selectedType === 'integrated' ? 'N/A' : r.W.toFixed(2);
+            document.getElementById('optP').textContent = r.P.toFixed(2);
+            document.getElementById('optQ').textContent = r.Q.toFixed(2);
+            document.getElementById('producerProfit').textContent = r.producerProfit.toFixed(2);
+            document.getElementById('retailerProfit').textContent = r.retailerProfit.toFixed(2);
+            document.getElementById('totalProfit').textContent = r.totalProfit.toFixed(2);
+
+            // Generate interpretation
+            generateInterpretation();
+        }
+
+        function generateInterpretation() {
+            const r = lastResult;
+            const int = allResults.integrated;
+            let html = '';
+
+            // Method note
+            if (r.method === 'analytical') {
+                html += `<p style="color: #166534; font-style: italic; margin-bottom: 0.75rem;">✓ Exact analytical solution (linear demand detected: Q = ${linearParams.a} − ${linearParams.b}·P)</p>`;
+            } else {
+                html += `<p style="color: #92400e; font-style: italic; margin-bottom: 0.75rem;">≈ Approximate solution via grid search (non-linear demand)</p>`;
+            }
+
+            if (selectedType === 'integrated') {
+                html += `<p>In the vertically integrated channel, the producer controls the retail price directly, eliminating double marginalization. The optimal retail price is $${r.P.toFixed(2)}, yielding maximum channel profit of $${r.totalProfit.toFixed(2)}.</p>`;
+            } else if (selectedType === 'costplus') {
+                const markup = parseFloat(document.getElementById('retailerMarkup').value);
+                const efficiencyLoss = ((int.totalProfit - r.totalProfit) / int.totalProfit * 100).toFixed(1);
+                html += `<p>With a ${markup}% cost-plus markup, the retailer sets P = $${r.P.toFixed(2)} when W = $${r.W.toFixed(2)}.</p>`;
+                html += `<p>The producer earns $${r.producerProfit.toFixed(2)} and the retailer earns $${r.retailerProfit.toFixed(2)}.</p>`;
+                html += `<p>Total channel profit ($${r.totalProfit.toFixed(2)}) is ${efficiencyLoss}% lower than integrated due to double marginalization.</p>`;
+            } else {
+                const efficiencyLoss = ((int.totalProfit - r.totalProfit) / int.totalProfit * 100).toFixed(1);
+                html += `<p>With a strategic retailer, the producer sets W = $${r.W.toFixed(2)}, anticipating the retailer's optimal response of P = $${r.P.toFixed(2)}.</p>`;
+                html += `<p>The producer earns $${r.producerProfit.toFixed(2)} and the retailer earns $${r.retailerProfit.toFixed(2)}.</p>`;
+                html += `<p>This Stackelberg equilibrium results in ${efficiencyLoss}% efficiency loss compared to vertical integration.</p>`;
+            }
+
+            document.getElementById('interpretationText').innerHTML = html;
+        }
+
+        function updateChart(C, priceMin, priceMax, markup) {
+            const labels = [];
+            const producerData = [];
+            const retailerData = [];
+            const totalData = [];
+
+            let xVar, xLabel;
+
+            if (selectedType === 'integrated') {
+                xVar = 'P';
+                xLabel = 'Retail Price (P)';
+                const step = (priceMax - priceMin) / 50;
+                for (let P = priceMin; P <= priceMax; P += step) {
+                    const Q = evalDemand(P);
+                    if (Q < 0 || isNaN(Q)) continue;
+                    labels.push(P.toFixed(1));
+                    producerData.push((P - C) * Q);
+                    retailerData.push(0);
+                    totalData.push((P - C) * Q);
+                }
+            } else if (selectedType === 'costplus') {
+                xVar = 'W';
+                xLabel = 'Wholesale Price (W)';
+                const m = 1 + markup / 100;
+                const wMin = Math.max(C, priceMin / m);
+                const wMax = priceMax / m;
+                const step = (wMax - wMin) / 50;
+                for (let W = wMin; W <= wMax; W += step) {
+                    const P = W * m;
+                    const Q = evalDemand(P);
+                    if (Q < 0 || isNaN(Q)) continue;
+                    labels.push(W.toFixed(1));
+                    producerData.push((W - C) * Q);
+                    retailerData.push((P - W) * Q);
+                    totalData.push((W - C) * Q + (P - W) * Q);
+                }
+            } else {
+                xVar = 'W';
+                xLabel = 'Wholesale Price (W)';
+                const wMax = priceMax * 0.9;
+                const step = (wMax - C) / 50;
+                for (let W = C; W <= wMax; W += step) {
+                    const P = retailerBestResponse(W, priceMin, priceMax);
+                    const Q = evalDemand(P);
+                    if (Q < 0 || isNaN(Q)) continue;
+                    labels.push(W.toFixed(1));
+                    producerData.push((W - C) * Q);
+                    retailerData.push((P - W) * Q);
+                    totalData.push((W - C) * Q + (P - W) * Q);
+                }
+            }
+
+            document.getElementById('chartDescription').textContent =
+                `Profits as a function of ${selectedType === 'integrated' ? 'retail price P' : 'wholesale price W'}. The optimal point is marked.`;
+
+            profitChart.data.labels = labels;
+            profitChart.data.datasets = [
+                {
+                    label: 'Producer Profit',
+                    data: producerData,
+                    borderColor: '#7c3aed',
+                    backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                    fill: false,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    borderWidth: 2
+                },
+                {
+                    label: 'Retailer Profit',
+                    data: retailerData,
+                    borderColor: '#0891b2',
+                    backgroundColor: 'rgba(8, 145, 178, 0.1)',
+                    fill: false,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    borderWidth: 2
+                },
+                {
+                    label: 'Total Channel Profit',
+                    data: totalData,
+                    borderColor: '#059669',
+                    backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                    fill: false,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    borderWidth: 2,
+                    borderDash: [5, 5]
+                }
+            ];
+
+            // Add optimal point
+            const optValue = selectedType === 'integrated' ? lastResult.P : lastResult.W;
+            const optIdx = labels.findIndex(l => Math.abs(parseFloat(l) - optValue) < (parseFloat(labels[1]) - parseFloat(labels[0])));
+            if (optIdx >= 0) {
+                profitChart.data.datasets.push({
+                    label: 'Optimum',
+                    data: [{x: labels[optIdx], y: producerData[optIdx]}],
+                    borderColor: '#dc2626',
+                    backgroundColor: '#dc2626',
+                    pointRadius: 8,
+                    pointHoverRadius: 10,
+                    showLine: false
+                });
+            }
+
+            profitChart.options.scales.x.title.text = xLabel;
+            profitChart.update();
+        }
+
+        function updateComparison() {
+            const methodNote = allResults.integrated.method === 'analytical'
+                ? '<span style="color: #166534; font-size: 0.8rem;">(Exact)</span>'
+                : '<span style="color: #92400e; font-size: 0.8rem;">(Approx.)</span>';
+
+            const rows = [
+                ['Wholesale Price (W)', allResults.integrated.W, allResults.costplus.W, allResults.strategic.W],
+                ['Retail Price (P)', allResults.integrated.P, allResults.costplus.P, allResults.strategic.P],
+                ['Quantity (Q)', allResults.integrated.Q, allResults.costplus.Q, allResults.strategic.Q],
+                ['Producer Profit', allResults.integrated.producerProfit, allResults.costplus.producerProfit, allResults.strategic.producerProfit],
+                ['Retailer Profit', allResults.integrated.retailerProfit, allResults.costplus.retailerProfit, allResults.strategic.retailerProfit],
+                ['Total Channel Profit', allResults.integrated.totalProfit, allResults.costplus.totalProfit, allResults.strategic.totalProfit]
+            ];
+
+            let html = `<tr>
+                <td style="font-family: inherit; font-weight: 500;">Solution Method</td>
+                <td>${methodNote}</td>
+                <td>${methodNote}</td>
+                <td>${methodNote}</td>
+            </tr>`;
+
+            html += rows.map(row => {
+                const integrated = row[0] === 'Wholesale Price (W)' ? 'N/A' : row[1].toFixed(2);
+                return `<tr>
+                    <td style="font-family: inherit; font-weight: 500;">${row[0]}</td>
+                    <td>${integrated}</td>
+                    <td>${row[2].toFixed(2)}</td>
+                    <td>${row[3].toFixed(2)}</td>
+                </tr>`;
+            }).join('');
+
+            document.getElementById('comparisonBody').innerHTML = html;
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById(tab + 'Tab').classList.add('active');
+
+            // Generate R code when switching to R code tab
+            if (tab === 'rcode' && lastResult) {
+                generateRCode();
+            }
+        }
+
+        function generateRCode() {
+            const demandStr = document.getElementById('demandFunction').value;
+            const C = parseFloat(document.getElementById('producerCost').value);
+            const markup = parseFloat(document.getElementById('retailerMarkup').value);
+            const priceMin = parseFloat(document.getElementById('priceMin').value);
+            const priceMax = parseFloat(document.getElementById('priceMax').value);
+
+            // Convert demand function to R syntax
+            const demandR = demandStr.replace(/\^/g, '^').replace(/\bP\b/g, 'P');
+
+            let code = `<span class="comment"># ============================================</span>
+<span class="comment"># Channel Pricing Optimizer</span>
+<span class="comment"># ============================================</span>
+
+<span class="comment"># --- Model Setup ---</span>
+
+<span class="comment"># Demand function: Q = f(P)</span>
+<span class="function">demand</span> = <span class="keyword">function</span>(P) {
+  <span class="keyword">return</span>(${demandR})
+}
+
+<span class="comment"># Cost</span>
+C = <span class="number">${C}</span>
+
+<span class="comment"># Markup (for Scenario 2)</span>
+markup = <span class="number">${markup / 100}</span>  <span class="comment"># ${markup}%</span>
+
+<span class="comment"># Price bounds</span>
+price_min = <span class="number">${priceMin}</span>
+price_max = <span class="number">${priceMax}</span>
+
+
+<span class="comment"># ============================================</span>
+<span class="comment"># Scenario 1: Vertical Integration</span>
+<span class="comment"># Producer sets retail price P directly</span>
+<span class="comment"># ============================================</span>
+
+<span class="comment"># Producer profit function</span>
+<span class="function">producer_profit_integrated</span> = <span class="keyword">function</span>(P) {
+  Q = <span class="function">demand</span>(P)
+  <span class="keyword">if</span> (Q < <span class="number">0</span>) <span class="keyword">return</span>(<span class="number">-Inf</span>)
+  <span class="keyword">return</span>((P - C) * Q)
+}
+
+<span class="comment"># Optimize</span>
+result_integrated = <span class="function">optimize</span>(producer_profit_integrated,
+                             <span class="function">c</span>(price_min, price_max),
+                             maximum = <span class="keyword">TRUE</span>)
+
+P_integrated = result_integrated$maximum
+Q_integrated = <span class="function">demand</span>(P_integrated)
+profit_integrated = result_integrated$objective
+
+<span class="function">cat</span>(<span class="string">"=== Scenario 1: Vertical Integration ==="</span>, <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Optimal P:"</span>, <span class="function">round</span>(P_integrated, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Quantity:"</span>, <span class="function">round</span>(Q_integrated, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Total Profit:"</span>, <span class="function">round</span>(profit_integrated, <span class="number">2</span>), <span class="string">"\\n\\n"</span>)
+
+
+<span class="comment"># ============================================</span>
+<span class="comment"># Scenario 2: Cost-Plus Retailer</span>
+<span class="comment"># Retailer sets P = W * (1 + markup)</span>
+<span class="comment"># ============================================</span>
+
+m = 1 + markup
+
+<span class="comment"># Producer profit function</span>
+<span class="function">producer_profit_costplus</span> = <span class="keyword">function</span>(W) {
+  P = W * m
+  Q = <span class="function">demand</span>(P)
+  <span class="keyword">if</span> (Q < <span class="number">0</span>) <span class="keyword">return</span>(<span class="number">-Inf</span>)
+  <span class="keyword">return</span>((W - C) * Q)
+}
+
+<span class="comment"># Optimize</span>
+w_min = <span class="function">max</span>(C, price_min / m)
+w_max = price_max / m
+
+result_costplus = <span class="function">optimize</span>(producer_profit_costplus,
+                           <span class="function">c</span>(w_min, w_max),
+                           maximum = <span class="keyword">TRUE</span>)
+
+W_costplus = result_costplus$maximum
+P_costplus = W_costplus * m
+Q_costplus = <span class="function">demand</span>(P_costplus)
+producer_profit_cp = result_costplus$objective
+retailer_profit_cp = (P_costplus - W_costplus) * Q_costplus
+
+<span class="function">cat</span>(<span class="string">"=== Scenario 2: Cost-Plus Retailer (${markup}% markup) ==="</span>, <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Optimal W:"</span>, <span class="function">round</span>(W_costplus, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Retail P:"</span>, <span class="function">round</span>(P_costplus, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Quantity:"</span>, <span class="function">round</span>(Q_costplus, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Producer Profit:"</span>, <span class="function">round</span>(producer_profit_cp, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Retailer Profit:"</span>, <span class="function">round</span>(retailer_profit_cp, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Total Profit:"</span>, <span class="function">round</span>(producer_profit_cp + retailer_profit_cp, <span class="number">2</span>), <span class="string">"\\n\\n"</span>)
+
+
+<span class="comment"># ============================================</span>
+<span class="comment"># Scenario 3: Strategic Retailer (Stackelberg)</span>
+<span class="comment"># Retailer optimizes given W</span>
+<span class="comment"># Producer anticipates retailer's response</span>
+<span class="comment"># ============================================</span>
+
+<span class="comment"># Retailer profit function (given W)</span>
+<span class="function">retailer_profit</span> = <span class="keyword">function</span>(P, W) {
+  Q = <span class="function">demand</span>(P)
+  <span class="keyword">if</span> (Q < <span class="number">0</span>) <span class="keyword">return</span>(<span class="number">-Inf</span>)
+  <span class="keyword">return</span>((P - W) * Q)
+}
+
+<span class="comment"># Retailer's best response: optimal P given W</span>
+<span class="function">retailer_best_response</span> = <span class="keyword">function</span>(W) {
+  result = <span class="function">optimize</span>(<span class="keyword">function</span>(P) <span class="function">retailer_profit</span>(P, W),
+                    <span class="function">c</span>(W, price_max),
+                    maximum = <span class="keyword">TRUE</span>)
+  <span class="keyword">return</span>(result$maximum)
+}
+
+<span class="comment"># Producer profit function (anticipating retailer's response)</span>
+<span class="function">producer_profit_strategic</span> = <span class="keyword">function</span>(W) {
+  P = <span class="function">retailer_best_response</span>(W)
+  Q = <span class="function">demand</span>(P)
+  <span class="keyword">if</span> (Q < <span class="number">0</span>) <span class="keyword">return</span>(<span class="number">-Inf</span>)
+  <span class="keyword">return</span>((W - C) * Q)
+}
+
+<span class="comment"># Optimize</span>
+result_strategic = <span class="function">optimize</span>(producer_profit_strategic,
+                            <span class="function">c</span>(C, price_max * <span class="number">0.9</span>),
+                            maximum = <span class="keyword">TRUE</span>)
+
+W_strategic = result_strategic$maximum
+P_strategic = <span class="function">retailer_best_response</span>(W_strategic)
+Q_strategic = <span class="function">demand</span>(P_strategic)
+producer_profit_st = result_strategic$objective
+retailer_profit_st = (P_strategic - W_strategic) * Q_strategic
+
+<span class="function">cat</span>(<span class="string">"=== Scenario 3: Strategic Retailer (Stackelberg) ==="</span>, <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Optimal W:"</span>, <span class="function">round</span>(W_strategic, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Retail P:"</span>, <span class="function">round</span>(P_strategic, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Quantity:"</span>, <span class="function">round</span>(Q_strategic, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Producer Profit:"</span>, <span class="function">round</span>(producer_profit_st, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Retailer Profit:"</span>, <span class="function">round</span>(retailer_profit_st, <span class="number">2</span>), <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Total Profit:"</span>, <span class="function">round</span>(producer_profit_st + retailer_profit_st, <span class="number">2</span>), <span class="string">"\\n\\n"</span>)
+
+
+<span class="comment"># ============================================</span>
+<span class="comment"># Summary</span>
+<span class="comment"># ============================================</span>
+
+summary_df = <span class="function">data.frame</span>(
+  Scenario = <span class="function">c</span>(<span class="string">"1. Integrated"</span>, <span class="string">"2. Cost-Plus"</span>, <span class="string">"3. Strategic"</span>),
+  W = <span class="function">c</span>(<span class="keyword">NA</span>, W_costplus, W_strategic),
+  P = <span class="function">c</span>(P_integrated, P_costplus, P_strategic),
+  Q = <span class="function">c</span>(Q_integrated, Q_costplus, Q_strategic),
+  Producer_Profit = <span class="function">c</span>(profit_integrated, producer_profit_cp, producer_profit_st),
+  Retailer_Profit = <span class="function">c</span>(<span class="number">0</span>, retailer_profit_cp, retailer_profit_st),
+  Total_Profit = <span class="function">c</span>(profit_integrated,
+                    producer_profit_cp + retailer_profit_cp,
+                    producer_profit_st + retailer_profit_st)
+)
+
+<span class="function">print</span>(summary_df)
+
+<span class="comment"># Efficiency loss</span>
+<span class="function">cat</span>(<span class="string">"\\n=== Efficiency Loss vs. Integration ==="</span>, <span class="string">"\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Cost-Plus:"</span>, <span class="function">round</span>((profit_integrated - producer_profit_cp - retailer_profit_cp) / profit_integrated * <span class="number">100</span>, <span class="number">1</span>), <span class="string">"%\\n"</span>)
+<span class="function">cat</span>(<span class="string">"Strategic:"</span>, <span class="function">round</span>((profit_integrated - producer_profit_st - retailer_profit_st) / profit_integrated * <span class="number">100</span>, <span class="number">1</span>), <span class="string">"%\\n"</span>)
+`;
+
+            document.getElementById('rCodeOutput').innerHTML = code;
+        }
+
+        function copyRCode() {
+            const codeBox = document.getElementById('rCodeOutput');
+            // Get text content without HTML tags
+            const text = codeBox.innerText || codeBox.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy', 2000);
+            });
+        }
+    </script>
+
+</div> <!-- end main-content -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBg3LJDwVIRGWtFZb_mM_CSRJMNCJUta20",
+        authDomain: "iu-pricing-tools.firebaseapp.com",
+        projectId: "iu-pricing-tools",
+        storageBucket: "iu-pricing-tools.firebasestorage.app",
+        messagingSenderId: "659335573790",
+        appId: "1:659335573790:web:00013a166787efecb3d90f",
+        measurementId: "G-NGKNY08XWP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+</body>
+</html>

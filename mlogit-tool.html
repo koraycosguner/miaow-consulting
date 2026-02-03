@@ -1,0 +1,2164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logistic Regressions - Setup</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --warning: #f59e0b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .disclaimer-title {
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+
+        .disclaimer ul {
+            margin-left: 1.25rem;
+            color: #78350f;
+        }
+
+        .disclaimer li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Requirements */
+        .requirements {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .requirements-title {
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+        }
+
+        .requirements ul {
+            margin-left: 1.25rem;
+            color: #1e3a8a;
+        }
+
+        /* Steps */
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .step-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Code block */
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+
+        .code-block code {
+            color: #4ade80;
+        }
+
+        /* Links */
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Download button */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        /* Features list */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-dark);
+        }
+
+        .feature-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .subtitle {
+                font-size: 0.9rem;
+            }
+            .card {
+                padding: 1rem;
+            }
+            .step {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .step-number {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .code-block {
+                font-size: 0.8rem;
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Auth check -->
+<div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <p style="color: #64748b;">Loading...</p>
+</div>
+<div id="main-content" style="display: none;">
+    <div style="max-width: 800px; margin: 0 auto; padding: 0 0 10px 0;">
+        <a href="tools.html" style="display: inline-flex; align-items: center; gap: 6px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 500;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Pricing & Analytics Tools
+        </a>
+    </div>
+    <div class="container">
+        <h1>Logistic Regressions</h1>
+        <p class="subtitle">Estimate discrete choice models using the "mlogit" package in R.</p>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <div class="disclaimer-title">Disclaimer</div>
+            <ul>
+                <li><strong>Results may contain errors.</strong> The output from this tool may be inaccurate, incomplete, or incorrect. Users should independently verify all results before relying on them.</li>
+                <li><strong>No warranty.</strong> This tool is provided "as is" without any warranty of any kind.</li>
+                <li><strong>User assumes all risk.</strong> Users assume full and complete responsibility for reviewing, validating, and determining suitability of any output.</li>
+            </ul>
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(245, 158, 11, 0.3);">
+                <strong>📧 Report issues:</strong> If you encounter any issues, problems, or errors while using this tool, please contact Dr. Cosguner at <a href="mailto:kcosgun@iu.edu" style="color: #92400e; font-weight: 600;">kcosgun@iu.edu</a> so they can be resolved promptly.
+            </div>
+        </div>
+
+        <!-- Requirements -->
+        <div class="requirements">
+            <div class="requirements-title">Requirements</div>
+            <ul>
+                <li><strong>R</strong> - Statistical programming language (<a href="https://cran.r-project.org/" target="_blank">Download R</a>)</li>
+                <li><strong>RStudio</strong> - IDE for R (<a href="https://posit.co/download/rstudio-desktop/" target="_blank">Download RStudio</a>)</li>
+            </ul>
+        </div>
+
+        <!-- Setup Instructions -->
+        <div class="card">
+            <div class="card-title">Setup Instructions</div>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">Install R and RStudio</div>
+                    <div class="step-description">
+                        If you don't have R and RStudio installed, download and install them from the links above. Install R first, then RStudio.
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">Download and Open the App</div>
+                    <div class="step-description">
+                        Download the app file and open it in RStudio:
+                    </div>
+                    <button class="btn" id="downloadBtn">Download Discrete_Choice_Models.R</button>
+                    <div class="step-description" style="margin-top: 0.75rem;">
+                        In RStudio: File &rarr; Open File &rarr; Select the downloaded <code>Discrete_Choice_Models.R</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">Run the App</div>
+                    <div class="step-description">
+                        With <code>Discrete_Choice_Models.R</code> open in RStudio, click the <strong>"Run App"</strong> button in the top-right corner of the editor panel. The app will open in a new window or your web browser.
+                    </div>
+                    <div class="step-description" style="margin-top: 0.5rem;">
+                        <strong>Note:</strong> On first run, the app will automatically install the required R packages (<code>shiny</code> and <code>mlogit</code>). This may take a minute.
+                    </div>
+                    <div class="step-description" style="margin-top: 0.5rem;">
+                        <strong>Tip:</strong> To open in fullscreen/external browser, click the "Open in Browser" button in the app window, or use the dropdown next to "Run App" and select "Run External".
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Format -->
+        <div class="card">
+            <div class="card-title">Data Format</div>
+            <div class="step-description">
+                The app supports both <strong>long format</strong> and <strong>wide format</strong> data. You can select your format when using the app.
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <strong>Long Format</strong> (one row per alternative per choice occasion):
+            </div>
+            <ul style="margin: 0.5rem 0 1rem 1.5rem; color: var(--text-light);">
+                <li><strong>Choice ID</strong> - Identifies each choice occasion</li>
+                <li><strong>Alternative Variable</strong> - Names the alternatives (e.g., Coke, Pepsi)</li>
+                <li><strong>Choice Variable</strong> - Binary (1/0) indicating which alternative was chosen</li>
+                <li><strong>Alternative-specific variables</strong> - Attributes that vary by alternative (e.g., Price)</li>
+            </ul>
+
+            <div>
+                <strong>Wide Format</strong> (one row per choice occasion):
+            </div>
+            <ul style="margin: 0.5rem 0 0 1.5rem; color: var(--text-light);">
+                <li><strong>Choice ID</strong> - Identifies each choice occasion</li>
+                <li><strong>Choice columns</strong> - Separate 0/1 columns for each alternative (e.g., ChoiceCoke, ChoicePepsi)</li>
+                <li><strong>Attribute columns</strong> - Separate columns for each alternative's attributes (e.g., PriceCoke, PricePepsi)</li>
+            </ul>
+        </div>
+
+        <!-- Features -->
+        <div class="card">
+            <div class="card-title">Features</div>
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-title">Long & Wide Format</div>
+                    <div class="feature-desc">Upload data in either format; wide format auto-converts to long</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Dynamic Variable Builder</div>
+                    <div class="feature-desc">Add variables one at a time with alternative-invariant or alternative-specific coefficients</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Reference Level</div>
+                    <div class="feature-desc">Select the reference alternative (e.g., NoPurchase)</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Intercept Options</div>
+                    <div class="feature-desc">Alternative-specific or no intercept</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Model Estimates</div>
+                    <div class="feature-desc">View coefficients, std. errors, and p-values</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-title">Model Fit Statistics</div>
+                    <div class="feature-desc">AIC and Log-Likelihood</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting -->
+        <div class="card">
+            <div class="card-title">Troubleshooting</div>
+
+            <div style="margin-bottom: 1rem;">
+                <strong>App doesn't open</strong>
+                <div class="step-description">Make sure you have the <code>Discrete_Choice_Models.R</code> file open in RStudio's editor (not just in the file browser), then click "Run App".</div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <strong>Package installation fails</strong>
+                <div class="step-description">Try running these commands manually in the Console:</div>
+                <div class="code-block">
+<code>install.packages("shiny")</code>
+<code>install.packages("mlogit")</code>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 1rem;">
+                <strong>Model fails to estimate</strong>
+                <div class="step-description">Ensure the choice variable is binary (0/1) and exactly one alternative is chosen per choice occasion. For wide format, make sure alternative names match the suffixes in your column names.</div>
+            </div>
+
+            <div>
+                <strong>"Run App" button not visible</strong>
+                <div class="step-description">Make sure the file is saved with a <code>.R</code> extension. RStudio only shows the "Run App" button for R files that contain Shiny code.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const rCode = `# Multinomial and Conditional Logistic Regressions - Shiny App
+#
+# TO RUN THIS APP:
+#   1. Open this file in RStudio
+#   2. Click "Run App" button (top right of editor)
+#   OR run in console: shiny::runApp()
+#
+# TIP: To run in fullscreen/external browser, use:
+#   options(shiny.launch.browser = TRUE)
+#   shiny::runApp()
+
+# Auto-install required packages if missing
+if (!require("shiny", quietly = TRUE)) {
+  install.packages("shiny", repos = "https://cloud.r-project.org")
+}
+if (!require("mlogit", quietly = TRUE)) {
+  install.packages("mlogit", repos = "https://cloud.r-project.org")
+}
+
+library(shiny)
+library(mlogit)
+
+# Increase max upload size to 100MB
+options(shiny.maxRequestSize = 100 * 1024^2)
+
+ui = fluidPage(
+  # Custom CSS
+  tags$head(
+    tags$style(HTML("
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #f8fafc;
+        padding: 20px;
+      }
+      .container-fluid {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      h1 {
+        text-align: center;
+        color: #1e293b;
+        margin-bottom: 5px;
+      }
+      .subtitle {
+        text-align: center;
+        color: #64748b;
+        margin-bottom: 30px;
+      }
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      }
+      .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #1e293b;
+      }
+      .btn-primary {
+        background: #2563eb;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+      }
+      .btn-primary:hover {
+        background: #1d4ed8;
+      }
+      .btn-success {
+        background: #16a34a;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+      }
+      .btn-success:hover {
+        background: #15803d;
+      }
+      .btn-secondary {
+        background: #64748b;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        color: white;
+      }
+      .btn-secondary:hover {
+        background: #475569;
+      }
+      .btn-danger {
+        background: #dc2626;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        color: white;
+        font-size: 0.85rem;
+      }
+      .btn-danger:hover {
+        background: #b91c1c;
+      }
+      .stat-box {
+        background: #f8fafc;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2563eb;
+      }
+      .stat-label {
+        font-size: 0.85rem;
+        color: #64748b;
+      }
+      .disclaimer {
+        background: #fef3c7;
+        border: 1px solid #f59e0b;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        font-size: 1rem;
+      }
+      .disclaimer-title {
+        font-weight: 600;
+        color: #92400e;
+        margin-bottom: 8px;
+      }
+      .disclaimer ul {
+        margin-left: 20px;
+        color: #78350f;
+        margin-bottom: 0;
+      }
+      .table {
+        font-size: 0.9rem;
+      }
+      .nav-tabs .nav-link.active {
+        background: #2563eb;
+        color: white;
+        border: none;
+      }
+      .nav-tabs .nav-link {
+        color: #64748b;
+        border: none;
+        border-radius: 6px;
+        margin-right: 5px;
+      }
+      .help-text {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-top: 5px;
+      }
+      .info-box {
+        background: #dbeafe;
+        border: 1px solid #3b82f6;
+        border-radius: 8px;
+        padding: 12px 15px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+        color: #1e40af;
+      }
+      .coef-header {
+        background: #2563eb;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px 8px 0 0;
+        font-weight: 600;
+      }
+      .coef-body {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-top: none;
+        border-radius: 0 0 8px 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+      pre.r-script {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        overflow-x: auto;
+      }
+      .var-row {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 12px 15px;
+        margin-bottom: 10px;
+      }
+      .var-row .form-group {
+        margin-bottom: 0;
+      }
+      .form-group {
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .shiny-input-container {
+        width: 100% !important;
+      }
+      .center-content {
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .format-option {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+      }
+      .format-option h5 {
+        margin-bottom: 8px;
+        color: #1e293b;
+      }
+      .format-option p {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-bottom: 8px;
+      }
+      .format-option pre {
+        background: #1e293b;
+        color: #e2e8f0;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        overflow-x: auto;
+        margin: 0;
+      }
+      .data-preview {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+        overflow-x: auto;
+      }
+      .data-preview h5 {
+        margin-bottom: 10px;
+        color: #1e293b;
+      }
+      .data-preview table {
+        font-size: 0.85rem;
+        width: 100%;
+      }
+    "))
+  ),
+
+  # Title
+  h1("Shiny App for Logistic Regressions"),
+  p(class = "subtitle", "Estimate discrete choice models using the \\"mlogit\\" package in R."),
+
+  # Disclaimer
+  div(class = "disclaimer",
+    div(class = "disclaimer-title", "Disclaimer"),
+    tags$ul(
+      tags$li(tags$strong("Results may contain errors."), " The output from this tool may be inaccurate, incomplete, or incorrect. Users should independently verify all results."),
+      tags$li(tags$strong("No warranty."), " This tool is provided \\"as is\\" without any warranty of any kind."),
+      tags$li(tags$strong("User assumes all risk."), " Users assume full responsibility for reviewing and validating any output.")
+    ),
+    div(style = "margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(245, 158, 11, 0.3);",
+      tags$strong("📧 Report issues:"), " If you encounter any issues, problems, or errors while using this tool, please contact Dr. Cosguner at ",
+      tags$a(href = "mailto:kcosgun@iu.edu", style = "color: #92400e; font-weight: 600;", "kcosgun@iu.edu"),
+      " so they can be resolved promptly."
+    )
+  ),
+
+  # Process Summary
+  uiOutput("process_summary"),
+
+  # Top-to-bottom layout
+  # Step 1: Data Format Selection
+  div(class = "card",
+    div(class = "card-title", "1. Data Format"),
+    div(class = "center-content",
+      radioButtons("data_format", "What format is your data in?",
+        choices = c(
+          "Long Format" = "long",
+          "Wide Format" = "wide"
+        ),
+        selected = "long"
+      )
+    ),
+
+    # Format explanations
+    div(class = "format-option",
+      h5("Long Format (Recommended)"),
+      p("Each row represents one alternative within a choice occasion. If there are 4 alternatives per choice, each choice has 4 rows."),
+      tags$pre("ID  ChoiceID  Alt     Price  Chosen
+1   1         A       5.99   0
+1   1         B       4.99   1
+1   1         C       6.99   0
+1   2         A       5.49   1
+1   2         B       5.29   0
+1   2         C       6.49   0")
+    ),
+
+    div(class = "format-option",
+      h5("Wide Format"),
+      p("Each row represents one choice occasion. Alternative attributes are in separate columns with suffixes (e.g., PriceCoke, PricePepsi, ChoiceCoke, ChoicePepsi)."),
+      tags$pre("ID  Weeks  PriceCoke  PricePepsi  ChoiceCoke  ChoicePepsi
+1   1      0.64       0.85        0           1
+1   2      0.87       0.63        0           0")
+    )
+  ),
+
+  # Step 2: Data Upload (conditional)
+  uiOutput("upload_card"),
+
+  # Data Filter (conditional - after upload)
+  uiOutput("filter_card"),
+
+  # Wide format structure (conditional)
+  uiOutput("wide_structure_card"),
+
+  # Data Structure (conditional)
+  uiOutput("data_structure_card"),
+
+  # Model Setup (conditional)
+  uiOutput("model_setup_card"),
+
+  # Run button (conditional)
+  uiOutput("run_card"),
+
+  # Results
+  uiOutput("results_card")
+)
+
+server = function(input, output, session) {
+
+  # Process Summary
+  output$process_summary = renderUI({
+    req(input$data_format)
+
+    if (input$data_format == "long") {
+      div(class = "info-box",
+        tags$strong("Process Summary"),
+        tags$ul(style = "margin-top: 8px; margin-bottom: 0;",
+          tags$li("Your data will be transformed into an estimable format by the ", tags$code("mlogit"), " package in R."),
+          tags$li("Once the data transformation is complete, the model will be estimated based on your choice of slope specifications (choice-invariant vs. choice-specific) for each independent variable.")
+        )
+      )
+    } else {
+      div(class = "info-box",
+        tags$strong("Process Summary"),
+        tags$ul(style = "margin-top: 8px; margin-bottom: 0;",
+          tags$li("Your wide-format data will first be transformed into long format (one row per alternative per choice occasion)."),
+          tags$li("The long-format data will then be transformed into an estimable format by the ", tags$code("mlogit"), " package in R."),
+          tags$li("Once the data transformation is complete, the model will be estimated based on your choice of slope specifications (choice-invariant vs. choice-specific) for each independent variable.")
+        )
+      )
+    }
+  })
+
+  # Reactive values
+  data = reactiveVal(NULL)
+  mlogit_data = reactiveVal(NULL)
+  model_result = reactiveVal(NULL)
+
+  # Reactive for wide format raw data
+  wide_data = reactiveVal(NULL)
+
+  # Reactive for filtering
+  use_filtered_data = reactiveVal(FALSE)
+  filtered_data = reactiveVal(NULL)
+  filter_conditions = reactiveVal(list())
+
+  # Clear data when format changes
+  observeEvent(input$data_format, {
+    data(NULL)
+    wide_data(NULL)
+    mlogit_data(NULL)
+    model_result(NULL)
+    use_filtered_data(FALSE)
+    filtered_data(NULL)
+    filter_conditions(list())
+  }, ignoreInit = TRUE)
+
+  # Upload card (for both formats)
+  output$upload_card = renderUI({
+    req(input$data_format)
+
+    format_type = input$data_format
+
+    help_text = if (format_type == "long") {
+      "Upload a CSV file in long format (one row per alternative per choice occasion)."
+    } else {
+      "Upload a CSV file in wide format (one row per choice occasion)."
+    }
+
+    div(class = "card",
+      div(class = "card-title", "2. Upload Data"),
+      div(class = "center-content",
+        fileInput("file", "Choose CSV File",
+          accept = c("text/csv", "text/comma-separated-values", ".csv")
+        ),
+        p(class = "help-text", help_text)
+      ),
+      # Data preview
+      uiOutput("data_preview")
+    )
+  })
+
+  # Data preview
+  output$data_preview = renderUI({
+    req(input$data_format)
+
+    # Show preview for either format
+    df = if (input$data_format == "long") data() else wide_data()
+    if (is.null(df)) return(NULL)
+
+    div(class = "data-preview",
+      h5(paste0("Data Preview (", nrow(df), " rows, ", ncol(df), " columns)")),
+      tableOutput("preview_table")
+    )
+  })
+
+  # Preview table (first 10 rows)
+  output$preview_table = renderTable({
+    req(input$data_format)
+
+    df = if (input$data_format == "long") data() else wide_data()
+    if (is.null(df)) return(NULL)
+    head(df, 10)
+  }, rownames = FALSE)
+
+  # Load data
+  observeEvent(input$file, {
+    req(input$file)
+    tryCatch({
+      df = read.csv(input$file$datapath, stringsAsFactors = FALSE)
+
+      if (input$data_format == "long") {
+        data(df)
+        wide_data(NULL)
+      } else {
+        wide_data(df)
+        data(NULL)  # Will be set after conversion
+      }
+
+      mlogit_data(NULL)
+      model_result(NULL)
+      use_filtered_data(FALSE)
+      filtered_data(NULL)
+      filter_conditions(list())
+      showNotification(paste("Loaded", nrow(df), "rows and", ncol(df), "columns."), type = "message")
+    }, error = function(e) {
+      showNotification(paste("Error loading file:", e$message), type = "error")
+    })
+  })
+
+  # Filter card
+  output$filter_card = renderUI({
+    req(input$data_format)
+
+    # Get the appropriate data based on format
+    df = if (input$data_format == "long") data() else wide_data()
+    if (is.null(df)) return(NULL)
+
+    cols = names(df)
+    n_total = nrow(df)
+
+    # Determine column types
+    col_types = sapply(df, function(x) {
+      if (is.numeric(x)) "numeric" else "categorical"
+    })
+
+    # Build unique values for categorical columns (for dropdowns)
+    cat_values = lapply(cols, function(col) {
+      if (col_types[col] == "categorical") {
+        sort(unique(as.character(df[[col]])))
+      } else {
+        NULL
+      }
+    })
+    names(cat_values) = cols
+
+    div(class = "card",
+      div(class = "card-title", "Data Filter (Optional)"),
+      div(class = "center-content",
+        radioButtons("use_filter", "Which data to use?",
+          choices = c(
+            "Use full data" = "full",
+            "Filter data" = "filtered"
+          ),
+          selected = "full",
+          inline = TRUE
+        ),
+        p(style = "font-size: 0.85rem; color: #64748b;",
+          paste0("Full data: ", n_total, " rows")
+        ),
+
+        # Filter conditions (shown only when "Filter data" selected)
+        conditionalPanel(
+          condition = "input.use_filter == 'filtered'",
+          div(id = "filter_rows",
+            uiOutput("filter_rows_ui")
+          ),
+          div(style = "margin-top: 10px;",
+            actionButton("add_filter", "+ Add Filter Condition", class = "btn-secondary", style = "font-size: 0.85rem;")
+          ),
+          div(id = "filter_summary", style = "margin-top: 10px; padding: 8px; background: #e0f2fe; border-radius: 6px;",
+            textOutput("filter_summary_text")
+          )
+        )
+      )
+    )
+  })
+
+  # Dynamic filter rows
+  output$filter_rows_ui = renderUI({
+    req(input$data_format)
+    df = if (input$data_format == "long") data() else wide_data()
+    if (is.null(df)) return(NULL)
+
+    conditions = filter_conditions()
+    if (length(conditions) == 0) return(NULL)
+
+    cols = names(df)
+    col_types = sapply(df, function(x) if (is.numeric(x)) "numeric" else "categorical")
+
+    lapply(seq_along(conditions), function(i) {
+      cond = conditions[[i]]
+      selected_col = cond$column
+      selected_type = col_types[selected_col]
+
+      # Get unique values for categorical
+      unique_vals = if (selected_type == "categorical") {
+        sort(unique(as.character(df[[selected_col]])))
+      } else NULL
+
+      div(class = "filter-row", style = "display: flex; gap: 8px; align-items: center; margin-bottom: 8px; flex-wrap: wrap;",
+        selectInput(paste0("filter_col_", i), NULL,
+          choices = cols,
+          selected = selected_col,
+          width = "150px"
+        ),
+        selectInput(paste0("filter_op_", i), NULL,
+          choices = if (selected_type == "numeric") {
+            c("=" = "eq", "≠" = "neq", ">" = "gt", ">=" = "gte", "<" = "lt", "<=" = "lte")
+          } else {
+            c("=" = "eq", "≠" = "neq")
+          },
+          selected = cond$operator,
+          width = "80px"
+        ),
+        if (selected_type == "categorical") {
+          selectInput(paste0("filter_val_", i), NULL,
+            choices = unique_vals,
+            selected = cond$value,
+            width = "150px"
+          )
+        } else {
+          textInput(paste0("filter_val_", i), NULL,
+            value = cond$value,
+            width = "150px",
+            placeholder = "Value"
+          )
+        },
+        actionButton(paste0("remove_filter_", i), "×",
+          class = "btn-danger",
+          style = "padding: 4px 10px; font-size: 1rem; min-width: 35px;"
+        )
+      )
+    })
+  })
+
+  # Add filter condition
+  observeEvent(input$add_filter, {
+    req(input$data_format)
+    df = if (input$data_format == "long") data() else wide_data()
+    if (is.null(df)) return()
+
+    cols = names(df)
+    conditions = filter_conditions()
+    conditions[[length(conditions) + 1]] = list(
+      column = cols[1],
+      operator = "eq",
+      value = ""
+    )
+    filter_conditions(conditions)
+  })
+
+  # Observe filter column changes to update operator and value
+
+  observe({
+    req(input$data_format)
+    df = if (input$data_format == "long") data() else wide_data()
+    if (is.null(df)) return()
+
+    conditions = filter_conditions()
+    if (length(conditions) == 0) return()
+
+    for (i in seq_along(conditions)) {
+      local({
+        idx = i
+        col_input = paste0("filter_col_", idx)
+        op_input = paste0("filter_op_", idx)
+        val_input = paste0("filter_val_", idx)
+        remove_input = paste0("remove_filter_", idx)
+
+        # Update condition when inputs change
+        observeEvent(input[[col_input]], {
+          conditions = filter_conditions()
+          if (idx <= length(conditions)) {
+            conditions[[idx]]$column = input[[col_input]]
+            conditions[[idx]]$value = ""  # Reset value when column changes
+            filter_conditions(conditions)
+          }
+        }, ignoreInit = TRUE)
+
+        observeEvent(input[[op_input]], {
+          conditions = filter_conditions()
+          if (idx <= length(conditions)) {
+            conditions[[idx]]$operator = input[[op_input]]
+            filter_conditions(conditions)
+          }
+        }, ignoreInit = TRUE)
+
+        observeEvent(input[[val_input]], {
+          conditions = filter_conditions()
+          if (idx <= length(conditions)) {
+            conditions[[idx]]$value = input[[val_input]]
+            filter_conditions(conditions)
+          }
+        }, ignoreInit = TRUE)
+
+        # Remove filter
+        observeEvent(input[[remove_input]], {
+          conditions = filter_conditions()
+          if (idx <= length(conditions)) {
+            conditions[[idx]] = NULL
+            filter_conditions(conditions)
+          }
+        }, ignoreInit = TRUE)
+      })
+    }
+  })
+
+  # Apply filters and update filtered_data
+  observe({
+    req(input$data_format)
+    df = if (input$data_format == "long") data() else wide_data()
+    if (is.null(df)) return()
+
+    if (!isTRUE(input$use_filter == "filtered")) {
+      use_filtered_data(FALSE)
+      filtered_data(NULL)
+      return()
+    }
+
+    use_filtered_data(TRUE)
+    conditions = filter_conditions()
+
+    if (length(conditions) == 0) {
+      filtered_data(df)
+      return()
+    }
+
+    result = df
+    for (cond in conditions) {
+      if (is.null(cond) || cond$value == "") next
+
+      col = cond$column
+      op = cond$operator
+      val = cond$value
+
+      col_is_numeric = is.numeric(df[[col]])
+      if (col_is_numeric) val = as.numeric(val)
+
+      result = switch(op,
+        "eq" = result[result[[col]] == val, , drop = FALSE],
+        "neq" = result[result[[col]] != val, , drop = FALSE],
+        "gt" = result[result[[col]] > val, , drop = FALSE],
+        "gte" = result[result[[col]] >= val, , drop = FALSE],
+        "lt" = result[result[[col]] < val, , drop = FALSE],
+        "lte" = result[result[[col]] <= val, , drop = FALSE],
+        result
+      )
+    }
+
+    filtered_data(result)
+  })
+
+  # Filter summary text
+  output$filter_summary_text = renderText({
+    if (!isTRUE(input$use_filter == "filtered")) return("")
+
+    df = if (input$data_format == "long") data() else wide_data()
+    fdf = filtered_data()
+
+    if (is.null(df)) return("")
+    if (is.null(fdf)) return(paste0("Filtered: ", nrow(df), " of ", nrow(df), " rows"))
+
+    paste0("Filtered: ", nrow(fdf), " of ", nrow(df), " rows")
+  })
+
+  # Helper function to get the working data (filtered or full)
+  working_data = reactive({
+    if (isTRUE(use_filtered_data())) {
+      fdf = filtered_data()
+      if (!is.null(fdf)) return(fdf)
+    }
+    if (input$data_format == "long") data() else wide_data()
+  })
+
+  # Wide format structure card
+  output$wide_structure_card = renderUI({
+    if (input$data_format != "wide") return(NULL)
+    df = working_data()
+    if (is.null(df)) return(NULL)
+
+    cols = names(df)
+
+    div(class = "card",
+      div(class = "card-title", "4. Wide Format Structure"),
+      div(class = "center-content",
+        selectInput("wide_chid_var", "Choice ID Variable",
+          choices = cols,
+          selected = if ("Observation" %in% cols) "Observation" else if ("ChoiceID" %in% cols) "ChoiceID" else cols[1]
+        ),
+        p(class = "help-text", "Variable that identifies each choice occasion (row)."),
+
+        selectizeInput("wide_choice_cols", "Choice Indicator Columns",
+          choices = cols,
+          multiple = TRUE,
+          options = list(placeholder = "Select columns like ChoiceCoke, ChoicePepsi...")
+        ),
+        p(class = "help-text", "Select ALL columns that indicate which alternative was chosen (0/1 for each alternative)."),
+
+        selectizeInput("wide_varying_cols", "Choice-Specific IVs",
+          choices = cols,
+          multiple = TRUE,
+          options = list(placeholder = "Select columns like PriceCoke, PricePepsi...")
+        ),
+        p(class = "help-text", "Select columns with alternative-specific attributes (e.g., prices)."),
+
+        textInput("wide_alt_prefix", "Alternative Names (comma-separated)",
+          value = "",
+          placeholder = "NoPurchase, Coke, Pepsi, Sprite, Fanta, StoreBrand"
+        ),
+        p(class = "help-text", "Enter the alternative names that appear as suffixes in your column names."),
+
+        actionButton("convert_wide", "Convert to Long Format", class = "btn-primary", style = "width: 100%; margin-top: 10px;")
+      )
+    )
+  })
+
+  # Convert wide to long format
+  observeEvent(input$convert_wide, {
+    df_wide = wide_data()
+    req(df_wide, input$wide_chid_var, input$wide_choice_cols)
+
+    tryCatch({
+      withProgress(message = "Converting to long format...", {
+
+        # Get alternative names from user input or extract from column names
+        alt_names = trimws(unlist(strsplit(input$wide_alt_prefix, ",")))
+
+        if (length(alt_names) == 0 || all(alt_names == "")) {
+          # Try to extract from choice column names
+          choice_cols = input$wide_choice_cols
+          # Remove common prefixes like "Choice"
+          alt_names = gsub("^Choice", "", choice_cols)
+          alt_names = gsub("^choice", "", alt_names)
+        }
+
+        n_alts = length(alt_names)
+        if (n_alts < 2) {
+          showNotification("Please specify at least 2 alternatives.", type = "error")
+          return()
+        }
+
+        # Build long format data
+        chid_var = input$wide_chid_var
+        choice_cols = input$wide_choice_cols
+        varying_cols = input$wide_varying_cols
+
+        # Create empty long format data frame
+        n_rows = nrow(df_wide)
+        long_list = list()
+
+        for (i in 1:n_rows) {
+          row_data = df_wide[i, ]
+          chid_val = row_data[[chid_var]]
+
+          for (j in 1:n_alts) {
+            alt = alt_names[j]
+
+            # Find choice column for this alternative
+            choice_col = choice_cols[j]
+            chosen = as.numeric(row_data[[choice_col]])
+
+            new_row = data.frame(
+              ChoiceID = chid_val,
+              Alternative = alt,
+              Chosen = chosen,
+              stringsAsFactors = FALSE
+            )
+
+            # Add varying attributes
+            if (length(varying_cols) > 0) {
+              # Group varying columns by attribute prefix
+              for (vcol in varying_cols) {
+                # Check if this column corresponds to this alternative
+                if (grepl(paste0(alt, "$"), vcol, ignore.case = TRUE)) {
+                  # Extract attribute name (everything before the alternative suffix)
+                  attr_name = sub(paste0(alt, "$"), "", vcol, ignore.case = TRUE)
+                  if (attr_name == "") attr_name = "Value"
+                  new_row[[attr_name]] = row_data[[vcol]]
+                }
+              }
+            }
+
+            # Add other non-varying columns (excluding choice and varying cols)
+            other_cols = setdiff(names(df_wide), c(chid_var, choice_cols, varying_cols))
+            for (ocol in other_cols) {
+              new_row[[ocol]] = row_data[[ocol]]
+            }
+
+            long_list[[length(long_list) + 1]] = new_row
+          }
+        }
+
+        # Combine all rows
+        df_long = do.call(rbind, long_list)
+
+        # Store the converted data
+        data(df_long)
+
+        showNotification(paste("Converted to long format:", nrow(df_long), "rows,", ncol(df_long), "columns."), type = "message")
+      })
+
+    }, error = function(e) {
+      showNotification(paste("Error converting data:", e$message), type = "error")
+    })
+  })
+
+  # Data structure card (shows for long format OR after wide conversion)
+  output$data_structure_card = renderUI({
+    # For long format, use working_data (which respects filtering)
+    # For wide format, use data() which is set after conversion
+    df = if (input$data_format == "long") working_data() else data()
+    if (is.null(df)) return(NULL)
+
+    # For wide format, only show after conversion
+    if (input$data_format == "wide" && is.null(wide_data())) return(NULL)
+
+    cols = names(df)
+
+    # Determine step number based on format
+    step_num = if (input$data_format == "long") "4" else "5"
+    step_title = if (input$data_format == "long") "4. Data Structure" else "5. Verify Converted Data"
+
+    div(class = "card",
+      div(class = "card-title", step_title),
+
+      # Show preview of converted data for wide format
+      if (input$data_format == "wide") {
+        div(class = "data-preview", style = "margin-bottom: 15px;",
+          h5(paste0("Converted Long Format (", nrow(df), " rows, ", ncol(df), " columns)")),
+          tableOutput("converted_preview_table")
+        )
+      },
+
+      div(class = "center-content",
+        selectInput("choice_var", "Choice Variable (0/1)",
+          choices = cols,
+          selected = if ("Chosen" %in% cols) "Chosen" else cols[1]
+        ),
+        p(class = "help-text", "Binary variable indicating which alternative was chosen (1) or not (0)."),
+
+        selectInput("alt_var", "Alternative Variable",
+          choices = cols,
+          selected = if ("Alternative" %in% cols) "Alternative" else if ("Product" %in% cols) "Product" else cols[1]
+        ),
+        p(class = "help-text", "Variable that identifies the alternatives (e.g., Product, Brand)."),
+
+        selectInput("chid_var", "Choice ID Variable",
+          choices = cols,
+          selected = if ("ChoiceID" %in% cols) "ChoiceID" else cols[1]
+        ),
+        p(class = "help-text", "Variable that identifies each choice occasion."),
+
+        actionButton("create_mlogit_data", "Create mlogit Data", class = "btn-primary", style = "width: 100%; margin-top: 10px;")
+      )
+    )
+  })
+
+  # Converted data preview table
+  output$converted_preview_table = renderTable({
+    df = data()
+    if (is.null(df)) return(NULL)
+    head(df, 12)
+  }, rownames = FALSE)
+
+  # Create mlogit data
+  observeEvent(input$create_mlogit_data, {
+    # Use working_data for long format, data() for wide (after conversion)
+    df = if (input$data_format == "long") working_data() else data()
+    req(df, input$choice_var, input$alt_var, input$chid_var)
+
+    # Store input values in local variables to avoid reactive issues
+    choice_var = input$choice_var
+    alt_var = input$alt_var
+    chid_var = input$chid_var
+
+    tryCatch({
+      # Build mlogit.data
+      mdata = mlogit.data(
+        data = df,
+        choice = choice_var,
+        shape = "long",
+        chid.var = chid_var,
+        alt.var = alt_var
+      )
+
+      mlogit_data(mdata)
+      model_result(NULL)
+      num_vars(1)  # Reset to 1 variable
+
+      # Get alternatives for reference level selection
+      alts = unique(df[[input$alt_var]])
+      updateSelectInput(session, "reflevel", choices = alts,
+        selected = if ("No_Purchase" %in% alts) "No_Purchase" else alts[1])
+
+      showNotification("mlogit data created successfully!", type = "message")
+
+    }, error = function(e) {
+      showNotification(paste("Error creating mlogit data:", e$message), type = "error")
+    })
+  })
+
+  # Reactive value for number of variables
+  num_vars = reactiveVal(1)
+
+  # Model setup card
+  output$model_setup_card = renderUI({
+    mdata = mlogit_data()
+    if (is.null(mdata)) return(NULL)
+
+    df = data()
+    cols = names(df)
+    alts = unique(df[[input$alt_var]])
+
+    # Exclude structural variables from IV selection
+    exclude_vars = c(input$choice_var, input$alt_var, input$chid_var)
+    iv_choices = setdiff(cols, exclude_vars)
+
+    # Store iv_choices for use in observers
+    session$userData$iv_choices = iv_choices
+
+    # Dynamic step number
+    step_num = if (input$data_format == "long") "5" else "6"
+
+    div(class = "card",
+      div(class = "card-title", paste0(step_num, ". Model Specification")),
+      div(class = "center-content",
+        # 1. Reference Alternative
+        selectInput("reflevel", "Reference Alternative",
+          choices = alts,
+          selected = if ("No_Purchase" %in% alts) "No_Purchase" else alts[1]
+        ),
+        p(class = "help-text", "The base alternative. All coefficients are interpreted relative to this choice."),
+
+        hr(),
+
+        # 2. Intercept
+        selectInput("intercept_type", "Intercept",
+          choices = c(
+            "Alternative-Specific Intercepts" = "alt_specific",
+            "No Intercept" = "none"
+          ),
+          selected = "alt_specific"
+        ),
+        p(class = "help-text", "Alternative-specific intercepts (ASCs) capture intrinsic preferences for each alternative."),
+
+        hr(),
+
+        # 3. Variables - dynamic
+        h5("Independent Variables", style = "margin-top: 15px; margin-bottom: 10px;"),
+
+        # Dynamic variable UI
+        uiOutput("variables_ui"),
+
+        # Add variable button
+        div(style = "margin-top: 15px;",
+          actionButton("add_var", "+ Add Variable", class = "btn-secondary")
+        ),
+
+        p(class = "help-text", style = "margin-top: 15px;",
+          tags$strong("Choice-Invariant:"), " One coefficient estimated across all alternatives (e.g., Price effect).", tags$br(),
+          tags$strong("Choice-Specific:"), " Different coefficient for each alternative (relative to reference)."
+        )
+      )
+    )
+  })
+
+  # Render dynamic variable inputs
+  output$variables_ui = renderUI({
+    n = num_vars()
+    iv_choices = session$userData$iv_choices
+    if (is.null(iv_choices)) return(NULL)
+
+    lapply(1:n, function(i) {
+      div(class = "var-row",
+        fluidRow(
+          column(5,
+            selectInput(paste0("var", i), paste("Variable", i),
+              choices = c("(Select)" = "", iv_choices),
+              selected = isolate(input[[paste0("var", i)]])
+            )
+          ),
+          column(5,
+            selectInput(paste0("var", i, "_type"), "Slope Type",
+              choices = c(
+                "Choice-Invariant" = "single",
+                "Choice-Specific" = "alt_specific"
+              ),
+              selected = isolate(input[[paste0("var", i, "_type")]])
+            )
+          ),
+          column(2,
+            if (i > 1) {
+              div(style = "margin-top: 25px;",
+                actionButton(paste0("remove_var", i), "Remove", class = "btn-danger")
+              )
+            }
+          )
+        )
+      )
+    })
+  })
+
+  # Add variable
+  observeEvent(input$add_var, {
+    current = num_vars()
+    if (current < 10) {
+      num_vars(current + 1)
+    } else {
+      showNotification("Maximum 10 variables allowed.", type = "warning")
+    }
+  })
+
+  # Remove variable observers (create for each possible index)
+  lapply(2:10, function(i) {
+    observeEvent(input[[paste0("remove_var", i)]], {
+      current = num_vars()
+      if (current > 1) {
+        num_vars(current - 1)
+      }
+    }, ignoreInit = TRUE)
+  })
+
+  # Run card
+  output$run_card = renderUI({
+    mdata = mlogit_data()
+    if (is.null(mdata)) return(NULL)
+
+    # Dynamic step number
+    step_num = if (input$data_format == "long") "6" else "7"
+
+    div(class = "card",
+      div(class = "card-title", paste0(step_num, ". Run Model")),
+      div(class = "center-content",
+        actionButton("run_model", "Run mlogit Model", class = "btn-success", style = "width: 100%;")
+      )
+    )
+  })
+
+  # Run model
+  observeEvent(input$run_model, {
+    mdata = mlogit_data()
+    req(mdata, input$reflevel)
+
+    # Collect variables and their types dynamically
+    vars_single = c()  # Variables with alternative-invariant coefficient
+    vars_alt = c()     # Variables with alternative-specific coefficients
+
+    n = num_vars()
+    for (i in 1:n) {
+      var_name = input[[paste0("var", i)]]
+      var_type = input[[paste0("var", i, "_type")]]
+
+      if (!is.null(var_name) && var_name != "") {
+        if (var_type == "single") {
+          vars_single = c(vars_single, var_name)
+        } else {
+          vars_alt = c(vars_alt, var_name)
+        }
+      }
+    }
+
+    # Check that at least one variable is selected
+    if (length(vars_single) == 0 && length(vars_alt) == 0) {
+      showNotification("Please select at least one variable for the model.", type = "error")
+      return()
+    }
+
+    tryCatch({
+      withProgress(message = "Estimating model...", {
+
+        # Store intercept type
+        intercept_type = input$intercept_type
+
+        # Build formula parts
+        # Part 1: variables with single coefficient
+        part1 = if (length(vars_single) > 0) {
+          paste(vars_single, collapse = " + ")
+        } else {
+          "0"
+        }
+
+        # Part 2: variables with alternative-specific coefficients + intercept handling
+        if (intercept_type == "alt_specific") {
+          # Alternative-specific intercepts (default)
+          part2 = if (length(vars_alt) > 0) {
+            paste(vars_alt, collapse = " + ")
+          } else {
+            "1"
+          }
+        } else {
+          # No intercept
+          part2 = if (length(vars_alt) > 0) {
+            paste("0 +", paste(vars_alt, collapse = " + "))
+          } else {
+            "0"
+          }
+          # Make sure part1 has no intercept
+          if (part1 != "0") {
+            part1 = paste("0 +", part1)
+          }
+        }
+
+        # Build formula: choice ~ part1 | part2
+        formula_str = paste(input$choice_var, "~", part1, "|", part2)
+        model_formula = as.formula(formula_str)
+
+        # Run model
+        fit = mlogit(
+          model_formula,
+          data = mdata,
+          reflevel = input$reflevel
+        )
+
+        # Get alternatives from the mlogit data
+        alts = levels(index(mdata)$alt)
+
+        # Store filter info for R script
+        filter_info = list(
+          use_filter = isTRUE(input$use_filter == "filtered"),
+          conditions = filter_conditions()
+        )
+
+        # Store result
+        model_result(list(
+          fit = fit,
+          formula = formula_str,
+          reflevel = input$reflevel,
+          choice_var = input$choice_var,
+          alt_var = input$alt_var,
+          chid_var = input$chid_var,
+          vars_single = vars_single,
+          vars_alt = vars_alt,
+          intercept_type = intercept_type,
+          alternatives = alts,
+          filter_info = filter_info
+        ))
+
+        showNotification("Model estimated successfully!", type = "message")
+      })
+
+    }, error = function(e) {
+      showNotification(paste("Error:", e$message), type = "error")
+    })
+  })
+
+  # Results card
+  output$results_card = renderUI({
+    result = model_result()
+    if (is.null(result)) {
+      return(
+        div(class = "card",
+          div(class = "card-title", "Results"),
+          div(style = "text-align: center; padding: 60px; color: #64748b;",
+            "Upload data, set up data structure, and run a model to see results here."
+          )
+        )
+      )
+    }
+
+    div(class = "card",
+      div(class = "card-title", "Results"),
+      tabsetPanel(
+        tabPanel("Model Estimates",
+          div(style = "margin-top: 15px;",
+            uiOutput("model_estimates")
+          )
+        ),
+        tabPanel("Prediction Equations",
+          div(style = "margin-top: 15px;",
+            uiOutput("prediction_equations")
+          )
+        ),
+        tabPanel("Model Summary",
+          div(style = "margin-top: 15px;",
+            verbatimTextOutput("model_summary")
+          )
+        ),
+        tabPanel("R Script",
+          div(style = "margin-top: 15px;",
+            p(style = "color: #64748b;", "Use this R script to reproduce the analysis:"),
+            verbatimTextOutput("r_script"),
+            downloadButton("download_script", "Download R Script", class = "btn-secondary")
+          )
+        )
+      )
+    )
+  })
+
+  # Model estimates
+  output$model_estimates = renderUI({
+    result = model_result()
+    if (is.null(result)) return(NULL)
+
+    fit = result$fit
+    summ = summary(fit)
+
+    # Get fit statistics
+    ll = as.numeric(logLik(fit))
+    aic_val = AIC(fit)
+
+    tagList(
+      # Coefficient table
+      div(style = "margin-bottom: 20px;",
+        div(class = "coef-header", "Coefficient Estimates"),
+        div(class = "coef-body",
+          tableOutput("coef_table")
+        )
+      ),
+
+      # Model fit stats
+      h4("Model Fit Statistics", style = "margin-bottom: 15px;"),
+      fluidRow(
+        column(6, div(class = "stat-box",
+          div(class = "stat-value", format(round(aic_val, 2), big.mark = ",")),
+          div(class = "stat-label", "AIC")
+        )),
+        column(6, div(class = "stat-box",
+          div(class = "stat-value", format(round(ll, 2), big.mark = ",")),
+          div(class = "stat-label", "Log-Likelihood")
+        ))
+      ),
+      p(style = "font-size: 0.85rem; color: #64748b; margin: 10px 0;",
+        "Lower AIC values indicate better model fit.")
+    )
+  })
+
+  # Coefficient table
+  output$coef_table = renderTable({
+    result = model_result()
+    if (is.null(result)) return(NULL)
+
+    fit = result$fit
+    summ = summary(fit)
+    coefs = summ$CoefTable
+
+    data.frame(
+      Variable = rownames(coefs),
+      Estimate = round(coefs[, 1], 4),
+      Std.Error = round(coefs[, 2], 4),
+      P.Value = round(coefs[, 4], 4)
+    )
+  }, rownames = FALSE)
+
+  # Prediction equations
+  output$prediction_equations = renderUI({
+    result = model_result()
+    if (is.null(result)) return(NULL)
+
+    # Get alternatives (excluding baseline)
+    reflevel = result$reflevel
+    all_alts = result$alternatives
+    non_base_alts = setdiff(all_alts, reflevel)
+
+    tagList(
+      div(style = "margin-bottom: 15px;",
+        p(style = "color: #64748b; font-size: 0.9rem;",
+          "Utility and probability equations for use in optimization tools.",
+          br(),
+          "Copy the text below to use in other applications."
+        )
+      ),
+
+      # Significance filter
+      div(style = "margin-bottom: 15px; padding: 10px; background: #f1f5f9; border-radius: 8px;",
+        radioButtons("sig_level", "Include coefficients with:",
+          choices = c(
+            "Any p-value" = "all",
+            "p-value < 0.05" = "0.05",
+            "p-value < 0.10" = "0.10"
+          ),
+          selected = "all",
+          inline = TRUE
+        )
+      ),
+
+      div(style = "background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px;",
+        tags$pre(id = "equations_text", style = "color: #1e293b; font-family: 'Courier New', monospace; font-size: 0.9rem; margin: 0; white-space: pre-wrap; word-wrap: break-word;",
+          textOutput("equations_output", inline = TRUE)
+        )
+      ),
+      div(style = "margin-top: 10px;",
+        downloadButton("download_equations", "Download as TXT", class = "btn-secondary")
+      )
+    )
+  })
+
+  # Generate equations text based on significance level
+  output$equations_output = renderText({
+    result = model_result()
+    if (is.null(result)) return("")
+
+    fit = result$fit
+    summ = summary(fit)
+    coefs = summ$CoefTable
+    coef_names = rownames(coefs)
+    coef_estimates = coefs[, 1]  # Estimates
+    coef_pvals = coefs[, 4]      # P-values
+
+    # Get significance threshold
+    sig_level = input$sig_level
+    if (is.null(sig_level)) sig_level = "all"
+
+    sig_threshold = if (sig_level == "all") 1 else as.numeric(sig_level)
+
+    # Apply significance filter - set insignificant to 0
+    coef_vals = ifelse(coef_pvals < sig_threshold, coef_estimates, 0)
+    names(coef_vals) = coef_names
+
+    # Get alternatives (excluding baseline)
+    reflevel = result$reflevel
+    all_alts = result$alternatives
+    non_base_alts = setdiff(all_alts, reflevel)
+
+    # Build utility equations text for each non-baseline alternative
+    utility_lines = c()
+    utility_lines = c(utility_lines, "# Utility Equations")
+    utility_lines = c(utility_lines, paste0("# Baseline: U_", gsub(" ", "_", reflevel), " = 0"))
+    utility_lines = c(utility_lines, "")
+
+    # First, identify generic (alternative-invariant) coefficients that apply to ALL alternatives
+    generic_terms = list()
+    generic_intercept = NULL
+
+    for (i in seq_along(coef_names)) {
+      name = coef_names[i]
+      val = round(coef_vals[i], 4)
+
+      # Skip if zero (insignificant)
+      if (val == 0) next
+
+      # Check for generic intercept (no colon, is intercept)
+      if (!grepl(":", name) && grepl("intercept", name, ignore.case = TRUE)) {
+        generic_intercept = val
+      }
+      # Generic coefficients have no colon and are not intercepts
+      else if (!grepl(":", name)) {
+        generic_terms[[name]] = val
+      }
+    }
+
+    for (alt in non_base_alts) {
+      alt_clean = gsub(" ", "_", alt)
+      terms = c()
+
+      # Check for alternative-specific intercept first
+      alt_intercept_found = FALSE
+      for (i in seq_along(coef_names)) {
+        name = coef_names[i]
+        val = round(coef_vals[i], 4)
+
+        # Skip if zero (insignificant)
+        if (val == 0) next
+
+        # Check if this is an intercept for this alternative
+        if (grepl("intercept", name, ignore.case = TRUE) && grepl(alt, name, fixed = TRUE)) {
+          terms = c(terms, as.character(val))
+          alt_intercept_found = TRUE
+          break
+        }
+      }
+
+      # If no alternative-specific intercept, use generic intercept if available
+      if (!alt_intercept_found && !is.null(generic_intercept)) {
+        terms = c(terms, as.character(generic_intercept))
+      }
+
+      # Go through all coefficients and find alternative-specific ones
+      for (i in seq_along(coef_names)) {
+        name = coef_names[i]
+        val = round(coef_vals[i], 4)
+
+        # Skip if zero (insignificant)
+        if (val == 0) next
+
+        # Check if this is an alternative-specific coefficient (alt:var format)
+        if (grepl(":", name) && grepl(alt, name, fixed = TRUE)) {
+          # Extract variable name (remove alternative prefix/suffix)
+          var_name = gsub(paste0("^", alt, ":"), "", name)
+          var_name = gsub(paste0(":", alt, "$"), "", var_name)
+          if (!grepl("intercept", var_name, ignore.case = TRUE)) {
+            sign = if (val >= 0 && length(terms) > 0) " + " else if (val < 0) " - " else ""
+            terms = c(terms, paste0(sign, abs(val), " * ", var_name))
+          }
+        }
+      }
+
+      # Add generic (alternative-invariant) coefficients - these apply to all alternatives
+      for (var_name in names(generic_terms)) {
+        val = generic_terms[[var_name]]
+        sign = if (val >= 0 && length(terms) > 0) " + " else if (val < 0) " - " else ""
+        terms = c(terms, paste0(sign, abs(val), " * ", var_name))
+      }
+
+      # Build equation
+      eq_str = paste(terms, collapse = "")
+      if (eq_str == "") eq_str = "0"
+      # Clean up leading " + " or " - " at start
+      eq_str = sub("^\\\\s*\\\\+\\\\s*", "", eq_str)
+      utility_lines = c(utility_lines, paste0("U_", alt_clean, " = ", eq_str))
+    }
+
+    # Build probability equations
+    utility_lines = c(utility_lines, "")
+    utility_lines = c(utility_lines, "# Choice Probabilities")
+
+    # Denominator: 1 + exp(U_1) + exp(U_2) + ...
+    denom_terms = c("1")  # baseline exp(0) = 1
+    for (alt in non_base_alts) {
+      alt_clean = gsub(" ", "_", alt)
+      denom_terms = c(denom_terms, paste0("exp(U_", alt_clean, ")"))
+    }
+    denom_str = paste(denom_terms, collapse = " + ")
+
+    # Baseline probability
+    utility_lines = c(utility_lines, paste0("Pr_", gsub(" ", "_", reflevel), " = 1 / (", denom_str, ")"))
+
+    # Other probabilities
+    for (alt in non_base_alts) {
+      alt_clean = gsub(" ", "_", alt)
+      utility_lines = c(utility_lines, paste0("Pr_", alt_clean, " = exp(U_", alt_clean, ") / (", denom_str, ")"))
+    }
+
+    # Combine all lines
+    paste(utility_lines, collapse = "\\n")
+  })
+
+  # Download equations as TXT
+  output$download_equations = downloadHandler(
+    filename = function() {
+      "prediction_equations.txt"
+    },
+    content = function(file) {
+      result = model_result()
+      if (is.null(result)) return()
+
+      fit = result$fit
+      summ = summary(fit)
+      coefs = summ$CoefTable
+      coef_names = rownames(coefs)
+      coef_estimates = coefs[, 1]
+      coef_pvals = coefs[, 4]
+
+      sig_level = input$sig_level
+      if (is.null(sig_level)) sig_level = "all"
+      sig_threshold = if (sig_level == "all") 1 else as.numeric(sig_level)
+
+      coef_vals = ifelse(coef_pvals < sig_threshold, coef_estimates, 0)
+      names(coef_vals) = coef_names
+
+      reflevel = result$reflevel
+      all_alts = result$alternatives
+      non_base_alts = setdiff(all_alts, reflevel)
+
+      utility_lines = c()
+      utility_lines = c(utility_lines, "# Utility Equations")
+      utility_lines = c(utility_lines, paste0("# Baseline: U_", gsub(" ", "_", reflevel), " = 0"))
+      utility_lines = c(utility_lines, "")
+
+      generic_terms = list()
+      generic_intercept = NULL
+
+      for (i in seq_along(coef_names)) {
+        name = coef_names[i]
+        val = round(coef_vals[i], 4)
+        if (val == 0) next
+        if (!grepl(":", name) && grepl("intercept", name, ignore.case = TRUE)) {
+          generic_intercept = val
+        } else if (!grepl(":", name)) {
+          generic_terms[[name]] = val
+        }
+      }
+
+      for (alt in non_base_alts) {
+        alt_clean = gsub(" ", "_", alt)
+        terms = c()
+
+        alt_intercept_found = FALSE
+        for (i in seq_along(coef_names)) {
+          name = coef_names[i]
+          val = round(coef_vals[i], 4)
+          if (val == 0) next
+          if (grepl("intercept", name, ignore.case = TRUE) && grepl(alt, name, fixed = TRUE)) {
+            terms = c(terms, as.character(val))
+            alt_intercept_found = TRUE
+            break
+          }
+        }
+
+        if (!alt_intercept_found && !is.null(generic_intercept)) {
+          terms = c(terms, as.character(generic_intercept))
+        }
+
+        for (i in seq_along(coef_names)) {
+          name = coef_names[i]
+          val = round(coef_vals[i], 4)
+          if (val == 0) next
+          if (grepl(":", name) && grepl(alt, name, fixed = TRUE)) {
+            var_name = gsub(paste0("^", alt, ":"), "", name)
+            var_name = gsub(paste0(":", alt, "$"), "", var_name)
+            if (!grepl("intercept", var_name, ignore.case = TRUE)) {
+              sign = if (val >= 0 && length(terms) > 0) " + " else if (val < 0) " - " else ""
+              terms = c(terms, paste0(sign, abs(val), " * ", var_name))
+            }
+          }
+        }
+
+        for (var_name in names(generic_terms)) {
+          val = generic_terms[[var_name]]
+          sign = if (val >= 0 && length(terms) > 0) " + " else if (val < 0) " - " else ""
+          terms = c(terms, paste0(sign, abs(val), " * ", var_name))
+        }
+
+        eq_str = paste(terms, collapse = "")
+        if (eq_str == "") eq_str = "0"
+        eq_str = sub("^\\\\s*\\\\+\\\\s*", "", eq_str)
+        utility_lines = c(utility_lines, paste0("U_", alt_clean, " = ", eq_str))
+      }
+
+      utility_lines = c(utility_lines, "")
+      utility_lines = c(utility_lines, "# Choice Probabilities")
+
+      denom_terms = c("1")
+      for (alt in non_base_alts) {
+        alt_clean = gsub(" ", "_", alt)
+        denom_terms = c(denom_terms, paste0("exp(U_", alt_clean, ")"))
+      }
+      denom_str = paste(denom_terms, collapse = " + ")
+
+      utility_lines = c(utility_lines, paste0("Pr_", gsub(" ", "_", reflevel), " = 1 / (", denom_str, ")"))
+
+      for (alt in non_base_alts) {
+        alt_clean = gsub(" ", "_", alt)
+        utility_lines = c(utility_lines, paste0("Pr_", alt_clean, " = exp(U_", alt_clean, ") / (", denom_str, ")"))
+      }
+
+      writeLines(utility_lines, file)
+    }
+  )
+
+  # Model summary (raw output)
+  output$model_summary = renderPrint({
+    result = model_result()
+    if (is.null(result)) return(NULL)
+
+    summary(result$fit)
+  })
+
+  # R Script
+  output$r_script = renderText({
+    result = model_result()
+    if (is.null(result)) return("")
+
+    # Build filter code if filtering was used
+    filter_code = ""
+    if (!is.null(result$filter_info) && result$filter_info$use_filter) {
+      conditions = result$filter_info$conditions
+      if (length(conditions) > 0) {
+        filter_lines = c("# Apply data filters")
+        for (cond in conditions) {
+          if (is.null(cond) || cond$value == "") next
+
+          col = cond$column
+          op = cond$operator
+          val = cond$value
+
+          # Build R filter expression
+          op_r = switch(op,
+            "eq" = "==",
+            "neq" = "!=",
+            "gt" = ">",
+            "gte" = ">=",
+            "lt" = "<",
+            "lte" = "<=",
+            "=="
+          )
+
+          # Check if value is numeric or string
+          val_r = if (suppressWarnings(!is.na(as.numeric(val)))) val else paste0('\\"', val, '\\"')
+
+          filter_lines = c(filter_lines, paste0('data = data[data$', col, ' ', op_r, ' ', val_r, ', ]'))
+        }
+        filter_lines = c(filter_lines, "")
+        filter_code = paste(filter_lines, collapse = "\\n")
+      }
+    }
+
+    script = paste0(
+      "# Multinomial Logistic Regression\\n",
+      "# Generated by Shiny App created by Dr. Cosguner with the help of Claude AI\\n\\n",
+      "# Install and load required packages\\n",
+      "if (!require(mlogit)) install.packages(\\"mlogit\\")\\n",
+      "library(mlogit)\\n\\n",
+      "# Load data\\n",
+      "data = read.csv(\\"your_data.csv\\")\\n\\n",
+      filter_code,
+      "# Create mlogit data\\n",
+      "choice_data = mlogit.data(\\n",
+      "  data = data,\\n",
+      "  choice = \\"", result$choice_var, "\\",\\n",
+      "  shape = \\"long\\",\\n",
+      "  chid.var = \\"", result$chid_var, "\\",\\n",
+      "  alt.var = \\"", result$alt_var, "\\"\\n",
+      ")\\n\\n",
+      "# Run model\\n",
+      "model = mlogit(\\n",
+      "  ", result$formula, ",\\n",
+      "  data = choice_data,\\n",
+      "  reflevel = \\"", result$reflevel, "\\"\\n",
+      ")\\n\\n",
+      "# View results\\n",
+      "summary(model)\\n\\n",
+      "# Model fit statistics\\n",
+      "cat(\\"AIC:\\", AIC(model), \\"\\\\n\\")\\n",
+      "cat(\\"BIC:\\", BIC(model), \\"\\\\n\\")\\n",
+      "cat(\\"Log-Likelihood:\\", logLik(model), \\"\\\\n\\")\\n"
+    )
+
+    script
+  })
+
+  # Download R script
+  output$download_script = downloadHandler(
+    filename = function() {
+      "Discrete_Choice_Models.R"
+    },
+    content = function(file) {
+      result = model_result()
+      if (is.null(result)) return()
+
+      script = paste0(
+        "# Multinomial Logistic Regression\\n",
+        "# Generated by Shiny App created by Dr. Cosguner with the help of Claude AI\\n\\n",
+        "if (!require(mlogit)) install.packages(\\"mlogit\\")\\n",
+        "library(mlogit)\\n\\n",
+        "data = read.csv(\\"your_data.csv\\")\\n\\n",
+        "choice_data = mlogit.data(\\n",
+        "  data = data,\\n",
+        "  choice = \\"", result$choice_var, "\\",\\n",
+        "  shape = \\"long\\",\\n",
+        "  chid.var = \\"", result$chid_var, "\\",\\n",
+        "  alt.var = \\"", result$alt_var, "\\"\\n",
+        ")\\n\\n",
+        "model = mlogit(\\n",
+        "  ", result$formula, ",\\n",
+        "  data = choice_data,\\n",
+        "  reflevel = \\"", result$reflevel, "\\"\\n",
+        ")\\n\\n",
+        "summary(model)\\n"
+      )
+
+      writeLines(script, file)
+    }
+  )
+}
+
+shinyApp(ui = ui, server = server)
+`;
+
+            const blob = new Blob([rCode], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Discrete_Choice_Models.R';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+
+</div> <!-- end main-content -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBg3LJDwVIRGWtFZb_mM_CSRJMNCJUta20",
+        authDomain: "iu-pricing-tools.firebaseapp.com",
+        projectId: "iu-pricing-tools",
+        storageBucket: "iu-pricing-tools.firebasestorage.app",
+        messagingSenderId: "659335573790",
+        appId: "1:659335573790:web:00013a166787efecb3d90f",
+        measurementId: "G-NGKNY08XWP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+</body>
+</html>

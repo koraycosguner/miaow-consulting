@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qualitative Elasticity Assessment</title>
+    <style>
+        :root {
+            --primary: #2563eb;       /* Royal Blue */
+            --bg: #f8fafc;            /* Light Gray Background */
+            --surface: #ffffff;       /* White Card */
+            --text-main: #1e293b;     /* Dark Slate */
+            --text-muted: #64748b;    /* Muted Text */
+            --border: #e2e8f0;        /* Light Border */
+            
+            /* Logic Colors */
+            --elastic: #ef4444;       /* Red */
+            --unitary: #f59e0b;       /* Amber */
+            --inelastic: #10b981;     /* Green */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(to right, #0f172a, #334155);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 { margin: 0; font-size: 1.8rem; letter-spacing: -0.5px; font-weight: 700; }
+        .citation {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            font-style: italic;
+        }
+        .credits {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        /* Table */
+        .content-area { padding: 40px; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0 25px; }
+        
+        th {
+            text-align: left;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            padding: 0 10px 10px 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        tr.row-item { transition: background 0.2s; }
+        tr.row-item:hover { background-color: #f8fafc; }
+        
+        td {
+            vertical-align: middle;
+            padding: 5px 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        /* Typography */
+        .factor-title { display: block; font-weight: 700; color: var(--text-main); font-size: 1rem; }
+        .factor-desc { display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+
+        /* Inputs */
+        .weight-input {
+            width: 50px;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            background: #f1f5f9;
+        }
+        
+        /* Highlight weight input if error */
+        .weight-error {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
+            color: #ef4444 !important;
+        }
+
+        /* Sliders */
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, var(--elastic), var(--unitary), var(--inelastic));
+            border-radius: 5px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            margin: 15px 0;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        input[type="range"]:hover { opacity: 1; }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--text-muted);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            margin-top: -7px;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover { 
+            transform: scale(1.1);
+            border-color: var(--primary);
+        }
+
+        /* Slider Labels */
+        .slider-labels {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .lbl-left { text-align: left; color: var(--elastic); }
+        .lbl-center { text-align: center; color: var(--text-main); font-weight: 800; }
+        .lbl-right { text-align: right; color: var(--inelastic); }
+        .sub-label { display: block; font-size: 0.65rem; color: #94a3b8; font-weight: 400; text-transform: none; margin-top: 2px; }
+
+        /* Footer */
+        .footer {
+            background: #f8fafc;
+            border-top: 1px solid var(--border);
+            padding: 30px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+            transition: transform 0.1s;
+        }
+        button:hover {
+            transform: translateY(-1px);
+            background-color: #1d4ed8;
+        }
+
+        /* Warning Box */
+        .warning-box {
+            width: 100%;
+            background-color: #fff7ed;
+            border: 1px solid #fdba74;
+            color: #9a3412;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none; /* Hidden by default */
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Meter */
+        .meter-container {
+            flex-grow: 1;
+            position: relative;
+            padding-top: 10px;
+            min-width: 300px;
+        }
+        .meter-bar {
+            height: 12px;
+            border-radius: 6px;
+            background: linear-gradient(to right, var(--elastic), var(--unitary), var(--inelastic));
+            width: 100%;
+            position: relative;
+        }
+        
+        .indicator {
+            position: absolute;
+            top: -12px;
+            width: 0; 
+            height: 0; 
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 14px solid #1e293b;
+            transform: translateX(-50%);
+            transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .result-box { text-align: right; min-width: 180px; }
+        .score-val { font-size: 2.5rem; font-weight: 800; line-height: 1; color: var(--text-main); }
+        .score-label { font-size: 1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-top: 5px; display: block;}
+        
+        .explainer {
+            margin-top: 15px;
+            padding: 15px;
+            background: #eef2ff;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #334155;
+            display: none;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body { padding: 20px 10px; }
+            .container { padding: 0; }
+            .header { padding: 20px; }
+            .header h1 { font-size: 1.3rem; }
+            .section-header { padding: 12px 20px; font-size: 0.8rem; }
+            .content { padding: 15px 20px; }
+            .factor { padding: 15px 0; }
+            .factor-header { flex-direction: column; gap: 0.5rem; }
+            .factor-title { font-size: 0.95rem; }
+            .score-val { font-size: 2rem; }
+            .explainer { font-size: 0.8rem; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+<!-- Auth check -->
+<div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <p style="color: #64748b;">Loading...</p>
+</div>
+<div id="main-content" style="display: none;">
+
+<div style="max-width: 950px; margin: 0 auto; padding: 20px 20px 20px;">
+    <a href="tools.html" style="display: inline-flex; align-items: center; gap: 6px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 500;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Pricing & Analytics Tools
+    </a>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h1>Qualitative Elasticity Assessment Tool</h1>
+        <div class="citation">Based on <em>The Strategy and Tactics of Pricing</em> (Nagle & Muller, 2018)</div>
+        <div class="credits">Created by Dr. Koray Cosguner with help of Gemini 3.0 Pro</div>
+    </div>
+
+    <div class="content-area">
+        <form id="elasticityForm">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 45%;">Dimension</th>
+                        <th style="width: 10%; text-align: center;">Weight %</th>
+                        <th style="width: 45%;">Rating (-4.0 to 0.0)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">1. Perceived Substitutes</span>
+                            <span class="factor-desc">Are buyers aware of alternatives?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w0" class="weight-input" value="10" min="0" max="100">
+                        </td>
+                        <td>
+                            <input type="range" id="r0" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">Many Subs<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">No Subs<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">2. Unique Value</span>
+                            <span class="factor-desc">Does the product offer unique differentiation?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w1" class="weight-input" value="10">
+                        </td>
+                        <td>
+                            <input type="range" id="r1" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">Commodity<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">Unique<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">3. Switching Costs</span>
+                            <span class="factor-desc">Is it costly/risky to change suppliers?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w2" class="weight-input" value="10">
+                        </td>
+                        <td>
+                            <input type="range" id="r2" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">Easy Switch<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">High Lock-in<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">4. Difficult Comparison</span>
+                            <span class="factor-desc">Is it hard to compare prices directly?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w3" class="weight-input" value="10">
+                        </td>
+                        <td>
+                            <input type="range" id="r3" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">Easy Compare<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">Hard Compare<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">5. Price-Quality Effect</span>
+                            <span class="factor-desc">Do buyers use price as a signal of quality?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w4" class="weight-input" value="10">
+                        </td>
+                        <td>
+                            <input type="range" id="r4" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">Price=Cost<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">Price=Quality<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">6. Expenditure Effect</span>
+                            <span class="factor-desc">How large is the cost relative to budget?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w5" class="weight-input" value="10">
+                        </td>
+                        <td>
+                            <input type="range" id="r5" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">High %<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">Negligible %<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">7. End-Benefit Effect</span>
+                            <span class="factor-desc">Does the product secure a critical benefit?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w6" class="weight-input" value="10">
+                        </td>
+                        <td>
+                            <input type="range" id="r6" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">Low Impact<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">Critical<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">8. Shared-Cost Effect</span>
+                            <span class="factor-desc">Does the buyer pay the full bill?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w7" class="weight-input" value="10">
+                        </td>
+                        <td>
+                            <input type="range" id="r7" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">Buyer Pays All<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">3rd Party Pays<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">9. Fairness Effect</span>
+                            <span class="factor-desc">Is the price perceived as fair vs exploitative?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w8" class="weight-input" value="10">
+                        </td>
+                        <td>
+                            <input type="range" id="r8" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">Unfair<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">Fair<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-item">
+                        <td>
+                            <span class="factor-title">10. Inventory Effect</span>
+                            <span class="factor-desc">Can buyers stock up now to avoid hikes?</span>
+                        </td>
+                        <td style="text-align: center;">
+                            <input type="number" id="w9" class="weight-input" value="10">
+                        </td>
+                        <td>
+                            <input type="range" id="r9" min="-4" max="0" step="0.1" value="-1">
+                            <div class="slider-labels">
+                                <div class="lbl-left">Stockpile<span class="sub-label">(More Elastic)</span></div>
+                                <div class="lbl-center">Unitary (-1)</div>
+                                <div class="lbl-right">No Storage<span class="sub-label">(More Inelastic)</span></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div class="footer">
+        
+        <div id="weightWarning" class="warning-box">
+            ⚠️ Warning: Weights sum to <span id="weightSumVal">0</span>%. Please ensure they add up to 100%.
+        </div>
+
+        <button type="button" onclick="calculate()">Calculate Score</button>
+
+        <div class="meter-container">
+            <div class="indicator" id="indicator" style="left: 75%;"></div>
+            <div class="meter-bar"></div>
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#94a3b8; margin-top:8px; font-weight:700; text-transform: uppercase;">
+                <span style="color:var(--elastic)">Elastic (-4.0)</span>
+                <span style="color:var(--unitary)">Unitary (-1.0)</span>
+                <span style="color:var(--inelastic)">Inelastic (0.0)</span>
+            </div>
+            
+            <div id="explainer" class="explainer">
+                --
+            </div>
+        </div>
+
+        <div class="result-box">
+            <div class="score-val" id="scoreVal">--</div>
+            <div class="score-label" id="scoreLabel">RESULT</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function calculate() {
+        let totalScore = 0;
+        let totalWeight = 0;
+
+        // Reset any error styles
+        let inputs = document.getElementsByClassName('weight-input');
+        for(let i=0; i<inputs.length; i++) {
+            inputs[i].classList.remove('weight-error');
+        }
+
+        // Loop through 10 factors
+        for (let i = 0; i < 10; i++) {
+            let w = parseFloat(document.getElementById('w' + i).value) || 0;
+            let r = parseFloat(document.getElementById('r' + i).value) || 0;
+            
+            totalScore += (r * (w / 100));
+            totalWeight += w;
+        }
+
+        let final = totalScore.toFixed(2);
+        
+        // --- CHECK WEIGHTS ---
+        // Allow a small margin of error for float math (e.g. 99.999 is okay)
+        if (Math.abs(totalWeight - 100) > 0.1) {
+            document.getElementById('weightWarning').style.display = 'block';
+            document.getElementById('weightSumVal').innerText = totalWeight;
+            
+            // Highlight inputs to catch attention
+            for(let i=0; i<inputs.length; i++) {
+                inputs[i].classList.add('weight-error');
+            }
+        } else {
+            document.getElementById('weightWarning').style.display = 'none';
+        }
+
+
+        // --- LOGIC ---
+        let label = "";
+        let color = "";
+        let explanation = "";
+
+        if (final < -1.05) {
+            label = "ELASTIC";
+            color = "var(--elastic)";
+            explanation = "<strong>High Price Sensitivity</strong><br>Demand is likely to change significantly if price changes. Small price increases may lead to volume drops that outweigh the price gain. Revenue decreases as price increases.";
+        } else if (final > -0.95) {
+            label = "INELASTIC";
+            color = "var(--inelastic)";
+            explanation = "<strong>Low Price Sensitivity</strong><br>Demand is relatively stable. Customers are less likely to switch or leave due to price increases. Revenue increases as price increases.";
+        } else {
+            label = "UNITARY";
+            color = "var(--unitary)";
+            explanation = "<strong>Unit Elastic</strong><br>The percentage change in quantity demanded is roughly equal to the percentage change in price. Revenue remains constant with small price changes.";
+        }
+
+        // Update Text
+        const scoreVal = document.getElementById('scoreVal');
+        const scoreLabel = document.getElementById('scoreLabel');
+        const explainer = document.getElementById('explainer');
+
+        scoreVal.innerText = final;
+        scoreVal.style.color = color;
+        scoreLabel.innerText = label;
+        scoreLabel.style.color = color;
+        
+        explainer.innerHTML = explanation;
+        explainer.style.display = "block";
+        explainer.style.borderLeftColor = color;
+
+        // Update Meter Position
+        // Formula: (Value - Min) / (Max - Min) * 100
+        // (final - (-4)) / 4 * 100
+        let percent = ((parseFloat(final) + 4) / 4) * 100;
+        if (percent < 0) percent = 0;
+        if (percent > 100) percent = 100;
+
+        document.getElementById('indicator').style.left = percent + "%";
+    }
+
+    // Initialize on load
+    window.onload = function() {
+        calculate();
+    };
+</script>
+
+</div> <!-- end main-content -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBg3LJDwVIRGWtFZb_mM_CSRJMNCJUta20",
+        authDomain: "iu-pricing-tools.firebaseapp.com",
+        projectId: "iu-pricing-tools",
+        storageBucket: "iu-pricing-tools.firebasestorage.app",
+        messagingSenderId: "659335573790",
+        appId: "1:659335573790:web:00013a166787efecb3d90f",
+        measurementId: "G-NGKNY08XWP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+
+</body>
+</html>

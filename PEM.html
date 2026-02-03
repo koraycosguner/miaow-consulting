@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Capability Assessment | M574</title>
+    <style>
+        :root {
+            --primary: #0f766e; /* Teal */
+            --warning: #ef4444; /* Red for errors */
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 40px 20px;
+            line-height: 1.5;
+            padding-bottom: 120px; /* Space for footer */
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        /* Header & Weight Tracker */
+        .header {
+            padding: 30px 40px;
+            border-bottom: 1px solid var(--border);
+            background: #f0fdfa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-text h1 { margin: 0; font-size: 1.5rem; color: #115e59; }
+        
+        /* The Weight Counter Badge */
+        .weight-tracker {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: right;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .weight-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; display: block; }
+        .weight-value { font-size: 1.25rem; font-weight: 800; color: var(--text-main); }
+        .weight-error { color: var(--warning); } /* Class applied via JS */
+
+        /* Section Headers */
+        .section-header {
+            background: #f1f5f9;
+            padding: 15px 40px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            border-top: 1px solid var(--border);
+        }
+
+        /* Table */
+        .table-container { padding: 0 40px 20px 40px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        td { padding: 20px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+
+        .factor-title { font-weight: 600; font-size: 1rem; display: block; margin-bottom: 4px; }
+        .factor-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; display: block; max-width: 400px; }
+
+        /* Inputs */
+        .weight-input {
+            width: 50px; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px;
+            text-align: center; font-weight: 600; font-size: 0.9rem;
+        }
+        .weight-input:focus { outline: 2px solid var(--primary); border-color: transparent; }
+
+        /* Sliders */
+        input[type=range] { width: 100%; cursor: pointer; margin: 10px 0; accent-color: var(--primary); }
+        .slider-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .score-badge { float: right; background: #ccfbf1; color: #115e59; padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+
+        /* Sticky Footer */
+        .footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: #0f172a; color: white; padding: 20px 40px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1); z-index: 100;
+        }
+        .footer-content { width: 100%; max-width: 1000px; display: flex; align-items: center; justify-content: space-between; }
+
+        .calc-btn {
+            background: var(--primary); color: white; border: none; padding: 12px 30px;
+            border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 1rem;
+            transition: background 0.2s;
+        }
+        .calc-btn:hover { background: #134e4a; }
+
+        /* Results Display */
+        .result-box { text-align: right; min-width: 180px; }
+        .result-label { display: block; font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+        .result-value { display: block; font-size: 2rem; font-weight: 700; color: white; }
+        .result-sub { font-size: 0.85rem; color: #cbd5e1; }
+
+        /* Meter */
+        .meter-wrapper { flex-grow: 1; margin: 0 40px; }
+        .meter-bg { height: 12px; background: #334155; border-radius: 6px; position: relative; overflow: hidden; }
+        .meter-fill { height: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981); width: 0%; transition: width 0.5s ease; }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body { padding: 20px 10px; padding-bottom: 180px; }
+            .header { flex-direction: column; gap: 1rem; padding: 20px; text-align: center; }
+            .header-text h1 { font-size: 1.2rem; }
+            .weight-tracker { text-align: center; }
+            .section-header { padding: 12px 20px; font-size: 0.8rem; }
+            .table-container { padding: 0 15px 15px 15px; }
+            td { padding: 15px 5px; }
+            .factor-desc { max-width: 100%; }
+            .footer { padding: 15px 20px; }
+            .footer-content { flex-direction: column; gap: 1rem; }
+            .meter-wrapper { margin: 10px 0; width: 100%; }
+            .result-box { text-align: center; }
+            .result-value { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<!-- Auth check - redirect to login if not signed in -->
+<div id="loading-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <p style="color: #64748b;">Loading...</p>
+</div>
+<div id="main-content" style="display: none;">
+
+<div style="max-width: 1000px; margin: 0 auto; padding: 20px 20px 20px;">
+    <a href="tools.html" style="display: inline-flex; align-items: center; gap: 6px; color: #64748b; text-decoration: none; font-size: 0.9rem; font-weight: 500;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        Back to Pricing & Analytics Tools
+    </a>
+</div>
+
+<div class="container">
+    <div class="header">
+        <div class="header-text">
+            <h1>Pricing Capability Assessment</h1>
+            <div style="color:var(--text-muted); font-size:0.9rem;">Weighted Scoring Model</div>
+        </div>
+        <div class="weight-tracker">
+            <span class="weight-label">Total Weight</span>
+            <div id="totalWeightDisplay" class="weight-value">100%</div>
+        </div>
+    </div>
+
+    <form id="assessmentForm">
+        <div class="section-header">1. Strategy & Culture</div>
+        <div class="table-container">
+            <table id="table-strategy"></table>
+        </div>
+
+        <div class="section-header">2. Execution & Process</div>
+        <div class="table-container">
+            <table id="table-execution"></table>
+        </div>
+
+        <div class="section-header">3. Analytics & Data</div>
+        <div class="table-container">
+            <table id="table-analytics"></table>
+        </div>
+    </form>
+</div>
+
+<div class="footer">
+    <div class="footer-content">
+        <button type="button" class="calc-btn" onclick="calculate()">Calculate Score</button>
+
+        <div class="meter-wrapper">
+            <div class="meter-bg">
+                <div id="meterFill" class="meter-fill"></div>
+            </div>
+            <div id="qualitative-text" style="text-align:center; font-size:0.85rem; color:#fff; margin-top:5px;">
+                Ready to calculate
+            </div>
+        </div>
+
+        <div class="result-box">
+            <span class="result-label">Weighted Score</span>
+            <span id="finalScore" class="result-value">--</span>
+            <span class="result-sub" id="rawScoreSub">Raw Sum: -- / 55</span>
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center; padding: 20px; color: #9ca3af; font-size: 0.85rem; margin-top: 20px;">
+    <p style="margin: 0;">Created by Dr. Koray Cosguner with the help of Gemini 3.0. Adapted from Rockney Walters, Professor of Marketing, Stephen Brown, MBA, and Will Charron, MBA.</p>
+</div>
+
+<script>
+    // Data Structure
+    const sections = {
+        strategy: [
+            { title: "Pricing Importance", desc: "Pricing is viewed as a critical strategic function.", weight: 20 },
+            { title: "Pricing Objectives", desc: "We have clear, documented goals for pricing.", weight: 20 },
+            { title: "Cross-Functional Effort", desc: "Marketing, sales, and finance collaborate.", weight: 5 }
+        ],
+        execution: [
+            { title: "Pricing Flexibility", desc: "We can execute price changes quickly.", weight: 5 },
+            { title: "IT Support", desc: "IT systems enable efficient pricing management.", weight: 5 },
+            { title: "Communication", desc: "We effectively communicate value and changes.", weight: 5 }
+        ],
+        analytics: [
+            { title: "Metrics & Measurement", desc: "We regularly measure pricing outcomes.", weight: 10 },
+            { title: "Knowledge of Customers", desc: "We use data on customer price sensitivity.", weight: 15 },
+            { title: "Knowledge of Value", desc: "We quantify the economic value we deliver.", weight: 5 },
+            { title: "Knowledge of Competition", desc: "We systematically track competitor pricing.", weight: 5 },
+            { title: "Knowledge of Costs", desc: "We have accurate cost data for pricing.", weight: 5 }
+        ]
+    };
+
+    // Render Tables
+    function renderSection(sectionData, sectionName) {
+        return sectionData.map((item, i) => `
+            <tr>
+                <td style="width: 45%;">
+                    <span class="factor-title">${item.title}</span>
+                    <span class="factor-desc">${item.desc}</span>
+                </td>
+                <td style="width: 15%; text-align:center;">
+                    <input type="number" class="weight-input" oninput="updateTotalWeight()" value="${item.weight}" min="0" max="100">
+                    <div style="font-size:0.7rem; color:#94a3b8; margin-top:2px;">Weight %</div>
+                </td>
+                <td style="width: 40%;">
+                    <span id="badge-${sectionName}-${i}" class="score-badge">3</span>
+                    <input type="range" class="score-input" min="1" max="5" step="1" value="3" 
+                           oninput="document.getElementById('badge-${sectionName}-${i}').innerText = this.value">
+                    <div class="slider-labels">
+                        <span>Disagree (1)</span>
+                        <span>Agree (5)</span>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    document.getElementById('table-strategy').innerHTML = renderSection(sections.strategy, 'strategy');
+    document.getElementById('table-execution').innerHTML = renderSection(sections.execution, 'execution');
+    document.getElementById('table-analytics').innerHTML = renderSection(sections.analytics, 'analytics');
+
+    // Real-time Weight Validation
+    function updateTotalWeight() {
+        let total = 0;
+        document.querySelectorAll('.weight-input').forEach(input => {
+            total += parseFloat(input.value) || 0;
+        });
+
+        const display = document.getElementById('totalWeightDisplay');
+        display.innerText = total + "%";
+
+        // Visual warning if not 100%
+        if (total !== 100) {
+            display.style.color = "#ef4444"; // Red
+        } else {
+            display.style.color = "#1e293b"; // Dark Blue/Black
+        }
+    }
+
+    function calculate() {
+        let totalWeightedScore = 0;
+        let totalWeight = 0;
+        let rawSum = 0;
+
+        document.querySelectorAll('tr').forEach(row => {
+            const wInput = row.querySelector('.weight-input');
+            const sInput = row.querySelector('.score-input');
+            
+            if (wInput && sInput) {
+                const w = parseFloat(wInput.value) || 0;
+                const s = parseFloat(sInput.value) || 0;
+                
+                rawSum += s;
+                totalWeightedScore += (s * w);
+                totalWeight += w;
+            }
+        });
+
+        // Normalize Score (Handle cases where weights != 100%)
+        // Formula: (Total Weighted Score) / (Total Weight)
+        let finalScore = 0;
+        if (totalWeight > 0) {
+            finalScore = totalWeightedScore / totalWeight;
+        }
+
+        // --- UPDATE UI ---
+        
+        // 1. Main Weighted Score (e.g., 4.2 / 5.0)
+        document.getElementById('finalScore').innerText = finalScore.toFixed(2);
+        
+        // 2. Secondary Raw Score
+        document.getElementById('rawScoreSub').innerText = `Raw Sum: ${rawSum} / 55`;
+
+        // 3. Meter Fill (Convert 1-5 scale to 0-100%)
+        // (Score - 1) / 4 * 100
+        let percent = ((finalScore - 1) / 4) * 100;
+        if(percent < 0) percent = 0;
+        if(percent > 100) percent = 100;
+        document.getElementById('meterFill').style.width = percent + "%";
+
+        // 4. Status Text
+        let status = "";
+        if (finalScore < 2.5) status = "Needs Improvement";
+        else if (finalScore < 4.0) status = "Strong Capability";
+        else status = "World Class";
+        
+        document.getElementById('qualitative-text').innerText = status;
+    }
+</script>
+
+</div> <!-- end main-content -->
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyBg3LJDwVIRGWtFZb_mM_CSRJMNCJUta20",
+        authDomain: "iu-pricing-tools.firebaseapp.com",
+        projectId: "iu-pricing-tools",
+        storageBucket: "iu-pricing-tools.firebasestorage.app",
+        messagingSenderId: "659335573790",
+        appId: "1:659335573790:web:00013a166787efecb3d90f",
+        measurementId: "G-NGKNY08XWP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            window.location.href = 'login.html';
+        }
+    });
+</script>
+
+</body>
+</html>
