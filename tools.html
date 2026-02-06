@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Tools Catalog | MIAOW LLC</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CTZ8G4EYLR"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CTZ8G4EYLR');
+    </script>
+    <meta name="description" content="Browse 100+ proprietary pricing and marketing analytics tools from MIAOW LLC. Interactive calculators, optimizers, and decision support systems.">
+    <link rel="icon" type="image/png" href="cat-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #1e3a5f;
+            --navy-dark: #0f2744;
+            --navy-light: #2d4a6f;
+            --gold: #c9a227;
+            --gold-light: #dbb42c;
+            --gold-dark: #a8871f;
+            --white: #ffffff;
+            --off-white: #fafafa;
+            --gray-50: #f8f9fa;
+            --gray-100: #f1f3f5;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --text-dark: #1a1a2e;
+            --text-main: #2d3748;
+            --text-light: #64748b;
+            --text-muted: #94a3b8;
+            --bg: var(--white);
+            --surface: var(--gray-50);
+            --border: var(--gray-200);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--off-white);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 { font-family: 'Raleway', 'Inter', sans-serif; }
+
+        /* Navigation - matches main site */
+        nav {
+            background: var(--white);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-brand { text-decoration: none; }
+        .nav-brand img { height: 28px; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a {
+            margin-left: 36px;
+            text-decoration: none;
+            color: var(--navy);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-cta {
+            background: var(--gold) !important;
+            color: var(--white) !important;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-weight: 600 !important;
+        }
+        .nav-cta:hover { background: var(--gold-light) !important; }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: var(--white);
+            padding: 60px 24px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        .hero h1 span { color: var(--gold); }
+        .hero p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.85);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Search & Filter */
+        .search-section {
+            background: var(--white);
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 69px;
+            z-index: 99;
+        }
+        .search-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .search-input:focus { outline: none; border-color: var(--gold); }
+        .filter-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--border);
+            background: var(--white);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--navy);
+            color: var(--white);
+            border-color: var(--navy);
+        }
+
+        /* Main Content */
+        main { max-width: 1400px; margin: 0 auto; padding: 48px 24px; }
+
+        .category-section { margin-bottom: 48px; }
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--gold);
+        }
+        .category-header h2 {
+            font-size: 1.5rem;
+            color: var(--navy);
+        }
+        .tool-count {
+            background: var(--gold);
+            color: white;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* Tool Cards */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        .tool-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+        .tool-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        .tool-card-header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            padding: 20px;
+            color: var(--white);
+        }
+        .tool-card-header h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .tool-card-header .category-tag {
+            font-size: 0.75rem;
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .tool-card-body {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .tool-card-body p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            flex-grow: 1;
+        }
+        .tool-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            background: var(--gold);
+            color: var(--white);
+            transition: background 0.2s ease;
+        }
+        .tool-btn:hover { background: var(--gold-light); }
+
+        .tool-card.hidden { display: none; }
+
+        .shiny-badge {
+            display: inline-block;
+            background: #4a90d9;
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--navy);
+            padding: 60px 24px;
+            text-align: center;
+            color: var(--white);
+            margin-top: 48px;
+        }
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 28px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-button {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--white);
+            padding: 16px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        .cta-button:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--navy-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 30px 24px;
+            text-align: center;
+        }
+
+        /* Mobile */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--navy);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        @media (max-width: 768px) {
+            .nav-toggle { display: flex; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                flex-direction: column;
+                padding: 20px 24px;
+                border-top: 1px solid var(--border);
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin-left: 0; padding: 12px 0; border-bottom: 1px solid var(--border); }
+            .nav-links a:last-child { border-bottom: none; }
+            .nav-container { position: relative; }
+            .hero h1 { font-size: 1.8rem; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .search-container { flex-direction: column; align-items: stretch; }
+            .filter-btn { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand"><img src="miaow-text.png" alt="MIAOW"></a>
+            <div class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#services">Services</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact" class="nav-cta">Get in Touch</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Analytics Tools <span>Catalog</span></h1>
+        <p>100+ proprietary pricing and marketing analytics tools. Used in our consulting engagements and executive training programs.</p>
+    </div>
+
+    <div class="search-section">
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search tools...">
+            <a href="#research" class="filter-btn">Research</a>
+            <a href="#optimization" class="filter-btn">Optimization</a>
+            <a href="#strategy" class="filter-btn">Strategy</a>
+            <a href="#conjoint" class="filter-btn">Conjoint</a>
+            <a href="#customer" class="filter-btn">Customer</a>
+            <a href="#saas" class="filter-btn">SaaS</a>
+            <a href="#b2b" class="filter-btn">B2B</a>
+            <a href="#behavioral" class="filter-btn">Behavioral</a>
+            <a href="#analytics" class="filter-btn">Analytics</a>
+            <a href="#specialized" class="filter-btn">Specialized</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- 1. PRICING RESEARCH (7 tools) -->
+        <section class="category-section" id="research">
+            <div class="category-header">
+                <h2>Pricing Research</h2>
+                <span class="tool-count">7 tools</span>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tags="pricing survey research psm">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Survey Research</span>
+                        <h3>Van Westendorp PSM</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Find your optimal price range using the Price Sensitivity Meter. Upload survey data to discover where customers see value.</p>
+                        <a href="sales-sheets/van-westendorp.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="pricing survey research demand">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Survey Research</span>
+                        <h3>Gabor-Granger Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Estimate demand at different price points using direct survey responses. Find revenue-maximizing prices fast.</p>
+                        <a href="sales-sheets/gabor-granger.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="elasticity qualitative qeat">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Assessment</span>
+                        <h3>QEAT Tool</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Qualitative elasticity assessment when you don't have hard data. Rate 10 factors to estimate price sensitivity.</p>
+                        <a href="sales-sheets/qeat.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="assessment maturity capability">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Assessment</span>
+                        <h3>Pricing Capability Assessment</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Score your organization's pricing maturity across 11 dimensions. Identify gaps and prioritize improvements.</p>
+                        <a href="sales-sheets/pricing-assessment.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="power brand premium">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Assessment</span>
+                        <h3>Pricing Power Assessment</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Evaluate your ability to raise prices without losing customers. Measure brand strength and competitive position.</p>
+                        <a href="sales-sheets/pricing-power.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="audit checklist review">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Assessment</span>
+                        <h3>Pricing Audit Checklist</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Comprehensive pricing audit framework. Score strategy, execution, and analytics capabilities.</p>
+                        <a href="sales-sheets/pricing-audit.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="value metric model">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Assessment</span>
+                        <h3>Value Metric Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Find the right pricing metric. Evaluate value alignment, predictability, and scalability.</p>
+                        <a href="sales-sheets/value-metric.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. PRICE OPTIMIZATION (7 tools) -->
+        <section class="category-section" id="optimization">
+            <div class="category-header">
+                <h2>Price Optimization</h2>
+                <span class="tool-count">7 tools</span>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tags="elasticity demand ped">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Elasticity</span>
+                        <h3>Price Elasticity Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate how sensitive your customers are to price changes. Know your pricing power before making moves.</p>
+                        <a href="sales-sheets/price-elasticity-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="elasticity model regression">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Elasticity</span>
+                        <h3>Model-Based Elasticity Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate price, revenue, and profit elasticities from demand model equations. For advanced pricing analysis.</p>
+                        <a href="sales-sheets/model-elasticity.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="optimizer profit revenue">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Optimization</span>
+                        <h3>Elasticity-Based Price Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Find profit-maximizing prices using elasticity estimates. Works with linear and constant elasticity demand.</p>
+                        <a href="sales-sheets/elasticity-optimizer.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="constant elasticity power">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Optimization</span>
+                        <h3>Constant Elasticity Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Optimize prices using constant elasticity demand model. Q = A x P^e with visual demand curves.</p>
+                        <a href="sales-sheets/constant-elasticity.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="general custom flexible">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Optimization</span>
+                        <h3>General Purpose Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Flexible optimizer for custom demand functions. Define your own model and find optimal prices.</p>
+                        <a href="sales-sheets/general-optimizer.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="equilibrium competition nash bertrand">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Game Theory</span>
+                        <h3>Price Equilibrium Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate Nash equilibrium prices in competitive markets. Model Bertrand competition.</p>
+                        <a href="sales-sheets/price-equilibrium.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="promotion discount roi">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Promotions</span>
+                        <h3>Promotion Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate optimal discount levels and timing. Model lift, cannibalization, and stockpiling.</p>
+                        <a href="sales-sheets/promotion-optimizer.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. PRICING STRATEGY (8 tools) -->
+        <section class="category-section" id="strategy">
+            <div class="category-header">
+                <h2>Pricing Strategy</h2>
+                <span class="tool-count">8 tools</span>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tags="bundling package strategy">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Strategy</span>
+                        <h3>Price Bundling Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Find optimal bundle prices. Compare pure bundling, mixed bundling, and unbundled strategies.</p>
+                        <a href="sales-sheets/price-bundling.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="discrimination segmentation">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Strategy</span>
+                        <h3>Price Discrimination Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model different pricing for different segments. Calculate optimal prices for 1st, 2nd, and 3rd degree discrimination.</p>
+                        <a href="sales-sheets/price-discrimination.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="ladder tiers levels good better best">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Strategy</span>
+                        <h3>Price Ladder Designer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Design optimal good-better-best pricing tiers. Analyze gaps, cannibalization risk, and upgrade paths.</p>
+                        <a href="sales-sheets/price-ladder.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="dynamic surge realtime">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Strategy</span>
+                        <h3>Dynamic Pricing Simulator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Simulate dynamic pricing based on demand, inventory, and time. Model surge pricing and markdowns.</p>
+                        <a href="sales-sheets/dynamic-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="penetration launch market">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Strategy</span>
+                        <h3>Penetration Pricing Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model penetration pricing for new product launches. Calculate break-even share and payback period.</p>
+                        <a href="sales-sheets/penetration-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="waterfall margin leakage">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Analysis</span>
+                        <h3>Price Waterfall Analysis</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Track how list price becomes pocket price. Find margin leakage from discounts, rebates, and allowances.</p>
+                        <a href="sales-sheets/price-waterfall.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="index inflation tracking">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Analysis</span>
+                        <h3>Price Index Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate Laspeyres, Paasche, and Fisher price indices. Track price changes over time.</p>
+                        <a href="sales-sheets/price-index.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="cannibalization portfolio">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Portfolio</span>
+                        <h3>Cannibalization Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Measure cannibalization from new products or price changes. Calculate net revenue impact.</p>
+                        <a href="sales-sheets/cannibalization.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. CONJOINT & CHOICE MODELING (4 tools) -->
+        <section class="category-section" id="conjoint">
+            <div class="category-header">
+                <h2>Conjoint & Choice Modeling</h2>
+                <span class="tool-count">4 tools</span>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tags="conjoint design experiment">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Research Design</span>
+                        <h3>Conjoint Design Generator <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Generate orthogonal or fractional factorial designs for conjoint analysis. Download R Shiny app.</p>
+                        <a href="sales-sheets/conjoint-design.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="conjoint simulator market">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Simulation</span>
+                        <h3>Conjoint Simulator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Simulate market shares using conjoint part-worth utilities. Test configurations and pricing scenarios.</p>
+                        <a href="sales-sheets/conjoint-simulator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="multinomial logit choice">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Choice Modeling</span>
+                        <h3>Multinomial Logit Tool <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Estimate multinomial logit choice models from purchase data. Download R Shiny app with mlogit.</p>
+                        <a href="sales-sheets/multinomial-logit.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="latent class segmentation">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Segmentation</span>
+                        <h3>Latent Class Regression <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Find hidden customer segments with different price sensitivities. Cluster-wise regression analysis.</p>
+                        <a href="sales-sheets/latent-class-regression.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CUSTOMER ANALYTICS (8 tools) -->
+        <section class="category-section" id="customer">
+            <div class="category-header">
+                <h2>Customer Analytics</h2>
+                <span class="tool-count">8 tools</span>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tags="clv ltv lifetime value">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Customer Value</span>
+                        <h3>CLV Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate Customer Lifetime Value using multiple models. Size your customer investments properly.</p>
+                        <a href="sales-sheets/clv-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="cac acquisition cost">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Acquisition</span>
+                        <h3>CAC Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate Customer Acquisition Cost by channel. Compare CAC/LTV ratios and payback periods.</p>
+                        <a href="sales-sheets/cac-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="retention churn cohort">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Retention</span>
+                        <h3>Retention Analysis Tool</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze customer retention by cohort. Visualize churn patterns and calculate retention rates.</p>
+                        <a href="sales-sheets/retention-analysis.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="rfm segmentation recency">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Segmentation</span>
+                        <h3>RFM Segmentation Tool</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Segment customers by Recency, Frequency, and Monetary value. Find champions and at-risk customers.</p>
+                        <a href="sales-sheets/rfm-segmentation.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="nps satisfaction loyalty">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Satisfaction</span>
+                        <h3>NPS Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate Net Promoter Score with confidence intervals. Benchmark against industry standards.</p>
+                        <a href="sales-sheets/nps-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="cross-sell upsell basket">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Growth</span>
+                        <h3>Cross-Sell Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Identify cross-sell opportunities from transaction data. Find product associations and bundles.</p>
+                        <a href="sales-sheets/cross-sell.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="win loss competitive">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Competitive</span>
+                        <h3>Win-Loss Price Analysis</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze won and lost deals to understand price sensitivity. Find optimal pricing by segment.</p>
+                        <a href="sales-sheets/win-loss.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="unit economics saas">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Unit Economics</span>
+                        <h3>Unit Economics Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate all key SaaS metrics: LTV, CAC, payback, gross margin. See if your unit economics work.</p>
+                        <a href="sales-sheets/unit-economics.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. SAAS & SUBSCRIPTION (8 tools) -->
+        <section class="category-section" id="saas">
+            <div class="category-header">
+                <h2>SaaS & Subscription</h2>
+                <span class="tool-count">8 tools</span>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tags="subscription mrr arr">
+                    <div class="tool-card-header">
+                        <span class="category-tag">SaaS</span>
+                        <h3>Subscription Pricing Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate MRR, ARR, and subscription metrics. Model expansion revenue, churn, and cohorts.</p>
+                        <a href="sales-sheets/subscription-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="freemium conversion saas">
+                    <div class="tool-card-header">
+                        <span class="category-tag">SaaS</span>
+                        <h3>Freemium Pricing Model</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model freemium economics. Calculate required conversion rates and optimal feature splits.</p>
+                        <a href="sales-sheets/freemium-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="usage based consumption metered">
+                    <div class="tool-card-header">
+                        <span class="category-tag">SaaS</span>
+                        <h3>Usage-Based Pricing Modeler</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model pay-as-you-go pricing. Design usage tiers and calculate revenue at different consumption levels.</p>
+                        <a href="sales-sheets/usage-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="expansion revenue upsell cross-sell">
+                    <div class="tool-card-header">
+                        <span class="category-tag">SaaS</span>
+                        <h3>Expansion Revenue Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Track upsell and cross-sell revenue. Analyze expansion patterns by cohort and segment.</p>
+                        <a href="sales-sheets/expansion-revenue.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="nrr ndr retention revenue">
+                    <div class="tool-card-header">
+                        <span class="category-tag">SaaS</span>
+                        <h3>Net Revenue Retention Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate NRR and NDR metrics. Model the impact of churn, contraction, and expansion.</p>
+                        <a href="sales-sheets/nrr-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="feature paywall free paid">
+                    <div class="tool-card-header">
+                        <span class="category-tag">SaaS</span>
+                        <h3>Feature Paywall Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Determine free vs paid features. Optimize the feature mix to maximize conversion and revenue.</p>
+                        <a href="sales-sheets/feature-paywall.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="trial conversion funnel onboarding">
+                    <div class="tool-card-header">
+                        <span class="category-tag">SaaS</span>
+                        <h3>Trial Conversion Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze trial conversion patterns. Identify drivers and optimize trial experience.</p>
+                        <a href="sales-sheets/trial-conversion.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="annual monthly billing discount">
+                    <div class="tool-card-header">
+                        <span class="category-tag">SaaS</span>
+                        <h3>Annual vs Monthly Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Find optimal annual discount. Model NPV impact and customer preference tradeoffs.</p>
+                        <a href="sales-sheets/annual-monthly.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. B2B & ENTERPRISE (9 tools) -->
+        <section class="category-section" id="b2b">
+            <div class="category-header">
+                <h2>B2B & Enterprise</h2>
+                <span class="tool-count">9 tools</span>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tags="deal desk approval workflow">
+                    <div class="tool-card-header">
+                        <span class="category-tag">B2B</span>
+                        <h3>Deal Desk Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze deal approval patterns. Identify bottlenecks and optimize approval workflows.</p>
+                        <a href="sales-sheets/deal-desk.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="variance list price deviation">
+                    <div class="tool-card-header">
+                        <span class="category-tag">B2B</span>
+                        <h3>Price Variance Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Track variance from list price. Identify patterns in discounting across segments and reps.</p>
+                        <a href="sales-sheets/price-variance.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="negotiation score outcome">
+                    <div class="tool-card-header">
+                        <span class="category-tag">B2B</span>
+                        <h3>Negotiation Scorecard</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Score negotiation outcomes. Benchmark deal performance against targets and peers.</p>
+                        <a href="sales-sheets/negotiation-score.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="contract profitability multi-year">
+                    <div class="tool-card-header">
+                        <span class="category-tag">B2B</span>
+                        <h3>Contract Profitability Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate multi-year contract profitability. Model escalations, renewals, and total value.</p>
+                        <a href="sales-sheets/contract-profitability.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="volume discount tiered quantity">
+                    <div class="tool-card-header">
+                        <span class="category-tag">B2B</span>
+                        <h3>Volume Discount Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Design volume discount structures. Optimize tier breakpoints and discount percentages.</p>
+                        <a href="sales-sheets/volume-discount.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="rfp bid competitive tender">
+                    <div class="tool-card-header">
+                        <span class="category-tag">B2B</span>
+                        <h3>RFP Pricing Tool</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model competitive bid pricing. Calculate win probability at different price points.</p>
+                        <a href="sales-sheets/rfp-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="tco total cost ownership comparison">
+                    <div class="tool-card-header">
+                        <span class="category-tag">B2B</span>
+                        <h3>TCO Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate TCO vs competitors. Include implementation, maintenance, and hidden costs.</p>
+                        <a href="sales-sheets/tco-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="channel wholesale retail">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Channel</span>
+                        <h3>Channel Pricing Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Optimize wholesale and retail prices across distribution channels. Handle double marginalization.</p>
+                        <a href="sales-sheets/channel-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="competitive channel stackelberg">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Channel</span>
+                        <h3>Competitive Channel Pricing</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model pricing across 4 competitive channel scenarios. Compare integrated, Stackelberg, and Nash equilibria.</p>
+                        <a href="sales-sheets/competitive-channel.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. BEHAVIORAL PRICING (6 tools) -->
+        <section class="category-section" id="behavioral">
+            <div class="category-header">
+                <h2>Behavioral Pricing</h2>
+                <span class="tool-count">6 tools</span>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tags="reference price anchor expectations">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Behavioral</span>
+                        <h3>Reference Price Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model how customers form reference prices. Understand price expectations and perception gaps.</p>
+                        <a href="sales-sheets/reference-price-analyzer.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="anchoring bias psychology">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Behavioral</span>
+                        <h3>Price Anchoring Simulator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Test different anchoring strategies. Simulate how initial prices influence customer decisions.</p>
+                        <a href="sales-sheets/price-anchoring.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="loss aversion prospect theory kahneman">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Behavioral</span>
+                        <h3>Loss Aversion Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Quantify loss aversion using prospect theory. Model asymmetric responses to gains and losses.</p>
+                        <a href="sales-sheets/loss-aversion.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="mental accounting budgets categories">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Behavioral</span>
+                        <h3>Mental Accounting Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Optimize for customer spending categories. Understand mental budget allocation patterns.</p>
+                        <a href="sales-sheets/mental-accounting.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="decoy asymmetric dominance choice">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Behavioral</span>
+                        <h3>Decoy Effect Designer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Create optimal decoy products. Design asymmetrically dominated options to steer choice.</p>
+                        <a href="sales-sheets/decoy-effect.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="fairness perception ethics">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Behavioral</span>
+                        <h3>Fairness Perception Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Measure perceived price fairness. Understand when customers view prices as just or exploitative.</p>
+                        <a href="sales-sheets/fairness-perception.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. ANALYTICS & FORECASTING (19 tools) -->
+        <section class="category-section" id="analytics">
+            <div class="category-header">
+                <h2>Analytics & Forecasting</h2>
+                <span class="tool-count">19 tools</span>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tags="ab test experiment">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Experimentation</span>
+                        <h3>A/B Test Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze A/B test results with statistical significance. Get sample size requirements and power analysis.</p>
+                        <a href="sales-sheets/ab-test-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="price test design">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Experimentation</span>
+                        <h3>Price Test Design Tool</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Design rigorous price tests. Calculate required sample sizes, duration, and geographic splits.</p>
+                        <a href="sales-sheets/price-testing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="glm regression statistics">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Statistics</span>
+                        <h3>GLM Regressions <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Run generalized linear models: OLS, logistic, Poisson. Analyze pricing drivers with proper tests.</p>
+                        <a href="sales-sheets/glm-regressions.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="competitive tracking monitor">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Competitive</span>
+                        <h3>Competitive Price Tracker</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Track and analyze competitor prices. Calculate price indices and identify pricing gaps.</p>
+                        <a href="sales-sheets/competitive-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="bass diffusion adoption">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Forecasting</span>
+                        <h3>Bass Diffusion Model</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Forecast new product adoption using the Bass model. Estimate p and q coefficients, predict peak timing.</p>
+                        <a href="sales-sheets/bass-diffusion.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="demand forecast prediction">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Forecasting</span>
+                        <h3>Demand Forecasting Tool</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Forecast demand using trend, seasonality, and price effects. Compare moving average and regression.</p>
+                        <a href="sales-sheets/demand-forecasting.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="breakeven cost volume">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Financial</span>
+                        <h3>Breakeven Analysis Tool</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate breakeven point in units and revenue. Visualize cost-volume-profit relationships.</p>
+                        <a href="sales-sheets/breakeven-analysis.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="margin profit markup">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Financial</span>
+                        <h3>Margin Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate gross margin, markup, and contribution margin. Convert between margin and markup.</p>
+                        <a href="sales-sheets/margin-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="roi investment return">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Financial</span>
+                        <h3>ROI Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate return on investment for pricing initiatives. Compare ROI across project options.</p>
+                        <a href="sales-sheets/roi-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="income elasticity demand">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Economics</span>
+                        <h3>Income Elasticity Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate Income Elasticity of Demand. Classify products as normal, luxury, or inferior goods.</p>
+                        <a href="sales-sheets/income-elasticity-calculator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="market sizing tam sam">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Market</span>
+                        <h3>Market Sizing Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate TAM, SAM, and SOM for your market. Use top-down and bottom-up approaches.</p>
+                        <a href="sales-sheets/market-sizing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="marketing mix attribution">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Marketing</span>
+                        <h3>Marketing Mix Model</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze marketing ROI across channels. Decompose sales into base, price, and marketing effects.</p>
+                        <a href="sales-sheets/marketing-mix.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="machine learning optimization algorithm">
+                    <div class="tool-card-header">
+                        <span class="category-tag">ML/Analytics</span>
+                        <h3>ML Price Optimizer <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>ML-based price optimization. Use gradient boosting and neural nets for complex demand patterns.</p>
+                        <a href="sales-sheets/ml-price-optimizer.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="demand curve estimation econometrics">
+                    <div class="tool-card-header">
+                        <span class="category-tag">ML/Analytics</span>
+                        <h3>Demand Curve Estimator <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Estimate demand curves from data. Fit linear, log-log, and semi-log specifications.</p>
+                        <a href="sales-sheets/demand-curve-estimator.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="cluster analysis segmentation kmeans">
+                    <div class="tool-card-header">
+                        <span class="category-tag">ML/Analytics</span>
+                        <h3>Price Cluster Analysis <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Cluster customers by price sensitivity. Identify natural segments using unsupervised learning.</p>
+                        <a href="sales-sheets/price-cluster.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="time series forecasting arima trend">
+                    <div class="tool-card-header">
+                        <span class="category-tag">ML/Analytics</span>
+                        <h3>Time Series Price Analyzer <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze price trends over time. Decompose seasonality, trend, and cyclical patterns.</p>
+                        <a href="sales-sheets/time-series-price.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="causal impact inference experiment">
+                    <div class="tool-card-header">
+                        <span class="category-tag">ML/Analytics</span>
+                        <h3>Causal Impact Analyzer <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Measure causal impact of price changes. Use synthetic control and diff-in-diff methods.</p>
+                        <a href="sales-sheets/causal-impact.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="heterogeneous treatment effects personalization">
+                    <div class="tool-card-header">
+                        <span class="category-tag">ML/Analytics</span>
+                        <h3>Heterogeneous Treatment Effects <span class="shiny-badge">R Shiny</span></h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model differential price effects. Find who responds most to price changes for personalization.</p>
+                        <a href="sales-sheets/heterogeneous-effects.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="cross-price elasticity substitute complement">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Economics</span>
+                        <h3>Cross-Price Elasticity Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate cross-price elasticity between products. Identify substitutes and complements.</p>
+                        <a href="sales-sheets/cross-price-elasticity.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. SPECIALIZED TOOLS (24 tools) -->
+        <section class="category-section" id="specialized">
+            <div class="category-header">
+                <h2>Specialized Tools</h2>
+                <span class="tool-count">24 tools</span>
+            </div>
+            <div class="tools-grid">
+                <!-- International -->
+                <div class="tool-card" data-tags="international global country localization">
+                    <div class="tool-card-header">
+                        <span class="category-tag">International</span>
+                        <h3>International Pricing Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Set prices across countries. Account for purchasing power, taxes, and local competition.</p>
+                        <a href="sales-sheets/international-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="currency hedging fx foreign exchange">
+                    <div class="tool-card-header">
+                        <span class="category-tag">International</span>
+                        <h3>Currency Hedging Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model FX impact on pricing. Analyze hedging strategies and currency exposure.</p>
+                        <a href="sales-sheets/currency-hedging.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="transfer pricing intercompany tax">
+                    <div class="tool-card-header">
+                        <span class="category-tag">International</span>
+                        <h3>Transfer Pricing Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Optimize intercompany prices. Model tax implications and compliance requirements.</p>
+                        <a href="sales-sheets/transfer-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="purchasing power ppp regional income">
+                    <div class="tool-card-header">
+                        <span class="category-tag">International</span>
+                        <h3>Regional Purchasing Power Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Adjust for regional income differences. Calculate PPP-based price adjustments.</p>
+                        <a href="sales-sheets/regional-purchasing-power.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Retail -->
+                <div class="tool-card" data-tags="shelf position placement planogram retail">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Retail</span>
+                        <h3>Shelf Price Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Optimize prices by shelf position. Account for visibility, facings, and placement effects.</p>
+                        <a href="sales-sheets/shelf-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="trade promotion tpr roi cpg retail">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Retail</span>
+                        <h3>Trade Promotion Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze trade promotion ROI. Calculate lift, pass-through, and incremental volume.</p>
+                        <a href="sales-sheets/trade-promotion.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="category management assortment portfolio retail">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Retail</span>
+                        <h3>Category Pricing Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Optimize across product category. Balance competition, substitution, and category profit.</p>
+                        <a href="sales-sheets/category-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="private label store brand national retail">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Retail</span>
+                        <h3>Private Label Gap Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze national vs private label gaps. Optimize price positioning against store brands.</p>
+                        <a href="sales-sheets/private-label-gap.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="markdown clearance timing optimization retail">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Retail</span>
+                        <h3>Markdown Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Optimize markdown timing and depth. Maximize clearance revenue while minimizing margin loss.</p>
+                        <a href="sales-sheets/markdown-optimization.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Professional Services -->
+                <div class="tool-card" data-tags="hourly rate benchmark consulting services">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Services</span>
+                        <h3>Hourly Rate Benchmarker</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Benchmark professional service rates. Compare by role, industry, and geography.</p>
+                        <a href="sales-sheets/hourly-rate.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="project pricing fixed bid scope services">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Services</span>
+                        <h3>Project Pricing Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate project prices. Estimate effort, apply margins, and create detailed quotes.</p>
+                        <a href="sales-sheets/project-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="value based fee outcome results services">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Services</span>
+                        <h3>Value-Based Fee Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate fees based on value delivered. Model client outcomes and fair value share.</p>
+                        <a href="sales-sheets/value-based-fee.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="retainer recurring monthly advisory services">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Services</span>
+                        <h3>Retainer Pricing Optimizer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Optimize retainer structures. Balance capacity utilization with client value perception.</p>
+                        <a href="sales-sheets/retainer-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Competitive -->
+                <div class="tool-card" data-tags="competitive response reaction game theory">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Competitive</span>
+                        <h3>Competitive Response Modeler</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Model competitor responses to your pricing moves. Anticipate reactions and counter-strategies.</p>
+                        <a href="sales-sheets/competitive-response.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="market position value map perceptual">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Competitive</span>
+                        <h3>Market Position Mapper</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Map price vs value position. Visualize competitive landscape and identify white space.</p>
+                        <a href="sales-sheets/market-position.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="price leader follower dynamics">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Competitive</span>
+                        <h3>Price Leadership Analyzer</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Identify price leaders and followers. Analyze who moves first and who reacts.</p>
+                        <a href="sales-sheets/price-leadership.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="competitive index benchmark dashboard">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Competitive</span>
+                        <h3>Competitive Price Index</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Track competitive position over time. Monitor price index trends and gap changes.</p>
+                        <a href="sales-sheets/competitive-index.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Governance -->
+                <div class="tool-card" data-tags="exception tracker approval override governance">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Governance</span>
+                        <h3>Price Exception Tracker</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Track price exceptions and overrides. Monitor approval patterns and exception trends.</p>
+                        <a href="sales-sheets/price-exception.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="pocket price realization leakage governance">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Governance</span>
+                        <h3>Pocket Price Dashboard</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Monitor pocket price realization. Track where margin leaks and identify improvement opportunities.</p>
+                        <a href="sales-sheets/pocket-price.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="scorecard execution performance kpi governance">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Governance</span>
+                        <h3>Price Execution Scorecard</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Score pricing execution quality. Track KPIs across teams, regions, and products.</p>
+                        <a href="sales-sheets/price-scorecard.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="discount authority matrix approval delegation governance">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Governance</span>
+                        <h3>Discount Authority Matrix</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Design approval matrices. Define discount authority levels by role, deal size, and segment.</p>
+                        <a href="sales-sheets/discount-authority.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- Industry-Specific -->
+                <div class="tool-card" data-tags="healthcare hospital transparency chargemaster industry">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Healthcare</span>
+                        <h3>Healthcare Pricing Tool</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Analyze hospital pricing and chargemasters. Compare costs across facilities and payers.</p>
+                        <a href="sales-sheets/healthcare-pricing.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="airline yield management revenue overbooking industry">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Travel</span>
+                        <h3>Airline Yield Management</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Simulate airline yield management. Model fare classes, overbooking, and revenue optimization.</p>
+                        <a href="sales-sheets/airline-yield.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="hotel revenue management occupancy adr industry">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Hospitality</span>
+                        <h3>Hotel Revenue Management</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Optimize hotel pricing. Balance occupancy, ADR, and RevPAR across room types and seasons.</p>
+                        <a href="sales-sheets/hotel-revenue.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+
+                <div class="tool-card" data-tags="insurance premium actuarial risk industry">
+                    <div class="tool-card-header">
+                        <span class="category-tag">Insurance</span>
+                        <h3>Insurance Premium Calculator</h3>
+                    </div>
+                    <div class="tool-card-body">
+                        <p>Calculate insurance premiums. Model risk factors, loss ratios, and competitive positioning.</p>
+                        <a href="sales-sheets/insurance-premium.html" class="tool-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <section class="cta-section">
+        <h2>Ready to Put These Tools to Work?</h2>
+        <p>Whether you need a one-time analysis or want to build these capabilities in-house, we can help.</p>
+        <a href="index.html#contact" class="cta-button">Request Free Consultation</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 MIAOW LLC. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const toolCards = document.querySelectorAll('.tool-card');
+
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            toolCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                const tags = card.dataset.tags ? card.dataset.tags.toLowerCase() : '';
+
+                const matches = title.includes(searchTerm) ||
+                               description.includes(searchTerm) ||
+                               tags.includes(searchTerm);
+
+                card.classList.toggle('hidden', !matches && searchTerm !== '');
+            });
+        });
+    </script>
+
+</body>
+</html>
