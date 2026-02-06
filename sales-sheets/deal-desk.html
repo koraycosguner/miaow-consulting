@@ -342,36 +342,51 @@
             <div class="logo">MIAOW<span>.</span></div>
             <div class="header-right">
                 <h1>Deal Desk Analyzer</h1>
-                <div class="tagline">Streamline Deal Approvals</div>
+                <div class="tagline">Turn Approval Chaos Into Competitive Advantage</div>
             </div>
         </div>
 
         <!-- Hero with Chart -->
         <div class="hero">
             <div class="hero-text">
-                <h2>Analyze Deal Approval Patterns</h2>
-                <p>Identify bottlenecks and optimize approval workflows. Understand where deals stall and how to accelerate your sales cycle.</p>
+                <h2>Find Where Deals Die - And Fix It</h2>
+                <p>Every day a deal waits for approval, your competitor gets closer to closing. Our analyzer pinpoints exactly which stages are killing velocity - and shows you how to eliminate them.</p>
                 <div class="hero-outputs">
                     <div class="hero-output">
-                        <strong>Approval Time</strong>
-                        <span>Average cycle duration</span>
+                        <strong>Stage-by-Stage Latency Map</strong>
+                        <span>Exact time lost at each step</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Bottleneck Analysis</strong>
-                        <span>Identify slowdowns</span>
+                        <strong>Bottleneck Root Causes</strong>
+                        <span>People, process, or policy issues</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Win Rates</strong>
-                        <span>By approval path</span>
+                        <strong>Approval Path Win Rates</strong>
+                        <span>Which routes convert best</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Deal Velocity</strong>
-                        <span>Speed to close</span>
+                        <strong>Revenue at Risk Report</strong>
+                        <span>$ impact of slow approvals</span>
                     </div>
                 </div>
             </div>
             <div class="chart-container">
                 <svg class="chart-svg" viewBox="0 0 300 160">
+                    <defs>
+                        <linearGradient id="bottleneckGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ef4444;stop-opacity:0.8"/>
+                            <stop offset="100%" style="stop-color:#ef4444;stop-opacity:0.4"/>
+                        </linearGradient>
+                        <linearGradient id="normalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#2d4a6f"/>
+                            <stop offset="100%" style="stop-color:#1e3a5f"/>
+                        </linearGradient>
+                        <linearGradient id="successGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#22c55e"/>
+                            <stop offset="100%" style="stop-color:#16a34a"/>
+                        </linearGradient>
+                    </defs>
+
                     <!-- Grid -->
                     <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
                     <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
@@ -379,33 +394,40 @@
                     <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
 
                     <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0</text>
+                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0d</text>
                     <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">5d</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">10d</text>
+                    <text x="35" y="38" font-size="8" fill="#64748b" text-anchor="end">10d</text>
 
                     <!-- X-axis labels -->
                     <text x="70" y="153" font-size="8" fill="#64748b" text-anchor="middle">Submit</text>
-                    <text x="130" y="153" font-size="8" fill="#64748b" text-anchor="middle">Review</text>
+                    <text x="130" y="153" font-size="8" fill="#ef4444" font-weight="600" text-anchor="middle">Review</text>
                     <text x="190" y="153" font-size="8" fill="#64748b" text-anchor="middle">Approve</text>
                     <text x="250" y="153" font-size="8" fill="#64748b" text-anchor="middle">Close</text>
 
                     <!-- Bar chart representing deal stages -->
-                    <rect x="55" y="100" width="30" height="40" fill="#1e3a5f" rx="3"/>
-                    <rect x="115" y="50" width="30" height="90" fill="#ef4444" rx="3"/>
-                    <rect x="175" y="80" width="30" height="60" fill="#1e3a5f" rx="3"/>
-                    <rect x="235" y="110" width="30" height="30" fill="#22c55e" rx="3"/>
+                    <rect x="55" y="100" width="30" height="40" fill="url(#normalGrad)" rx="4"/>
+                    <text x="70" y="95" font-size="7" fill="#1e3a5f" text-anchor="middle" font-weight="600">2d</text>
 
-                    <!-- Bottleneck indicator -->
-                    <circle cx="130" cy="40" r="12" fill="#c9a227"/>
-                    <text x="130" y="44" font-size="10" fill="white" text-anchor="middle" font-weight="600">!</text>
+                    <rect x="115" y="45" width="30" height="95" fill="url(#bottleneckGlow)" rx="4"/>
+                    <text x="130" y="40" font-size="7" fill="#ef4444" text-anchor="middle" font-weight="700">9d!</text>
+
+                    <rect x="175" y="80" width="30" height="60" fill="url(#normalGrad)" rx="4"/>
+                    <text x="190" y="75" font-size="7" fill="#1e3a5f" text-anchor="middle" font-weight="600">3d</text>
+
+                    <rect x="235" y="115" width="30" height="25" fill="url(#successGrad)" rx="4"/>
+                    <text x="250" y="110" font-size="7" fill="#22c55e" text-anchor="middle" font-weight="600">1d</text>
+
+                    <!-- Bottleneck alert callout -->
+                    <rect x="155" y="5" width="90" height="24" rx="5" fill="#ef4444"/>
+                    <text x="200" y="15" font-size="7" fill="white" text-anchor="middle">BOTTLENECK FOUND</text>
+                    <text x="200" y="24" font-size="8" fill="white" text-anchor="middle" font-weight="700">63% of delay here</text>
+                    <line x1="155" y1="17" x2="145" y2="45" stroke="#ef4444" stroke-width="1.5"/>
 
                     <!-- Legend -->
-                    <rect x="55" y="8" width="12" height="12" fill="#1e3a5f" rx="2"/>
-                    <text x="72" y="17" font-size="9" fill="#64748b">Normal</text>
-                    <rect x="120" y="8" width="12" height="12" fill="#ef4444" rx="2"/>
-                    <text x="137" y="17" font-size="9" fill="#64748b">Bottleneck</text>
-                    <rect x="195" y="8" width="12" height="12" fill="#22c55e" rx="2"/>
-                    <text x="212" y="17" font-size="9" fill="#64748b">Optimized</text>
+                    <rect x="45" y="5" width="10" height="10" fill="url(#normalGrad)" rx="2"/>
+                    <text x="58" y="13" font-size="7" fill="#64748b">Normal</text>
+                    <rect x="90" y="5" width="10" height="10" fill="#ef4444" rx="2"/>
+                    <text x="103" y="13" font-size="7" fill="#64748b">Slow</text>
                 </svg>
             </div>
         </div>
@@ -435,8 +457,8 @@
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="big-stat">30% faster deal cycles with optimized workflows</div>
-                    <p>Reduce approval bottlenecks and close deals faster</p>
+                    <div class="big-stat">Companies lose 30% of deals due to slow approvals*</div>
+                    <p>Buyers move on while you wait for internal sign-off</p>
                 </div>
             </div>
 
@@ -452,8 +474,11 @@
                 <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
                 <div class="tags">
                     <span class="tag">B2B Sales</span>
-                    <span class="tag">Enterprise</span>
+                    <span class="tag">Enterprise Software</span>
                     <span class="tag">SaaS</span>
+                    <span class="tag">Professional Services</span>
+                    <span class="tag">Manufacturing</span>
+                    <span class="tag">Financial Services</span>
                 </div>
             </div>
         </div>
@@ -461,7 +486,7 @@
         <!-- Credibility / CTA Footer -->
         <div class="credibility">
             <div class="cred-left">
-                <h3>Ready to Streamline Your Deal Desk?</h3>
+                <h3>Ready to Close Deals 30% Faster?</h3>
                 <p class="name">Dr. Koray Cosguner</p>
                 <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
                 <p class="contact">
@@ -473,13 +498,13 @@
                     <div class="school">Kelley School of Business</div>
                     <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
                 </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Deal%20Desk%20Analyzer%20Demo%20Request" class="cta-button">Request Demo</a>
+                <a href="mailto:miaow.consulting@gmail.com?subject=Deal%20Desk%20Analyzer%20Demo%20Request" class="cta-button">Accelerate My Deals</a>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+            *Source: CSO Insights Sales Effectiveness Study | © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
 

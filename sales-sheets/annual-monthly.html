@@ -342,68 +342,89 @@
             <div class="logo">MIAOW<span>.</span></div>
             <div class="header-right">
                 <h1>Annual vs Monthly Calculator</h1>
-                <div class="tagline">Find Your Optimal Annual Discount</div>
+                <div class="tagline">Stop Guessing - Start Optimizing Your Billing Mix</div>
             </div>
         </div>
 
         <!-- Hero with Chart -->
         <div class="hero">
             <div class="hero-text">
-                <h2>Balance Cash Flow and Value</h2>
-                <p>Calculate the ideal annual vs monthly pricing discount. Model NPV impact and customer preference tradeoffs to maximize long-term value.</p>
+                <h2>Find the Sweet Spot Between Retention and Revenue</h2>
+                <p>Most companies either discount too much (leaving money on the table) or too little (missing conversion). Our calculator finds the NPV-maximizing annual discount that balances upfront cash with customer lifetime value.</p>
                 <div class="hero-outputs">
                     <div class="hero-output">
-                        <strong>Optimal Discount</strong>
-                        <span>Best annual rate</span>
+                        <strong>Profit-Maximizing Discount</strong>
+                        <span>Exact % that maximizes NPV</span>
                     </div>
                     <div class="hero-output">
-                        <strong>NPV Impact</strong>
-                        <span>Value comparison</span>
+                        <strong>Revenue Scenario Model</strong>
+                        <span>Monthly vs annual projections</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Customer Mix</strong>
-                        <span>Plan distribution</span>
+                        <strong>Churn Impact Analysis</strong>
+                        <span>Retention gains vs discount cost</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Payback Period</strong>
-                        <span>Break-even time</span>
+                        <strong>Cash Flow Forecast</strong>
+                        <span>When you'll break even and profit</span>
                     </div>
                 </div>
             </div>
             <div class="chart-container">
                 <svg class="chart-svg" viewBox="0 0 300 160">
+                    <defs>
+                        <linearGradient id="npvGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#1e3a5f;stop-opacity:0.3"/>
+                            <stop offset="100%" style="stop-color:#1e3a5f;stop-opacity:0"/>
+                        </linearGradient>
+                        <linearGradient id="goldPulse" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#c9a227"/>
+                            <stop offset="100%" style="stop-color:#dbb42c"/>
+                        </linearGradient>
+                    </defs>
+
                     <!-- Grid -->
                     <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
                     <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
                     <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
                     <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
 
-                    <!-- Y-axis -->
+                    <!-- Y-axis labels -->
                     <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">$0</text>
                     <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">NPV</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">Max</text>
+                    <text x="35" y="38" font-size="8" fill="#64748b" text-anchor="end">Max</text>
 
                     <!-- X-axis labels -->
-                    <text x="70" y="153" font-size="8" fill="#64748b" text-anchor="middle">10%</text>
-                    <text x="130" y="153" font-size="8" fill="#64748b" text-anchor="middle">17%</text>
-                    <text x="190" y="153" font-size="8" fill="#64748b" text-anchor="middle">25%</text>
-                    <text x="250" y="153" font-size="8" fill="#64748b" text-anchor="middle">33%</text>
+                    <text x="160" y="158" font-size="8" fill="#64748b" text-anchor="middle">Annual Discount %</text>
+                    <text x="70" y="150" font-size="7" fill="#64748b" text-anchor="middle">10%</text>
+                    <text x="130" y="150" font-size="7" fill="#c9a227" font-weight="600" text-anchor="middle">17%</text>
+                    <text x="190" y="150" font-size="7" fill="#64748b" text-anchor="middle">25%</text>
+                    <text x="250" y="150" font-size="7" fill="#64748b" text-anchor="middle">33%</text>
+
+                    <!-- NPV curve area fill -->
+                    <path d="M50,120 C70,80 100,50 130,40 C160,50 200,70 250,110 L250,140 L50,140 Z" fill="url(#npvGradient)"/>
 
                     <!-- NPV curve -->
                     <path d="M50,120 C70,80 100,50 130,40 C160,50 200,70 250,110" fill="none" stroke="#1e3a5f" stroke-width="3"/>
 
-                    <!-- Optimal point -->
-                    <circle cx="130" cy="40" r="8" fill="#c9a227"/>
+                    <!-- Optimal zone indicator -->
+                    <line x1="130" y1="40" x2="130" y2="140" stroke="#c9a227" stroke-width="1" stroke-dasharray="3"/>
+
+                    <!-- Optimal point with glow -->
+                    <circle cx="130" cy="40" r="12" fill="#c9a227" opacity="0.2"/>
+                    <circle cx="130" cy="40" r="8" fill="url(#goldPulse)"/>
                     <circle cx="130" cy="40" r="4" fill="white"/>
 
                     <!-- Optimal Label -->
-                    <line x1="130" y1="40" x2="180" y2="25" stroke="#1e3a5f" stroke-width="1.5"/>
-                    <rect x="155" y="12" width="90" height="22" rx="5" fill="#1e3a5f"/>
-                    <text x="200" y="27" font-size="9" fill="white" text-anchor="middle" font-weight="600">Optimal: 17%</text>
+                    <rect x="155" y="8" width="95" height="28" rx="6" fill="#1e3a5f"/>
+                    <text x="202" y="20" font-size="7" fill="#c9a227" text-anchor="middle">OPTIMAL DISCOUNT</text>
+                    <text x="202" y="31" font-size="10" fill="white" text-anchor="middle" font-weight="700">17% = Max NPV</text>
+                    <line x1="138" y1="40" x2="155" y2="22" stroke="#1e3a5f" stroke-width="1.5"/>
 
                     <!-- Legend -->
-                    <line x1="55" y1="12" x2="80" y2="12" stroke="#1e3a5f" stroke-width="2.5"/>
-                    <text x="85" y="15" font-size="9" fill="#64748b">NPV by Discount %</text>
+                    <rect x="50" y="5" width="75" height="16" rx="3" fill="#f8f9fa"/>
+                    <line x1="55" y1="13" x2="70" y2="13" stroke="#1e3a5f" stroke-width="2.5"/>
+                    <text x="75" y="16" font-size="8" fill="#64748b">NPV Curve</text>
                 </svg>
             </div>
         </div>
@@ -433,8 +454,8 @@
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="big-stat">Annual plans reduce churn by 15-30%*</div>
-                    <p>Find the discount that maximizes LTV</p>
+                    <div class="big-stat">Companies with optimized annual plans see 20-40% higher LTV*</div>
+                    <p>The right discount converts monthly users without leaving money behind</p>
                 </div>
             </div>
 
@@ -450,8 +471,11 @@
                 <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
                 <div class="tags">
                     <span class="tag">SaaS</span>
-                    <span class="tag">Subscription</span>
-                    <span class="tag">Membership</span>
+                    <span class="tag">Subscription Boxes</span>
+                    <span class="tag">Membership Services</span>
+                    <span class="tag">Media & Streaming</span>
+                    <span class="tag">Online Learning</span>
+                    <span class="tag">Fitness & Wellness</span>
                 </div>
             </div>
         </div>
@@ -459,7 +483,7 @@
         <!-- Credibility / CTA Footer -->
         <div class="credibility">
             <div class="cred-left">
-                <h3>Ready to Optimize Your Pricing?</h3>
+                <h3>Ready to Find Your Optimal Billing Mix?</h3>
                 <p class="name">Dr. Koray Cosguner</p>
                 <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
                 <p class="contact">
@@ -471,7 +495,7 @@
                     <div class="school">Kelley School of Business</div>
                     <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
                 </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Annual%20Monthly%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
+                <a href="mailto:miaow.consulting@gmail.com?subject=Annual%20Monthly%20Calculator%20Demo%20Request" class="cta-button">Optimize My Billing Strategy</a>
             </div>
         </div>
 

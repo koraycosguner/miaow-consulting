@@ -342,63 +342,82 @@
             <div class="logo">MIAOW<span>.</span></div>
             <div class="header-right">
                 <h1>Trial Conversion Analyzer</h1>
-                <div class="tagline">Convert More Trials</div>
+                <div class="tagline">Turn Free Users Into Paying Customers</div>
             </div>
         </div>
 
         <!-- Hero with Chart -->
         <div class="hero">
             <div class="hero-text">
-                <h2>Understand What Drives Conversion</h2>
-                <p>Analyze trial conversion patterns. Identify drivers and optimize trial experience to turn more prospects into customers.</p>
+                <h2>Discover Why Trials Convert - Or Don't</h2>
+                <p>Uncover the hidden patterns in your trial data. Identify the specific behaviors, features, and timing that predict conversion - then optimize your trial experience for maximum revenue.</p>
                 <div class="hero-outputs">
                     <div class="hero-output">
-                        <strong>Conversion Rate</strong>
-                        <span>Trial to paid</span>
+                        <strong>Conversion Predictors</strong>
+                        <span>Key behaviors that signal purchase intent</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Driver Analysis</strong>
-                        <span>What matters most</span>
+                        <strong>Drop-Off Analysis</strong>
+                        <span>Where and why users abandon</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Funnel Optimization</strong>
-                        <span>Drop-off points</span>
+                        <strong>Optimal Trial Length</strong>
+                        <span>Data-driven duration recommendation</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Experiment Design</strong>
-                        <span>A/B test plans</span>
+                        <strong>Intervention Timing</strong>
+                        <span>When to nudge for best results</span>
                     </div>
                 </div>
             </div>
             <div class="chart-container">
                 <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Funnel visualization -->
-                    <text x="150" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Trial Conversion Funnel</text>
+                    <!-- Improved Funnel visualization with better visual hierarchy -->
+                    <text x="150" y="12" font-size="9" fill="#1e3a5f" text-anchor="middle" font-weight="600">Trial-to-Paid Conversion Funnel</text>
 
-                    <!-- Funnel stages -->
-                    <polygon points="50,30 250,30 230,55 70,55" fill="#1e3a5f"/>
-                    <text x="150" y="47" font-size="9" fill="white" text-anchor="middle" font-weight="500">Trial Signups: 10,000</text>
+                    <!-- Funnel stages with gradient effect -->
+                    <defs>
+                        <linearGradient id="funnelGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#1e3a5f;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#2d4a6f;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
 
-                    <polygon points="70,60 230,60 210,85 90,85" fill="#2d4a6f"/>
-                    <text x="150" y="77" font-size="9" fill="white" text-anchor="middle" font-weight="500">Activated: 6,500 (65%)</text>
+                    <!-- Stage 1: Signups -->
+                    <polygon points="40,22 260,22 240,42 60,42" fill="url(#funnelGrad1)"/>
+                    <text x="150" y="36" font-size="8" fill="white" text-anchor="middle" font-weight="500">Signups: 10,000</text>
 
-                    <polygon points="90,90 210,90 190,115 110,115" fill="#c9a227"/>
-                    <text x="150" y="107" font-size="9" fill="white" text-anchor="middle" font-weight="500">Engaged: 3,200 (49%)</text>
+                    <!-- Stage 2: Activated -->
+                    <polygon points="60,47 240,47 220,67 80,67" fill="#2d4a6f"/>
+                    <text x="150" y="61" font-size="8" fill="white" text-anchor="middle" font-weight="500">Activated: 6,500 (65%)</text>
 
-                    <polygon points="110,120 190,120 175,145 125,145" fill="#10b981"/>
-                    <text x="150" y="137" font-size="9" fill="white" text-anchor="middle" font-weight="500">Converted: 1,600 (50%)</text>
+                    <!-- Stage 3: Engaged -->
+                    <polygon points="80,72 220,72 195,92 105,92" fill="#c9a227"/>
+                    <text x="150" y="86" font-size="8" fill="white" text-anchor="middle" font-weight="500">Engaged: 3,200 (49%)</text>
 
-                    <!-- Conversion rate callout -->
-                    <rect x="220" y="55" width="70" height="35" rx="4" fill="#10b981"/>
-                    <text x="255" y="70" font-size="8" fill="white" text-anchor="middle">Overall</text>
-                    <text x="255" y="83" font-size="12" fill="white" text-anchor="middle" font-weight="700">16%</text>
+                    <!-- Stage 4: Converted -->
+                    <polygon points="105,97 195,97 175,117 125,117" fill="#10b981"/>
+                    <text x="150" y="111" font-size="8" fill="white" text-anchor="middle" font-weight="500">Paid: 1,600 (50%)</text>
 
-                    <!-- Drop-off indicators -->
-                    <line x1="245" y1="42" x2="260" y2="42" stroke="#ef4444" stroke-width="2"/>
-                    <text x="275" y="45" font-size="7" fill="#ef4444">-35%</text>
+                    <!-- Drop-off annotations on right side -->
+                    <line x1="242" y1="35" x2="258" y2="35" stroke="#ef4444" stroke-width="1.5"/>
+                    <text x="262" y="38" font-size="7" fill="#ef4444">-35%</text>
 
-                    <line x1="225" y1="72" x2="240" y2="72" stroke="#ef4444" stroke-width="2"/>
-                    <text x="255" y="45" font-size="7" fill="#ef4444">-51%</text>
+                    <line x1="222" y1="57" x2="258" y2="57" stroke="#ef4444" stroke-width="1.5"/>
+                    <text x="262" y="60" font-size="7" fill="#ef4444">-51%</text>
+
+                    <line x1="197" y1="82" x2="258" y2="82" stroke="#ef4444" stroke-width="1.5"/>
+                    <text x="262" y="85" font-size="7" fill="#ef4444">-50%</text>
+
+                    <!-- Bottom insight box -->
+                    <rect x="50" y="125" width="90" height="30" rx="5" fill="#10b981"/>
+                    <text x="95" y="138" font-size="7" fill="white" text-anchor="middle">Overall Rate</text>
+                    <text x="95" y="150" font-size="11" fill="white" text-anchor="middle" font-weight="700">16%</text>
+
+                    <!-- Opportunity callout -->
+                    <rect x="160" y="125" width="90" height="30" rx="5" fill="#c9a227"/>
+                    <text x="205" y="138" font-size="7" fill="white" text-anchor="middle">Target Rate</text>
+                    <text x="205" y="150" font-size="11" fill="white" text-anchor="middle" font-weight="700">25%</text>
                 </svg>
             </div>
         </div>
@@ -428,8 +447,8 @@
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="big-stat">Top quartile SaaS converts 25%+ of trials*</div>
-                    <p>Know where you stand and how to improve</p>
+                    <div class="big-stat">Increasing trial conversion by 5% can boost revenue 25-50%*</div>
+                    <p>Small improvements compound into massive gains</p>
                 </div>
             </div>
 
@@ -437,16 +456,18 @@
             <div class="section">
                 <h3><span class="icon">📦</span> What You Get</h3>
                 <div class="tags">
-                    <span class="tag">✓ Funnel Analysis</span>
-                    <span class="tag">✓ Driver Identification</span>
-                    <span class="tag">✓ Cohort Comparison</span>
-                    <span class="tag">✓ A/B Test Framework</span>
+                    <span class="tag">✓ Funnel Visualization Dashboard</span>
+                    <span class="tag">✓ Predictive Conversion Model</span>
+                    <span class="tag">✓ Cohort Comparison Reports</span>
+                    <span class="tag">✓ Experiment Playbook</span>
                 </div>
                 <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
                 <div class="tags">
                     <span class="tag">SaaS</span>
-                    <span class="tag">Freemium</span>
-                    <span class="tag">Consumer Apps</span>
+                    <span class="tag">Freemium Apps</span>
+                    <span class="tag">Media & Streaming</span>
+                    <span class="tag">Subscription Boxes</span>
+                    <span class="tag">Online Learning</span>
                 </div>
             </div>
         </div>
@@ -454,7 +475,7 @@
         <!-- Credibility / CTA Footer -->
         <div class="credibility">
             <div class="cred-left">
-                <h3>Ready to Convert More Trials?</h3>
+                <h3>Ready to Unlock Your Trial Revenue?</h3>
                 <p class="name">Dr. Koray Cosguner</p>
                 <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
                 <p class="contact">
@@ -466,7 +487,7 @@
                     <div class="school">Kelley School of Business</div>
                     <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
                 </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Trial%20Conversion%20Analyzer%20Demo%20Request" class="cta-button">Request Demo</a>
+                <a href="mailto:miaow.consulting@gmail.com?subject=Trial%20Conversion%20Analyzer%20Demo%20Request" class="cta-button">Start Converting More Trials</a>
             </div>
         </div>
 
