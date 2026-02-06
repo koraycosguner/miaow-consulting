@@ -156,6 +156,12 @@
             color: var(--white);
             border-color: var(--navy);
         }
+        .filter-buttons-wrapper {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
 
         /* Main Content */
         main { max-width: 1400px; margin: 0 auto; padding: 48px 24px; }
@@ -337,8 +343,33 @@
             .nav-container { position: relative; }
             .hero h1 { font-size: 1.8rem; }
             .tools-grid { grid-template-columns: 1fr; }
-            .search-container { flex-direction: column; align-items: stretch; }
-            .filter-btn { text-align: center; }
+            /* Mobile search section - not sticky, horizontal scroll for filters */
+            .search-section {
+                position: relative;
+                top: 0;
+                padding: 16px;
+            }
+            .search-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .search-input {
+                min-width: 100%;
+            }
+            .filter-buttons-wrapper {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding-bottom: 8px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .filter-btn {
+                text-align: center;
+                flex-shrink: 0;
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -369,16 +400,18 @@
     <div class="search-section">
         <div class="search-container">
             <input type="text" class="search-input" id="searchInput" placeholder="Search tools...">
-            <a href="#research" class="filter-btn">Research</a>
-            <a href="#optimization" class="filter-btn">Optimization</a>
-            <a href="#strategy" class="filter-btn">Strategy</a>
-            <a href="#conjoint" class="filter-btn">Conjoint</a>
-            <a href="#customer" class="filter-btn">Customer</a>
-            <a href="#saas" class="filter-btn">SaaS</a>
-            <a href="#b2b" class="filter-btn">B2B</a>
-            <a href="#behavioral" class="filter-btn">Behavioral</a>
-            <a href="#analytics" class="filter-btn">Analytics</a>
-            <a href="#specialized" class="filter-btn">Specialized</a>
+            <div class="filter-buttons-wrapper">
+                <a href="#research" class="filter-btn">Research</a>
+                <a href="#optimization" class="filter-btn">Optimization</a>
+                <a href="#strategy" class="filter-btn">Strategy</a>
+                <a href="#conjoint" class="filter-btn">Conjoint</a>
+                <a href="#customer" class="filter-btn">Customer</a>
+                <a href="#saas" class="filter-btn">SaaS</a>
+                <a href="#b2b" class="filter-btn">B2B</a>
+                <a href="#behavioral" class="filter-btn">Behavioral</a>
+                <a href="#analytics" class="filter-btn">Analytics</a>
+                <a href="#specialized" class="filter-btn">Specialized</a>
+            </div>
         </div>
     </div>
 
