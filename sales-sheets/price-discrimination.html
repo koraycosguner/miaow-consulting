@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabor-Granger Price Analysis | MIAOW LLC</title>
+    <title>Price Discrimination Analyzer | MIAOW LLC</title>
     <link rel="icon" type="image/png" href="../cat-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,8 +79,13 @@
         @media print {
             .floating-btn { display: none !important; }
             body { background: white; }
-            .sales-sheet { margin: 0; box-shadow: none; border-radius: 0; }
-            @page { size: letter; margin: 0.3in; }
+            .sales-sheet {
+                margin: 0;
+                padding: 0.4in;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            @page { size: letter; margin: 0; }
         }
 
         /* Header */
@@ -302,6 +307,15 @@
             color: var(--text-light);
         }
 
+        /* Site Footer */
+        .site-footer {
+            background: var(--navy-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 30px 24px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .back-btn { right: 20px; top: 80px; }
@@ -327,73 +341,75 @@
         <div class="header">
             <div class="logo">MIAOW<span>.</span></div>
             <div class="header-right">
-                <h1>Gabor-Granger Price Analysis</h1>
-                <div class="tagline">Find the Price That Maximizes Revenue</div>
+                <h1>Price Discrimination Analyzer</h1>
+                <div class="tagline">Capture More Value</div>
             </div>
         </div>
 
         <!-- Hero with Chart -->
         <div class="hero">
             <div class="hero-text">
-                <h2>Optimize Your Pricing Strategy</h2>
-                <p>Survey customers on their purchase intent at different price points, upload your data, and instantly discover the revenue-maximizing price for your product or service.</p>
+                <h2>Optimize Prices by Segment</h2>
+                <p>Model different pricing for different segments. Calculate optimal prices for 1st, 2nd, and 3rd degree discrimination with welfare analysis.</p>
                 <div class="hero-outputs">
                     <div class="hero-output">
-                        <strong>Optimal Price</strong>
-                        <span>Revenue-maximizing point</span>
+                        <strong>Segment Prices</strong>
+                        <span>Optimal by group</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Demand Curve</strong>
-                        <span>Intent at each price</span>
+                        <strong>Revenue Gain</strong>
+                        <span>vs. uniform pricing</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Revenue Index</strong>
-                        <span>Price x Intent analysis</span>
+                        <strong>Welfare Analysis</strong>
+                        <span>Economic impact</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Price Elasticity</strong>
-                        <span>Sensitivity measure</span>
+                        <strong>Implementation Guide</strong>
+                        <span>Execution roadmap</span>
                     </div>
                 </div>
             </div>
             <div class="chart-container">
                 <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
+                    <!-- Demand curves for different segments -->
+                    <text x="150" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Segment-Specific Pricing</text>
+
+                    <!-- Axes -->
                     <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+                    <line x1="40" y1="140" x2="40" y2="25" stroke="#e5e7eb" stroke-width="1"/>
+                    <text x="160" y="155" font-size="8" fill="#64748b" text-anchor="middle">Quantity</text>
+                    <text x="25" y="85" font-size="8" fill="#64748b" text-anchor="middle" transform="rotate(-90, 25, 85)">Price</text>
 
-                    <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">15</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">30</text>
+                    <!-- High WTP segment -->
+                    <path d="M50,35 L130,120" stroke="#c9a227" stroke-width="2.5" fill="none"/>
+                    <rect x="55" y="35" width="45" height="30" fill="#c9a227" opacity="0.3"/>
+                    <line x1="55" y1="65" x2="100" y2="65" stroke="#c9a227" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="77" y="50" font-size="8" fill="#c9a227" text-anchor="middle" font-weight="600">$89</text>
 
-                    <!-- X-axis labels -->
-                    <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">$10</text>
-                    <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">$20</text>
-                    <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">$30</text>
-                    <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">$40</text>
+                    <!-- Medium WTP segment -->
+                    <path d="M120,50 L200,130" stroke="#1e3a5f" stroke-width="2.5" fill="none"/>
+                    <rect x="130" y="70" width="40" height="25" fill="#1e3a5f" opacity="0.2"/>
+                    <line x1="130" y1="95" x2="170" y2="95" stroke="#1e3a5f" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="150" y="82" font-size="8" fill="#1e3a5f" text-anchor="middle" font-weight="600">$59</text>
 
-                    <!-- Revenue bars -->
-                    <rect x="50" y="110" width="25" height="30" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="90" y="65" width="25" height="75" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="130" y="40" width="25" height="100" fill="#c9a227" rx="3"/>
-                    <rect x="170" y="70" width="25" height="70" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="210" y="100" width="25" height="40" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="250" y="125" width="25" height="15" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-
-                    <!-- Optimal indicator -->
-                    <line x1="142" y1="35" x2="142" y2="40" stroke="#c9a227" stroke-width="2"/>
-                    <polygon points="142,28 138,35 146,35" fill="#c9a227"/>
-
-                    <!-- Label -->
-                    <rect x="105" y="10" width="75" height="18" rx="4" fill="#1e3a5f"/>
-                    <text x="142" y="23" font-size="9" fill="white" text-anchor="middle" font-weight="600">Optimal: $25</text>
+                    <!-- Low WTP segment -->
+                    <path d="M190,70 L270,135" stroke="#22c55e" stroke-width="2.5" fill="none"/>
+                    <rect x="200" y="100" width="35" height="20" fill="#22c55e" opacity="0.2"/>
+                    <line x1="200" y1="120" x2="235" y2="120" stroke="#22c55e" stroke-width="2" stroke-dasharray="4"/>
+                    <text x="217" y="112" font-size="8" fill="#22c55e" text-anchor="middle" font-weight="600">$29</text>
 
                     <!-- Legend -->
-                    <rect x="55" y="5" width="12" height="12" fill="#c9a227" rx="2"/>
-                    <text x="72" y="14" font-size="8" fill="#64748b">Revenue Index</text>
+                    <circle cx="60" cy="148" r="4" fill="#c9a227"/>
+                    <text x="70" y="151" font-size="7" fill="#64748b">Premium</text>
+                    <circle cx="130" cy="148" r="4" fill="#1e3a5f"/>
+                    <text x="140" y="151" font-size="7" fill="#64748b">Standard</text>
+                    <circle cx="200" cy="148" r="4" fill="#22c55e"/>
+                    <text x="210" y="151" font-size="7" fill="#64748b">Economy</text>
+
+                    <!-- Revenue gain indicator -->
+                    <rect x="230" y="30" width="55" height="25" rx="4" fill="#22c55e"/>
+                    <text x="257" y="47" font-size="9" fill="white" text-anchor="middle" font-weight="600">+23% Rev</text>
                 </svg>
             </div>
         </div>
@@ -405,26 +421,26 @@
                 <h3><span class="icon">⚡</span> How It Works</h3>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-icon">📋</div>
-                        <h4>Survey</h4>
-                        <p>Purchase intent at prices</p>
+                        <div class="step-icon">📊</div>
+                        <h4>Segment</h4>
+                        <p>Define groups</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
-                        <div class="step-icon">📤</div>
-                        <h4>Analyze</h4>
-                        <p>Calculate revenue index</p>
+                        <div class="step-icon">📈</div>
+                        <h4>Estimate</h4>
+                        <p>Demand curves</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
                         <div class="step-icon">🎯</div>
                         <h4>Optimize</h4>
-                        <p>Find best price</p>
+                        <p>Set prices</p>
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="big-stat">5-15% revenue increase with optimized pricing*</div>
-                    <p>Data-driven pricing decisions</p>
+                    <div class="big-stat">Differentiated pricing captures 15-30% more value</div>
+                    <p>Extract maximum willingness to pay</p>
                 </div>
             </div>
 
@@ -432,18 +448,16 @@
             <div class="section">
                 <h3><span class="icon">📦</span> What You Get</h3>
                 <div class="tags">
-                    <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ User Manual</span>
-                    <span class="tag">✓ Sample Datasets</span>
-                    <span class="tag">✓ Survey Templates</span>
+                    <span class="tag">Web-Based Analyzer</span>
+                    <span class="tag">Demand Estimation</span>
+                    <span class="tag">Welfare Calculator</span>
+                    <span class="tag">Implementation Guide</span>
                 </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Ideal For</h3>
+                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
                 <div class="tags">
-                    <span class="tag">Product Launches</span>
-                    <span class="tag">Price Optimization</span>
-                    <span class="tag">Market Research</span>
-                    <span class="tag">Subscription Pricing</span>
-                    <span class="tag">Service Tiers</span>
+                    <span class="tag">Airlines</span>
+                    <span class="tag">Software</span>
+                    <span class="tag">Entertainment</span>
                 </div>
             </div>
         </div>
@@ -451,7 +465,7 @@
         <!-- Credibility / CTA Footer -->
         <div class="credibility">
             <div class="cred-left">
-                <h3>Ready to Optimize Your Pricing?</h3>
+                <h3>Ready to Capture More Value?</h3>
                 <p class="name">Dr. Koray Cosguner</p>
                 <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
                 <p class="contact">
@@ -463,15 +477,16 @@
                     <div class="school">Kelley School of Business</div>
                     <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
                 </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Gabor-Granger%20Demo%20Request" class="cta-button">Request Demo</a>
+                <a href="mailto:miaow.consulting@gmail.com?subject=Price%20Discrimination%20Analyzer%20Demo%20Request" class="cta-button">Request Demo</a>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="sheet-footer">
-            *Source: McKinsey & Company, "The Power of Pricing" | © 2026 MIAOW LLC. All Rights Reserved.
+            © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
+
 
 </body>
 </html>

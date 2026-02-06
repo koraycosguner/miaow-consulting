@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabor-Granger Price Analysis | MIAOW LLC</title>
+    <title>Pricing Audit Checklist | MIAOW LLC</title>
     <link rel="icon" type="image/png" href="../cat-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,7 +32,6 @@
             line-height: 1.6;
         }
 
-        /* Floating Buttons */
         .floating-btn {
             position: fixed;
             padding: 12px 24px;
@@ -48,10 +47,7 @@
             gap: 8px;
             z-index: 100;
         }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
+        .floating-btn svg { width: 16px; height: 16px; }
 
         .back-btn {
             top: 20px;
@@ -65,7 +61,6 @@
             transform: translateY(-2px);
         }
 
-        /* Sales Sheet Content */
         .sales-sheet {
             max-width: 8.5in;
             min-height: 11in;
@@ -79,11 +74,10 @@
         @media print {
             .floating-btn { display: none !important; }
             body { background: white; }
-            .sales-sheet { margin: 0; box-shadow: none; border-radius: 0; }
-            @page { size: letter; margin: 0.3in; }
+            .sales-sheet { margin: 0; padding: 0.4in; box-shadow: none; border-radius: 0; }
+            @page { size: letter; margin: 0; }
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -97,9 +91,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -113,7 +105,6 @@
             font-weight: 600;
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
             border-radius: 12px;
@@ -159,7 +150,6 @@
             font-size: 9pt;
         }
 
-        /* Chart */
         .chart-container {
             background: white;
             border-radius: 10px;
@@ -168,7 +158,6 @@
         }
         .chart-svg { width: 100%; height: 100%; }
 
-        /* Two Column Grid */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -193,7 +182,6 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
         .steps {
             display: flex;
             justify-content: space-between;
@@ -206,7 +194,6 @@
         .step p { font-size: 9pt; color: var(--text-light); }
         .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
 
-        /* Stat Box */
         .stat-box {
             background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
             color: white;
@@ -217,7 +204,6 @@
         .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
 
-        /* Tags */
         .tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag {
             background: white;
@@ -228,7 +214,6 @@
             color: var(--text-main);
         }
 
-        /* Credibility Footer */
         .credibility {
             background: var(--navy);
             border-radius: 12px;
@@ -239,29 +224,11 @@
             color: white;
         }
 
-        .cred-left h3 {
-            color: var(--gold);
-            font-size: 14pt;
-            margin-bottom: 6px;
-        }
-        .cred-left .name {
-            font-size: 12pt;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .cred-left .title {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 8px;
-        }
-        .cred-left .contact {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.7);
-        }
-        .cred-left .contact a {
-            color: var(--gold);
-            text-decoration: none;
-        }
+        .cred-left h3 { color: var(--gold); font-size: 14pt; margin-bottom: 6px; }
+        .cred-left .name { font-size: 12pt; font-weight: 600; margin-bottom: 2px; }
+        .cred-left .title { font-size: 10pt; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
+        .cred-left .contact { font-size: 10pt; color: rgba(255,255,255,0.7); }
+        .cred-left .contact a { color: var(--gold); text-decoration: none; }
 
         .cred-right { text-align: right; }
         .cred-badge {
@@ -271,16 +238,8 @@
             border-radius: 10px;
             margin-bottom: 10px;
         }
-        .cred-badge .school {
-            font-size: 11pt;
-            font-weight: 600;
-            color: white;
-        }
-        .cred-badge .ranks {
-            font-size: 10pt;
-            color: var(--gold);
-            margin-top: 4px;
-        }
+        .cred-badge .school { font-size: 11pt; font-weight: 600; color: white; }
+        .cred-badge .ranks { font-size: 10pt; color: var(--gold); margin-top: 4px; }
         .cta-button {
             background: var(--gold);
             color: white;
@@ -294,7 +253,6 @@
         }
         .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
         .sheet-footer {
             margin-top: 12px;
             text-align: center;
@@ -302,7 +260,6 @@
             color: var(--text-light);
         }
 
-        /* Mobile */
         @media (max-width: 768px) {
             .back-btn { right: 20px; top: 80px; }
             .sales-sheet { margin: 20px; padding: 20px; }
@@ -323,135 +280,123 @@
     </a>
 
     <div class="sales-sheet">
-        <!-- Header -->
         <div class="header">
             <div class="logo">MIAOW<span>.</span></div>
             <div class="header-right">
-                <h1>Gabor-Granger Price Analysis</h1>
-                <div class="tagline">Find the Price That Maximizes Revenue</div>
+                <h1>Pricing Audit Checklist</h1>
+                <div class="tagline">Comprehensive Pricing Health Check</div>
             </div>
         </div>
 
-        <!-- Hero with Chart -->
         <div class="hero">
             <div class="hero-text">
-                <h2>Optimize Your Pricing Strategy</h2>
-                <p>Survey customers on their purchase intent at different price points, upload your data, and instantly discover the revenue-maximizing price for your product or service.</p>
+                <h2>Audit Your Pricing Practices</h2>
+                <p>A structured checklist to evaluate every aspect of your pricing strategy, execution, and governance. Identify quick wins and long-term improvement opportunities.</p>
                 <div class="hero-outputs">
                     <div class="hero-output">
-                        <strong>Optimal Price</strong>
-                        <span>Revenue-maximizing point</span>
+                        <strong>Audit Score</strong>
+                        <span>Overall health</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Demand Curve</strong>
-                        <span>Intent at each price</span>
+                        <strong>Category Scores</strong>
+                        <span>By dimension</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Revenue Index</strong>
-                        <span>Price x Intent analysis</span>
+                        <strong>Quick Wins</strong>
+                        <span>Immediate actions</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Price Elasticity</strong>
-                        <span>Sensitivity measure</span>
+                        <strong>Priority Matrix</strong>
+                        <span>Impact vs effort</span>
                     </div>
                 </div>
             </div>
             <div class="chart-container">
                 <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+                    <!-- Checklist visual -->
+                    <rect x="40" y="15" width="220" height="130" rx="8" fill="#f8f9fa" stroke="#e5e7eb"/>
 
-                    <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">15</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">30</text>
+                    <!-- Checklist items -->
+                    <rect x="55" y="28" width="14" height="14" rx="3" fill="#22c55e"/>
+                    <path d="M58 35 L62 39 L67 31" stroke="white" stroke-width="2" fill="none"/>
+                    <text x="78" y="39" font-size="9" fill="#1e3a5f">Strategy alignment</text>
+                    <text x="230" y="39" font-size="8" fill="#22c55e" font-weight="600">100%</text>
 
-                    <!-- X-axis labels -->
-                    <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">$10</text>
-                    <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">$20</text>
-                    <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">$30</text>
-                    <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">$40</text>
+                    <rect x="55" y="50" width="14" height="14" rx="3" fill="#22c55e"/>
+                    <path d="M58 57 L62 61 L67 53" stroke="white" stroke-width="2" fill="none"/>
+                    <text x="78" y="61" font-size="9" fill="#1e3a5f">Value communication</text>
+                    <text x="230" y="61" font-size="8" fill="#22c55e" font-weight="600">85%</text>
 
-                    <!-- Revenue bars -->
-                    <rect x="50" y="110" width="25" height="30" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="90" y="65" width="25" height="75" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="130" y="40" width="25" height="100" fill="#c9a227" rx="3"/>
-                    <rect x="170" y="70" width="25" height="70" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="210" y="100" width="25" height="40" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="250" y="125" width="25" height="15" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
+                    <rect x="55" y="72" width="14" height="14" rx="3" fill="#c9a227"/>
+                    <path d="M58 79 L62 83 L67 75" stroke="white" stroke-width="2" fill="none"/>
+                    <text x="78" y="83" font-size="9" fill="#1e3a5f">Price governance</text>
+                    <text x="230" y="83" font-size="8" fill="#c9a227" font-weight="600">70%</text>
 
-                    <!-- Optimal indicator -->
-                    <line x1="142" y1="35" x2="142" y2="40" stroke="#c9a227" stroke-width="2"/>
-                    <polygon points="142,28 138,35 146,35" fill="#c9a227"/>
+                    <rect x="55" y="94" width="14" height="14" rx="3" fill="#c9a227"/>
+                    <path d="M58 101 L62 105 L67 97" stroke="white" stroke-width="2" fill="none"/>
+                    <text x="78" y="105" font-size="9" fill="#1e3a5f">Analytics capability</text>
+                    <text x="230" y="105" font-size="8" fill="#c9a227" font-weight="600">55%</text>
 
-                    <!-- Label -->
-                    <rect x="105" y="10" width="75" height="18" rx="4" fill="#1e3a5f"/>
-                    <text x="142" y="23" font-size="9" fill="white" text-anchor="middle" font-weight="600">Optimal: $25</text>
+                    <rect x="55" y="116" width="14" height="14" rx="3" fill="#ef4444"/>
+                    <text x="78" y="127" font-size="9" fill="#1e3a5f">Technology & tools</text>
+                    <text x="230" y="127" font-size="8" fill="#ef4444" font-weight="600">35%</text>
 
-                    <!-- Legend -->
-                    <rect x="55" y="5" width="12" height="12" fill="#c9a227" rx="2"/>
-                    <text x="72" y="14" font-size="8" fill="#64748b">Revenue Index</text>
+                    <!-- Overall -->
+                    <rect x="40" y="148" width="220" height="2" fill="#1e3a5f"/>
                 </svg>
             </div>
         </div>
 
-        <!-- Main Content -->
         <div class="main-grid">
-            <!-- Left: How It Works -->
             <div class="section">
                 <h3><span class="icon">⚡</span> How It Works</h3>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-icon">📋</div>
-                        <h4>Survey</h4>
-                        <p>Purchase intent at prices</p>
+                        <div class="step-icon">✅</div>
+                        <h4>Check</h4>
+                        <p>Review each item</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
-                        <div class="step-icon">📤</div>
-                        <h4>Analyze</h4>
-                        <p>Calculate revenue index</p>
+                        <div class="step-icon">📊</div>
+                        <h4>Score</h4>
+                        <p>Get category grades</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
                         <div class="step-icon">🎯</div>
-                        <h4>Optimize</h4>
-                        <p>Find best price</p>
+                        <h4>Prioritize</h4>
+                        <p>Focus on impact</p>
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="big-stat">5-15% revenue increase with optimized pricing*</div>
-                    <p>Data-driven pricing decisions</p>
+                    <div class="big-stat">Regular pricing audits find 5-15% margin leakage</div>
+                    <p>Find the money you are leaving on the table</p>
                 </div>
             </div>
 
-            <!-- Right: What You Get -->
             <div class="section">
                 <h3><span class="icon">📦</span> What You Get</h3>
                 <div class="tags">
-                    <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ User Manual</span>
-                    <span class="tag">✓ Sample Datasets</span>
-                    <span class="tag">✓ Survey Templates</span>
+                    <span class="tag">✓ 50+ Audit Items</span>
+                    <span class="tag">✓ Scoring Framework</span>
+                    <span class="tag">✓ Best Practice Guide</span>
+                    <span class="tag">✓ Priority Matrix</span>
                 </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Ideal For</h3>
+                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
                 <div class="tags">
-                    <span class="tag">Product Launches</span>
-                    <span class="tag">Price Optimization</span>
-                    <span class="tag">Market Research</span>
-                    <span class="tag">Subscription Pricing</span>
-                    <span class="tag">Service Tiers</span>
+                    <span class="tag">CFOs</span>
+                    <span class="tag">Pricing Leaders</span>
+                    <span class="tag">Operations</span>
+                    <span class="tag">Consultants</span>
+                    <span class="tag">Auditors</span>
                 </div>
             </div>
         </div>
 
-        <!-- Credibility / CTA Footer -->
         <div class="credibility">
             <div class="cred-left">
-                <h3>Ready to Optimize Your Pricing?</h3>
+                <h3>Ready to Audit Your Pricing?</h3>
                 <p class="name">Dr. Koray Cosguner</p>
                 <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
                 <p class="contact">
@@ -463,13 +408,12 @@
                     <div class="school">Kelley School of Business</div>
                     <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
                 </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Gabor-Granger%20Demo%20Request" class="cta-button">Request Demo</a>
+                <a href="mailto:miaow.consulting@gmail.com?subject=Pricing%20Audit%20Checklist%20Demo%20Request" class="cta-button">Request Demo</a>
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="sheet-footer">
-            *Source: McKinsey & Company, "The Power of Pricing" | © 2026 MIAOW LLC. All Rights Reserved.
+            *Based on industry research | © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
 

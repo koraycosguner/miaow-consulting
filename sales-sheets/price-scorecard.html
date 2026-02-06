@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabor-Granger Price Analysis | MIAOW LLC</title>
+    <title>Price Execution Scorecard | MIAOW LLC</title>
     <link rel="icon" type="image/png" href="../cat-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,8 +79,13 @@
         @media print {
             .floating-btn { display: none !important; }
             body { background: white; }
-            .sales-sheet { margin: 0; box-shadow: none; border-radius: 0; }
-            @page { size: letter; margin: 0.3in; }
+            .sales-sheet {
+                margin: 0;
+                padding: 0.4in;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            @page { size: letter; margin: 0; }
         }
 
         /* Header */
@@ -302,6 +307,15 @@
             color: var(--text-light);
         }
 
+        /* Site Footer */
+        .site-footer {
+            background: var(--navy-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 30px 24px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .back-btn { right: 20px; top: 80px; }
@@ -327,73 +341,69 @@
         <div class="header">
             <div class="logo">MIAOW<span>.</span></div>
             <div class="header-right">
-                <h1>Gabor-Granger Price Analysis</h1>
-                <div class="tagline">Find the Price That Maximizes Revenue</div>
+                <h1>Price Execution Scorecard</h1>
+                <div class="tagline">Measure Pricing Excellence</div>
             </div>
         </div>
 
         <!-- Hero with Chart -->
         <div class="hero">
             <div class="hero-text">
-                <h2>Optimize Your Pricing Strategy</h2>
-                <p>Survey customers on their purchase intent at different price points, upload your data, and instantly discover the revenue-maximizing price for your product or service.</p>
+                <h2>Track Pricing Performance at Scale</h2>
+                <p>Score pricing execution quality across teams, regions, and products. Track KPIs and benchmark against best practices.</p>
                 <div class="hero-outputs">
                     <div class="hero-output">
-                        <strong>Optimal Price</strong>
-                        <span>Revenue-maximizing point</span>
+                        <strong>Execution Score</strong>
+                        <span>Overall rating</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Demand Curve</strong>
-                        <span>Intent at each price</span>
+                        <strong>KPI Dashboard</strong>
+                        <span>Key metrics view</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Revenue Index</strong>
-                        <span>Price x Intent analysis</span>
+                        <strong>Benchmark Comparison</strong>
+                        <span>vs. best practices</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Price Elasticity</strong>
-                        <span>Sensitivity measure</span>
+                        <strong>Improvement Areas</strong>
+                        <span>Priority actions</span>
                     </div>
                 </div>
             </div>
             <div class="chart-container">
                 <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+                    <!-- Scorecard visualization -->
+                    <!-- Overall score gauge -->
+                    <circle cx="80" cy="80" r="50" fill="none" stroke="#e5e7eb" stroke-width="10"/>
+                    <circle cx="80" cy="80" r="50" fill="none" stroke="#c9a227" stroke-width="10"
+                            stroke-dasharray="235 314" stroke-linecap="round" transform="rotate(-90, 80, 80)"/>
+                    <text x="80" y="75" font-size="20" fill="#1e3a5f" text-anchor="middle" font-weight="700">75</text>
+                    <text x="80" y="92" font-size="9" fill="#64748b" text-anchor="middle">Overall Score</text>
 
-                    <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">15</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">30</text>
+                    <!-- KPI bars -->
+                    <text x="160" y="30" font-size="9" fill="#1e3a5f" font-weight="600">KPI Breakdown</text>
 
-                    <!-- X-axis labels -->
-                    <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">$10</text>
-                    <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">$20</text>
-                    <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">$30</text>
-                    <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">$40</text>
+                    <!-- Price Realization -->
+                    <text x="160" y="50" font-size="8" fill="#64748b">Price Realization</text>
+                    <rect x="160" y="55" width="100" height="10" fill="#e5e7eb" rx="3"/>
+                    <rect x="160" y="55" width="85" height="10" fill="#22c55e" rx="3"/>
+                    <text x="268" y="63" font-size="8" fill="#22c55e">85%</text>
 
-                    <!-- Revenue bars -->
-                    <rect x="50" y="110" width="25" height="30" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="90" y="65" width="25" height="75" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="130" y="40" width="25" height="100" fill="#c9a227" rx="3"/>
-                    <rect x="170" y="70" width="25" height="70" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="210" y="100" width="25" height="40" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="250" y="125" width="25" height="15" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
+                    <!-- Discount Compliance -->
+                    <text x="160" y="80" font-size="8" fill="#64748b">Discount Compliance</text>
+                    <rect x="160" y="85" width="100" height="10" fill="#e5e7eb" rx="3"/>
+                    <rect x="160" y="85" width="72" height="10" fill="#c9a227" rx="3"/>
+                    <text x="268" y="93" font-size="8" fill="#c9a227">72%</text>
 
-                    <!-- Optimal indicator -->
-                    <line x1="142" y1="35" x2="142" y2="40" stroke="#c9a227" stroke-width="2"/>
-                    <polygon points="142,28 138,35 146,35" fill="#c9a227"/>
+                    <!-- Exception Rate -->
+                    <text x="160" y="110" font-size="8" fill="#64748b">Exception Rate</text>
+                    <rect x="160" y="115" width="100" height="10" fill="#e5e7eb" rx="3"/>
+                    <rect x="160" y="115" width="68" height="10" fill="#f97316" rx="3"/>
+                    <text x="268" y="123" font-size="8" fill="#f97316">68%</text>
 
-                    <!-- Label -->
-                    <rect x="105" y="10" width="75" height="18" rx="4" fill="#1e3a5f"/>
-                    <text x="142" y="23" font-size="9" fill="white" text-anchor="middle" font-weight="600">Optimal: $25</text>
-
-                    <!-- Legend -->
-                    <rect x="55" y="5" width="12" height="12" fill="#c9a227" rx="2"/>
-                    <text x="72" y="14" font-size="8" fill="#64748b">Revenue Index</text>
+                    <!-- Target line -->
+                    <line x1="235" y1="52" x2="235" y2="130" stroke="#1e3a5f" stroke-width="1" stroke-dasharray="3"/>
+                    <text x="235" y="145" font-size="7" fill="#1e3a5f" text-anchor="middle">Target</text>
                 </svg>
             </div>
         </div>
@@ -405,26 +415,26 @@
                 <h3><span class="icon">⚡</span> How It Works</h3>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-icon">📋</div>
-                        <h4>Survey</h4>
-                        <p>Purchase intent at prices</p>
+                        <div class="step-icon">📊</div>
+                        <h4>Connect</h4>
+                        <p>Import pricing data</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
-                        <div class="step-icon">📤</div>
-                        <h4>Analyze</h4>
-                        <p>Calculate revenue index</p>
+                        <div class="step-icon">📏</div>
+                        <h4>Measure</h4>
+                        <p>Calculate KPIs</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
                         <div class="step-icon">🎯</div>
-                        <h4>Optimize</h4>
-                        <p>Find best price</p>
+                        <h4>Improve</h4>
+                        <p>Action insights</p>
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="big-stat">5-15% revenue increase with optimized pricing*</div>
-                    <p>Data-driven pricing decisions</p>
+                    <div class="big-stat">Companies tracking execution see 2-4% margin improvement*</div>
+                    <p>What gets measured gets improved</p>
                 </div>
             </div>
 
@@ -433,17 +443,15 @@
                 <h3><span class="icon">📦</span> What You Get</h3>
                 <div class="tags">
                     <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ User Manual</span>
-                    <span class="tag">✓ Sample Datasets</span>
-                    <span class="tag">✓ Survey Templates</span>
+                    <span class="tag">✓ Scorecard Dashboard</span>
+                    <span class="tag">✓ KPI Tracking</span>
+                    <span class="tag">✓ Benchmark Library</span>
                 </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Ideal For</h3>
+                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
                 <div class="tags">
-                    <span class="tag">Product Launches</span>
-                    <span class="tag">Price Optimization</span>
-                    <span class="tag">Market Research</span>
-                    <span class="tag">Subscription Pricing</span>
-                    <span class="tag">Service Tiers</span>
+                    <span class="tag">B2B</span>
+                    <span class="tag">Retail</span>
+                    <span class="tag">Distribution</span>
                 </div>
             </div>
         </div>
@@ -451,7 +459,7 @@
         <!-- Credibility / CTA Footer -->
         <div class="credibility">
             <div class="cred-left">
-                <h3>Ready to Optimize Your Pricing?</h3>
+                <h3>Ready to Measure Pricing Excellence?</h3>
                 <p class="name">Dr. Koray Cosguner</p>
                 <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
                 <p class="contact">
@@ -463,15 +471,16 @@
                     <div class="school">Kelley School of Business</div>
                     <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
                 </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Gabor-Granger%20Demo%20Request" class="cta-button">Request Demo</a>
+                <a href="mailto:miaow.consulting@gmail.com?subject=Price%20Execution%20Scorecard%20Demo%20Request" class="cta-button">Request Demo</a>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="sheet-footer">
-            *Source: McKinsey & Company, "The Power of Pricing" | © 2026 MIAOW LLC. All Rights Reserved.
+            *Source: Pricing Excellence Research | © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
+
 
 </body>
 </html>

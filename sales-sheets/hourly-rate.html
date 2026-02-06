@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabor-Granger Price Analysis | MIAOW LLC</title>
+    <title>Hourly Rate Benchmarker | MIAOW LLC</title>
     <link rel="icon" type="image/png" href="../cat-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,8 +79,13 @@
         @media print {
             .floating-btn { display: none !important; }
             body { background: white; }
-            .sales-sheet { margin: 0; box-shadow: none; border-radius: 0; }
-            @page { size: letter; margin: 0.3in; }
+            .sales-sheet {
+                margin: 0;
+                padding: 0.4in;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            @page { size: letter; margin: 0; }
         }
 
         /* Header */
@@ -302,6 +307,15 @@
             color: var(--text-light);
         }
 
+        /* Site Footer */
+        .site-footer {
+            background: var(--navy-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 30px 24px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .back-btn { right: 20px; top: 80px; }
@@ -327,32 +341,32 @@
         <div class="header">
             <div class="logo">MIAOW<span>.</span></div>
             <div class="header-right">
-                <h1>Gabor-Granger Price Analysis</h1>
-                <div class="tagline">Find the Price That Maximizes Revenue</div>
+                <h1>Hourly Rate Benchmarker</h1>
+                <div class="tagline">Price Your Time Right</div>
             </div>
         </div>
 
         <!-- Hero with Chart -->
         <div class="hero">
             <div class="hero-text">
-                <h2>Optimize Your Pricing Strategy</h2>
-                <p>Survey customers on their purchase intent at different price points, upload your data, and instantly discover the revenue-maximizing price for your product or service.</p>
+                <h2>Know Your Market Rate</h2>
+                <p>Benchmark professional service rates. Compare by role, industry, and geography to price your time competitively.</p>
                 <div class="hero-outputs">
                     <div class="hero-output">
-                        <strong>Optimal Price</strong>
-                        <span>Revenue-maximizing point</span>
+                        <strong>Rate Benchmarks</strong>
+                        <span>Industry standards</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Demand Curve</strong>
-                        <span>Intent at each price</span>
+                        <strong>Market Position</strong>
+                        <span>Your percentile</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Revenue Index</strong>
-                        <span>Price x Intent analysis</span>
+                        <strong>Utilization Impact</strong>
+                        <span>Rate vs hours</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Price Elasticity</strong>
-                        <span>Sensitivity measure</span>
+                        <strong>Rate Bands</strong>
+                        <span>Min/max range</span>
                     </div>
                 </div>
             </div>
@@ -365,35 +379,50 @@
                     <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
 
                     <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">15</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">30</text>
+                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">$0</text>
+                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">$300</text>
+                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">$600</text>
 
                     <!-- X-axis labels -->
-                    <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">$10</text>
-                    <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">$20</text>
-                    <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">$30</text>
-                    <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">$40</text>
+                    <text x="80" y="153" font-size="7" fill="#64748b" text-anchor="middle">Junior</text>
+                    <text x="140" y="153" font-size="7" fill="#64748b" text-anchor="middle">Mid-Level</text>
+                    <text x="200" y="153" font-size="7" fill="#64748b" text-anchor="middle">Senior</text>
+                    <text x="260" y="153" font-size="7" fill="#64748b" text-anchor="middle">Partner</text>
 
-                    <!-- Revenue bars -->
-                    <rect x="50" y="110" width="25" height="30" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="90" y="65" width="25" height="75" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="130" y="40" width="25" height="100" fill="#c9a227" rx="3"/>
-                    <rect x="170" y="70" width="25" height="70" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="210" y="100" width="25" height="40" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="250" y="125" width="25" height="15" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
+                    <!-- Box plots for rate ranges -->
+                    <!-- Junior -->
+                    <line x1="80" y1="115" x2="80" y2="130" stroke="#1e3a5f" stroke-width="2"/>
+                    <rect x="65" y="100" width="30" height="15" fill="#3b82f6" rx="2"/>
+                    <line x1="80" y1="95" x2="80" y2="100" stroke="#1e3a5f" stroke-width="2"/>
+                    <line x1="65" y1="115" x2="95" y2="115" stroke="#1e3a5f" stroke-width="1"/>
+                    <line x1="65" y1="95" x2="95" y2="95" stroke="#1e3a5f" stroke-width="1"/>
 
-                    <!-- Optimal indicator -->
-                    <line x1="142" y1="35" x2="142" y2="40" stroke="#c9a227" stroke-width="2"/>
-                    <polygon points="142,28 138,35 146,35" fill="#c9a227"/>
+                    <!-- Mid-Level -->
+                    <line x1="140" y1="95" x2="140" y2="115" stroke="#1e3a5f" stroke-width="2"/>
+                    <rect x="125" y="75" width="30" height="20" fill="#22c55e" rx="2"/>
+                    <line x1="140" y1="65" x2="140" y2="75" stroke="#1e3a5f" stroke-width="2"/>
+                    <line x1="125" y1="95" x2="155" y2="95" stroke="#1e3a5f" stroke-width="1"/>
+                    <line x1="125" y1="65" x2="155" y2="65" stroke="#1e3a5f" stroke-width="1"/>
 
-                    <!-- Label -->
-                    <rect x="105" y="10" width="75" height="18" rx="4" fill="#1e3a5f"/>
-                    <text x="142" y="23" font-size="9" fill="white" text-anchor="middle" font-weight="600">Optimal: $25</text>
+                    <!-- Senior -->
+                    <line x1="200" y1="70" x2="200" y2="90" stroke="#1e3a5f" stroke-width="2"/>
+                    <rect x="185" y="50" width="30" height="20" fill="#c9a227" rx="2"/>
+                    <line x1="200" y1="40" x2="200" y2="50" stroke="#1e3a5f" stroke-width="2"/>
+                    <line x1="185" y1="70" x2="215" y2="70" stroke="#1e3a5f" stroke-width="1"/>
+                    <line x1="185" y1="40" x2="215" y2="40" stroke="#1e3a5f" stroke-width="1"/>
+
+                    <!-- Partner -->
+                    <line x1="260" y1="50" x2="260" y2="70" stroke="#1e3a5f" stroke-width="2"/>
+                    <rect x="245" y="25" width="30" height="25" fill="#8b5cf6" rx="2"/>
+                    <line x1="260" y1="20" x2="260" y2="25" stroke="#1e3a5f" stroke-width="2"/>
+                    <line x1="245" y1="50" x2="275" y2="50" stroke="#1e3a5f" stroke-width="1"/>
+                    <line x1="245" y1="20" x2="275" y2="20" stroke="#1e3a5f" stroke-width="1"/>
+
+                    <!-- Your rate marker -->
+                    <circle cx="200" cy="60" r="6" fill="white" stroke="#c9a227" stroke-width="3"/>
 
                     <!-- Legend -->
-                    <rect x="55" y="5" width="12" height="12" fill="#c9a227" rx="2"/>
-                    <text x="72" y="14" font-size="8" fill="#64748b">Revenue Index</text>
+                    <text x="160" y="12" font-size="9" fill="#64748b" text-anchor="middle">Hourly Rate Distribution by Level</text>
                 </svg>
             </div>
         </div>
@@ -405,26 +434,26 @@
                 <h3><span class="icon">⚡</span> How It Works</h3>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-icon">📋</div>
-                        <h4>Survey</h4>
-                        <p>Purchase intent at prices</p>
+                        <div class="step-icon">👤</div>
+                        <h4>Profile</h4>
+                        <p>Role & experience</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
-                        <div class="step-icon">📤</div>
-                        <h4>Analyze</h4>
-                        <p>Calculate revenue index</p>
+                        <div class="step-icon">📊</div>
+                        <h4>Compare</h4>
+                        <p>Market data</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
-                        <div class="step-icon">🎯</div>
-                        <h4>Optimize</h4>
-                        <p>Find best price</p>
+                        <div class="step-icon">💵</div>
+                        <h4>Price</h4>
+                        <p>Optimal rate</p>
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="big-stat">5-15% revenue increase with optimized pricing*</div>
-                    <p>Data-driven pricing decisions</p>
+                    <div class="big-stat">Underpricing costs professionals 15-30% annually</div>
+                    <p>Know your worth with market data</p>
                 </div>
             </div>
 
@@ -433,17 +462,15 @@
                 <h3><span class="icon">📦</span> What You Get</h3>
                 <div class="tags">
                     <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ User Manual</span>
-                    <span class="tag">✓ Sample Datasets</span>
-                    <span class="tag">✓ Survey Templates</span>
+                    <span class="tag">✓ Industry Benchmarks</span>
+                    <span class="tag">✓ Geographic Adjustments</span>
+                    <span class="tag">✓ Rate Calculator</span>
                 </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Ideal For</h3>
+                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
                 <div class="tags">
-                    <span class="tag">Product Launches</span>
-                    <span class="tag">Price Optimization</span>
-                    <span class="tag">Market Research</span>
-                    <span class="tag">Subscription Pricing</span>
-                    <span class="tag">Service Tiers</span>
+                    <span class="tag">Consulting</span>
+                    <span class="tag">Legal</span>
+                    <span class="tag">Professional Services</span>
                 </div>
             </div>
         </div>
@@ -451,7 +478,7 @@
         <!-- Credibility / CTA Footer -->
         <div class="credibility">
             <div class="cred-left">
-                <h3>Ready to Optimize Your Pricing?</h3>
+                <h3>Ready to Price Your Time Right?</h3>
                 <p class="name">Dr. Koray Cosguner</p>
                 <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
                 <p class="contact">
@@ -463,15 +490,16 @@
                     <div class="school">Kelley School of Business</div>
                     <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
                 </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Gabor-Granger%20Demo%20Request" class="cta-button">Request Demo</a>
+                <a href="mailto:miaow.consulting@gmail.com?subject=Hourly%20Rate%20Demo%20Request" class="cta-button">Request Demo</a>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="sheet-footer">
-            *Source: McKinsey & Company, "The Power of Pricing" | © 2026 MIAOW LLC. All Rights Reserved.
+            © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
+
 
 </body>
 </html>

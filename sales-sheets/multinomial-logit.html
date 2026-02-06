@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabor-Granger Price Analysis | MIAOW LLC</title>
+    <title>Multinomial Logit Tool | MIAOW LLC</title>
     <link rel="icon" type="image/png" href="../cat-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,8 +79,13 @@
         @media print {
             .floating-btn { display: none !important; }
             body { background: white; }
-            .sales-sheet { margin: 0; box-shadow: none; border-radius: 0; }
-            @page { size: letter; margin: 0.3in; }
+            .sales-sheet {
+                margin: 0;
+                padding: 0.4in;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            @page { size: letter; margin: 0; }
         }
 
         /* Header */
@@ -111,6 +116,18 @@
             font-size: 13pt;
             color: var(--gold);
             font-weight: 600;
+        }
+
+        .r-shiny-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #276DC3 0%, #4a90d9 100%);
+            color: white;
+            font-size: 9pt;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-left: 10px;
+            vertical-align: middle;
         }
 
         /* Hero Section */
@@ -302,6 +319,15 @@
             color: var(--text-light);
         }
 
+        /* Site Footer */
+        .site-footer {
+            background: var(--navy-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 30px 24px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .back-btn { right: 20px; top: 80px; }
@@ -327,32 +353,32 @@
         <div class="header">
             <div class="logo">MIAOW<span>.</span></div>
             <div class="header-right">
-                <h1>Gabor-Granger Price Analysis</h1>
-                <div class="tagline">Find the Price That Maximizes Revenue</div>
+                <h1>Multinomial Logit Tool <span class="r-shiny-badge">R Shiny</span></h1>
+                <div class="tagline">Model Customer Choice</div>
             </div>
         </div>
 
         <!-- Hero with Chart -->
         <div class="hero">
             <div class="hero-text">
-                <h2>Optimize Your Pricing Strategy</h2>
-                <p>Survey customers on their purchase intent at different price points, upload your data, and instantly discover the revenue-maximizing price for your product or service.</p>
+                <h2>Understand What Drives Choice</h2>
+                <p>Estimate multinomial logit choice models from purchase data. Download R Shiny app with mlogit package integration for powerful discrete choice analysis.</p>
                 <div class="hero-outputs">
                     <div class="hero-output">
-                        <strong>Optimal Price</strong>
-                        <span>Revenue-maximizing point</span>
+                        <strong>Part-worth Utilities</strong>
+                        <span>Attribute values</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Demand Curve</strong>
-                        <span>Intent at each price</span>
+                        <strong>Choice Probabilities</strong>
+                        <span>Market shares</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Revenue Index</strong>
-                        <span>Price x Intent analysis</span>
+                        <strong>WTP Estimates</strong>
+                        <span>Willingness to pay</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Price Elasticity</strong>
-                        <span>Sensitivity measure</span>
+                        <strong>Market Simulation</strong>
+                        <span>What-if scenarios</span>
                     </div>
                 </div>
             </div>
@@ -365,35 +391,30 @@
                     <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
 
                     <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">15</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">30</text>
+                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0%</text>
+                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">25%</text>
+                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">50%</text>
 
                     <!-- X-axis labels -->
-                    <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">$10</text>
-                    <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">$20</text>
-                    <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">$30</text>
-                    <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">$40</text>
+                    <text x="80" y="153" font-size="8" fill="#64748b" text-anchor="middle">Product A</text>
+                    <text x="140" y="153" font-size="8" fill="#64748b" text-anchor="middle">Product B</text>
+                    <text x="200" y="153" font-size="8" fill="#64748b" text-anchor="middle">Product C</text>
+                    <text x="260" y="153" font-size="8" fill="#64748b" text-anchor="middle">Product D</text>
 
-                    <!-- Revenue bars -->
-                    <rect x="50" y="110" width="25" height="30" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="90" y="65" width="25" height="75" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="130" y="40" width="25" height="100" fill="#c9a227" rx="3"/>
-                    <rect x="170" y="70" width="25" height="70" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="210" y="100" width="25" height="40" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="250" y="125" width="25" height="15" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
+                    <!-- Bars representing choice probabilities -->
+                    <rect x="60" y="55" width="40" height="85" fill="#c9a227" rx="4"/>
+                    <rect x="120" y="75" width="40" height="65" fill="#1e3a5f" rx="4"/>
+                    <rect x="180" y="95" width="40" height="45" fill="#2d4a6f" rx="4"/>
+                    <rect x="240" y="110" width="40" height="30" fill="#4a6a8f" rx="4"/>
 
-                    <!-- Optimal indicator -->
-                    <line x1="142" y1="35" x2="142" y2="40" stroke="#c9a227" stroke-width="2"/>
-                    <polygon points="142,28 138,35 146,35" fill="#c9a227"/>
+                    <!-- Probability labels on bars -->
+                    <text x="80" y="48" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">38%</text>
+                    <text x="140" y="68" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">29%</text>
+                    <text x="200" y="88" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">20%</text>
+                    <text x="260" y="103" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">13%</text>
 
-                    <!-- Label -->
-                    <rect x="105" y="10" width="75" height="18" rx="4" fill="#1e3a5f"/>
-                    <text x="142" y="23" font-size="9" fill="white" text-anchor="middle" font-weight="600">Optimal: $25</text>
-
-                    <!-- Legend -->
-                    <rect x="55" y="5" width="12" height="12" fill="#c9a227" rx="2"/>
-                    <text x="72" y="14" font-size="8" fill="#64748b">Revenue Index</text>
+                    <!-- Title -->
+                    <text x="160" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Predicted Choice Shares</text>
                 </svg>
             </div>
         </div>
@@ -405,26 +426,26 @@
                 <h3><span class="icon">⚡</span> How It Works</h3>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-icon">📋</div>
-                        <h4>Survey</h4>
-                        <p>Purchase intent at prices</p>
+                        <div class="step-icon">📊</div>
+                        <h4>Data</h4>
+                        <p>Load choice data</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
-                        <div class="step-icon">📤</div>
-                        <h4>Analyze</h4>
-                        <p>Calculate revenue index</p>
+                        <div class="step-icon">🔧</div>
+                        <h4>Estimate</h4>
+                        <p>Fit MNL model</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
                         <div class="step-icon">🎯</div>
-                        <h4>Optimize</h4>
-                        <p>Find best price</p>
+                        <h4>Simulate</h4>
+                        <p>Predict shares</p>
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="big-stat">5-15% revenue increase with optimized pricing*</div>
-                    <p>Data-driven pricing decisions</p>
+                    <div class="big-stat">Predict market share before launch</div>
+                    <p>Data-driven product decisions</p>
                 </div>
             </div>
 
@@ -432,18 +453,16 @@
             <div class="section">
                 <h3><span class="icon">📦</span> What You Get</h3>
                 <div class="tags">
-                    <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ User Manual</span>
-                    <span class="tag">✓ Sample Datasets</span>
-                    <span class="tag">✓ Survey Templates</span>
+                    <span class="tag">R Shiny App Download</span>
+                    <span class="tag">mlogit Integration</span>
+                    <span class="tag">Sample Datasets</span>
+                    <span class="tag">User Documentation</span>
                 </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Ideal For</h3>
+                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
                 <div class="tags">
-                    <span class="tag">Product Launches</span>
-                    <span class="tag">Price Optimization</span>
                     <span class="tag">Market Research</span>
-                    <span class="tag">Subscription Pricing</span>
-                    <span class="tag">Service Tiers</span>
+                    <span class="tag">CPG</span>
+                    <span class="tag">Retail</span>
                 </div>
             </div>
         </div>
@@ -451,7 +470,7 @@
         <!-- Credibility / CTA Footer -->
         <div class="credibility">
             <div class="cred-left">
-                <h3>Ready to Optimize Your Pricing?</h3>
+                <h3>Ready to Model Customer Choice?</h3>
                 <p class="name">Dr. Koray Cosguner</p>
                 <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
                 <p class="contact">
@@ -463,15 +482,16 @@
                     <div class="school">Kelley School of Business</div>
                     <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
                 </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Gabor-Granger%20Demo%20Request" class="cta-button">Request Demo</a>
+                <a href="mailto:miaow.consulting@gmail.com?subject=Multinomial%20Logit%20Tool%20Demo%20Request" class="cta-button">Request Demo</a>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="sheet-footer">
-            *Source: McKinsey & Company, "The Power of Pricing" | © 2026 MIAOW LLC. All Rights Reserved.
+            © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
+
 
 </body>
 </html>

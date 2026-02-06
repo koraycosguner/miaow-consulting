@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabor-Granger Price Analysis | MIAOW LLC</title>
+    <title>Mental Accounting Optimizer | MIAOW LLC</title>
     <link rel="icon" type="image/png" href="../cat-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,8 +79,13 @@
         @media print {
             .floating-btn { display: none !important; }
             body { background: white; }
-            .sales-sheet { margin: 0; box-shadow: none; border-radius: 0; }
-            @page { size: letter; margin: 0.3in; }
+            .sales-sheet {
+                margin: 0;
+                padding: 0.4in;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            @page { size: letter; margin: 0; }
         }
 
         /* Header */
@@ -302,6 +307,15 @@
             color: var(--text-light);
         }
 
+        /* Site Footer */
+        .site-footer {
+            background: var(--navy-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 30px 24px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .back-btn { right: 20px; top: 80px; }
@@ -327,73 +341,76 @@
         <div class="header">
             <div class="logo">MIAOW<span>.</span></div>
             <div class="header-right">
-                <h1>Gabor-Granger Price Analysis</h1>
-                <div class="tagline">Find the Price That Maximizes Revenue</div>
+                <h1>Mental Accounting Optimizer</h1>
+                <div class="tagline">Tap Into Customer Budgets</div>
             </div>
         </div>
 
         <!-- Hero with Chart -->
         <div class="hero">
             <div class="hero-text">
-                <h2>Optimize Your Pricing Strategy</h2>
-                <p>Survey customers on their purchase intent at different price points, upload your data, and instantly discover the revenue-maximizing price for your product or service.</p>
+                <h2>Align With Customer Psychology</h2>
+                <p>Optimize for customer spending categories. Understand mental budget allocation patterns to position and frame your pricing effectively.</p>
                 <div class="hero-outputs">
                     <div class="hero-output">
-                        <strong>Optimal Price</strong>
-                        <span>Revenue-maximizing point</span>
+                        <strong>Budget Mapping</strong>
+                        <span>Category allocation</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Demand Curve</strong>
-                        <span>Intent at each price</span>
+                        <strong>Category Fit</strong>
+                        <span>Optimal positioning</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Revenue Index</strong>
-                        <span>Price x Intent analysis</span>
+                        <strong>Positioning Recs</strong>
+                        <span>Strategic framing</span>
                     </div>
                     <div class="hero-output">
-                        <strong>Price Elasticity</strong>
-                        <span>Sensitivity measure</span>
+                        <strong>Payment Framing</strong>
+                        <span>Optimal structure</span>
                     </div>
                 </div>
             </div>
             <div class="chart-container">
                 <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+                    <!-- Mental accounts visualization - wallet/budget compartments -->
+                    <!-- Main wallet outline -->
+                    <rect x="40" y="20" width="220" height="130" fill="#f8f9fa" stroke="#e5e7eb" stroke-width="2" rx="8"/>
 
-                    <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">15</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">30</text>
+                    <!-- Budget compartments -->
+                    <!-- Necessities (largest) -->
+                    <rect x="50" y="30" width="95" height="55" fill="#64748b" rx="4"/>
+                    <text x="97" y="52" font-size="9" fill="white" text-anchor="middle" font-weight="600">Necessities</text>
+                    <text x="97" y="65" font-size="8" fill="white" text-anchor="middle">45%</text>
+                    <text x="97" y="78" font-size="7" fill="white" text-anchor="middle" opacity="0.8">$2,250/mo</text>
 
-                    <!-- X-axis labels -->
-                    <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">$10</text>
-                    <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">$20</text>
-                    <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">$30</text>
-                    <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">$40</text>
+                    <!-- Entertainment -->
+                    <rect x="155" y="30" width="95" height="35" fill="#3b82f6" rx="4"/>
+                    <text x="202" y="48" font-size="9" fill="white" text-anchor="middle" font-weight="600">Entertainment</text>
+                    <text x="202" y="60" font-size="7" fill="white" text-anchor="middle">15% - $750</text>
 
-                    <!-- Revenue bars -->
-                    <rect x="50" y="110" width="25" height="30" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="90" y="65" width="25" height="75" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="130" y="40" width="25" height="100" fill="#c9a227" rx="3"/>
-                    <rect x="170" y="70" width="25" height="70" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="210" y="100" width="25" height="40" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
-                    <rect x="250" y="125" width="25" height="15" fill="rgba(30, 58, 95, 0.6)" rx="3"/>
+                    <!-- Your product opportunity (highlighted) -->
+                    <rect x="155" y="70" width="95" height="35" fill="#c9a227" rx="4" stroke="#c9a227" stroke-width="2"/>
+                    <text x="202" y="86" font-size="9" fill="white" text-anchor="middle" font-weight="600">Self-Care</text>
+                    <text x="202" y="98" font-size="7" fill="white" text-anchor="middle">10% - $500</text>
 
-                    <!-- Optimal indicator -->
-                    <line x1="142" y1="35" x2="142" y2="40" stroke="#c9a227" stroke-width="2"/>
-                    <polygon points="142,28 138,35 146,35" fill="#c9a227"/>
+                    <!-- Savings -->
+                    <rect x="50" y="95" width="60" height="45" fill="#22c55e" rx="4"/>
+                    <text x="80" y="115" font-size="9" fill="white" text-anchor="middle" font-weight="600">Savings</text>
+                    <text x="80" y="128" font-size="7" fill="white" text-anchor="middle">20%</text>
 
-                    <!-- Label -->
-                    <rect x="105" y="10" width="75" height="18" rx="4" fill="#1e3a5f"/>
-                    <text x="142" y="23" font-size="9" fill="white" text-anchor="middle" font-weight="600">Optimal: $25</text>
+                    <!-- Discretionary -->
+                    <rect x="120" y="110" width="60" height="30" fill="#8b5cf6" rx="4"/>
+                    <text x="150" y="128" font-size="8" fill="white" text-anchor="middle" font-weight="600">Other 10%</text>
 
-                    <!-- Legend -->
-                    <rect x="55" y="5" width="12" height="12" fill="#c9a227" rx="2"/>
-                    <text x="72" y="14" font-size="8" fill="#64748b">Revenue Index</text>
+                    <!-- Arrow pointing to opportunity -->
+                    <path d="M270,87 L255,87" stroke="#c9a227" stroke-width="3" marker-end="url(#arrow)"/>
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#c9a227"/>
+                        </marker>
+                    </defs>
+                    <text x="275" y="82" font-size="7" fill="#c9a227" font-weight="600">Your</text>
+                    <text x="275" y="92" font-size="7" fill="#c9a227" font-weight="600">Fit</text>
                 </svg>
             </div>
         </div>
@@ -405,26 +422,26 @@
                 <h3><span class="icon">⚡</span> How It Works</h3>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-icon">📋</div>
-                        <h4>Survey</h4>
-                        <p>Purchase intent at prices</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📤</div>
+                        <div class="step-icon">🧠</div>
                         <h4>Analyze</h4>
-                        <p>Calculate revenue index</p>
+                        <p>Budget categories</p>
                     </div>
                     <div class="step-arrow">→</div>
                     <div class="step">
                         <div class="step-icon">🎯</div>
-                        <h4>Optimize</h4>
-                        <p>Find best price</p>
+                        <h4>Position</h4>
+                        <p>Find best fit</p>
+                    </div>
+                    <div class="step-arrow">→</div>
+                    <div class="step">
+                        <div class="step-icon">💳</div>
+                        <h4>Frame</h4>
+                        <p>Payment structure</p>
                     </div>
                 </div>
                 <div class="stat-box">
-                    <div class="big-stat">5-15% revenue increase with optimized pricing*</div>
-                    <p>Data-driven pricing decisions</p>
+                    <div class="big-stat">Same price feels different in different mental accounts</div>
+                    <p>Position into the right budget category</p>
                 </div>
             </div>
 
@@ -433,17 +450,15 @@
                 <h3><span class="icon">📦</span> What You Get</h3>
                 <div class="tags">
                     <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ User Manual</span>
-                    <span class="tag">✓ Sample Datasets</span>
-                    <span class="tag">✓ Survey Templates</span>
+                    <span class="tag">✓ Budget Analysis</span>
+                    <span class="tag">✓ Framing Guide</span>
+                    <span class="tag">✓ Payment Strategies</span>
                 </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Ideal For</h3>
+                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
                 <div class="tags">
-                    <span class="tag">Product Launches</span>
-                    <span class="tag">Price Optimization</span>
-                    <span class="tag">Market Research</span>
-                    <span class="tag">Subscription Pricing</span>
-                    <span class="tag">Service Tiers</span>
+                    <span class="tag">Retail</span>
+                    <span class="tag">Financial Services</span>
+                    <span class="tag">Subscription</span>
                 </div>
             </div>
         </div>
@@ -451,7 +466,7 @@
         <!-- Credibility / CTA Footer -->
         <div class="credibility">
             <div class="cred-left">
-                <h3>Ready to Optimize Your Pricing?</h3>
+                <h3>Ready to Optimize Mental Accounting?</h3>
                 <p class="name">Dr. Koray Cosguner</p>
                 <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
                 <p class="contact">
@@ -463,15 +478,16 @@
                     <div class="school">Kelley School of Business</div>
                     <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
                 </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Gabor-Granger%20Demo%20Request" class="cta-button">Request Demo</a>
+                <a href="mailto:miaow.consulting@gmail.com?subject=Mental%20Accounting%20Optimizer%20Demo%20Request" class="cta-button">Request Demo</a>
             </div>
         </div>
 
         <!-- Footer -->
         <div class="sheet-footer">
-            *Source: McKinsey & Company, "The Power of Pricing" | © 2026 MIAOW LLC. All Rights Reserved.
+            © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
+
 
 </body>
 </html>
