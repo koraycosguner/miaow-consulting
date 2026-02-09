@@ -3,489 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TCO Calculator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Total Cost of Ownership Calculator - Sales Sheet | MIAOW</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #1e3a5f;
-            --navy-dark: #0f2744;
+            --navy-dark: #1e3a5f;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
             --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
-            --text-main: #2d3748;
-            --text-light: #64748b;
-            --border: #e5e7eb;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
-            max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
-            padding: 0.4in;
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
+            --gray-100: #f1f5f9;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
-            @page { size: letter; margin: 0; }
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
 
-        /* Header */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-800);
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            background: var(--white);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Raleway', sans-serif;
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--gold);
+            margin-bottom: 1.5rem;
         }
 
         .logo {
             font-family: 'Raleway', sans-serif;
-            font-size: 32pt;
-            font-weight: 800;
-            color: var(--navy);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--navy-dark);
         }
+
         .logo span {
             color: var(--gold);
         }
 
-        .header-right { text-align: right; }
-        .header-right h1 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 18pt;
-            color: var(--navy);
-        }
         .tagline {
-            font-size: 13pt;
-            color: var(--gold);
-            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 0.9rem;
         }
 
-        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+            color: var(--white);
+            padding: 1.5rem;
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 24px;
-            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
-        .hero-text { color: white; }
-        .hero-text h2 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 15pt;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-        .hero-text p {
-            font-size: 11pt;
-            color: rgba(255,255,255,0.9);
-            line-height: 1.5;
-            margin-bottom: 16px;
+        .hero h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
         }
 
-        .hero-outputs {
+        .hero p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .hero-output {
-            background: rgba(255,255,255,0.12);
-            padding: 10px 12px;
-            border-radius: 8px;
-        }
-        .hero-output strong {
-            color: var(--gold);
-            display: block;
-            font-size: 11pt;
-        }
-        .hero-output span {
-            color: rgba(255,255,255,0.8);
-            font-size: 9pt;
-        }
-
-        /* Chart */
-        .chart-container {
-            background: white;
-            border-radius: 10px;
-            padding: 16px;
-            height: 200px;
-        }
-        .chart-svg { width: 100%; height: 100%; }
-
-        /* Two Column Grid */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .section {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 18px;
-        }
-
-        h3 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 13pt;
-            color: var(--navy);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        h3 .icon { font-size: 18pt; }
-
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
-
-        /* Stat Box */
-        .stat-box {
-            background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
-            color: white;
-            padding: 14px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
-        .stat-box p { font-size: 10pt; margin-top: 4px; }
-
-        /* Tags */
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag {
-            background: white;
-            border: 1px solid #e5e7eb;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 10pt;
-            color: var(--text-main);
-        }
-
-        /* Credibility Footer */
-        .credibility {
-            background: var(--navy);
-            border-radius: 12px;
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-
-        .cred-left h3 {
-            color: var(--gold);
-            font-size: 14pt;
-            margin-bottom: 6px;
-        }
-        .cred-left .name {
-            font-size: 12pt;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .cred-left .title {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 8px;
-        }
-        .cred-left .contact {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.7);
-        }
-        .cred-left .contact a {
-            color: var(--gold);
-            text-decoration: none;
-        }
-
-        .cred-right { text-align: right; }
-        .cred-badge {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid var(--gold);
-            padding: 12px 18px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        .cred-badge .school {
-            font-size: 11pt;
-            font-weight: 600;
-            color: white;
-        }
-        .cred-badge .ranks {
-            font-size: 10pt;
-            color: var(--gold);
-            margin-top: 4px;
-        }
-        .cta-button {
-            background: var(--gold);
-            color: white;
-            padding: 14px 28px;
+            background: var(--gray-100);
+            padding: 1.25rem;
             border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 12pt;
-            display: inline-block;
-            transition: background 0.2s ease;
-        }
-        .cta-button:hover { background: var(--gold-light); }
-
-        /* Sheet Footer */
-        .sheet-footer {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 8pt;
-            color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
+        .section h2 {
+            color: var(--navy-dark);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .feature-list li::before {
+            content: "\\2713";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .phases-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .phase-box {
             background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
+            color: var(--white);
+            padding: 1rem;
+            border-radius: 8px;
             text-align: center;
-            margin-top: 60px;
         }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
+        .phase-icon {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .phase-items {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        .use-cases {
+            background: var(--white);
+            border: 2px solid var(--navy-dark);
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .use-cases h2 {
+            color: var(--navy-dark);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .use-case {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .use-case-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--navy-dark);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .use-case h3 {
+            font-size: 0.95rem;
+            color: var(--navy-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .use-case p {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--gold) 0%, #d4b84a 100%);
+            padding: 1.25rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section h2 {
+            color: var(--navy-dark);
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-section p {
+            color: var(--navy-dark);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-100);
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+
+        .footer strong {
+            color: var(--navy-dark);
         }
     </style>
 </head>
 <body>
-
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
-
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
+    <div class="header">
+        <div>
             <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>TCO Calculator</h1>
-                <div class="tagline">Show Your True Value</div>
-            </div>
+            <div class="tagline">Marketing Intelligence & Analytics for Optimized Wins</div>
         </div>
-
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Win Deals with TCO Analysis</h2>
-                <p>Calculate TCO vs competitors. Include implementation, maintenance, and hidden costs to build a compelling value story.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Total Cost of Ownership</strong>
-                        <span>Full lifecycle view</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Competitive Comparison</strong>
-                        <span>Side-by-side analysis</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Hidden Costs</strong>
-                        <span>Often overlooked</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Value Story</strong>
-                        <span>Sales enablement</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Background -->
-                    <text x="150" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">5-Year Total Cost of Ownership</text>
-
-                    <!-- Your Solution Bar -->
-                    <rect x="50" y="35" width="80" height="100" fill="#c9a227" rx="4"/>
-                    <text x="90" y="145" font-size="9" fill="#64748b" text-anchor="middle" font-weight="600">Your Solution</text>
-
-                    <!-- Competitor A Bar -->
-                    <rect x="150" y="55" width="40" height="80" fill="#ef4444" rx="4"/>
-                    <text x="170" y="145" font-size="9" fill="#64748b" text-anchor="middle" font-weight="600">Comp A</text>
-
-                    <!-- Competitor B Bar -->
-                    <rect x="210" y="45" width="40" height="90" fill="#f97316" rx="4"/>
-                    <text x="230" y="145" font-size="9" fill="#64748b" text-anchor="middle" font-weight="600">Comp B</text>
-
-                    <!-- Cost breakdown segments for Your Solution -->
-                    <line x1="50" y1="60" x2="130" y2="60" stroke="white" stroke-width="1" stroke-dasharray="2"/>
-                    <line x1="50" y1="85" x2="130" y2="85" stroke="white" stroke-width="1" stroke-dasharray="2"/>
-                    <line x1="50" y1="110" x2="130" y2="110" stroke="white" stroke-width="1" stroke-dasharray="2"/>
-
-                    <!-- Labels for cost segments -->
-                    <text x="90" y="52" font-size="7" fill="white" text-anchor="middle">License: $50K</text>
-                    <text x="90" y="75" font-size="7" fill="white" text-anchor="middle">Impl: $30K</text>
-                    <text x="90" y="100" font-size="7" fill="white" text-anchor="middle">Maint: $40K</text>
-                    <text x="90" y="125" font-size="7" fill="white" text-anchor="middle">Training: $20K</text>
-
-                    <!-- Total labels -->
-                    <rect x="55" y="28" width="70" height="14" rx="3" fill="#1e3a5f"/>
-                    <text x="90" y="38" font-size="8" fill="white" text-anchor="middle" font-weight="600">Total: $140K</text>
-
-                    <text x="170" y="50" font-size="8" fill="#ef4444" text-anchor="middle" font-weight="600">$185K</text>
-                    <text x="230" y="40" font-size="8" fill="#f97316" text-anchor="middle" font-weight="600">$210K</text>
-
-                    <!-- Savings callout -->
-                    <rect x="245" y="80" width="50" height="30" rx="4" fill="#10b981"/>
-                    <text x="270" y="93" font-size="8" fill="white" text-anchor="middle" font-weight="600">Save</text>
-                    <text x="270" y="104" font-size="9" fill="white" text-anchor="middle" font-weight="700">33%</text>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📋</div>
-                        <h4>Input</h4>
-                        <p>All cost categories</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">⚖️</div>
-                        <h4>Compare</h4>
-                        <p>vs. competitors</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Present</h4>
-                        <p>Value story</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">80% of buyers consider TCO in purchase decisions*</div>
-                    <p>Give them the full picture</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Multi-Year Modeling</span>
-                    <span class="tag">✓ Competitive Analysis</span>
-                    <span class="tag">✓ Hidden Cost Finder</span>
-                    <span class="tag">✓ Sales Presentation</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Enterprise Software</span>
-                    <span class="tag">B2B</span>
-                    <span class="tag">Industrial</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Show Your True Value?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=TCO%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: Gartner, "B2B Buying Journey" | © 2026 MIAOW LLC. All Rights Reserved.
+        <div style="text-align: right;">
+            <div style="color: var(--navy-dark); font-weight: 600;">Pricing Tools Suite</div>
+            <div style="color: var(--gold); font-size: 0.9rem;">Tool #13</div>
         </div>
     </div>
 
+    <div class="hero">
+        <h1>Total Cost of Ownership Calculator</h1>
+        <p>Calculate and present comprehensive TCO analysis with competitive comparison to demonstrate true value.</p>
+    </div>
 
+    <div class="phases-grid">
+        <div class="phase-box">
+            <div class="phase-icon">$</div>
+            <div class="phase-name">Acquisition</div>
+            <div class="phase-items">Purchase price, licensing</div>
+        </div>
+        <div class="phase-box">
+            <div class="phase-icon">+</div>
+            <div class="phase-name">Implementation</div>
+            <div class="phase-items">Setup, integration, training</div>
+        </div>
+        <div class="phase-box">
+            <div class="phase-icon">=</div>
+            <div class="phase-name">Operations</div>
+            <div class="phase-items">Maintenance, support, admin</div>
+        </div>
+        <div class="phase-box">
+            <div class="phase-icon">-</div>
+            <div class="phase-name">Disposal</div>
+            <div class="phase-items">Migration, residual value</div>
+        </div>
+    </div>
+
+    <div class="two-column">
+        <div class="section">
+            <h2>Key Features</h2>
+            <ul class="feature-list">
+                <li>Complete lifecycle cost analysis</li>
+                <li>Multi-competitor TCO comparison</li>
+                <li>Year-by-year cost accumulation</li>
+                <li>Cost growth rate modeling</li>
+                <li>Phase-by-phase breakdown</li>
+                <li>Customer-facing export charts</li>
+                <li>Annualized cost calculation</li>
+                <li>Automatic lowest-TCO identification</li>
+            </ul>
+        </div>
+        <div class="section">
+            <h2>Value Proposition Tools</h2>
+            <ul class="feature-list">
+                <li><strong>Savings Calculator:</strong> Show vs. competitor average</li>
+                <li><strong>Visual Comparison:</strong> Side-by-side stacked charts</li>
+                <li><strong>Customer View:</strong> Presentation-ready graphics</li>
+                <li><strong>Export Function:</strong> PNG download for proposals</li>
+                <li><strong>Ranking Badge:</strong> Highlight lowest TCO solution</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="use-cases">
+        <h2>Business Applications</h2>
+        <div class="use-case-grid">
+            <div class="use-case">
+                <div class="use-case-icon">1</div>
+                <div>
+                    <h3>Sales Proposals</h3>
+                    <p>Demonstrate long-term value vs. lower-priced competitors</p>
+                </div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-icon">2</div>
+                <div>
+                    <h3>Procurement Justification</h3>
+                    <p>Build business cases for higher-quality solutions</p>
+                </div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-icon">3</div>
+                <div>
+                    <h3>Vendor Comparison</h3>
+                    <p>Evaluate options on true cost, not just sticker price</p>
+                </div>
+            </div>
+            <div class="use-case">
+                <div class="use-case-icon">4</div>
+                <div>
+                    <h3>Budget Planning</h3>
+                    <p>Forecast multi-year technology expenditures</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2>Win on Value, Not Just Price</h2>
+        <p>Shift customer conversations from purchase price to total cost of ownership.</p>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 MIAOW LLC. All Rights Reserved.</p>
+        <p><strong>Dr. Koray Cosguner</strong> &middot; Kelley School of Business</p>
+    </div>
 </body>
 </html>

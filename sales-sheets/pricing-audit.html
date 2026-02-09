@@ -4,80 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing Audit Checklist | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg { width: 16px; height: 16px; }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet { margin: 0; padding: 0.4in; box-shadow: none; border-radius: 0; }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -105,13 +62,14 @@
             font-weight: 600;
         }
 
+        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
             border-radius: 12px;
             padding: 24px;
             margin-bottom: 20px;
             display: grid;
-            grid-template-columns: 1fr 1.1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 24px;
             align-items: center;
         }
@@ -130,34 +88,69 @@
             margin-bottom: 16px;
         }
 
-        .hero-outputs {
+        .hero-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
-        .hero-output {
+        .hero-stat {
             background: rgba(255,255,255,0.12);
-            padding: 10px 12px;
+            padding: 12px;
             border-radius: 8px;
+            text-align: center;
         }
-        .hero-output strong {
+        .hero-stat .big-number {
+            font-size: 22pt;
+            font-weight: 700;
             color: var(--gold);
-            display: block;
-            font-size: 11pt;
         }
-        .hero-output span {
+        .hero-stat span {
             color: rgba(255,255,255,0.8);
             font-size: 9pt;
+            display: block;
+            margin-top: 4px;
         }
 
-        .chart-container {
+        /* Dimensions Grid */
+        .dimensions-preview {
             background: white;
             border-radius: 10px;
             padding: 16px;
-            height: 200px;
         }
-        .chart-svg { width: 100%; height: 100%; }
+        .dimensions-preview h3 {
+            font-size: 11pt;
+            color: var(--navy);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .dim-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .dim-item {
+            background: var(--bg-light);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 9pt;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dim-num {
+            background: var(--gold);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8pt;
+            font-weight: 700;
+        }
 
+        /* Two Column Grid */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -166,7 +159,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -182,6 +175,7 @@
         }
         h3 .icon { font-size: 18pt; }
 
+        /* How It Works */
         .steps {
             display: flex;
             justify-content: space-between;
@@ -189,11 +183,12 @@
             margin-bottom: 14px;
         }
         .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
+        .step-icon { font-size: 26pt; margin-bottom: 6px; }
+        .step h4 { font-size: 10pt; color: var(--navy); margin-bottom: 4px; }
+        .step p { font-size: 8pt; color: var(--text-light); }
         .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
 
+        /* Stat Box */
         .stat-box {
             background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
             color: white;
@@ -204,16 +199,43 @@
         .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
 
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+        }
+        .benefits-list li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 10pt;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+        .benefits-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 12px;
+            height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+        }
+
+        /* Tags */
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
         .tag {
             background: white;
             border: 1px solid #e5e7eb;
             padding: 6px 12px;
             border-radius: 20px;
-            font-size: 10pt;
+            font-size: 9pt;
             color: var(--text-main);
         }
 
+        /* Credibility Footer */
         .credibility {
             background: var(--navy);
             border-radius: 12px;
@@ -224,11 +246,29 @@
             color: white;
         }
 
-        .cred-left h3 { color: var(--gold); font-size: 14pt; margin-bottom: 6px; }
-        .cred-left .name { font-size: 12pt; font-weight: 600; margin-bottom: 2px; }
-        .cred-left .title { font-size: 10pt; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
-        .cred-left .contact { font-size: 10pt; color: rgba(255,255,255,0.7); }
-        .cred-left .contact a { color: var(--gold); text-decoration: none; }
+        .cred-left h3 {
+            color: var(--gold);
+            font-size: 14pt;
+            margin-bottom: 6px;
+        }
+        .cred-left .name {
+            font-size: 12pt;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .cred-left .title {
+            font-size: 10pt;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+        }
+        .cred-left .contact {
+            font-size: 10pt;
+            color: rgba(255,255,255,0.7);
+        }
+        .cred-left .contact a {
+            color: var(--gold);
+            text-decoration: none;
+        }
 
         .cred-right { text-align: right; }
         .cred-badge {
@@ -238,8 +278,16 @@
             border-radius: 10px;
             margin-bottom: 10px;
         }
-        .cred-badge .school { font-size: 11pt; font-weight: 600; color: white; }
-        .cred-badge .ranks { font-size: 10pt; color: var(--gold); margin-top: 4px; }
+        .cred-badge .school {
+            font-size: 11pt;
+            font-weight: 600;
+            color: white;
+        }
+        .cred-badge .ranks {
+            font-size: 10pt;
+            color: var(--gold);
+            margin-top: 4px;
+        }
         .cta-button {
             background: var(--gold);
             color: white;
@@ -249,173 +297,160 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Pricing Audit Checklist</h1>
-                <div class="tagline">Comprehensive Pricing Health Check</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Pricing Audit Checklist</h1>
+        <div class="tagline">Assess Your Pricing Maturity</div>
+    </div>
+</div>
+
+<!-- Hero with Stats -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Diagnose Your Pricing Capabilities</h2>
+        <p>A comprehensive self-assessment tool covering 8 critical pricing dimensions with 40 evaluation criteria. Get an instant maturity score and actionable recommendations.</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="big-number">8</div>
+                <span>Dimensions Assessed</span>
             </div>
-        </div>
-
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Audit Your Pricing Practices</h2>
-                <p>A structured checklist to evaluate every aspect of your pricing strategy, execution, and governance. Identify quick wins and long-term improvement opportunities.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Audit Score</strong>
-                        <span>Overall health</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Category Scores</strong>
-                        <span>By dimension</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Quick Wins</strong>
-                        <span>Immediate actions</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Priority Matrix</strong>
-                        <span>Impact vs effort</span>
-                    </div>
-                </div>
+            <div class="hero-stat">
+                <div class="big-number">40</div>
+                <span>Evaluation Criteria</span>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Checklist visual -->
-                    <rect x="40" y="15" width="220" height="130" rx="8" fill="#f8f9fa" stroke="#e5e7eb"/>
-
-                    <!-- Checklist items -->
-                    <rect x="55" y="28" width="14" height="14" rx="3" fill="#22c55e"/>
-                    <path d="M58 35 L62 39 L67 31" stroke="white" stroke-width="2" fill="none"/>
-                    <text x="78" y="39" font-size="9" fill="#1e3a5f">Strategy alignment</text>
-                    <text x="230" y="39" font-size="8" fill="#22c55e" font-weight="600">100%</text>
-
-                    <rect x="55" y="50" width="14" height="14" rx="3" fill="#22c55e"/>
-                    <path d="M58 57 L62 61 L67 53" stroke="white" stroke-width="2" fill="none"/>
-                    <text x="78" y="61" font-size="9" fill="#1e3a5f">Value communication</text>
-                    <text x="230" y="61" font-size="8" fill="#22c55e" font-weight="600">85%</text>
-
-                    <rect x="55" y="72" width="14" height="14" rx="3" fill="#c9a227"/>
-                    <path d="M58 79 L62 83 L67 75" stroke="white" stroke-width="2" fill="none"/>
-                    <text x="78" y="83" font-size="9" fill="#1e3a5f">Price governance</text>
-                    <text x="230" y="83" font-size="8" fill="#c9a227" font-weight="600">70%</text>
-
-                    <rect x="55" y="94" width="14" height="14" rx="3" fill="#c9a227"/>
-                    <path d="M58 101 L62 105 L67 97" stroke="white" stroke-width="2" fill="none"/>
-                    <text x="78" y="105" font-size="9" fill="#1e3a5f">Analytics capability</text>
-                    <text x="230" y="105" font-size="8" fill="#c9a227" font-weight="600">55%</text>
-
-                    <rect x="55" y="116" width="14" height="14" rx="3" fill="#ef4444"/>
-                    <text x="78" y="127" font-size="9" fill="#1e3a5f">Technology & tools</text>
-                    <text x="230" y="127" font-size="8" fill="#ef4444" font-weight="600">35%</text>
-
-                    <!-- Overall -->
-                    <rect x="40" y="148" width="220" height="2" fill="#1e3a5f"/>
-                </svg>
+            <div class="hero-stat">
+                <div class="big-number">15</div>
+                <span>Minutes to Complete</span>
             </div>
-        </div>
-
-        <div class="main-grid">
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">✅</div>
-                        <h4>Check</h4>
-                        <p>Review each item</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Score</h4>
-                        <p>Get category grades</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🎯</div>
-                        <h4>Prioritize</h4>
-                        <p>Focus on impact</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Regular pricing audits find 5-15% margin leakage</div>
-                    <p>Find the money you are leaving on the table</p>
-                </div>
+            <div class="hero-stat">
+                <div class="big-number">A-F</div>
+                <span>Maturity Grade</span>
             </div>
-
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ 50+ Audit Items</span>
-                    <span class="tag">✓ Scoring Framework</span>
-                    <span class="tag">✓ Best Practice Guide</span>
-                    <span class="tag">✓ Priority Matrix</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">CFOs</span>
-                    <span class="tag">Pricing Leaders</span>
-                    <span class="tag">Operations</span>
-                    <span class="tag">Consultants</span>
-                    <span class="tag">Auditors</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Audit Your Pricing?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Pricing%20Audit%20Checklist%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <div class="sheet-footer">
-            *Based on industry research | © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
+    <div class="dimensions-preview">
+        <h3>Assessment Dimensions</h3>
+        <div class="dim-grid">
+            <div class="dim-item"><span class="dim-num">1</span> Pricing Strategy</div>
+            <div class="dim-item"><span class="dim-num">2</span> Cost Structure</div>
+            <div class="dim-item"><span class="dim-num">3</span> Competitive Position</div>
+            <div class="dim-item"><span class="dim-num">4</span> Value Perception</div>
+            <div class="dim-item"><span class="dim-num">5</span> Price Execution</div>
+            <div class="dim-item"><span class="dim-num">6</span> Discount Management</div>
+            <div class="dim-item"><span class="dim-num">7</span> Governance</div>
+            <div class="dim-item"><span class="dim-num">8</span> Analytics</div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: How It Works -->
+    <div class="section">
+        <h3><span class="icon">&#9889;</span> How It Works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">&#128203;</div>
+                <h4>Assess</h4>
+                <p>Rate 40 criteria</p>
+            </div>
+            <div class="step-arrow">&rarr;</div>
+            <div class="step">
+                <div class="step-icon">&#128202;</div>
+                <h4>Score</h4>
+                <p>Weighted analysis</p>
+            </div>
+            <div class="step-arrow">&rarr;</div>
+            <div class="step">
+                <div class="step-icon">&#127919;</div>
+                <h4>Act</h4>
+                <p>Get recommendations</p>
+            </div>
+        </div>
+        <div class="stat-box">
+            <div class="big-stat">Companies with mature pricing earn 2-7% higher margins</div>
+            <p>Source: McKinsey Pricing Practice</p>
+        </div>
+    </div>
+
+    <!-- Right: Key Benefits -->
+    <div class="section">
+        <h3><span class="icon">&#128230;</span> Key Benefits</h3>
+        <ul class="benefits-list">
+            <li>Identify pricing capability gaps across all dimensions</li>
+            <li>Benchmark against industry standards</li>
+            <li>Prioritized recommendations by impact</li>
+            <li>Track improvement over time</li>
+            <li>Executive-ready scoring and reports</li>
+        </ul>
+        <h3 style="margin-top: 14px;"><span class="icon">&#127970;</span> Ideal For</h3>
+        <div class="tags">
+            <span class="tag">B2B</span>
+            <span class="tag">B2C</span>
+            <span class="tag">SaaS</span>
+            <span class="tag">Manufacturing</span>
+            <span class="tag">Services</span>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Assess Your Pricing?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA &middot; #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Pricing%20Audit%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

@@ -4,87 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Value Metric Analyzer | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -182,7 +126,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +142,30 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
+        /* Factors List */
+        .factors-list {
+            list-style: none;
+            padding: 0;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+        .factors-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 10pt;
+        }
+        .factors-list li:last-child {
+            border-bottom: none;
+        }
+        .factor-icon {
+            font-size: 14pt;
+            flex-shrink: 0;
+        }
+        .factor-name {
+            font-weight: 600;
+            color: var(--navy);
+        }
 
         /* Stat Box */
         .stat-box {
@@ -231,6 +187,30 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Metric Examples */
+        .metric-examples {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .metric-example {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+        .metric-example .name {
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 10pt;
+        }
+        .metric-example .use {
+            font-size: 9pt;
+            color: var(--text-light);
         }
 
         /* Credibility Footer */
@@ -295,225 +275,215 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools Catalog
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Value Metric Analyzer</h1>
-                <div class="tagline">Find the Right Pricing Metric</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Value Metric Analyzer</h1>
+        <div class="tagline">Find Your Optimal Pricing Unit</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Stop Guessing Your Pricing Metric</h2>
+        <p>Evaluate potential pricing metrics across five critical factors. Get data-driven recommendations on whether to price per user, per seat, per GB, per transaction, or another unit.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Ranked Metrics</strong>
+                <span>By weighted score</span>
             </div>
-        </div>
-
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Choose the Best Pricing Metric</h2>
-                <p>Find the right pricing metric. Evaluate value alignment, predictability, and scalability for your pricing model.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Metric Scorecard</strong>
-                        <span>Ranked options</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Value Alignment</strong>
-                        <span>Customer perception</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Customer Acceptance</strong>
-                        <span>Willingness to pay</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Implementation Guide</strong>
-                        <span>Rollout plan</span>
-                    </div>
-                </div>
+            <div class="hero-output">
+                <strong>Factor Analysis</strong>
+                <span>5 key dimensions</span>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Title -->
-                    <text x="150" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Value Metric Scorecard</text>
-
-                    <!-- Column headers -->
-                    <text x="90" y="35" font-size="7" fill="#64748b" text-anchor="middle">Value</text>
-                    <text x="130" y="35" font-size="7" fill="#64748b" text-anchor="middle">Predict.</text>
-                    <text x="170" y="35" font-size="7" fill="#64748b" text-anchor="middle">Scale</text>
-                    <text x="210" y="35" font-size="7" fill="#64748b" text-anchor="middle">Accept.</text>
-                    <text x="260" y="35" font-size="7" fill="#64748b" text-anchor="middle">Score</text>
-
-                    <!-- Row 1: Per Seat -->
-                    <text x="45" y="55" font-size="8" fill="#1e3a5f" text-anchor="end" font-weight="500">Per Seat</text>
-                    <rect x="75" y="45" width="30" height="14" fill="#94a3b8" rx="2"/>
-                    <text x="90" y="55" font-size="8" fill="white" text-anchor="middle">6</text>
-                    <rect x="115" y="45" width="30" height="14" fill="#10b981" rx="2"/>
-                    <text x="130" y="55" font-size="8" fill="white" text-anchor="middle">9</text>
-                    <rect x="155" y="45" width="30" height="14" fill="#94a3b8" rx="2"/>
-                    <text x="170" y="55" font-size="8" fill="white" text-anchor="middle">5</text>
-                    <rect x="195" y="45" width="30" height="14" fill="#10b981" rx="2"/>
-                    <text x="210" y="55" font-size="8" fill="white" text-anchor="middle">8</text>
-                    <rect x="240" y="45" width="40" height="14" fill="#64748b" rx="2"/>
-                    <text x="260" y="55" font-size="8" fill="white" text-anchor="middle">7.0</text>
-
-                    <!-- Row 2: Per API Call (highlighted as winner) -->
-                    <rect x="48" y="63" width="220" height="22" fill="rgba(201,162,39,0.1)" rx="4"/>
-                    <text x="45" y="78" font-size="8" fill="#1e3a5f" text-anchor="end" font-weight="600">API Calls</text>
-                    <rect x="75" y="68" width="30" height="14" fill="#10b981" rx="2"/>
-                    <text x="90" y="78" font-size="8" fill="white" text-anchor="middle">9</text>
-                    <rect x="115" y="68" width="30" height="14" fill="#c9a227" rx="2"/>
-                    <text x="130" y="78" font-size="8" fill="white" text-anchor="middle">7</text>
-                    <rect x="155" y="68" width="30" height="14" fill="#10b981" rx="2"/>
-                    <text x="170" y="78" font-size="8" fill="white" text-anchor="middle">9</text>
-                    <rect x="195" y="68" width="30" height="14" fill="#10b981" rx="2"/>
-                    <text x="210" y="78" font-size="8" fill="white" text-anchor="middle">8</text>
-                    <rect x="240" y="68" width="40" height="14" fill="#c9a227" rx="2"/>
-                    <text x="260" y="78" font-size="8" fill="white" text-anchor="middle" font-weight="700">8.3</text>
-
-                    <!-- Row 3: Flat Rate -->
-                    <text x="45" y="100" font-size="8" fill="#1e3a5f" text-anchor="end" font-weight="500">Flat Rate</text>
-                    <rect x="75" y="90" width="30" height="14" fill="#ef4444" rx="2"/>
-                    <text x="90" y="100" font-size="8" fill="white" text-anchor="middle">4</text>
-                    <rect x="115" y="90" width="30" height="14" fill="#10b981" rx="2"/>
-                    <text x="130" y="100" font-size="8" fill="white" text-anchor="middle">10</text>
-                    <rect x="155" y="90" width="30" height="14" fill="#ef4444" rx="2"/>
-                    <text x="170" y="100" font-size="8" fill="white" text-anchor="middle">3</text>
-                    <rect x="195" y="90" width="30" height="14" fill="#c9a227" rx="2"/>
-                    <text x="210" y="100" font-size="8" fill="white" text-anchor="middle">7</text>
-                    <rect x="240" y="90" width="40" height="14" fill="#64748b" rx="2"/>
-                    <text x="260" y="100" font-size="8" fill="white" text-anchor="middle">6.0</text>
-
-                    <!-- Row 4: Storage -->
-                    <text x="45" y="122" font-size="8" fill="#1e3a5f" text-anchor="end" font-weight="500">Storage</text>
-                    <rect x="75" y="112" width="30" height="14" fill="#c9a227" rx="2"/>
-                    <text x="90" y="122" font-size="8" fill="white" text-anchor="middle">7</text>
-                    <rect x="115" y="112" width="30" height="14" fill="#10b981" rx="2"/>
-                    <text x="130" y="122" font-size="8" fill="white" text-anchor="middle">8</text>
-                    <rect x="155" y="112" width="30" height="14" fill="#10b981" rx="2"/>
-                    <text x="170" y="122" font-size="8" fill="white" text-anchor="middle">8</text>
-                    <rect x="195" y="112" width="30" height="14" fill="#94a3b8" rx="2"/>
-                    <text x="210" y="122" font-size="8" fill="white" text-anchor="middle">6</text>
-                    <rect x="240" y="112" width="40" height="14" fill="#64748b" rx="2"/>
-                    <text x="260" y="122" font-size="8" fill="white" text-anchor="middle">7.3</text>
-
-                    <!-- Winner indicator -->
-                    <text x="150" y="148" font-size="9" fill="#c9a227" text-anchor="middle" font-weight="600">Recommended: API Calls</text>
-                </svg>
+            <div class="hero-output">
+                <strong>Visual Comparison</strong>
+                <span>Radar chart view</span>
             </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📋</div>
-                        <h4>List</h4>
-                        <p>Metric options</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">⚖️</div>
-                        <h4>Score</h4>
-                        <p>Multiple criteria</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🏆</div>
-                        <h4>Recommend</h4>
-                        <p>Best fit metric</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">The right value metric increases willingness to pay 20%+*</div>
-                    <p>Make pricing feel fair to customers</p>
-                </div>
+            <div class="hero-output">
+                <strong>Recommendation</strong>
+                <span>Best-fit metric</span>
             </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Metric Scorecard</span>
-                    <span class="tag">✓ Criteria Framework</span>
-                    <span class="tag">✓ Customer Research</span>
-                    <span class="tag">✓ Implementation Plan</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">SaaS</span>
-                    <span class="tag">B2B</span>
-                    <span class="tag">Platform Companies</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Find the Right Pricing Metric?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Value%20Metric%20Analyzer%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: Price Intelligently, "The Anatomy of SaaS Pricing Strategy" | © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 180">
+            <!-- Radar chart background -->
+            <polygon points="150,30 230,75 210,145 90,145 70,75" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+            <polygon points="150,50 205,82 190,130 110,130 95,82" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+            <polygon points="150,70 180,90 170,115 130,115 120,90" fill="none" stroke="#e5e7eb" stroke-width="1"/>
 
+            <!-- Per Active User (winner) -->
+            <polygon points="150,35 220,78 195,140 100,130 80,78" fill="rgba(30, 58, 95, 0.3)" stroke="#1e3a5f" stroke-width="2.5"/>
+
+            <!-- Per Seat -->
+            <polygon points="150,60 185,85 175,125 115,135 100,82" fill="rgba(201, 162, 39, 0.2)" stroke="#c9a227" stroke-width="2"/>
+
+            <!-- Labels -->
+            <text x="150" y="20" font-size="9" fill="#64748b" text-anchor="middle">Value</text>
+            <text x="245" y="78" font-size="9" fill="#64748b" text-anchor="start">Measure</text>
+            <text x="220" y="160" font-size="9" fill="#64748b" text-anchor="start">Predict</text>
+            <text x="80" y="160" font-size="9" fill="#64748b" text-anchor="end">Scale</text>
+            <text x="55" y="78" font-size="9" fill="#64748b" text-anchor="end">Compete</text>
+
+            <!-- Winner indicator -->
+            <rect x="100" y="165" width="100" height="18" rx="4" fill="#1e3a5f"/>
+            <text x="150" y="177" font-size="9" fill="white" text-anchor="middle" font-weight="600">Per Active User: 85.2</text>
+        </svg>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Five Factors -->
+    <div class="section">
+        <h3><span class="icon">*</span> Five Evaluation Factors</h3>
+        <ul class="factors-list">
+            <li>
+                <span class="factor-icon">+</span>
+                <div>
+                    <span class="factor-name">Value Correlation</span><br>
+                    Does usage reflect value received?
+                </div>
+            </li>
+            <li>
+                <span class="factor-icon">+</span>
+                <div>
+                    <span class="factor-name">Measurability</span><br>
+                    Can you track it accurately?
+                </div>
+            </li>
+            <li>
+                <span class="factor-icon">+</span>
+                <div>
+                    <span class="factor-name">Predictability</span><br>
+                    Can customers forecast costs?
+                </div>
+            </li>
+            <li>
+                <span class="factor-icon">+</span>
+                <div>
+                    <span class="factor-name">Scalability</span><br>
+                    Does price grow with success?
+                </div>
+            </li>
+            <li>
+                <span class="factor-icon">+</span>
+                <div>
+                    <span class="factor-name">Competitive Position</span><br>
+                    How do competitors price?
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Right: Common Metrics -->
+    <div class="section">
+        <h3><span class="icon">@</span> Common Value Metrics</h3>
+        <div class="metric-examples">
+            <div class="metric-example">
+                <div class="name">Per User</div>
+                <div class="use">SaaS, Collaboration</div>
+            </div>
+            <div class="metric-example">
+                <div class="name">Per Seat</div>
+                <div class="use">Enterprise Software</div>
+            </div>
+            <div class="metric-example">
+                <div class="name">Per GB</div>
+                <div class="use">Storage, Cloud</div>
+            </div>
+            <div class="metric-example">
+                <div class="name">Per Transaction</div>
+                <div class="use">Payments, Fintech</div>
+            </div>
+            <div class="metric-example">
+                <div class="name">Per API Call</div>
+                <div class="use">Developer Tools</div>
+            </div>
+            <div class="metric-example">
+                <div class="name">Flat Fee</div>
+                <div class="use">Simple Products</div>
+            </div>
+        </div>
+        <div class="stat-box" style="margin-top: 14px;">
+            <div class="big-stat">Wrong metric = 30-50% revenue leakage</div>
+            <p>OpenView Partners, SaaS Benchmarks 2024</p>
+        </div>
+    </div>
+</div>
+
+<!-- What You Get -->
+<div class="section" style="margin-bottom: 20px;">
+    <h3><span class="icon">#</span> What You Get</h3>
+    <div class="tags">
+        <span class="tag">Web-Based Tool</span>
+        <span class="tag">Weighted Scoring Algorithm</span>
+        <span class="tag">Radar Chart Visualization</span>
+        <span class="tag">CSV Import/Export</span>
+        <span class="tag">Customizable Weights</span>
+        <span class="tag">User Manual</span>
+        <span class="tag">Sample Datasets</span>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Find Your Optimal Value Metric</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA &middot; #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Value%20Metric%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

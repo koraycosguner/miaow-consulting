@@ -4,87 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price Waterfall Analysis | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -182,7 +126,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +142,36 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
+        /* Waterfall Steps */
+        .waterfall-steps {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
+            flex-direction: column;
+            gap: 6px;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+
+        .waterfall-step {
+            display: flex;
+            align-items: center;
+            font-size: 10pt;
+        }
+
+        .waterfall-step .arrow {
+            color: var(--gold);
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .waterfall-step.highlight {
+            background: var(--navy);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .waterfall-step.highlight .arrow {
+            color: var(--gold);
+        }
 
         /* Stat Box */
         .stat-box {
@@ -218,6 +180,7 @@
             padding: 14px;
             border-radius: 10px;
             text-align: center;
+            margin-top: 14px;
         }
         .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
@@ -231,6 +194,26 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Use Cases List */
+        .use-cases {
+            list-style: none;
+            padding: 0;
+        }
+
+        .use-cases li {
+            padding: 6px 0;
+            font-size: 10pt;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .use-cases li::before {
+            content: ">";
+            color: var(--gold);
+            font-weight: 700;
         }
 
         /* Credibility Footer */
@@ -295,216 +278,190 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Price Waterfall Analysis</h1>
-                <div class="tagline">Track List to Pocket</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Price Waterfall Analysis</h1>
+        <div class="tagline">See Where Your Margin Really Goes</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>From List Price to Pocket Price</h2>
+        <p>Track every discount, deduction, and cost that erodes your prices. Identify hidden margin leaks and optimize your pricing strategy with clear, actionable insights.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Pocket Price</strong>
+                <span>True realized price</span>
+            </div>
+            <div class="hero-output">
+                <strong>Pocket Margin</strong>
+                <span>Real profitability</span>
+            </div>
+            <div class="hero-output">
+                <strong>Revenue Leakage</strong>
+                <span>Total value erosion</span>
+            </div>
+            <div class="hero-output">
+                <strong>Discount Depth</strong>
+                <span>By category analysis</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 170">
+            <!-- Waterfall bars -->
+            <rect x="20" y="20" width="35" height="130" fill="#1e3a5f" rx="3"/>
+            <text x="37" y="15" font-size="8" fill="#64748b" text-anchor="middle">List</text>
+            <text x="37" y="160" font-size="9" fill="#1e3a5f" font-weight="600" text-anchor="middle">$100</text>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>See Where Your Margin Goes</h2>
-                <p>Track how list price becomes pocket price. Find margin leakage from discounts, rebates, and allowances at every step.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Waterfall Chart</strong>
-                        <span>Visual breakdown</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Leakage Points</strong>
-                        <span>Where margin goes</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Margin Analysis</strong>
-                        <span>By customer/product</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Recovery Opportunities</strong>
-                        <span>Actionable insights</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Waterfall chart -->
-                    <!-- List Price bar -->
-                    <rect x="25" y="25" width="30" height="100" fill="#c9a227" rx="3"/>
-                    <text x="40" y="18" font-size="8" fill="#1e3a5f" text-anchor="middle" font-weight="600">$100</text>
-                    <text x="40" y="140" font-size="7" fill="#64748b" text-anchor="middle">List</text>
+            <!-- Volume Discount -->
+            <rect x="65" y="20" width="35" height="15" fill="#ef4444" rx="3"/>
+            <text x="82" y="15" font-size="7" fill="#64748b" text-anchor="middle">Volume</text>
 
-                    <!-- Discount connector -->
-                    <line x1="55" y1="25" x2="65" y2="25" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="2"/>
+            <!-- Promo Discount -->
+            <rect x="110" y="35" width="35" height="20" fill="#ef4444" rx="3"/>
+            <text x="127" y="15" font-size="7" fill="#64748b" text-anchor="middle">Promo</text>
 
-                    <!-- Volume Discount -->
-                    <rect x="65" y="25" width="30" height="15" fill="#ef4444" rx="2"/>
-                    <text x="80" y="35" font-size="7" fill="white" text-anchor="middle">-$8</text>
-                    <text x="80" y="140" font-size="6" fill="#64748b" text-anchor="middle">Vol Disc</text>
+            <!-- Invoice Price -->
+            <rect x="155" y="55" width="35" height="95" fill="#2d4a6f" rx="3"/>
+            <text x="172" y="15" font-size="8" fill="#64748b" text-anchor="middle">Invoice</text>
+            <text x="172" y="160" font-size="9" fill="#2d4a6f" font-weight="600" text-anchor="middle">$85</text>
 
-                    <!-- Connector -->
-                    <line x1="95" y1="40" x2="105" y2="40" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="2"/>
+            <!-- Rebates -->
+            <rect x="200" y="55" width="35" height="15" fill="#f97316" rx="3"/>
+            <text x="217" y="15" font-size="7" fill="#64748b" text-anchor="middle">Rebates</text>
 
-                    <!-- Promo -->
-                    <rect x="105" y="40" width="30" height="12" fill="#ef4444" rx="2"/>
-                    <text x="120" y="49" font-size="7" fill="white" text-anchor="middle">-$5</text>
-                    <text x="120" y="140" font-size="6" fill="#64748b" text-anchor="middle">Promo</text>
+            <!-- Freight -->
+            <rect x="245" y="70" width="35" height="10" fill="#f97316" rx="3"/>
+            <text x="262" y="15" font-size="7" fill="#64748b" text-anchor="middle">Freight</text>
 
-                    <!-- Connector -->
-                    <line x1="135" y1="52" x2="145" y2="52" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="2"/>
+            <!-- Pocket Price Bar (final) -->
+            <rect x="245" y="80" width="35" height="70" fill="#c9a227" rx="3"/>
+            <text x="262" y="160" font-size="9" fill="#c9a227" font-weight="600" text-anchor="middle">$72</text>
 
-                    <!-- Rebate -->
-                    <rect x="145" y="52" width="30" height="18" fill="#ef4444" rx="2"/>
-                    <text x="160" y="64" font-size="7" fill="white" text-anchor="middle">-$10</text>
-                    <text x="160" y="140" font-size="6" fill="#64748b" text-anchor="middle">Rebate</text>
+            <!-- Legend -->
+            <rect x="20" y="165" width="10" height="6" fill="#ef4444" rx="1"/>
+            <text x="33" y="170" font-size="7" fill="#64748b">On-Invoice</text>
+            <rect x="90" y="165" width="10" height="6" fill="#f97316" rx="1"/>
+            <text x="103" y="170" font-size="7" fill="#64748b">Off-Invoice</text>
+            <rect x="170" y="165" width="10" height="6" fill="#c9a227" rx="1"/>
+            <text x="183" y="170" font-size="7" fill="#64748b">Pocket Price</text>
+        </svg>
+    </div>
+</div>
 
-                    <!-- Connector -->
-                    <line x1="175" y1="70" x2="185" y2="70" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="2"/>
-
-                    <!-- Freight -->
-                    <rect x="185" y="70" width="30" height="10" fill="#ef4444" rx="2"/>
-                    <text x="200" y="78" font-size="7" fill="white" text-anchor="middle">-$4</text>
-                    <text x="200" y="140" font-size="6" fill="#64748b" text-anchor="middle">Freight</text>
-
-                    <!-- Connector -->
-                    <line x1="215" y1="80" x2="225" y2="80" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="2"/>
-
-                    <!-- Other -->
-                    <rect x="225" y="80" width="30" height="8" fill="#ef4444" rx="2"/>
-                    <text x="240" y="87" font-size="7" fill="white" text-anchor="middle">-$3</text>
-                    <text x="240" y="140" font-size="6" fill="#64748b" text-anchor="middle">Other</text>
-
-                    <!-- Connector to pocket -->
-                    <line x1="255" y1="88" x2="265" y2="88" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="2"/>
-
-                    <!-- Pocket Price bar -->
-                    <rect x="265" y="88" width="30" height="37" fill="#22c55e" rx="3"/>
-                    <text x="280" y="110" font-size="9" fill="white" text-anchor="middle" font-weight="600">$70</text>
-                    <text x="280" y="140" font-size="7" fill="#64748b" text-anchor="middle">Pocket</text>
-
-                    <!-- Leakage annotation -->
-                    <text x="160" y="155" font-size="9" fill="#ef4444" text-anchor="middle" font-weight="600">30% Margin Leakage</text>
-                </svg>
-            </div>
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: The Waterfall -->
+    <div class="section">
+        <h3><span class="icon">&#128202;</span> The Price Waterfall</h3>
+        <div class="waterfall-steps">
+            <div class="waterfall-step highlight"><span class="arrow">$</span> List Price (Starting Point)</div>
+            <div class="waterfall-step"><span class="arrow">-</span> Volume Discounts</div>
+            <div class="waterfall-step"><span class="arrow">-</span> Promotional Discounts</div>
+            <div class="waterfall-step"><span class="arrow">-</span> Payment Term Discounts</div>
+            <div class="waterfall-step"><span class="arrow">=</span> Invoice Price</div>
+            <div class="waterfall-step"><span class="arrow">-</span> Rebates & Incentives</div>
+            <div class="waterfall-step"><span class="arrow">-</span> Freight & Distribution</div>
+            <div class="waterfall-step"><span class="arrow">-</span> Returns & Allowances</div>
+            <div class="waterfall-step highlight"><span class="arrow">=</span> Pocket Price (Reality)</div>
         </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📥</div>
-                        <h4>Import</h4>
-                        <p>Transaction data</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">💧</div>
-                        <h4>Map</h4>
-                        <p>Price components</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🔍</div>
-                        <h4>Find</h4>
-                        <p>Leakage points</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Typical B2B firms leak 15-25% between list and pocket*</div>
-                    <p>Visualize to recover</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ Waterfall Visualization</span>
-                    <span class="tag">✓ Leakage Analysis</span>
-                    <span class="tag">✓ Recovery Recommendations</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">B2B</span>
-                    <span class="tag">Manufacturing</span>
-                    <span class="tag">Distribution</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Find Your Margin Leakage?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Price%20Waterfall%20Analysis%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: McKinsey & Company Pricing Research | © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">20-40% of revenue leaks between list and pocket price</div>
+            <p>Most companies don't know their true pocket price</p>
         </div>
     </div>
 
+    <!-- Right: Benefits & Use Cases -->
+    <div class="section">
+        <h3><span class="icon">&#127919;</span> What You'll Discover</h3>
+        <ul class="use-cases">
+            <li>Your true pocket price after all deductions</li>
+            <li>Which discounts erode the most value</li>
+            <li>Hidden costs eating into margins</li>
+            <li>Customer and channel profitability gaps</li>
+            <li>Opportunities to recover lost revenue</li>
+        </ul>
+
+        <h3 style="margin-top: 18px;"><span class="icon">&#127970;</span> Industries We Serve</h3>
+        <div class="tags">
+            <span class="tag">Manufacturing</span>
+            <span class="tag">Distribution</span>
+            <span class="tag">CPG / FMCG</span>
+            <span class="tag">B2B Services</span>
+            <span class="tag">Industrial</span>
+            <span class="tag">Healthcare</span>
+        </div>
+
+        <h3 style="margin-top: 18px;"><span class="icon">&#128230;</span> What's Included</h3>
+        <div class="tags">
+            <span class="tag">Interactive Web Tool</span>
+            <span class="tag">CSV Data Import</span>
+            <span class="tag">User Manual</span>
+            <span class="tag">Sample Datasets</span>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Stop Leaving Money on the Table</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA &middot; #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Price%20Waterfall%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved. | Dr. Koray Cosguner &middot; Kelley School of Business
+</div>
 
 </body>
 </html>

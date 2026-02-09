@@ -3,495 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currency Hedging Analyzer | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Currency Hedging Impact Analyzer - Sales Sheet | MIAOW</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --navy: #1e3a5f;
-            --navy-dark: #0f2744;
-            --navy-light: #2d4a6f;
-            --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
-            --text-main: #2d3748;
-            --text-light: #64748b;
-            --border: #e5e7eb;
+        @page {
+            size: letter;
+            margin: 0.5in;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
-            max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
-            padding: 0.4in;
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
+            line-height: 1.5;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
         }
 
-        @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
-            @page { size: letter; margin: 0; }
+        h1, h2, h3 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #c9a227;
+            margin-bottom: 1.5rem;
         }
 
         .logo {
             font-family: 'Raleway', sans-serif;
-            font-size: 32pt;
-            font-weight: 800;
-            color: var(--navy);
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e3a5f;
         }
+
         .logo span {
-            color: var(--gold);
+            color: #c9a227;
         }
 
-        .header-right { text-align: right; }
-        .header-right h1 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 18pt;
-            color: var(--navy);
-        }
         .tagline {
-            font-size: 13pt;
-            color: var(--gold);
-            font-weight: 600;
+            color: #475569;
+            font-size: 0.9rem;
         }
 
-        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d4a6f 100%);
+            color: white;
+            padding: 1.5rem;
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 24px;
-            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
-        .hero-text { color: white; }
-        .hero-text h2 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 15pt;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-        .hero-text p {
-            font-size: 11pt;
-            color: rgba(255,255,255,0.9);
-            line-height: 1.5;
-            margin-bottom: 16px;
+        .hero h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
         }
 
-        .hero-outputs {
+        .hero p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .hero-output {
-            background: rgba(255,255,255,0.12);
-            padding: 10px 12px;
-            border-radius: 8px;
-        }
-        .hero-output strong {
-            color: var(--gold);
-            display: block;
-            font-size: 11pt;
-        }
-        .hero-output span {
-            color: rgba(255,255,255,0.8);
-            font-size: 9pt;
-        }
-
-        /* Chart */
-        .chart-container {
-            background: white;
-            border-radius: 10px;
-            padding: 16px;
-            height: 200px;
-        }
-        .chart-svg { width: 100%; height: 100%; }
-
-        /* Two Column Grid */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .section {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 18px;
+            margin-bottom: 1.5rem;
         }
 
-        h3 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 13pt;
-            color: var(--navy);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        h3 .icon { font-size: 18pt; }
-
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
-
-        /* Stat Box */
-        .stat-box {
-            background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
-            color: white;
-            padding: 14px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
-        .stat-box p { font-size: 10pt; margin-top: 4px; }
-
-        /* Tags */
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag {
-            background: white;
-            border: 1px solid #e5e7eb;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 10pt;
-            color: var(--text-main);
+        .section h2 {
+            color: #1e3a5f;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid #c9a227;
         }
 
-        /* Credibility Footer */
-        .credibility {
-            background: var(--navy);
-            border-radius: 12px;
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
+        .feature-list {
+            list-style: none;
         }
 
-        .cred-left h3 {
-            color: var(--gold);
-            font-size: 14pt;
-            margin-bottom: 6px;
-        }
-        .cred-left .name {
-            font-size: 12pt;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .cred-left .title {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 8px;
-        }
-        .cred-left .contact {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.7);
-        }
-        .cred-left .contact a {
-            color: var(--gold);
-            text-decoration: none;
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
         }
 
-        .cred-right { text-align: right; }
-        .cred-badge {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid var(--gold);
-            padding: 12px 18px;
-            border-radius: 10px;
-            margin-bottom: 10px;
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #c9a227;
+            font-weight: bold;
         }
-        .cred-badge .school {
-            font-size: 11pt;
-            font-weight: 600;
-            color: white;
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
         }
-        .cred-badge .ranks {
-            font-size: 10pt;
-            color: var(--gold);
-            margin-top: 4px;
-        }
-        .cta-button {
-            background: var(--gold);
-            color: white;
-            padding: 14px 28px;
+
+        .benefit-card {
+            background: #f8fafc;
+            padding: 1rem;
             border-radius: 8px;
-            text-decoration: none;
+            border-left: 4px solid #c9a227;
+        }
+
+        .benefit-card h3 {
+            color: #1e3a5f;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .benefit-card p {
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .use-case {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .use-case h4 {
+            color: #1e3a5f;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .use-case p {
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1rem;
+            background: #1e3a5f;
+            color: white;
+            border-radius: 8px;
+        }
+
+        .stat .value {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.75rem;
             font-weight: 700;
-            font-size: 12pt;
-            display: inline-block;
-            transition: background 0.2s ease;
+            color: #c9a227;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
-            margin-top: 12px;
+        .stat .label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        .footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid #e2e8f0;
             text-align: center;
-            font-size: 8pt;
-            color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        .footer p {
+            color: #475569;
+            font-size: 0.85rem;
         }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
+        .footer .author {
+            color: #c9a227;
+            font-weight: 600;
+        }
+
+        @media print {
+            body { padding: 0; }
+            .hero, .stat { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
 <body>
-
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
-
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Currency Hedging Analyzer</h1>
-                <div class="tagline">Protect Your Global Margins</div>
-            </div>
-        </div>
-
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Navigate Currency Volatility</h2>
-                <p>Model FX impact on pricing. Analyze hedging strategies and currency exposure to protect your international margins.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>FX Exposure</strong>
-                        <span>Currency risk map</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Hedging Cost</strong>
-                        <span>Strategy pricing</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Risk Reduction</strong>
-                        <span>Volatility impact</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Optimal Strategy</strong>
-                        <span>Best approach</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Title -->
-                    <text x="150" y="15" font-size="9" fill="#1e3a5f" text-anchor="middle" font-weight="600">Margin Impact: Hedged vs Unhedged</text>
-
-                    <!-- Grid -->
-                    <line x1="40" y1="130" x2="280" y2="130" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="85" x2="280" y2="85" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="40" x2="280" y2="40" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-
-                    <!-- Y-axis labels -->
-                    <text x="35" y="133" font-size="7" fill="#64748b" text-anchor="end">10%</text>
-                    <text x="35" y="88" font-size="7" fill="#64748b" text-anchor="end">20%</text>
-                    <text x="35" y="43" font-size="7" fill="#64748b" text-anchor="end">30%</text>
-
-                    <!-- X-axis labels (time periods) -->
-                    <text x="70" y="145" font-size="7" fill="#64748b" text-anchor="middle">Q1</text>
-                    <text x="130" y="145" font-size="7" fill="#64748b" text-anchor="middle">Q2</text>
-                    <text x="190" y="145" font-size="7" fill="#64748b" text-anchor="middle">Q3</text>
-                    <text x="250" y="145" font-size="7" fill="#64748b" text-anchor="middle">Q4</text>
-
-                    <!-- Unhedged margin (volatile - red) -->
-                    <path d="M70,60 L130,95 L190,45 L250,110" fill="none" stroke="#ef4444" stroke-width="2.5"/>
-                    <circle cx="70" cy="60" r="4" fill="#ef4444"/>
-                    <circle cx="130" cy="95" r="4" fill="#ef4444"/>
-                    <circle cx="190" cy="45" r="4" fill="#ef4444"/>
-                    <circle cx="250" cy="110" r="4" fill="#ef4444"/>
-
-                    <!-- Hedged margin (stable - green) -->
-                    <path d="M70,72 L130,70 L190,68 L250,65" fill="none" stroke="#10b981" stroke-width="2.5"/>
-                    <circle cx="70" cy="72" r="4" fill="#10b981"/>
-                    <circle cx="130" cy="70" r="4" fill="#10b981"/>
-                    <circle cx="190" cy="68" r="4" fill="#10b981"/>
-                    <circle cx="250" cy="65" r="4" fill="#10b981"/>
-
-                    <!-- Risk reduction indicator -->
-                    <rect x="175" y="105" width="100" height="22" rx="4" fill="#1e3a5f"/>
-                    <text x="225" y="120" font-size="8" fill="white" text-anchor="middle" font-weight="600">Risk -65%</text>
-
-                    <!-- Legend -->
-                    <line x1="50" y1="152" x2="70" y2="152" stroke="#ef4444" stroke-width="2"/>
-                    <text x="75" y="155" font-size="7" fill="#64748b">Unhedged</text>
-
-                    <line x1="130" y1="152" x2="150" y2="152" stroke="#10b981" stroke-width="2"/>
-                    <text x="155" y="155" font-size="7" fill="#64748b">Hedged</text>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">🌍</div>
-                        <h4>Map</h4>
-                        <p>Currency exposure</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Model</h4>
-                        <p>Hedge scenarios</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🛡️</div>
-                        <h4>Protect</h4>
-                        <p>Lock in margins</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">FX volatility can swing margins by 15-25%</div>
-                    <p>Don't leave global profits to chance</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Exposure Mapper</span>
-                    <span class="tag">✓ Hedge Simulator</span>
-                    <span class="tag">✓ Cost-Benefit Analysis</span>
-                    <span class="tag">✓ Strategy Optimizer</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Multinational</span>
-                    <span class="tag">Import/Export</span>
-                    <span class="tag">Global Retail</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Protect Your Global Margins?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Currency%20Hedging%20Analyzer%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+    <div class="header">
+        <div>
+            <div class="logo">MIAOW <span>Tools</span></div>
+            <div class="tagline">Marketing Intelligence & Analytics for Optimal Wins</div>
         </div>
     </div>
 
+    <div class="hero">
+        <h1>Currency Hedging Impact Analyzer</h1>
+        <p>Model FX impacts on pricing and margins with comprehensive hedging scenario simulation</p>
+    </div>
 
+    <div class="stats-row">
+        <div class="stat">
+            <div class="value">Multi</div>
+            <div class="label">Currency Support</div>
+        </div>
+        <div class="stat">
+            <div class="value">9+</div>
+            <div class="label">Scenario Models</div>
+        </div>
+        <div class="stat">
+            <div class="value">4</div>
+            <div class="label">Hedge Instruments</div>
+        </div>
+        <div class="stat">
+            <div class="value">Real-Time</div>
+            <div class="label">Risk Analysis</div>
+        </div>
+    </div>
+
+    <div class="two-column">
+        <div class="section">
+            <h2>Key Features</h2>
+            <ul class="feature-list">
+                <li>Multi-currency revenue exposure analysis</li>
+                <li>Margin sensitivity modeling across FX scenarios</li>
+                <li>Hedged vs. unhedged impact comparison</li>
+                <li>Support for forwards, options, swaps, natural hedging</li>
+                <li>Hedge effectiveness scoring</li>
+                <li>Currency-specific recommendations</li>
+                <li>Volatility scenario simulation</li>
+                <li>CSV export for reporting</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Hedging Instruments</h2>
+            <ul class="feature-list">
+                <li><strong>Forward Contracts:</strong> Lock in exchange rates</li>
+                <li><strong>Currency Options:</strong> Downside protection with upside</li>
+                <li><strong>Currency Swaps:</strong> Long-term rate management</li>
+                <li><strong>Natural Hedging:</strong> Match revenues with costs</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Business Benefits</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <h3>Protect Margins</h3>
+                <p>Understand and mitigate FX impact on operating margins</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Optimize Coverage</h3>
+                <p>Find the right balance between cost and protection</p>
+            </div>
+            <div class="benefit-card">
+                <h3>Scenario Planning</h3>
+                <p>Prepare for various FX volatility environments</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Use Cases</h2>
+        <div class="two-column">
+            <div class="use-case">
+                <h4>CFO Strategic Planning</h4>
+                <p>Model FX impacts for annual budgets and communicate risk to the board with data-driven insights.</p>
+            </div>
+            <div class="use-case">
+                <h4>Treasury Operations</h4>
+                <p>Optimize hedge ratios and instrument selection to balance cost and risk protection.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 MIAOW LLC. All Rights Reserved.</p>
+        <p class="author">Dr. Koray Cosguner · Kelley School of Business</p>
+    </div>
 </body>
 </html>

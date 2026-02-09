@@ -3,88 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cross-Sell Analyzer | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Cross-Sell/Up-Sell Analyzer | MIAOW LLC</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -182,7 +126,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +142,25 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
+        /* Metrics */
+        .metrics-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 14px;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+        .metric {
+            text-align: center;
+            flex: 1;
+        }
+        .metric-value {
+            font-size: 22pt;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .metric-label {
+            font-size: 9pt;
+            color: var(--text-light);
+        }
 
         /* Stat Box */
         .stat-box {
@@ -231,6 +182,27 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 14px;
+        }
+        .formula-box h4 {
+            font-size: 10pt;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+        .formula {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-size: 11pt;
+            color: var(--text-main);
+            text-align: center;
         }
 
         /* Credibility Footer */
@@ -295,196 +267,194 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Cross-Sell Analyzer</h1>
-                <div class="tagline">Unlock Hidden Revenue</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Cross-Sell/Up-Sell Analyzer</h1>
+        <div class="tagline">Unlock Hidden Revenue in Your Data</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Find Products That Sell Together</h2>
+        <p>Upload your transaction data and instantly discover which products have strong affinity, enabling smarter bundling, recommendations, and up-sell strategies.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Product Affinity</strong>
+                <span>Lift ratios & support</span>
+            </div>
+            <div class="hero-output">
+                <strong>Cross-Sell Rules</strong>
+                <span>If A then B patterns</span>
+            </div>
+            <div class="hero-output">
+                <strong>Up-Sell Targets</strong>
+                <span>Premium opportunities</span>
+            </div>
+            <div class="hero-output">
+                <strong>AOV Impact</strong>
+                <span>Revenue potential</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 160">
+            <!-- Grid -->
+            <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Discover What Customers Buy Together</h2>
-                <p>Identify cross-sell opportunities from transaction data. Find product associations and bundles that drive incremental revenue.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Association Rules</strong>
-                        <span>If-then patterns</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Lift Scores</strong>
-                        <span>Relationship strength</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Bundle Recs</strong>
-                        <span>Optimal combos</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Cross-Sell Rate</strong>
-                        <span>Success metrics</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Title -->
-                    <text x="150" y="15" font-size="9" fill="#1e3a5f" text-anchor="middle" font-weight="600">Top Product Associations</text>
+            <!-- Bars representing product pairs -->
+            <rect x="55" y="45" width="35" height="95" fill="#c9a227" rx="4"/>
+            <rect x="100" y="60" width="35" height="80" fill="#1e3a5f" rx="4"/>
+            <rect x="145" y="75" width="35" height="65" fill="#c9a227" rx="4"/>
+            <rect x="190" y="90" width="35" height="50" fill="#1e3a5f" rx="4"/>
+            <rect x="235" y="110" width="35" height="30" fill="#c9a227" rx="4"/>
 
-                    <!-- Network visualization -->
-                    <!-- Product nodes -->
-                    <circle cx="80" cy="70" r="20" fill="#c9a227"/>
-                    <text x="80" y="74" font-size="8" fill="white" text-anchor="middle" font-weight="600">Laptop</text>
+            <!-- Lift line -->
+            <path d="M72,40 L117,55 L162,72 L207,88 L252,108" fill="none" stroke="#ef4444" stroke-width="2.5"/>
+            <circle cx="72" cy="40" r="4" fill="#ef4444"/>
+            <circle cx="117" cy="55" r="4" fill="#ef4444"/>
+            <circle cx="162" cy="72" r="4" fill="#ef4444"/>
+            <circle cx="207" cy="88" r="4" fill="#ef4444"/>
+            <circle cx="252" cy="108" r="4" fill="#ef4444"/>
 
-                    <circle cx="160" cy="50" r="16" fill="#3b82f6"/>
-                    <text x="160" y="54" font-size="7" fill="white" text-anchor="middle">Mouse</text>
+            <!-- Labels -->
+            <text x="72" y="153" font-size="8" fill="#64748b" text-anchor="middle">A+B</text>
+            <text x="117" y="153" font-size="8" fill="#64748b" text-anchor="middle">C+D</text>
+            <text x="162" y="153" font-size="8" fill="#64748b" text-anchor="middle">E+F</text>
+            <text x="207" y="153" font-size="8" fill="#64748b" text-anchor="middle">G+H</text>
+            <text x="252" y="153" font-size="8" fill="#64748b" text-anchor="middle">I+J</text>
 
-                    <circle cx="220" cy="70" r="18" fill="#10b981"/>
-                    <text x="220" y="74" font-size="7" fill="white" text-anchor="middle">Bag</text>
+            <!-- Y-axis labels -->
+            <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0</text>
+            <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">50%</text>
+            <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">100%</text>
 
-                    <circle cx="140" cy="110" r="14" fill="#8b5cf6"/>
-                    <text x="140" y="114" font-size="7" fill="white" text-anchor="middle">USB</text>
+            <!-- Legend -->
+            <rect x="55" y="8" width="12" height="8" fill="#c9a227"/>
+            <text x="70" y="15" font-size="8" fill="#64748b">Support</text>
+            <line x1="120" y1="12" x2="140" y2="12" stroke="#ef4444" stroke-width="2"/>
+            <circle cx="130" cy="12" r="3" fill="#ef4444"/>
+            <text x="145" y="15" font-size="8" fill="#64748b">Lift</text>
+        </svg>
+    </div>
+</div>
 
-                    <circle cx="200" cy="120" r="15" fill="#f59e0b"/>
-                    <text x="200" y="124" font-size="7" fill="white" text-anchor="middle">Stand</text>
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Key Metrics -->
+    <div class="section">
+        <h3><span class="icon">Key Metrics Calculated</span></h3>
 
-                    <!-- Connection lines with lift scores -->
-                    <line x1="98" y1="62" x2="145" y2="52" stroke="#1e3a5f" stroke-width="3"/>
-                    <text x="122" y="48" font-size="6" fill="#c9a227" font-weight="600">4.2x</text>
-
-                    <line x1="100" y1="72" x2="202" y2="72" stroke="#1e3a5f" stroke-width="2.5"/>
-                    <text x="148" y="68" font-size="6" fill="#c9a227" font-weight="600">3.8x</text>
-
-                    <line x1="94" y1="85" x2="128" y2="100" stroke="#1e3a5f" stroke-width="2"/>
-                    <text x="105" y="96" font-size="6" fill="#c9a227" font-weight="600">2.5x</text>
-
-                    <line x1="174" y1="58" x2="205" y2="68" stroke="#64748b" stroke-width="1.5"/>
-
-                    <line x1="152" y1="118" x2="185" y2="120" stroke="#64748b" stroke-width="1.5"/>
-
-                    <!-- Legend -->
-                    <text x="50" y="150" font-size="7" fill="#64748b">Line thickness = lift score (association strength)</text>
-                </svg>
-            </div>
+        <div class="formula-box">
+            <h4>Lift Ratio (Product Affinity)</h4>
+            <div class="formula">Lift = P(A and B) / [P(A) x P(B)]</div>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📤</div>
-                        <h4>Upload</h4>
-                        <p>Transaction data</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🔍</div>
-                        <h4>Mine</h4>
-                        <p>Find patterns</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">💡</div>
-                        <h4>Recommend</h4>
-                        <p>Bundle & upsell</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Cross-selling increases revenue per customer by 20-30%</div>
-                    <p>Maximize every transaction</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Association Mining</span>
-                    <span class="tag">✓ Lift Analysis</span>
-                    <span class="tag">✓ Bundle Builder</span>
-                    <span class="tag">✓ Recommendation Engine</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">E-commerce</span>
-                    <span class="tag">Retail</span>
-                    <span class="tag">Financial Services</span>
-                </div>
-            </div>
+        <div class="formula-box">
+            <h4>Support (Co-occurrence)</h4>
+            <div class="formula">Support = Transactions with Both / Total Transactions</div>
         </div>
 
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Unlock Hidden Revenue?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Cross-Sell%20Analyzer%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
+        <div class="formula-box">
+            <h4>Confidence (Conversion)</h4>
+            <div class="formula">Confidence = Transactions with Both / Transactions with A</div>
         </div>
 
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Lift > 1 = Products bought together more than by chance</div>
+            <p>Higher lift = stronger affinity = better bundling opportunity</p>
         </div>
     </div>
 
+    <!-- Right: What You Get -->
+    <div class="section">
+        <h3><span class="icon">What You Get</span></h3>
+        <div class="tags">
+            <span class="tag">Web-Based Tool</span>
+            <span class="tag">User Manual</span>
+            <span class="tag">Sample Datasets</span>
+            <span class="tag">CSV Export</span>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">Use Cases</span></h3>
+        <div class="tags">
+            <span class="tag">Product Bundling</span>
+            <span class="tag">Recommendation Engines</span>
+            <span class="tag">Store Layout</span>
+            <span class="tag">Email Campaigns</span>
+            <span class="tag">Pricing Strategy</span>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">Industries</span></h3>
+        <div class="tags">
+            <span class="tag">Retail</span>
+            <span class="tag">E-commerce</span>
+            <span class="tag">SaaS</span>
+            <span class="tag">CPG</span>
+            <span class="tag">Grocery</span>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Maximize Cross-Sell Revenue?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA &middot; #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Cross-Sell%20Analyzer%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

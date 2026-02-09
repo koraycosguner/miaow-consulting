@@ -3,505 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volume Discount Optimizer | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Volume Discount Optimizer - Sales Sheet | MIAOW</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #1e3a5f;
-            --navy-dark: #0f2744;
+            --navy-dark: #1e3a5f;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
             --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
-            --text-main: #2d3748;
-            --text-light: #64748b;
-            --border: #e5e7eb;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
-            max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
-            padding: 0.4in;
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
+            --gray-light: #f5f7fa;
+            --gray-medium: #e1e5eb;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
-            @page { size: letter; margin: 0; }
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .no-print { display: none; }
         }
 
-        /* Header */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--navy-dark);
+            line-height: 1.5;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            background: white;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            border-bottom: 3px solid var(--gold);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .logo {
-            font-family: 'Raleway', sans-serif;
-            font-size: 32pt;
-            font-weight: 800;
-            color: var(--navy);
+        .header h1 {
+            font-size: 1.8rem;
+            color: var(--navy-dark);
         }
-        .logo span {
+
+        .header .brand {
+            text-align: right;
+        }
+
+        .header .brand .miaow {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy-dark);
+        }
+
+        .header .brand .tagline {
+            font-size: 0.8rem;
             color: var(--gold);
         }
 
-        .header-right { text-align: right; }
-        .header-right h1 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 18pt;
-            color: var(--navy);
-        }
-        .tagline {
-            font-size: 13pt;
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 24px;
-            align-items: center;
-        }
-
-        .hero-text { color: white; }
-        .hero-text h2 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 15pt;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-        .hero-text p {
-            font-size: 11pt;
-            color: rgba(255,255,255,0.9);
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
-
-        .hero-outputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .hero-output {
-            background: rgba(255,255,255,0.12);
-            padding: 10px 12px;
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+            color: white;
+            padding: 1.5rem;
             border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
-        .hero-output strong {
+
+        .hero h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
             color: var(--gold);
-            display: block;
-            font-size: 11pt;
-        }
-        .hero-output span {
-            color: rgba(255,255,255,0.8);
-            font-size: 9pt;
+            font-size: 1rem;
         }
 
-        /* Chart */
-        .chart-container {
-            background: white;
-            border-radius: 10px;
-            padding: 16px;
-            height: 200px;
-        }
-        .chart-svg { width: 100%; height: 100%; }
-
-        /* Two Column Grid */
-        .main-grid {
+        .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .section {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 18px;
+            margin-bottom: 1.5rem;
         }
 
-        h3 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 13pt;
-            color: var(--navy);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        h3 .icon { font-size: 18pt; }
-
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
-
-        /* Stat Box */
-        .stat-box {
-            background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
-            color: white;
-            padding: 14px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
-        .stat-box p { font-size: 10pt; margin-top: 4px; }
-
-        /* Tags */
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag {
-            background: white;
-            border: 1px solid #e5e7eb;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 10pt;
-            color: var(--text-main);
+        .section h3 {
+            color: var(--navy-dark);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--gold);
         }
 
-        /* Credibility Footer */
-        .credibility {
-            background: var(--navy);
-            border-radius: 12px;
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
+        .feature-list {
+            list-style: none;
         }
 
-        .cred-left h3 {
+        .feature-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
             color: var(--gold);
-            font-size: 14pt;
-            margin-bottom: 6px;
-        }
-        .cred-left .name {
-            font-size: 12pt;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .cred-left .title {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 8px;
-        }
-        .cred-left .contact {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.7);
-        }
-        .cred-left .contact a {
-            color: var(--gold);
-            text-decoration: none;
+            font-weight: bold;
         }
 
-        .cred-right { text-align: right; }
-        .cred-badge {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid var(--gold);
-            padding: 12px 18px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        .cred-badge .school {
-            font-size: 11pt;
-            font-weight: 600;
-            color: white;
-        }
-        .cred-badge .ranks {
-            font-size: 10pt;
-            color: var(--gold);
-            margin-top: 4px;
-        }
-        .cta-button {
-            background: var(--gold);
-            color: white;
-            padding: 14px 28px;
+        .benefit-box {
+            background: var(--gray-light);
+            padding: 1rem;
             border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 12pt;
-            display: inline-block;
-            transition: background 0.2s ease;
-        }
-        .cta-button:hover { background: var(--gold-light); }
-
-        /* Sheet Footer */
-        .sheet-footer {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 8pt;
-            color: var(--text-light);
+            border-left: 4px solid var(--gold);
         }
 
-        /* Site Footer */
-        .site-footer {
+        .benefit-box h4 {
+            color: var(--navy-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
             background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
             text-align: center;
-            margin-top: 60px;
         }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
+        .stat-box .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .stat-box .label {
+            font-size: 0.8rem;
+        }
+
+        .use-cases {
+            background: var(--gray-light);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .use-case-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .use-case {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .use-case strong {
+            color: var(--navy-dark);
+        }
+
+        .cta {
+            background: var(--gold);
+            color: var(--navy-dark);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .cta h3 {
+            margin-bottom: 0.5rem;
+            border: none;
+        }
+
+        footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--gray-medium);
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        footer .gold {
+            color: var(--gold);
+        }
+
+        .print-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: var(--gold);
+            color: var(--navy-dark);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .print-btn:hover {
+            background: var(--navy-dark);
+            color: white;
         }
     </style>
 </head>
 <body>
+    <button class="print-btn no-print" onclick="window.print()">Print / Save PDF</button>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools Catalog
-    </a>
-
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Volume Discount Optimizer</h1>
-                <div class="tagline">Structure Volume Incentives</div>
-            </div>
-        </div>
-
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Design Optimal Discount Tiers</h2>
-                <p>Design volume discount structures. Optimize tier breakpoints and discount percentages to maximize revenue and customer behavior.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Discount Tiers</strong>
-                        <span>Optimal breakpoints</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Break-Even Analysis</strong>
-                        <span>Margin protection</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Revenue Impact</strong>
-                        <span>Scenario modeling</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Customer Behavior</strong>
-                        <span>Purchase patterns</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-
-                    <!-- Y-axis labels (Price) -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">$0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">$50</text>
-                    <text x="35" y="38" font-size="8" fill="#64748b" text-anchor="end">$100</text>
-
-                    <!-- X-axis labels (Volume) -->
-                    <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">0</text>
-                    <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">100</text>
-                    <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">500</text>
-                    <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">1000+</text>
-                    <text x="150" y="158" font-size="7" fill="#64748b" text-anchor="middle">Units</text>
-
-                    <!-- Staircase discount tiers -->
-                    <!-- Tier 1: List Price -->
-                    <line x1="60" y1="40" x2="120" y2="40" stroke="#1e3a5f" stroke-width="3"/>
-                    <text x="90" y="35" font-size="7" fill="#1e3a5f" text-anchor="middle">List: $100</text>
-
-                    <!-- Tier 2: 10% discount -->
-                    <line x1="120" y1="40" x2="120" y2="52" stroke="#1e3a5f" stroke-width="2" stroke-dasharray="3"/>
-                    <line x1="120" y1="52" x2="180" y2="52" stroke="#c9a227" stroke-width="3"/>
-                    <text x="150" y="47" font-size="7" fill="#c9a227" text-anchor="middle">-10%: $90</text>
-
-                    <!-- Tier 3: 20% discount -->
-                    <line x1="180" y1="52" x2="180" y2="64" stroke="#c9a227" stroke-width="2" stroke-dasharray="3"/>
-                    <line x1="180" y1="64" x2="240" y2="64" stroke="#10b981" stroke-width="3"/>
-                    <text x="210" y="59" font-size="7" fill="#10b981" text-anchor="middle">-20%: $80</text>
-
-                    <!-- Tier 4: 30% discount -->
-                    <line x1="240" y1="64" x2="240" y2="76" stroke="#10b981" stroke-width="2" stroke-dasharray="3"/>
-                    <line x1="240" y1="76" x2="280" y2="76" stroke="#10b981" stroke-width="3"/>
-                    <text x="260" y="71" font-size="7" fill="#10b981" text-anchor="middle">-30%: $70</text>
-
-                    <!-- Revenue curve -->
-                    <path d="M60,130 C90,115 120,95 150,80 C180,70 210,65 240,62 C260,60 275,58 280,55" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5"/>
-
-                    <!-- Customer distribution dots -->
-                    <circle cx="90" cy="125" r="10" fill="rgba(30,58,95,0.3)"/>
-                    <circle cx="150" cy="105" r="15" fill="rgba(201,162,39,0.3)"/>
-                    <circle cx="210" cy="95" r="12" fill="rgba(16,185,129,0.3)"/>
-
-                    <!-- Legend -->
-                    <line x1="55" y1="12" x2="75" y2="12" stroke="#1e3a5f" stroke-width="2"/>
-                    <text x="80" y="15" font-size="7" fill="#64748b">Price/Unit</text>
-                    <line x1="130" y1="12" x2="150" y2="12" stroke="#ef4444" stroke-width="2" stroke-dasharray="5"/>
-                    <text x="155" y="15" font-size="7" fill="#64748b">Revenue</text>
-                    <circle cx="200" cy="12" r="5" fill="rgba(201,162,39,0.3)"/>
-                    <text x="210" y="15" font-size="7" fill="#64748b">Customers</text>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Analyze</h4>
-                        <p>Purchase data</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📐</div>
-                        <h4>Design</h4>
-                        <p>Tier structure</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">💰</div>
-                        <h4>Optimize</h4>
-                        <p>Revenue & margin</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Well-designed volume discounts increase order size 15-25%*</div>
-                    <p>Incentivize without giving away margin</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Tier Optimizer</span>
-                    <span class="tag">✓ Break-Even Calculator</span>
-                    <span class="tag">✓ Revenue Simulator</span>
-                    <span class="tag">✓ Customer Analysis</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">B2B</span>
-                    <span class="tag">Distribution</span>
-                    <span class="tag">Manufacturing</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Structure Volume Incentives?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Volume%20Discount%20Optimizer%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: Harvard Business Review, "Pricing and the Psychology of Consumption" | © 2026 MIAOW LLC. All Rights Reserved.
+    <div class="header">
+        <h1>Volume Discount Optimizer</h1>
+        <div class="brand">
+            <div class="miaow">MIAOW</div>
+            <div class="tagline">Pricing Intelligence Tools</div>
         </div>
     </div>
 
+    <div class="hero">
+        <h2>Design Optimal Quantity-Based Pricing Structures</h2>
+        <p>Maximize revenue and margin through data-driven volume discount optimization</p>
+    </div>
 
+    <div class="stats-grid">
+        <div class="stat-box">
+            <div class="number">15-25%</div>
+            <div class="label">Average Revenue Increase</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">40%</div>
+            <div class="label">Faster Quote Generation</div>
+        </div>
+        <div class="stat-box">
+            <div class="number">3x</div>
+            <div class="label">Better Tier Optimization</div>
+        </div>
+    </div>
+
+    <div class="two-column">
+        <div class="section">
+            <h3>Key Features</h3>
+            <ul class="feature-list">
+                <li>Design optimal volume discount structures</li>
+                <li>Model customer response to tiered pricing</li>
+                <li>Visualize discount curves and break points</li>
+                <li>Analyze customer migration between tiers</li>
+                <li>Compare scenarios side-by-side</li>
+                <li>Generate revenue and margin projections</li>
+                <li>Export analysis for stakeholder review</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Business Benefits</h3>
+            <div class="benefit-box" style="margin-bottom: 0.75rem;">
+                <h4>Increase Revenue</h4>
+                <p>Optimize break points to encourage customers to purchase more while maintaining healthy margins.</p>
+            </div>
+            <div class="benefit-box">
+                <h4>Protect Margins</h4>
+                <p>Balance volume growth with profitability using elasticity-based discount recommendations.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>How It Works</h3>
+        <div class="two-column">
+            <div>
+                <p><strong>1. Input Your Data</strong><br>
+                Enter base price, unit cost, and current tier structure. Define customer distribution across volume segments.</p>
+
+                <p style="margin-top: 0.75rem;"><strong>2. Run Optimization</strong><br>
+                The tool analyzes elasticity and calculates optimal discount percentages for each tier to maximize results.</p>
+            </div>
+            <div>
+                <p><strong>3. Review Projections</strong><br>
+                See projected revenue, margin, and customer migration with interactive visualizations.</p>
+
+                <p style="margin-top: 0.75rem;"><strong>4. Implement & Track</strong><br>
+                Apply recommended structure and monitor actual results against projections.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="use-cases">
+        <h3 style="margin-bottom: 0.5rem;">Ideal Use Cases</h3>
+        <div class="use-case-grid">
+            <div class="use-case">
+                <strong>Software Licensing</strong><br>
+                Optimize seat-based pricing tiers
+            </div>
+            <div class="use-case">
+                <strong>Manufacturing</strong><br>
+                Set quantity break points for components
+            </div>
+            <div class="use-case">
+                <strong>Distribution</strong><br>
+                Structure wholesale discount schedules
+            </div>
+            <div class="use-case">
+                <strong>SaaS Products</strong><br>
+                Design usage-based pricing tiers
+            </div>
+        </div>
+    </div>
+
+    <div class="cta">
+        <h3>Ready to Optimize Your Volume Pricing?</h3>
+        <p>Start using the Volume Discount Optimizer today and see immediate improvements in your pricing strategy.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 MIAOW LLC. All Rights Reserved.</p>
+        <p class="gold">Dr. Koray Cosguner · Kelley School of Business</p>
+    </footer>
 </body>
 </html>

@@ -3,483 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Pricing Calculator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Project Pricing Calculator - Sales Sheet | MIAOW</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #1e3a5f;
-            --navy-dark: #0f2744;
+            --navy-dark: #1e3a5f;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
+            --gold-light: #d4b84a;
             --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
-            --text-main: #2d3748;
-            --text-light: #64748b;
-            --border: #e5e7eb;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
-            max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
-            padding: 0.4in;
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
+            --gray-100: #f1f5f9;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
-            @page { size: letter; margin: 0; }
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .page { page-break-after: avoid; }
         }
 
-        /* Header */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-800);
+            line-height: 1.6;
+            background: var(--white);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+        }
+
+        .page {
+            max-width: 8.5in;
+            min-height: 11in;
+            margin: 0 auto;
+            padding: 0.5in;
+            background: var(--white);
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--gold);
+            margin-bottom: 1.5rem;
         }
 
         .logo {
             font-family: 'Raleway', sans-serif;
-            font-size: 32pt;
-            font-weight: 800;
-            color: var(--navy);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--navy-dark);
         }
+
         .logo span {
             color: var(--gold);
         }
 
-        .header-right { text-align: right; }
-        .header-right h1 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 18pt;
-            color: var(--navy);
-        }
-        .tagline {
-            font-size: 13pt;
-            color: var(--gold);
-            font-weight: 600;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 24px;
-            align-items: center;
-        }
-
-        .hero-text { color: white; }
-        .hero-text h2 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 15pt;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-        .hero-text p {
-            font-size: 11pt;
-            color: rgba(255,255,255,0.9);
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
-
-        .hero-outputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .hero-output {
-            background: rgba(255,255,255,0.12);
-            padding: 10px 12px;
-            border-radius: 8px;
-        }
-        .hero-output strong {
-            color: var(--gold);
-            display: block;
-            font-size: 11pt;
-        }
-        .hero-output span {
-            color: rgba(255,255,255,0.8);
-            font-size: 9pt;
-        }
-
-        /* Chart */
-        .chart-container {
-            background: white;
-            border-radius: 10px;
-            padding: 16px;
-            height: 200px;
-        }
-        .chart-svg { width: 100%; height: 100%; }
-
-        /* Two Column Grid */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .section {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 18px;
-        }
-
-        h3 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 13pt;
-            color: var(--navy);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        h3 .icon { font-size: 18pt; }
-
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
-
-        /* Stat Box */
-        .stat-box {
-            background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
-            color: white;
-            padding: 14px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
-        .stat-box p { font-size: 10pt; margin-top: 4px; }
-
-        /* Tags */
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag {
-            background: white;
-            border: 1px solid #e5e7eb;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 10pt;
-            color: var(--text-main);
-        }
-
-        /* Credibility Footer */
-        .credibility {
-            background: var(--navy);
-            border-radius: 12px;
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-
-        .cred-left h3 {
-            color: var(--gold);
-            font-size: 14pt;
-            margin-bottom: 6px;
-        }
-        .cred-left .name {
-            font-size: 12pt;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .cred-left .title {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 8px;
-        }
-        .cred-left .contact {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.7);
-        }
-        .cred-left .contact a {
-            color: var(--gold);
-            text-decoration: none;
-        }
-
-        .cred-right { text-align: right; }
-        .cred-badge {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid var(--gold);
-            padding: 12px 18px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        .cred-badge .school {
-            font-size: 11pt;
-            font-weight: 600;
-            color: white;
-        }
-        .cred-badge .ranks {
-            font-size: 10pt;
-            color: var(--gold);
-            margin-top: 4px;
-        }
-        .cta-button {
-            background: var(--gold);
-            color: white;
-            padding: 14px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 12pt;
-            display: inline-block;
-            transition: background 0.2s ease;
-        }
-        .cta-button:hover { background: var(--gold-light); }
-
-        /* Sheet Footer */
-        .sheet-footer {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 8pt;
-            color: var(--text-light);
-        }
-
-        /* Site Footer */
-        .site-footer {
+        .tool-badge {
             background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
         }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
+        .hero {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-light));
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: var(--gold);
+            font-size: 1rem;
+        }
+
+        .value-prop {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 0 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--gray-100);
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 4px solid var(--gold);
+        }
+
+        .feature-card h3 {
+            color: var(--navy-dark);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .benefits-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .benefits-section h2 {
+            color: var(--navy-dark);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .benefit-item::before {
+            content: "\2713";
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .use-cases {
+            background: var(--navy-dark);
+            color: var(--white);
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .use-cases h2 {
+            color: var(--gold);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .use-case {
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .use-case-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .metrics-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--gray-100);
+            border-radius: 8px;
+        }
+
+        .metric-value {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy-dark);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section h3 {
+            color: var(--navy-dark);
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .cta-section p {
+            color: var(--navy-dark);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 2px solid var(--gray-100);
+            font-size: 0.8rem;
+        }
+
+        .footer .copyright {
+            color: var(--navy-dark);
+            font-weight: 600;
+        }
+
+        .footer .author {
+            color: var(--gray-600);
         }
     </style>
 </head>
 <body>
-
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
-
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
+    <div class="page">
+        <header class="header">
             <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Project Pricing Calculator</h1>
-                <div class="tagline">Price Projects Profitably</div>
-            </div>
-        </div>
+            <div class="tool-badge">Tool #30</div>
+        </header>
 
-        <!-- Hero with Chart -->
         <div class="hero">
-            <div class="hero-text">
-                <h2>Quote with Confidence</h2>
-                <p>Calculate project prices with precision. Estimate effort, apply margins, and create detailed quotes that win business while protecting profitability.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Project Price</strong>
-                        <span>Total quote amount</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Effort Estimate</strong>
-                        <span>Hours by phase</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Margin Analysis</strong>
-                        <span>Profit breakdown</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Quote Breakdown</strong>
-                        <span>Line-item detail</span>
-                    </div>
-                </div>
+            <h1>Project Pricing Calculator</h1>
+            <p>Calculate Comprehensive Project Prices from Effort Estimates</p>
+        </div>
+
+        <p class="value-prop">
+            Transform your project estimates into profitable, defensible pricing with built-in risk buffers,
+            role-based costing, and margin analysis. Ensure every project delivers your target profitability.
+        </p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>&#128203; Task-Based Estimation</h3>
+                <p>Break down projects by task and assign hours across multiple resource levels for accurate costing.</p>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Stacked bar chart representing project breakdown -->
-                    <text x="160" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Project Cost Breakdown</text>
-
-                    <!-- Bar 1: Discovery -->
-                    <rect x="50" y="30" width="40" height="100" fill="#3b82f6" rx="4"/>
-                    <text x="70" y="145" font-size="8" fill="#64748b" text-anchor="middle">Discovery</text>
-                    <text x="70" y="80" font-size="9" fill="white" text-anchor="middle" font-weight="600">$8K</text>
-
-                    <!-- Bar 2: Design -->
-                    <rect x="100" y="45" width="40" height="85" fill="#8b5cf6" rx="4"/>
-                    <text x="120" y="145" font-size="8" fill="#64748b" text-anchor="middle">Design</text>
-                    <text x="120" y="90" font-size="9" fill="white" text-anchor="middle" font-weight="600">$12K</text>
-
-                    <!-- Bar 3: Development -->
-                    <rect x="150" y="25" width="40" height="105" fill="#c9a227" rx="4"/>
-                    <text x="170" y="145" font-size="8" fill="#64748b" text-anchor="middle">Dev</text>
-                    <text x="170" y="75" font-size="9" fill="white" text-anchor="middle" font-weight="600">$25K</text>
-
-                    <!-- Bar 4: Testing -->
-                    <rect x="200" y="70" width="40" height="60" fill="#10b981" rx="4"/>
-                    <text x="220" y="145" font-size="8" fill="#64748b" text-anchor="middle">Testing</text>
-                    <text x="220" y="100" font-size="9" fill="white" text-anchor="middle" font-weight="600">$7K</text>
-
-                    <!-- Bar 5: Margin -->
-                    <rect x="250" y="55" width="40" height="75" fill="#1e3a5f" rx="4"/>
-                    <text x="270" y="145" font-size="8" fill="#64748b" text-anchor="middle">Margin</text>
-                    <text x="270" y="95" font-size="9" fill="white" text-anchor="middle" font-weight="600">$13K</text>
-
-                    <!-- Total label -->
-                    <rect x="105" y="152" width="90" height="18" rx="4" fill="#1e3a5f"/>
-                    <text x="150" y="164" font-size="9" fill="white" text-anchor="middle" font-weight="600">Total: $65,000</text>
-                </svg>
+            <div class="feature-card">
+                <h3>&#128176; Role-Based Rates</h3>
+                <p>Configure hourly rates by seniority level to calculate precise labor costs.</p>
+            </div>
+            <div class="feature-card">
+                <h3>&#9888; Risk Buffers</h3>
+                <p>Add scope, technical, and schedule risk contingencies to protect project margins.</p>
+            </div>
+            <div class="feature-card">
+                <h3>&#128200; Margin Analysis</h3>
+                <p>Visualize price buildup and ensure projects meet target profitability thresholds.</p>
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📝</div>
-                        <h4>Scope</h4>
-                        <p>Define deliverables</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">⏱️</div>
-                        <h4>Estimate</h4>
-                        <p>Calculate effort</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">💰</div>
-                        <h4>Quote</h4>
-                        <p>Generate proposal</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">67% of projects fail due to poor scoping & pricing</div>
-                    <p>Get it right from the start</p>
-                </div>
+        <div class="benefits-section">
+            <h2>&#127942; Key Benefits</h2>
+            <div class="benefits-list">
+                <div class="benefit-item">Eliminate underpriced projects that erode margins</div>
+                <div class="benefit-item">Build defensible pricing with clear cost breakdown</div>
+                <div class="benefit-item">Account for project risks systematically</div>
+                <div class="benefit-item">Standardize pricing across your organization</div>
+                <div class="benefit-item">Improve estimation accuracy over time</div>
+                <div class="benefit-item">Track actual vs. estimated for future projects</div>
             </div>
+        </div>
 
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Effort Estimator</span>
-                    <span class="tag">✓ Margin Calculator</span>
-                    <span class="tag">✓ Quote Templates</span>
-                    <span class="tag">✓ Risk Buffer Tool</span>
+        <div class="use-cases">
+            <h2>Ideal Use Cases</h2>
+            <div class="use-cases-grid">
+                <div class="use-case">
+                    <div class="use-case-icon">&#128187;</div>
+                    <div>Software Development Projects</div>
                 </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Consulting</span>
-                    <span class="tag">IT Services</span>
-                    <span class="tag">Creative Agencies</span>
+                <div class="use-case">
+                    <div class="use-case-icon">&#128161;</div>
+                    <div>Consulting Engagements</div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">&#127912;</div>
+                    <div>Creative & Design Work</div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">&#128640;</div>
+                    <div>Marketing Campaigns</div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">&#128736;</div>
+                    <div>Engineering Projects</div>
+                </div>
+                <div class="use-case">
+                    <div class="use-case-icon">&#128218;</div>
+                    <div>Training Programs</div>
                 </div>
             </div>
         </div>
 
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Price Projects Profitably?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
+        <div class="metrics-bar">
+            <div class="metric">
+                <div class="metric-value">4</div>
+                <div class="metric-label">Resource Levels</div>
             </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Project%20Pricing%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
+            <div class="metric">
+                <div class="metric-value">3</div>
+                <div class="metric-label">Risk Categories</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">100%</div>
+                <div class="metric-label">Price Transparency</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">CSV</div>
+                <div class="metric-label">Import/Export</div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: Project Management Institute | © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="cta-section">
+            <h3>Start Pricing Projects with Confidence</h3>
+            <p>Build accurate, profitable project quotes in minutes with systematic cost analysis.</p>
         </div>
+
+        <footer class="footer">
+            <p class="copyright">&copy; 2026 MIAOW LLC. All Rights Reserved.</p>
+            <p class="author">Dr. Koray Cosguner &middot; Kelley School of Business</p>
+        </footer>
     </div>
-
-
 </body>
 </html>

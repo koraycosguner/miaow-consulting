@@ -4,87 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mental Accounting Optimizer | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -170,8 +114,34 @@
             border-radius: 10px;
             padding: 16px;
             height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .chart-svg { width: 100%; height: 100%; }
+
+        .mental-accounts {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .account-box {
+            width: 80px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-size: 8pt;
+        }
+
+        .account-box.essential { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .account-box.discretionary { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .account-box.hedonic { background: linear-gradient(135deg, #ee0979, #ff6a00); }
+        .account-box.investment { background: linear-gradient(135deg, #1e3a5f, #2d4a6f); }
+
+        .account-box .icon { font-size: 20pt; }
+        .account-box .label { font-weight: 600; margin-top: 4px; }
 
         /* Two Column Grid */
         .main-grid {
@@ -182,7 +152,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +168,45 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
+        /* Concepts */
+        .concept-list {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
+            flex-direction: column;
+            gap: 12px;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+
+        .concept-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .concept-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16pt;
+            flex-shrink: 0;
+        }
+
+        .concept-icon.pain { background: rgba(239, 68, 68, 0.2); }
+        .concept-icon.sunk { background: rgba(201, 162, 39, 0.2); }
+        .concept-icon.decouple { background: rgba(16, 185, 129, 0.2); }
+
+        .concept-content h4 {
+            font-size: 11pt;
+            color: var(--navy);
+            margin-bottom: 2px;
+        }
+
+        .concept-content p {
+            font-size: 9pt;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
 
         /* Stat Box */
         .stat-box {
@@ -218,6 +215,7 @@
             padding: 14px;
             border-radius: 10px;
             text-align: center;
+            margin-top: 14px;
         }
         .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
@@ -231,6 +229,28 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Use Cases */
+        .use-cases {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .use-case {
+            background: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 10pt;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .use-case-icon {
+            font-size: 14pt;
         }
 
         /* Credibility Footer */
@@ -295,199 +315,191 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Mental Accounting Optimizer</h1>
-                <div class="tagline">Tap Into Customer Budgets</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Mental Accounting Optimizer</h1>
+        <div class="tagline">Price Smarter with Behavioral Science</div>
+    </div>
+</div>
+
+<!-- Hero with Visual -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Optimize How Customers Perceive Your Prices</h2>
+        <p>Leverage mental accounting principles to structure payments that feel easier, drive higher conversion, and increase customer satisfaction.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Payment Structure</strong>
+                <span>Lump sum vs. installments</span>
+            </div>
+            <div class="hero-output">
+                <strong>Pain Analysis</strong>
+                <span>Reduce friction in buying</span>
+            </div>
+            <div class="hero-output">
+                <strong>Framing Tips</strong>
+                <span>Present prices optimally</span>
+            </div>
+            <div class="hero-output">
+                <strong>Sunk Cost Effects</strong>
+                <span>Boost engagement</span>
             </div>
         </div>
-
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Align With Customer Psychology</h2>
-                <p>Optimize for customer spending categories. Understand mental budget allocation patterns to position and frame your pricing effectively.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Budget Mapping</strong>
-                        <span>Category allocation</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Category Fit</strong>
-                        <span>Optimal positioning</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Positioning Recs</strong>
-                        <span>Strategic framing</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Payment Framing</strong>
-                        <span>Optimal structure</span>
-                    </div>
-                </div>
+    </div>
+    <div class="chart-container">
+        <div class="mental-accounts">
+            <div class="account-box essential">
+                <div class="icon">&#128736;</div>
+                <div class="label">Essential</div>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Mental accounts visualization - wallet/budget compartments -->
-                    <!-- Main wallet outline -->
-                    <rect x="40" y="20" width="220" height="130" fill="#f8f9fa" stroke="#e5e7eb" stroke-width="2" rx="8"/>
-
-                    <!-- Budget compartments -->
-                    <!-- Necessities (largest) -->
-                    <rect x="50" y="30" width="95" height="55" fill="#64748b" rx="4"/>
-                    <text x="97" y="52" font-size="9" fill="white" text-anchor="middle" font-weight="600">Necessities</text>
-                    <text x="97" y="65" font-size="8" fill="white" text-anchor="middle">45%</text>
-                    <text x="97" y="78" font-size="7" fill="white" text-anchor="middle" opacity="0.8">$2,250/mo</text>
-
-                    <!-- Entertainment -->
-                    <rect x="155" y="30" width="95" height="35" fill="#3b82f6" rx="4"/>
-                    <text x="202" y="48" font-size="9" fill="white" text-anchor="middle" font-weight="600">Entertainment</text>
-                    <text x="202" y="60" font-size="7" fill="white" text-anchor="middle">15% - $750</text>
-
-                    <!-- Your product opportunity (highlighted) -->
-                    <rect x="155" y="70" width="95" height="35" fill="#c9a227" rx="4" stroke="#c9a227" stroke-width="2"/>
-                    <text x="202" y="86" font-size="9" fill="white" text-anchor="middle" font-weight="600">Self-Care</text>
-                    <text x="202" y="98" font-size="7" fill="white" text-anchor="middle">10% - $500</text>
-
-                    <!-- Savings -->
-                    <rect x="50" y="95" width="60" height="45" fill="#22c55e" rx="4"/>
-                    <text x="80" y="115" font-size="9" fill="white" text-anchor="middle" font-weight="600">Savings</text>
-                    <text x="80" y="128" font-size="7" fill="white" text-anchor="middle">20%</text>
-
-                    <!-- Discretionary -->
-                    <rect x="120" y="110" width="60" height="30" fill="#8b5cf6" rx="4"/>
-                    <text x="150" y="128" font-size="8" fill="white" text-anchor="middle" font-weight="600">Other 10%</text>
-
-                    <!-- Arrow pointing to opportunity -->
-                    <path d="M270,87 L255,87" stroke="#c9a227" stroke-width="3" marker-end="url(#arrow)"/>
-                    <defs>
-                        <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#c9a227"/>
-                        </marker>
-                    </defs>
-                    <text x="275" y="82" font-size="7" fill="#c9a227" font-weight="600">Your</text>
-                    <text x="275" y="92" font-size="7" fill="#c9a227" font-weight="600">Fit</text>
-                </svg>
+            <div class="account-box discretionary">
+                <div class="icon">&#128176;</div>
+                <div class="label">Discretionary</div>
+            </div>
+            <div class="account-box hedonic">
+                <div class="icon">&#127881;</div>
+                <div class="label">Hedonic</div>
+            </div>
+            <div class="account-box investment">
+                <div class="icon">&#128200;</div>
+                <div class="label">Investment</div>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">🧠</div>
-                        <h4>Analyze</h4>
-                        <p>Budget categories</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🎯</div>
-                        <h4>Position</h4>
-                        <p>Find best fit</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">💳</div>
-                        <h4>Frame</h4>
-                        <p>Payment structure</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Same price feels different in different mental accounts</div>
-                    <p>Position into the right budget category</p>
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Key Concepts -->
+    <div class="section">
+        <h3><span class="icon">&#129504;</span> Behavioral Science Concepts</h3>
+        <div class="concept-list">
+            <div class="concept-item">
+                <div class="concept-icon pain">&#128148;</div>
+                <div class="concept-content">
+                    <h4>Pain of Paying</h4>
+                    <p>Every payment activates brain regions associated with physical pain. Structure payments to minimize this effect.</p>
                 </div>
             </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ Budget Analysis</span>
-                    <span class="tag">✓ Framing Guide</span>
-                    <span class="tag">✓ Payment Strategies</span>
+            <div class="concept-item">
+                <div class="concept-icon sunk">&#128176;</div>
+                <div class="concept-content">
+                    <h4>Sunk Cost Effect</h4>
+                    <p>Prepayment increases engagement and perceived value. Customers use what they've already paid for.</p>
                 </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Retail</span>
-                    <span class="tag">Financial Services</span>
-                    <span class="tag">Subscription</span>
+            </div>
+            <div class="concept-item">
+                <div class="concept-icon decouple">&#128279;</div>
+                <div class="concept-content">
+                    <h4>Payment Decoupling</h4>
+                    <p>Separating payment from consumption reduces guilt and increases enjoyment of purchases.</p>
                 </div>
             </div>
         </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Optimize Mental Accounting?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Mental%20Accounting%20Optimizer%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Subscriptions convert 30-50% higher*</div>
+            <p>Than equivalent lump-sum pricing for discretionary purchases</p>
         </div>
     </div>
 
+    <!-- Right: What You Get & Use Cases -->
+    <div class="section">
+        <h3><span class="icon">&#128230;</span> What You Get</h3>
+        <div class="tags">
+            <span class="tag">&#10003; Payment Structure Analysis</span>
+            <span class="tag">&#10003; Pain Score Calculator</span>
+            <span class="tag">&#10003; Conversion Projections</span>
+            <span class="tag">&#10003; Framing Recommendations</span>
+            <span class="tag">&#10003; Category Optimization</span>
+            <span class="tag">&#10003; Export to CSV</span>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">&#127919;</span> Ideal Use Cases</h3>
+        <div class="use-cases">
+            <div class="use-case">
+                <span class="use-case-icon">&#128187;</span>
+                <span>SaaS Subscriptions</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#127947;</span>
+                <span>Gym Memberships</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#128218;</span>
+                <span>Online Courses</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#9992;</span>
+                <span>Travel Packages</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#128137;</span>
+                <span>Healthcare Plans</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#127869;</span>
+                <span>Meal Subscriptions</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Optimize Your Pricing Psychology?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA &middot; #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Mental%20Accounting%20Optimizer%20Demo" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    *Based on behavioral economics research; actual results vary by market conditions | &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

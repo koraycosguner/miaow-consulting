@@ -3,88 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Model-Based Elasticity Calculator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Model-Based Price Elasticity Calculator | MIAOW LLC</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,18 +48,16 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
             font-family: 'Raleway', sans-serif;
-            font-size: 18pt;
+            font-size: 16pt;
             color: var(--navy);
         }
         .tagline {
-            font-size: 13pt;
+            font-size: 12pt;
             color: var(--gold);
             font-weight: 600;
         }
@@ -125,7 +69,7 @@
             padding: 24px;
             margin-bottom: 20px;
             display: grid;
-            grid-template-columns: 1fr 1.1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 24px;
             align-items: center;
         }
@@ -164,14 +108,44 @@
             font-size: 9pt;
         }
 
-        /* Chart */
-        .chart-container {
+        /* Formula Display */
+        .formula-container {
             background: white;
             border-radius: 10px;
             padding: 16px;
-            height: 200px;
         }
-        .chart-svg { width: 100%; height: 100%; }
+        .formula-title {
+            font-size: 10pt;
+            color: var(--navy);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .formula-box {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 9pt;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+        .formula-result {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        .formula-result div {
+            padding: 8px;
+        }
+        .formula-result .label {
+            font-size: 8pt;
+            color: var(--text-light);
+        }
+        .formula-result .value {
+            font-size: 14pt;
+            font-weight: 700;
+            color: var(--gold);
+        }
 
         /* Two Column Grid */
         .main-grid {
@@ -182,7 +156,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -231,6 +205,29 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Key Benefits List */
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+        }
+        .benefits-list li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 10pt;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+        .benefits-list li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: 700;
         }
 
         /* Credibility Footer */
@@ -295,203 +292,192 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Model-Based Elasticity Calculator</h1>
-                <div class="tagline">Calculate Elasticity from Demand Models</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Model-Based Price Elasticity Calculator</h1>
+        <div class="tagline">From Regression to Revenue Insights</div>
+    </div>
+</div>
+
+<!-- Hero with Formula Example -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Turn Your Demand Model Into Pricing Strategy</h2>
+        <p>Enter any regression equation, set your control variables, and instantly calculate Price Elasticity of Demand, Revenue, and Profit with complete financial analysis.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>PED</strong>
+                <span>Demand Elasticity</span>
+            </div>
+            <div class="hero-output">
+                <strong>PER</strong>
+                <span>Revenue Elasticity</span>
+            </div>
+            <div class="hero-output">
+                <strong>PEP</strong>
+                <span>Profit Elasticity</span>
+            </div>
+            <div class="hero-output">
+                <strong>Insights</strong>
+                <span>Strategic Analysis</span>
             </div>
         </div>
-
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Derive Elasticities from Equations</h2>
-                <p>Calculate price, revenue, and profit elasticities from demand model equations. For advanced pricing analysis with econometric rigor.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Price Elasticity</strong>
-                        <span>Demand sensitivity</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Revenue Elasticity</strong>
-                        <span>Revenue impact</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Profit Elasticity</strong>
-                        <span>Margin sensitivity</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Sensitivity Charts</strong>
-                        <span>Visual analysis</span>
-                    </div>
-                </div>
+    </div>
+    <div class="formula-container">
+        <div class="formula-title">Example: Ice Cream Sales Model</div>
+        <div class="formula-box">
+            Quantity = 97.60 - 9.25 * Price + 0.17 * Temperature
+        </div>
+        <div class="formula-result">
+            <div>
+                <div class="label">PED</div>
+                <div class="value">-2.31</div>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Equation box -->
-                    <rect x="30" y="10" width="140" height="35" fill="#f8f9fa" rx="4" stroke="#1e3a5f" stroke-width="1"/>
-                    <text x="100" y="25" font-size="9" fill="#1e3a5f" text-anchor="middle" font-weight="600">Demand Model:</text>
-                    <text x="100" y="38" font-size="8" fill="#64748b" text-anchor="middle" font-family="monospace">Q = a - bP + cA</text>
-
-                    <!-- Arrow down -->
-                    <path d="M100,50 L100,65" stroke="#c9a227" stroke-width="2" marker-end="url(#arrowdown)"/>
-                    <defs>
-                        <marker id="arrowdown" markerWidth="10" markerHeight="7" refX="5" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#c9a227"/>
-                        </marker>
-                    </defs>
-
-                    <!-- Elasticity formula -->
-                    <rect x="30" y="70" width="140" height="35" fill="#1e3a5f" rx="4"/>
-                    <text x="100" y="85" font-size="9" fill="white" text-anchor="middle" font-weight="600">Elasticity:</text>
-                    <text x="100" y="98" font-size="8" fill="#c9a227" text-anchor="middle" font-family="monospace">e = (dQ/dP)(P/Q)</text>
-
-                    <!-- Output metrics -->
-                    <rect x="180" y="15" width="105" height="28" fill="#ef4444" rx="4" opacity="0.9"/>
-                    <text x="232" y="28" font-size="8" fill="white" text-anchor="middle">Price Elasticity</text>
-                    <text x="232" y="39" font-size="10" fill="white" text-anchor="middle" font-weight="700">-2.3</text>
-
-                    <rect x="180" y="50" width="105" height="28" fill="#22c55e" rx="4" opacity="0.9"/>
-                    <text x="232" y="63" font-size="8" fill="white" text-anchor="middle">Revenue Elasticity</text>
-                    <text x="232" y="74" font-size="10" fill="white" text-anchor="middle" font-weight="700">-1.3</text>
-
-                    <rect x="180" y="85" width="105" height="28" fill="#c9a227" rx="4"/>
-                    <text x="232" y="98" font-size="8" fill="white" text-anchor="middle">Profit Elasticity</text>
-                    <text x="232" y="109" font-size="10" fill="white" text-anchor="middle" font-weight="700">-0.8</text>
-
-                    <!-- Mini sensitivity chart -->
-                    <rect x="30" y="115" width="255" height="40" fill="#f8f9fa" rx="4"/>
-                    <text x="40" y="128" font-size="7" fill="#64748b">Elasticity vs Price Point:</text>
-
-                    <!-- Elasticity curve -->
-                    <path d="M50,145 Q100,125 150,135 Q200,145 270,130" fill="none" stroke="#1e3a5f" stroke-width="2"/>
-                    <circle cx="150" cy="135" r="4" fill="#c9a227"/>
-
-                    <!-- X-axis labels -->
-                    <text x="50" y="152" font-size="6" fill="#64748b">$10</text>
-                    <text x="150" y="152" font-size="6" fill="#c9a227" font-weight="600">$25*</text>
-                    <text x="270" y="152" font-size="6" fill="#64748b">$50</text>
-                </svg>
+            <div>
+                <div class="label">PER</div>
+                <div class="value">-1.31</div>
+            </div>
+            <div>
+                <div class="label">PEP</div>
+                <div class="value">-3.86</div>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📝</div>
-                        <h4>Input</h4>
-                        <p>Model equation</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🔢</div>
-                        <h4>Derive</h4>
-                        <p>Calculate elasticity</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📈</div>
-                        <h4>Analyze</h4>
-                        <p>Sensitivity plots</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Elasticity varies by price point - know where you stand</div>
-                    <p>Point elasticity for precise decisions</p>
-                </div>
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: How It Works -->
+    <div class="section">
+        <h3><span class="icon">⚡</span> How It Works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">📝</div>
+                <h4>Enter Equation</h4>
+                <p>Paste your model</p>
             </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ Multiple Model Forms</span>
-                    <span class="tag">✓ Interactive Charts</span>
-                    <span class="tag">✓ Point Elasticity Analysis</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Analytics</span>
-                    <span class="tag">Consulting</span>
-                    <span class="tag">Research</span>
-                </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-icon">💰</div>
+                <h4>Set Prices</h4>
+                <p>Initial & new price</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-icon">🎯</div>
+                <h4>Get Results</h4>
+                <p>Elasticities & insights</p>
             </div>
         </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready for Advanced Elasticity Analysis?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Model-Based%20Elasticity%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">1% price improvement = 8-11% profit increase*</div>
+            <p>Make every pricing decision count</p>
         </div>
     </div>
 
+    <!-- Right: Key Benefits -->
+    <div class="section">
+        <h3><span class="icon">📦</span> Key Benefits</h3>
+        <ul class="benefits-list">
+            <li><strong>Instant Elasticity Calculations</strong> - PED, PER, and PEP from any equation</li>
+            <li><strong>Control Variable Support</strong> - Set conditions like temperature, advertising</li>
+            <li><strong>Complete Financial Analysis</strong> - Revenue, margin, and profit impact</li>
+            <li><strong>Strategic Insights</strong> - Understand price vs. volume trade-offs</li>
+            <li><strong>Flexible Formula Support</strong> - Linear, log, exponential equations</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Second Row -->
+<div class="main-grid">
+    <!-- Left: What's Included -->
+    <div class="section">
+        <h3><span class="icon">✅</span> What's Included</h3>
+        <div class="tags">
+            <span class="tag">✓ Web-Based Tool</span>
+            <span class="tag">✓ User Manual</span>
+            <span class="tag">✓ Sample Scenarios</span>
+            <span class="tag">✓ Data Documentation</span>
+            <span class="tag">✓ Unlimited Calculations</span>
+        </div>
+        <h3 style="margin-top: 16px;"><span class="icon">🏢</span> Perfect For</h3>
+        <div class="tags">
+            <span class="tag">Pricing Analysts</span>
+            <span class="tag">Marketing Teams</span>
+            <span class="tag">MBA Students</span>
+            <span class="tag">Revenue Managers</span>
+        </div>
+    </div>
+
+    <!-- Right: Use Cases -->
+    <div class="section">
+        <h3><span class="icon">💼</span> Use Cases</h3>
+        <ul class="benefits-list">
+            <li><strong>Price Change Analysis</strong> - Predict impact before implementation</li>
+            <li><strong>Promotion Planning</strong> - Calculate discount break-even points</li>
+            <li><strong>Competitive Response</strong> - Model market share scenarios</li>
+            <li><strong>Budget Forecasting</strong> - Project revenue at different prices</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Optimize Your Pricing?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA | #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Model%20Elasticity%20Calculator%20Demo" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    *Source: McKinsey & Company, "The Power of Pricing" | (c) 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

@@ -3,88 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAC Calculator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Customer Acquisition Cost Calculator | MIAOW LLC</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -182,7 +126,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +142,26 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Metrics Table */
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10pt;
             margin-bottom: 14px;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+        .metrics-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .metrics-table td:first-child {
+            font-weight: 600;
+            color: var(--navy);
+        }
+        .metrics-table td:last-child {
+            text-align: right;
+            color: var(--gold);
+            font-weight: 700;
+        }
 
         /* Stat Box */
         .stat-box {
@@ -231,6 +183,27 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Formula Box */
+        .formula-box {
+            background: white;
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            padding: 14px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+        .formula-box .formula {
+            font-family: 'Monaco', monospace;
+            font-size: 11pt;
+            color: var(--navy);
+            font-weight: 600;
+        }
+        .formula-box p {
+            font-size: 9pt;
+            color: var(--text-light);
+            margin-top: 6px;
         }
 
         /* Credibility Footer */
@@ -295,193 +268,188 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>CAC Calculator</h1>
-                <div class="tagline">Know Exactly What Each Customer Costs to Win</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Customer Acquisition Cost Calculator</h1>
+        <div class="tagline">Know Your Numbers. Grow Profitably.</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Measure What Matters for Growth</h2>
+        <p>Calculate CAC, payback periods, and LTV ratios to understand the true cost and value of your customer acquisition efforts. Make data-driven decisions about marketing spend.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Blended CAC</strong>
+                <span>Total acquisition cost</span>
+            </div>
+            <div class="hero-output">
+                <strong>Channel CAC</strong>
+                <span>Per-channel efficiency</span>
+            </div>
+            <div class="hero-output">
+                <strong>Payback Period</strong>
+                <span>Months to recover CAC</span>
+            </div>
+            <div class="hero-output">
+                <strong>LTV:CAC Ratio</strong>
+                <span>Unit economics health</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 160">
+            <!-- Bar chart showing CAC vs LTV -->
+            <rect x="50" y="110" width="60" height="40" fill="#ef4444" rx="4"/>
+            <text x="80" y="100" font-size="9" fill="#64748b" text-anchor="middle">CAC</text>
+            <text x="80" y="135" font-size="11" fill="white" text-anchor="middle" font-weight="600">$500</text>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Stop Overpaying for Customers</h2>
-                <p>Most companies have no idea what they really pay to acquire a customer. Calculate true CAC by channel, identify your most efficient sources, and set scientifically-backed acquisition budgets.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Blended CAC</strong>
-                        <span>All-in cost per customer</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Channel CAC</strong>
-                        <span>Source-level breakdown</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Payback Period</strong>
-                        <span>Months to break-even</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Efficiency Score</strong>
-                        <span>Channel ROI ranking</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <rect x="150" y="30" width="60" height="120" fill="#10b981" rx="4"/>
+            <text x="180" y="20" font-size="9" fill="#64748b" text-anchor="middle">LTV</text>
+            <text x="180" y="95" font-size="11" fill="white" text-anchor="middle" font-weight="600">$1,500</text>
 
-                    <!-- Y-axis -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">$0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">CAC</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">High</text>
+            <!-- Ratio indicator -->
+            <line x1="240" y1="30" x2="240" y2="150" stroke="#c9a227" stroke-width="2" stroke-dasharray="4"/>
+            <rect x="225" y="75" width="60" height="30" rx="5" fill="#1e3a5f"/>
+            <text x="255" y="95" font-size="12" fill="#c9a227" text-anchor="middle" font-weight="700">3:1</text>
+            <text x="255" y="120" font-size="8" fill="#64748b" text-anchor="middle">Healthy Ratio</text>
 
-                    <!-- Channel bars -->
-                    <rect x="55" y="50" width="40" height="90" fill="#1e3a5f" rx="4"/>
-                    <text x="75" y="153" font-size="8" fill="#64748b" text-anchor="middle">Paid</text>
-                    <text x="75" y="45" font-size="9" fill="#1e3a5f" font-weight="600">$185</text>
+            <!-- X-axis -->
+            <line x1="30" y1="150" x2="290" y2="150" stroke="#e5e7eb" stroke-width="1"/>
+        </svg>
+    </div>
+</div>
 
-                    <rect x="110" y="75" width="40" height="65" fill="#2d4a6f" rx="4"/>
-                    <text x="130" y="153" font-size="8" fill="#64748b" text-anchor="middle">Social</text>
-                    <text x="130" y="70" font-size="9" fill="#2d4a6f" font-weight="600">$125</text>
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Key Metrics -->
+    <div class="section">
+        <h3><span class="icon">&#128202;</span> Key Metrics Calculated</h3>
 
-                    <rect x="165" y="95" width="40" height="45" fill="#c9a227" rx="4"/>
-                    <text x="185" y="153" font-size="8" fill="#64748b" text-anchor="middle">Email</text>
-                    <text x="185" y="90" font-size="9" fill="#c9a227" font-weight="600">$45</text>
-
-                    <rect x="220" y="110" width="40" height="30" fill="#22c55e" rx="4"/>
-                    <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">Organic</text>
-                    <text x="240" y="105" font-size="9" fill="#22c55e" font-weight="600">$22</text>
-
-                    <!-- LTV benchmark line -->
-                    <line x1="50" y1="30" x2="270" y2="30" stroke="#c9a227" stroke-width="2" stroke-dasharray="5"/>
-                    <text x="275" y="33" font-size="8" fill="#c9a227">LTV: $450</text>
-                </svg>
-            </div>
+        <div class="formula-box">
+            <div class="formula">CAC = Total Spend / New Customers</div>
+            <p>The fundamental acquisition efficiency metric</p>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Input</h4>
-                        <p>Spend & customers</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🔢</div>
-                        <h4>Calculate</h4>
-                        <p>CAC by channel</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📈</div>
-                        <h4>Compare</h4>
-                        <p>LTV ratios</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Companies optimizing CAC by channel see 20-40% efficiency gains*</div>
-                    <p>Stop subsidizing your worst channels</p>
-                </div>
-            </div>
+        <table class="metrics-table">
+            <tr>
+                <td>Customer Acquisition Cost</td>
+                <td>Per customer</td>
+            </tr>
+            <tr>
+                <td>CAC Payback Period</td>
+                <td>In months</td>
+            </tr>
+            <tr>
+                <td>Customer Lifetime Value</td>
+                <td>Total value</td>
+            </tr>
+            <tr>
+                <td>LTV:CAC Ratio</td>
+                <td>Target: 3:1+</td>
+            </tr>
+            <tr>
+                <td>Channel-Specific CAC</td>
+                <td>Per channel</td>
+            </tr>
+        </table>
 
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Web-Based Calculator</span>
-                    <span class="tag">✓ Channel Comparison Tool</span>
-                    <span class="tag">✓ Industry Benchmarks</span>
-                    <span class="tag">✓ Budget Optimizer</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">SaaS</span>
-                    <span class="tag">E-commerce</span>
-                    <span class="tag">DTC Brands</span>
-                    <span class="tag">Marketplaces</span>
-                    <span class="tag">Growth Teams</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Cut Acquisition Costs?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=CAC%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: SaaS Capital Annual Survey | © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Companies with LTV:CAC > 3:1 grow 2.5x faster</div>
+            <p>Unit economics drive sustainable growth</p>
         </div>
     </div>
 
+    <!-- Right: Benefits & Use Cases -->
+    <div class="section">
+        <h3><span class="icon">&#127919;</span> Why Track CAC?</h3>
+        <div class="tags" style="margin-bottom: 16px;">
+            <span class="tag">Budget Allocation</span>
+            <span class="tag">Channel Optimization</span>
+            <span class="tag">Investor Reporting</span>
+            <span class="tag">Growth Planning</span>
+        </div>
+
+        <h3 style="margin-top: 18px;"><span class="icon">&#128188;</span> Ideal For</h3>
+        <div class="tags">
+            <span class="tag">SaaS Companies</span>
+            <span class="tag">E-commerce</span>
+            <span class="tag">Subscription Services</span>
+            <span class="tag">D2C Brands</span>
+            <span class="tag">B2B Sales</span>
+            <span class="tag">Marketplaces</span>
+        </div>
+
+        <h3 style="margin-top: 18px;"><span class="icon">&#128230;</span> What You Get</h3>
+        <div class="tags">
+            <span class="tag">Web-Based Calculator</span>
+            <span class="tag">CSV Data Import</span>
+            <span class="tag">Channel Comparison</span>
+            <span class="tag">Visual Charts</span>
+            <span class="tag">Export Reports</span>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Optimize Your Customer Acquisition</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA &middot; #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=CAC%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved. | Dr. Koray Cosguner &middot; Kelley School of Business
+</div>
 
 </body>
 </html>

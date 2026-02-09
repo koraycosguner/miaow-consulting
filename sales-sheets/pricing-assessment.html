@@ -4,80 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing Capability Assessment | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg { width: 16px; height: 16px; }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet { margin: 0; padding: 0.4in; box-shadow: none; border-radius: 0; }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -105,13 +62,14 @@
             font-weight: 600;
         }
 
+        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
             border-radius: 12px;
             padding: 24px;
             margin-bottom: 20px;
             display: grid;
-            grid-template-columns: 1fr 1.1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 24px;
             align-items: center;
         }
@@ -150,14 +108,61 @@
             font-size: 9pt;
         }
 
-        .chart-container {
+        /* Score Meter Visual */
+        .meter-visual {
             background: white;
             border-radius: 10px;
-            padding: 16px;
-            height: 200px;
+            padding: 20px;
+            text-align: center;
         }
-        .chart-svg { width: 100%; height: 100%; }
 
+        .meter-visual h3 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 12pt;
+            color: var(--navy);
+            margin-bottom: 16px;
+        }
+
+        .meter-bar {
+            height: 24px;
+            background: linear-gradient(90deg, #ef4444 0%, #f59e0b 50%, #10b981 100%);
+            border-radius: 12px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .meter-marker {
+            position: absolute;
+            top: -8px;
+            left: 70%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 12px solid var(--navy);
+        }
+
+        .meter-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8pt;
+            color: var(--text-light);
+        }
+
+        .score-display {
+            margin-top: 16px;
+            font-size: 24pt;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .score-label {
+            font-size: 10pt;
+            color: var(--text-light);
+        }
+
+        /* Two Column Grid */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -166,7 +171,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -182,38 +187,80 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
-
-        .stat-box {
-            background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
-            color: white;
-            padding: 14px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
-        .stat-box p { font-size: 10pt; margin-top: 4px; }
-
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag {
+        /* Categories List */
+        .category {
             background: white;
             border: 1px solid #e5e7eb;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 10pt;
-            color: var(--text-main);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
         }
 
+        .category h4 {
+            font-size: 11pt;
+            color: var(--navy);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category h4 .num {
+            background: var(--gold);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9pt;
+            font-weight: 700;
+        }
+
+        .category ul {
+            margin: 0;
+            padding-left: 28px;
+            font-size: 9pt;
+            color: var(--text-light);
+        }
+
+        .category ul li {
+            margin-bottom: 2px;
+        }
+
+        /* Benefits */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 10pt;
+        }
+
+        .benefit-icon {
+            color: var(--gold);
+            font-size: 14pt;
+            line-height: 1;
+        }
+
+        .benefit strong {
+            display: block;
+            color: var(--navy);
+            font-size: 10pt;
+        }
+
+        .benefit span {
+            color: var(--text-light);
+            font-size: 9pt;
+        }
+
+        /* Credibility Footer */
         .credibility {
             background: var(--navy);
             border-radius: 12px;
@@ -224,11 +271,29 @@
             color: white;
         }
 
-        .cred-left h3 { color: var(--gold); font-size: 14pt; margin-bottom: 6px; }
-        .cred-left .name { font-size: 12pt; font-weight: 600; margin-bottom: 2px; }
-        .cred-left .title { font-size: 10pt; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
-        .cred-left .contact { font-size: 10pt; color: rgba(255,255,255,0.7); }
-        .cred-left .contact a { color: var(--gold); text-decoration: none; }
+        .cred-left h3 {
+            color: var(--gold);
+            font-size: 14pt;
+            margin-bottom: 6px;
+        }
+        .cred-left .name {
+            font-size: 12pt;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .cred-left .title {
+            font-size: 10pt;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 8px;
+        }
+        .cred-left .contact {
+            font-size: 10pt;
+            color: rgba(255,255,255,0.7);
+        }
+        .cred-left .contact a {
+            color: var(--gold);
+            text-decoration: none;
+        }
 
         .cred-right { text-align: right; }
         .cred-badge {
@@ -238,8 +303,16 @@
             border-radius: 10px;
             margin-bottom: 10px;
         }
-        .cred-badge .school { font-size: 11pt; font-weight: 600; color: white; }
-        .cred-badge .ranks { font-size: 10pt; color: var(--gold); margin-top: 4px; }
+        .cred-badge .school {
+            font-size: 11pt;
+            font-weight: 600;
+            color: white;
+        }
+        .cred-badge .ranks {
+            font-size: 10pt;
+            color: var(--gold);
+            margin-top: 4px;
+        }
         .cta-button {
             background: var(--gold);
             color: white;
@@ -249,175 +322,194 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Pricing Capability Assessment</h1>
-                <div class="tagline">Benchmark Your Pricing Maturity</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Pricing Capability Assessment</h1>
+        <div class="tagline">Diagnose Your Pricing Maturity in Minutes</div>
+    </div>
+</div>
+
+<!-- Hero with Score Meter -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Benchmark Your Pricing Excellence</h2>
+        <p>A comprehensive 11-dimension assessment that evaluates your organization's pricing capabilities across strategy, execution, and analytics. Get actionable insights to improve pricing performance.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Weighted Score</strong>
+                <span>Overall capability rating</span>
             </div>
-        </div>
-
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Benchmark Your Pricing Maturity Against World-Class Standards</h2>
-                <p>Discover exactly where your pricing capabilities stand across 5 critical dimensions. Get a clear roadmap to transform pricing from a cost center to a profit driver.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Maturity Score (1-5)</strong>
-                        <span>Level 1 Ad-hoc to Level 5 World-class</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>5-Dimension Breakdown</strong>
-                        <span>Strategy, analytics, execution, tools, culture</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Industry Benchmark</strong>
-                        <span>Compare vs. top performers</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>90-Day Action Plan</strong>
-                        <span>Priority improvements with ROI</span>
-                    </div>
-                </div>
+            <div class="hero-output">
+                <strong>Gap Analysis</strong>
+                <span>Priority improvement areas</span>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Horizontal bar chart -->
-                    <text x="45" y="25" font-size="8" fill="#64748b" text-anchor="end">Strategy</text>
-                    <rect x="50" y="15" width="180" height="16" fill="#e5e7eb" rx="3"/>
-                    <rect x="50" y="15" width="150" height="16" fill="#c9a227" rx="3"/>
-                    <text x="235" y="26" font-size="9" fill="#1e3a5f" font-weight="600">83%</text>
-
-                    <text x="45" y="50" font-size="8" fill="#64748b" text-anchor="end">Analytics</text>
-                    <rect x="50" y="40" width="180" height="16" fill="#e5e7eb" rx="3"/>
-                    <rect x="50" y="40" width="126" height="16" fill="#c9a227" rx="3"/>
-                    <text x="235" y="51" font-size="9" fill="#1e3a5f" font-weight="600">70%</text>
-
-                    <text x="45" y="75" font-size="8" fill="#64748b" text-anchor="end">Execution</text>
-                    <rect x="50" y="65" width="180" height="16" fill="#e5e7eb" rx="3"/>
-                    <rect x="50" y="65" width="108" height="16" fill="#c9a227" rx="3"/>
-                    <text x="235" y="76" font-size="9" fill="#1e3a5f" font-weight="600">60%</text>
-
-                    <text x="45" y="100" font-size="8" fill="#64748b" text-anchor="end">Tools</text>
-                    <rect x="50" y="90" width="180" height="16" fill="#e5e7eb" rx="3"/>
-                    <rect x="50" y="90" width="90" height="16" fill="#c9a227" rx="3"/>
-                    <text x="235" y="101" font-size="9" fill="#1e3a5f" font-weight="600">50%</text>
-
-                    <text x="45" y="125" font-size="8" fill="#64748b" text-anchor="end">Culture</text>
-                    <rect x="50" y="115" width="180" height="16" fill="#e5e7eb" rx="3"/>
-                    <rect x="50" y="115" width="135" height="16" fill="#c9a227" rx="3"/>
-                    <text x="235" y="126" font-size="9" fill="#1e3a5f" font-weight="600">75%</text>
-
-                    <!-- Overall score -->
-                    <rect x="50" y="140" width="180" height="18" fill="#1e3a5f" rx="4"/>
-                    <text x="140" y="153" font-size="10" fill="white" text-anchor="middle" font-weight="600">Overall: 68% - Developing</text>
-                </svg>
+            <div class="hero-output">
+                <strong>Benchmarking</strong>
+                <span>Compare to best practices</span>
             </div>
-        </div>
-
-        <div class="main-grid">
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📋</div>
-                        <h4>Evaluate</h4>
-                        <p>Answer questions</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Score</h4>
-                        <p>Get maturity rating</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🗺️</div>
-                        <h4>Plan</h4>
-                        <p>Improvement roadmap</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Companies at Level 5 pricing maturity earn 8% higher EBITDA margins*</div>
-                    <p>McKinsey research shows pricing leaders outperform peers by $250M annually</p>
-                </div>
+            <div class="hero-output">
+                <strong>Roadmap</strong>
+                <span>Clear next steps</span>
             </div>
-
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Interactive Assessment Tool</span>
-                    <span class="tag">✓ 5-Level Maturity Framework</span>
-                    <span class="tag">✓ Industry Benchmark Database</span>
-                    <span class="tag">✓ Gap Analysis Report</span>
-                    <span class="tag">✓ Executive Summary Deck</span>
-                    <span class="tag">✓ 90-Day Improvement Roadmap</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Ideal For</h3>
-                <div class="tags">
-                    <span class="tag">B2B Manufacturing</span>
-                    <span class="tag">SaaS & Technology</span>
-                    <span class="tag">Retail & E-commerce</span>
-                    <span class="tag">Professional Services</span>
-                    <span class="tag">Private Equity Portfolio</span>
-                    <span class="tag">Corporate Strategy</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Assess Your Capabilities?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Pricing%20Capability%20Assessment%20Demo%20Request" class="cta-button">Benchmark Your Pricing Now</a>
-            </div>
-        </div>
-
-        <div class="sheet-footer">
-            *Based on industry research | © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
+    <div class="meter-visual">
+        <h3>Sample Output: Capability Score</h3>
+        <div class="meter-bar">
+            <div class="meter-marker"></div>
+        </div>
+        <div class="meter-labels">
+            <span>Needs Improvement</span>
+            <span>Strong Capability</span>
+            <span>World Class</span>
+        </div>
+        <div class="score-display">4.2 / 5.0</div>
+        <div class="score-label">Strong Capability</div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Assessment Categories -->
+    <div class="section">
+        <h3><span class="icon">📊</span> 11 Assessment Dimensions</h3>
+
+        <div class="category">
+            <h4><span class="num">1</span> Strategy & Culture</h4>
+            <ul>
+                <li>Pricing Importance</li>
+                <li>Pricing Objectives</li>
+                <li>Cross-Functional Effort</li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <h4><span class="num">2</span> Execution & Process</h4>
+            <ul>
+                <li>Pricing Flexibility</li>
+                <li>IT Support</li>
+                <li>Communication</li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <h4><span class="num">3</span> Analytics & Data</h4>
+            <ul>
+                <li>Metrics & Measurement</li>
+                <li>Knowledge of Customers</li>
+                <li>Knowledge of Value</li>
+                <li>Knowledge of Competition</li>
+                <li>Knowledge of Costs</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Right: Benefits -->
+    <div class="section">
+        <h3><span class="icon">✓</span> Key Benefits</h3>
+        <div class="benefits-grid">
+            <div class="benefit">
+                <span class="benefit-icon">⚡</span>
+                <div>
+                    <strong>Quick Assessment</strong>
+                    <span>Complete in 10-15 minutes</span>
+                </div>
+            </div>
+            <div class="benefit">
+                <span class="benefit-icon">🎯</span>
+                <div>
+                    <strong>Customizable Weights</strong>
+                    <span>Prioritize what matters most</span>
+                </div>
+            </div>
+            <div class="benefit">
+                <span class="benefit-icon">📈</span>
+                <div>
+                    <strong>Instant Results</strong>
+                    <span>Real-time score calculation</span>
+                </div>
+            </div>
+            <div class="benefit">
+                <span class="benefit-icon">🏢</span>
+                <div>
+                    <strong>Industry Agnostic</strong>
+                    <span>Works across all sectors</span>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 18px;"><span class="icon">🎓</span> Research-Based Framework</h3>
+        <p style="font-size: 10pt; color: var(--text-light); line-height: 1.5;">
+            Built on established pricing excellence frameworks from academic research and industry best practices. The weighted scoring model allows organizations to calibrate importance based on their strategic priorities.
+        </p>
+
+        <h3 style="margin-top: 18px;"><span class="icon">📦</span> What's Included</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span style="background: white; border: 1px solid #e5e7eb; padding: 6px 12px; border-radius: 20px; font-size: 10pt;">Web-Based Tool</span>
+            <span style="background: white; border: 1px solid #e5e7eb; padding: 6px 12px; border-radius: 20px; font-size: 10pt;">User Manual</span>
+            <span style="background: white; border: 1px solid #e5e7eb; padding: 6px 12px; border-radius: 20px; font-size: 10pt;">Benchmark Data</span>
+            <span style="background: white; border: 1px solid #e5e7eb; padding: 6px 12px; border-radius: 20px; font-size: 10pt;">Methodology Guide</span>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Assess Your Pricing Capability?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Pricing%20Assessment%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    Adapted from Rockney Walters, Stephen Brown, MBA, and Will Charron, MBA | &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

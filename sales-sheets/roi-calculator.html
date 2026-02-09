@@ -4,87 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROI Calculator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -164,7 +108,7 @@
             font-size: 9pt;
         }
 
-        /* Chart */
+        /* Chart Mockup */
         .chart-container {
             background: white;
             border-radius: 10px;
@@ -182,7 +126,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +142,24 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
+        /* Features List */
+        .features-list {
+            list-style: none;
+            padding: 0;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+        .features-list li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 10pt;
+        }
+        .features-list li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: 700;
+        }
 
         /* Stat Box */
         .stat-box {
@@ -231,6 +181,30 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Methodology Box */
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .method-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .method-card h4 {
+            font-size: 11pt;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+        .method-card p {
+            font-size: 8pt;
+            color: var(--text-light);
         }
 
         /* Credibility Footer */
@@ -295,212 +269,199 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools Catalog
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>ROI Calculator</h1>
-                <div class="tagline">Prove Your Value</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>ROI Calculator</h1>
+        <div class="tagline">Measure Every Investment Decision</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Know Your Returns Before You Invest</h2>
+        <p>Comprehensive investment analysis with multiple ROI methodologies. Calculate Simple ROI, NPV, IRR, Payback Period, and Marketing ROMI - all in one powerful tool.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Simple ROI</strong>
+                <span>Basic return calculation</span>
+            </div>
+            <div class="hero-output">
+                <strong>NPV Analysis</strong>
+                <span>Time value of money</span>
+            </div>
+            <div class="hero-output">
+                <strong>IRR Calculation</strong>
+                <span>True rate of return</span>
+            </div>
+            <div class="hero-output">
+                <strong>Marketing ROMI</strong>
+                <span>Campaign performance</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 160">
+            <!-- Grid -->
+            <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Quantify Your Impact</h2>
-                <p>Calculate return on investment for pricing initiatives. Compare ROI across project options to prioritize investments that deliver results.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>ROI</strong>
-                        <span>Return percentage</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Payback Period</strong>
-                        <span>Break-even time</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>NPV</strong>
-                        <span>Net present value</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>IRR</strong>
-                        <span>Internal rate of return</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Title -->
-                    <text x="160" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Cumulative Cash Flow & Payback</text>
+            <!-- Y-axis labels -->
+            <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">-$100K</text>
+            <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">$0</text>
+            <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">$100K</text>
 
-                    <!-- Grid -->
-                    <line x1="40" y1="85" x2="280" y2="85" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="50" x2="280" y2="50" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="120" x2="280" y2="120" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <!-- X-axis labels -->
+            <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">Y0</text>
+            <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">Y1</text>
+            <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">Y2</text>
+            <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">Y3</text>
 
-                    <!-- Y-axis labels -->
-                    <text x="35" y="53" font-size="8" fill="#64748b" text-anchor="end">+$200K</text>
-                    <text x="35" y="88" font-size="8" fill="#64748b" text-anchor="end">$0</text>
-                    <text x="35" y="123" font-size="8" fill="#64748b" text-anchor="end">-$100K</text>
+            <!-- Cash flow bars -->
+            <rect x="50" y="70" width="20" height="60" fill="#ef4444" rx="2"/>
+            <rect x="110" y="55" width="20" height="15" fill="#10b981" rx="2"/>
+            <rect x="170" y="40" width="20" height="30" fill="#10b981" rx="2"/>
+            <rect x="230" y="25" width="20" height="45" fill="#10b981" rx="2"/>
 
-                    <!-- X-axis labels -->
-                    <text x="70" y="153" font-size="8" fill="#64748b" text-anchor="middle">Y1</text>
-                    <text x="130" y="153" font-size="8" fill="#64748b" text-anchor="middle">Y2</text>
-                    <text x="190" y="153" font-size="8" fill="#64748b" text-anchor="middle">Y3</text>
-                    <text x="250" y="153" font-size="8" fill="#64748b" text-anchor="middle">Y4</text>
+            <!-- Cumulative PV line -->
+            <path d="M60,130 L120,95 L180,65 L240,35" fill="none" stroke="#c9a227" stroke-width="3"/>
+            <circle cx="60" cy="130" r="5" fill="#c9a227"/>
+            <circle cx="120" cy="95" r="5" fill="#c9a227"/>
+            <circle cx="180" cy="65" r="5" fill="#c9a227"/>
+            <circle cx="240" cy="35" r="5" fill="#c9a227"/>
 
-                    <!-- Initial investment (negative) -->
-                    <rect x="50" y="85" width="25" height="35" fill="#ef4444" rx="3"/>
-                    <text x="62" y="108" font-size="7" fill="white" text-anchor="middle">-$80K</text>
+            <!-- NPV Label -->
+            <rect x="200" y="15" width="80" height="22" rx="5" fill="#1e3a5f"/>
+            <text x="240" y="30" font-size="10" fill="white" text-anchor="middle" font-weight="600">NPV: $47,520</text>
 
-                    <!-- Year 1 return -->
-                    <rect x="85" y="85" width="25" height="20" fill="#ef4444" rx="3"/>
-                    <text x="97" y="98" font-size="7" fill="white" text-anchor="middle">-$40K</text>
+            <!-- Legend -->
+            <rect x="55" y="5" width="12" height="12" fill="#10b981" rx="2"/>
+            <text x="72" y="14" font-size="9" fill="#64748b">Cash Flow</text>
+            <line x1="130" y1="11" x2="150" y2="11" stroke="#c9a227" stroke-width="2.5"/>
+            <text x="155" y="14" font-size="9" fill="#64748b">Cumulative PV</text>
+        </svg>
+    </div>
+</div>
 
-                    <!-- Year 2 return (break-even) -->
-                    <rect x="145" y="75" width="25" height="10" fill="#10b981" rx="3"/>
-                    <text x="157" y="70" font-size="7" fill="#10b981" text-anchor="middle">+$20K</text>
-
-                    <!-- Year 3 return -->
-                    <rect x="205" y="55" width="25" height="30" fill="#10b981" rx="3"/>
-                    <text x="217" y="50" font-size="7" fill="#10b981" text-anchor="middle">+$80K</text>
-
-                    <!-- Year 4 return -->
-                    <rect x="245" y="40" width="25" height="45" fill="#10b981" rx="3"/>
-                    <text x="257" y="35" font-size="7" fill="#10b981" text-anchor="middle">+$160K</text>
-
-                    <!-- Cumulative line -->
-                    <path d="M62,120 L97,105 L157,80 L217,55 L257,35" fill="none" stroke="#c9a227" stroke-width="2.5"/>
-                    <circle cx="62" cy="120" r="3" fill="#c9a227"/>
-                    <circle cx="97" cy="105" r="3" fill="#c9a227"/>
-                    <circle cx="157" cy="80" r="3" fill="#c9a227"/>
-                    <circle cx="217" cy="55" r="3" fill="#c9a227"/>
-                    <circle cx="257" cy="35" r="3" fill="#c9a227"/>
-
-                    <!-- Payback point marker -->
-                    <circle cx="127" cy="85" r="6" fill="#c9a227"/>
-                    <circle cx="127" cy="85" r="3" fill="white"/>
-                    <line x1="127" y1="91" x2="127" y2="108" stroke="#1e3a5f" stroke-width="1"/>
-                    <rect x="100" y="108" width="54" height="16" rx="4" fill="#1e3a5f"/>
-                    <text x="127" y="120" font-size="8" fill="white" text-anchor="middle" font-weight="600">Payback: 1.8yr</text>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📥</div>
-                        <h4>Input</h4>
-                        <p>Costs & benefits</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🧮</div>
-                        <h4>Calculate</h4>
-                        <p>ROI metrics</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Compare</h4>
-                        <p>Project options</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Pricing initiatives deliver 200-400% ROI on average</div>
-                    <p>Prove the value of your pricing investment</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ ROI Calculator</span>
-                    <span class="tag">✓ NPV/IRR Analysis</span>
-                    <span class="tag">✓ Payback Visualizer</span>
-                    <span class="tag">✓ Project Comparison</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">All Industries</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Prove Your Value?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=ROI%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: Simon-Kucher Pricing Excellence Study | © 2026 MIAOW LLC. All Rights Reserved.
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Key Features -->
+    <div class="section">
+        <h3><span class="icon">&#9889;</span> Key Features</h3>
+        <ul class="features-list">
+            <li><strong>Simple ROI:</strong> Quick return percentage calculation</li>
+            <li><strong>Annualized ROI:</strong> Compare investments of different durations</li>
+            <li><strong>NPV Analysis:</strong> Account for time value of money</li>
+            <li><strong>IRR Calculation:</strong> Find the break-even discount rate</li>
+            <li><strong>Payback Period:</strong> Know when you recover your investment</li>
+            <li><strong>Marketing ROMI:</strong> Measure campaign effectiveness</li>
+            <li><strong>Scenario Comparison:</strong> Evaluate multiple options side-by-side</li>
+        </ul>
+        <div class="stat-box">
+            <div class="big-stat">Companies using ROI analysis see 25% better capital allocation*</div>
+            <p>Make data-driven investment decisions</p>
         </div>
     </div>
 
+    <!-- Right: ROI Methods -->
+    <div class="section">
+        <h3><span class="icon">&#128200;</span> ROI Methodologies</h3>
+        <div class="methodology-grid">
+            <div class="method-card">
+                <h4>Simple ROI</h4>
+                <p>(Gain - Cost) / Cost</p>
+            </div>
+            <div class="method-card">
+                <h4>Annualized</h4>
+                <p>CAGR formula</p>
+            </div>
+            <div class="method-card">
+                <h4>NPV</h4>
+                <p>Discounted cash flows</p>
+            </div>
+            <div class="method-card">
+                <h4>IRR</h4>
+                <p>NPV = 0 rate</p>
+            </div>
+            <div class="method-card">
+                <h4>Payback</h4>
+                <p>Recovery time</p>
+            </div>
+            <div class="method-card">
+                <h4>ROMI</h4>
+                <p>Marketing return</p>
+            </div>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">&#127970;</span> Who Uses This</h3>
+        <div class="tags">
+            <span class="tag">Finance Teams</span>
+            <span class="tag">Marketing Managers</span>
+            <span class="tag">Business Analysts</span>
+            <span class="tag">Entrepreneurs</span>
+            <span class="tag">Consultants</span>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Optimize Your Investments?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA | #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=ROI%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    *Source: McKinsey & Company, "The Power of Analytics" | &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

@@ -3,504 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discount Authority Matrix | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Discount Authority Matrix Builder - Sales Sheet | MIAOW</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #1e3a5f;
-            --navy-dark: #0f2744;
+            --navy-dark: #1e3a5f;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
             --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
-            --text-main: #2d3748;
-            --text-light: #64748b;
-            --border: #e5e7eb;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
-            max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
-            padding: 0.4in;
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
+            --gray-100: #f8f9fa;
+            --gray-600: #6c757d;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
-            @page { size: letter; margin: 0; }
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
 
-        /* Header */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--navy-dark);
+            line-height: 1.6;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            background: var(--white);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--gold);
+            margin-bottom: 1.5rem;
         }
 
         .logo {
             font-family: 'Raleway', sans-serif;
-            font-size: 32pt;
-            font-weight: 800;
-            color: var(--navy);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--navy-dark);
         }
+
         .logo span {
             color: var(--gold);
         }
 
-        .header-right { text-align: right; }
-        .header-right h1 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 18pt;
-            color: var(--navy);
-        }
-        .tagline {
-            font-size: 13pt;
-            color: var(--gold);
+        .badge {
+            background: var(--gold);
+            color: var(--navy-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             font-weight: 600;
+            font-size: 0.85rem;
         }
 
-        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+            color: var(--white);
+            padding: 2rem;
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 24px;
-            align-items: center;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
 
-        .hero-text { color: white; }
-        .hero-text h2 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 15pt;
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
             color: var(--gold);
-            margin-bottom: 10px;
-        }
-        .hero-text p {
-            font-size: 11pt;
-            color: rgba(255,255,255,0.9);
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
-
-        .hero-outputs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        .hero-output {
-            background: rgba(255,255,255,0.12);
-            padding: 10px 12px;
-            border-radius: 8px;
-        }
-        .hero-output strong {
-            color: var(--gold);
-            display: block;
-            font-size: 11pt;
-        }
-        .hero-output span {
-            color: rgba(255,255,255,0.8);
-            font-size: 9pt;
-        }
-
-        /* Chart */
-        .chart-container {
-            background: white;
-            border-radius: 10px;
-            padding: 16px;
-            height: 200px;
-        }
-        .chart-svg { width: 100%; height: 100%; }
-
-        /* Two Column Grid */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            font-size: 1.1rem;
         }
 
         .section {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 18px;
+            margin-bottom: 1.5rem;
         }
 
-        h3 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 13pt;
-            color: var(--navy);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        h3 .icon { font-size: 18pt; }
-
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
-
-        /* Stat Box */
-        .stat-box {
-            background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
-            color: white;
-            padding: 14px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
-        .stat-box p { font-size: 10pt; margin-top: 4px; }
-
-        /* Tags */
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag {
-            background: white;
-            border: 1px solid #e5e7eb;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 10pt;
-            color: var(--text-main);
+        .section h2 {
+            color: var(--navy-dark);
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gold);
         }
 
-        /* Credibility Footer */
-        .credibility {
-            background: var(--navy);
-            border-radius: 12px;
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
         }
 
-        .cred-left h3 {
-            color: var(--gold);
-            font-size: 14pt;
-            margin-bottom: 6px;
-        }
-        .cred-left .name {
-            font-size: 12pt;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .cred-left .title {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 8px;
-        }
-        .cred-left .contact {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.7);
-        }
-        .cred-left .contact a {
-            color: var(--gold);
-            text-decoration: none;
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
         }
 
-        .cred-right { text-align: right; }
-        .cred-badge {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid var(--gold);
-            padding: 12px 18px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        .cred-badge .school {
-            font-size: 11pt;
-            font-weight: 600;
-            color: white;
-        }
-        .cred-badge .ranks {
-            font-size: 10pt;
-            color: var(--gold);
-            margin-top: 4px;
-        }
-        .cta-button {
-            background: var(--gold);
-            color: white;
-            padding: 14px 28px;
+        .feature-card {
+            background: var(--gray-100);
+            padding: 1rem;
             border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 12pt;
-            display: inline-block;
-            transition: background 0.2s ease;
-        }
-        .cta-button:hover { background: var(--gold-light); }
-
-        /* Sheet Footer */
-        .sheet-footer {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 8pt;
-            color: var(--text-light);
+            border-left: 4px solid var(--gold);
         }
 
-        /* Site Footer */
-        .site-footer {
+        .feature-card h3 {
+            color: var(--navy-dark);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--gold);
+            color: var(--navy-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .benefit-text h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .benefit-text p {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+
+        .metric-box {
             background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
+            color: var(--white);
+            padding: 1.25rem;
+            border-radius: 8px;
             text-align: center;
-            margin-top: 60px;
         }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
+        .metric-box.highlight {
+            background: var(--gold);
+            color: var(--navy-dark);
+        }
+
+        .metric-value {
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            opacity: 0.9;
+        }
+
+        .matrix-preview {
+            background: var(--gray-100);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .matrix-preview table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+
+        .matrix-preview th, .matrix-preview td {
+            padding: 0.5rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .matrix-preview th {
+            background: var(--navy-dark);
+            color: white;
+        }
+
+        .matrix-preview .level-1 { background: #28a745; color: white; }
+        .matrix-preview .level-2 { background: #c9a227; color: #1e3a5f; }
+        .matrix-preview .level-3 { background: #dc3545; color: white; }
+
+        .use-case {
+            background: var(--white);
+            border: 1px solid #e0e0e0;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .use-case h4 {
+            color: var(--navy-dark);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case p {
+            font-size: 0.8rem;
+            color: var(--gray-600);
+        }
+
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--gray-100);
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 0.85rem;
+            color: var(--gray-600);
+        }
+
+        .footer .copyright {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, var(--gold) 0%, #d4b84a 100%);
+            color: var(--navy-dark);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .cta-box h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-box p {
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
+    <header class="header">
+        <div class="logo">MIAOW<span>.</span></div>
+        <div class="badge">Pricing Tool #46</div>
+    </header>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+    <div class="hero">
+        <h1>Discount Authority Matrix Builder</h1>
+        <p>Design Approval Matrices with Clear Escalation Rules and Policy Documentation</p>
+    </div>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Discount Authority Matrix</h1>
-                <div class="tagline">Control Your Discounting</div>
+    <div class="section">
+        <h2>What Is a Discount Authority Matrix?</h2>
+        <p>A Discount Authority Matrix defines who can approve discounts based on deal size, discount depth, and customer segment. This tool helps you design clear approval workflows, establish governance, and generate policy documentation for consistent pricing execution.</p>
+    </div>
+
+    <div class="section">
+        <h2>Key Features</h2>
+        <div class="grid-3">
+            <div class="feature-card">
+                <h3>Visual Matrix Builder</h3>
+                <p>Interactive matrix design with color-coded authority levels for easy visualization.</p>
             </div>
-        </div>
-
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Design Approval Matrices</h2>
-                <p>Define discount authority levels by role, deal size, and segment. Create clear escalation paths to protect margins while enabling sales.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Authority Matrix</strong>
-                        <span>Role-based limits</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Approval Thresholds</strong>
-                        <span>Clear boundaries</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Role Mappings</strong>
-                        <span>Hierarchy defined</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Escalation Paths</strong>
-                        <span>Workflow clarity</span>
-                    </div>
-                </div>
+            <div class="feature-card">
+                <h3>Role Hierarchy</h3>
+                <p>Define approval roles from sales rep to executive with clear escalation paths.</p>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Matrix grid -->
-                    <rect x="60" y="25" width="210" height="115" fill="none" stroke="#e5e7eb" stroke-width="1"/>
-
-                    <!-- Column headers -->
-                    <text x="105" y="18" font-size="8" fill="#64748b" text-anchor="middle">Small</text>
-                    <text x="165" y="18" font-size="8" fill="#64748b" text-anchor="middle">Medium</text>
-                    <text x="225" y="18" font-size="8" fill="#64748b" text-anchor="middle">Large</text>
-
-                    <!-- Row headers -->
-                    <text x="55" y="52" font-size="8" fill="#64748b" text-anchor="end">Sales Rep</text>
-                    <text x="55" y="90" font-size="8" fill="#64748b" text-anchor="end">Manager</text>
-                    <text x="55" y="128" font-size="8" fill="#64748b" text-anchor="end">VP</text>
-
-                    <!-- Grid lines -->
-                    <line x1="60" y1="63" x2="270" y2="63" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="60" y1="101" x2="270" y2="101" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="130" y1="25" x2="130" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="200" y1="25" x2="200" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-
-                    <!-- Cell values - Green (auto-approve) -->
-                    <rect x="62" y="27" width="66" height="34" fill="#22c55e" opacity="0.2"/>
-                    <text x="95" y="48" font-size="11" fill="#22c55e" text-anchor="middle" font-weight="600">10%</text>
-
-                    <!-- Cell values - Yellow (manager approval) -->
-                    <rect x="132" y="27" width="66" height="34" fill="#eab308" opacity="0.2"/>
-                    <text x="165" y="48" font-size="11" fill="#eab308" text-anchor="middle" font-weight="600">5%</text>
-                    <rect x="62" y="65" width="66" height="34" fill="#22c55e" opacity="0.2"/>
-                    <text x="95" y="86" font-size="11" fill="#22c55e" text-anchor="middle" font-weight="600">20%</text>
-                    <rect x="132" y="65" width="66" height="34" fill="#22c55e" opacity="0.2"/>
-                    <text x="165" y="86" font-size="11" fill="#22c55e" text-anchor="middle" font-weight="600">15%</text>
-
-                    <!-- Cell values - Red (VP approval needed) -->
-                    <rect x="202" y="27" width="66" height="34" fill="#ef4444" opacity="0.2"/>
-                    <text x="235" y="48" font-size="11" fill="#ef4444" text-anchor="middle" font-weight="600">0%</text>
-                    <rect x="202" y="65" width="66" height="34" fill="#eab308" opacity="0.2"/>
-                    <text x="235" y="86" font-size="11" fill="#eab308" text-anchor="middle" font-weight="600">10%</text>
-
-                    <!-- VP row (all green) -->
-                    <rect x="62" y="103" width="66" height="34" fill="#22c55e" opacity="0.2"/>
-                    <text x="95" y="124" font-size="11" fill="#22c55e" text-anchor="middle" font-weight="600">30%</text>
-                    <rect x="132" y="103" width="66" height="34" fill="#22c55e" opacity="0.2"/>
-                    <text x="165" y="124" font-size="11" fill="#22c55e" text-anchor="middle" font-weight="600">25%</text>
-                    <rect x="202" y="103" width="66" height="34" fill="#22c55e" opacity="0.2"/>
-                    <text x="235" y="124" font-size="11" fill="#22c55e" text-anchor="middle" font-weight="600">20%</text>
-
-                    <!-- Legend -->
-                    <rect x="60" y="148" width="10" height="10" fill="#22c55e" opacity="0.5"/>
-                    <text x="75" y="156" font-size="7" fill="#64748b">Auto</text>
-                    <rect x="105" y="148" width="10" height="10" fill="#eab308" opacity="0.5"/>
-                    <text x="120" y="156" font-size="7" fill="#64748b">Review</text>
-                    <rect x="155" y="148" width="10" height="10" fill="#ef4444" opacity="0.5"/>
-                    <text x="170" y="156" font-size="7" fill="#64748b">Escalate</text>
-                </svg>
+            <div class="feature-card">
+                <h3>Multi-Dimension Tiers</h3>
+                <p>Configure deal size tiers, discount ranges, and customer segments.</p>
             </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">👥</div>
-                        <h4>Define</h4>
-                        <p>Set roles & limits</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Build</h4>
-                        <p>Create matrix</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">✅</div>
-                        <h4>Deploy</h4>
-                        <p>Enforce policy</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Reduce margin erosion by 15-25%</div>
-                    <p>Clear authority prevents unauthorized discounting</p>
-                </div>
+            <div class="feature-card">
+                <h3>Escalation Rules</h3>
+                <p>Visual escalation flow showing approval chain for any scenario.</p>
             </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ Matrix Templates</span>
-                    <span class="tag">✓ Role Configuration</span>
-                    <span class="tag">✓ Escalation Workflows</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">B2B Sales</span>
-                    <span class="tag">Enterprise</span>
-                    <span class="tag">Distribution</span>
-                </div>
+            <div class="feature-card">
+                <h3>Conditional Rules</h3>
+                <p>Add special rules for new customers, competitive situations, or strategic accounts.</p>
             </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Control Your Discounting?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
+            <div class="feature-card">
+                <h3>Policy Generation</h3>
+                <p>Auto-generate professional policy documents ready for distribution.</p>
             </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Discount%20Authority%20Matrix%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
         </div>
     </div>
 
+    <div class="section">
+        <h2>Sample Authority Matrix</h2>
+        <div class="matrix-preview">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Deal Size / Discount</th>
+                        <th>0-10%</th>
+                        <th>11-20%</th>
+                        <th>21-30%</th>
+                        <th>30%+</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Small ($0-$25K)</strong></td>
+                        <td class="level-1">Sales Rep</td>
+                        <td class="level-1">Sales Rep</td>
+                        <td class="level-2">Manager</td>
+                        <td class="level-3">Director</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Medium ($25K-$100K)</strong></td>
+                        <td class="level-1">Sales Rep</td>
+                        <td class="level-2">Manager</td>
+                        <td class="level-2">Manager</td>
+                        <td class="level-3">Director</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Large ($100K+)</strong></td>
+                        <td class="level-2">Manager</td>
+                        <td class="level-2">Manager</td>
+                        <td class="level-3">Director</td>
+                        <td class="level-3">VP</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
+    <div class="section">
+        <h2>Business Benefits</h2>
+        <div class="grid-2">
+            <div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">1</div>
+                    <div class="benefit-text">
+                        <h4>Pricing Discipline</h4>
+                        <p>Ensure discounts are approved by appropriate authority levels.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">2</div>
+                    <div class="benefit-text">
+                        <h4>Faster Deal Cycles</h4>
+                        <p>Clear approval paths reduce bottlenecks and delays.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">3</div>
+                    <div class="benefit-text">
+                        <h4>Reduced Margin Erosion</h4>
+                        <p>Appropriate oversight prevents excessive discounting.</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">4</div>
+                    <div class="benefit-text">
+                        <h4>Compliance & Audit</h4>
+                        <p>Documented policies support audit requirements.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">5</div>
+                    <div class="benefit-text">
+                        <h4>Sales Empowerment</h4>
+                        <p>Clear boundaries help sales work confidently within limits.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">6</div>
+                    <div class="benefit-text">
+                        <h4>Consistent Execution</h4>
+                        <p>Standard rules apply uniformly across the organization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Typical Results</h2>
+        <div class="grid-3">
+            <div class="metric-box highlight">
+                <div class="metric-value">40%</div>
+                <div class="metric-label">Faster Approval Times</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value">2-3%</div>
+                <div class="metric-label">Margin Improvement</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-value">75%</div>
+                <div class="metric-label">Better Compliance</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Ideal Use Cases</h2>
+        <div class="grid-2">
+            <div class="use-case">
+                <h4>New Pricing Governance</h4>
+                <p>Establish clear approval frameworks when implementing new pricing structures.</p>
+            </div>
+            <div class="use-case">
+                <h4>Policy Documentation</h4>
+                <p>Generate professional policy documents for training and compliance.</p>
+            </div>
+            <div class="use-case">
+                <h4>Organizational Changes</h4>
+                <p>Update authority levels when roles or hierarchies change.</p>
+            </div>
+            <div class="use-case">
+                <h4>CPQ Implementation</h4>
+                <p>Define rules for Configure-Price-Quote system configuration.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-box">
+        <h3>Build Your Authority Matrix Today</h3>
+        <p>Design clear approval rules and generate policy documentation in minutes.</p>
+    </div>
+
+    <footer class="footer">
+        <p class="copyright">&copy; 2026 MIAOW LLC. All Rights Reserved.</p>
+        <p>Dr. Koray Cosguner &middot; Kelley School of Business</p>
+    </footer>
 </body>
 </html>

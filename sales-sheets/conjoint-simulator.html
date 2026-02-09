@@ -3,88 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conjoint Simulator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Conjoint Analysis Simulator | MIAOW LLC</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -164,7 +108,7 @@
             font-size: 9pt;
         }
 
-        /* Chart */
+        /* Chart Visualization */
         .chart-container {
             background: white;
             border-radius: 10px;
@@ -182,7 +126,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -231,6 +175,24 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Features List */
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+        .features-list li {
+            padding: 6px 0;
+            font-size: 10pt;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .features-list li::before {
+            content: "&#10003;";
+            color: var(--gold);
+            font-weight: 700;
         }
 
         /* Credibility Footer */
@@ -295,196 +257,180 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Conjoint Simulator</h1>
-                <div class="tagline">Test 1,000 Strategies Before You Launch One</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Conjoint Analysis Simulator</h1>
+        <div class="tagline">Predict Market Share Before Launch</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>See How Products Will Compete</h2>
+        <p>Use part-worth utilities from conjoint analysis to simulate market share scenarios. Test different product configurations and pricing strategies before going to market.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Market Shares</strong>
+                <span>Logit choice model</span>
+            </div>
+            <div class="hero-output">
+                <strong>What-If Analysis</strong>
+                <span>Compare scenarios</span>
+            </div>
+            <div class="hero-output">
+                <strong>Multiple Models</strong>
+                <span>Logit, First Choice, BTL</span>
+            </div>
+            <div class="hero-output">
+                <strong>Visual Reports</strong>
+                <span>Charts & exports</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 170">
+            <!-- Pie Chart -->
+            <g transform="translate(95, 85)">
+                <!-- Product A - 42% -->
+                <path d="M0,0 L0,-65 A65,65 0 0,1 58,29 Z" fill="#1e3a5f"/>
+                <!-- Product B - 31% -->
+                <path d="M0,0 L58,29 A65,65 0 0,1 -42,50 Z" fill="#c9a227"/>
+                <!-- Product C - 17% -->
+                <path d="M0,0 L-42,50 A65,65 0 0,1 -60,-25 Z" fill="#2d4a6f"/>
+                <!-- Product D - 10% -->
+                <path d="M0,0 L-60,-25 A65,65 0 0,1 0,-65 Z" fill="#dbb42c"/>
+            </g>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Know Your Market Share Before Spending a Dollar</h2>
-                <p>Transform conjoint utilities into real-world market predictions. Run unlimited what-if scenarios on pricing, features, and competitive moves to find configurations that maximize share and profit.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Share Prediction</strong>
-                        <span>+/- 3% accuracy vs actuals</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Price Elasticity Curves</strong>
-                        <span>Revenue-optimal pricing</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Competitive Response</strong>
-                        <span>Counter-move simulation</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Profit Maximizer</strong>
-                        <span>Best config finder</span>
-                    </div>
-                </div>
+            <!-- Legend -->
+            <g transform="translate(200, 30)">
+                <rect x="0" y="0" width="14" height="14" rx="3" fill="#1e3a5f"/>
+                <text x="20" y="11" font-size="10" fill="#2d3748">Product A: 42%</text>
+
+                <rect x="0" y="25" width="14" height="14" rx="3" fill="#c9a227"/>
+                <text x="20" y="36" font-size="10" fill="#2d3748">Product B: 31%</text>
+
+                <rect x="0" y="50" width="14" height="14" rx="3" fill="#2d4a6f"/>
+                <text x="20" y="61" font-size="10" fill="#2d3748">Product C: 17%</text>
+
+                <rect x="0" y="75" width="14" height="14" rx="3" fill="#dbb42c"/>
+                <text x="20" y="86" font-size="10" fill="#2d3748">Product D: 10%</text>
+            </g>
+
+            <!-- Title -->
+            <text x="150" y="160" font-size="10" fill="#64748b" text-anchor="middle">Simulated Market Share</text>
+        </svg>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: How It Works -->
+    <div class="section">
+        <h3><span class="icon">&#9889;</span> How It Works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">&#128200;</div>
+                <h4>Input</h4>
+                <p>Part-worths</p>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Pie chart for market shares -->
-                    <text x="150" y="15" font-size="9" fill="#1e3a5f" text-anchor="middle" font-weight="600">Simulated Market Shares</text>
-
-                    <!-- Pie slices -->
-                    <circle cx="100" cy="90" r="55" fill="none" stroke="#c9a227" stroke-width="30" stroke-dasharray="103.7 242.5" transform="rotate(-90 100 90)"/>
-                    <circle cx="100" cy="90" r="55" fill="none" stroke="#3b82f6" stroke-width="30" stroke-dasharray="86.4 242.5" stroke-dashoffset="-103.7" transform="rotate(-90 100 90)"/>
-                    <circle cx="100" cy="90" r="55" fill="none" stroke="#8b5cf6" stroke-width="30" stroke-dasharray="52.3 242.5" stroke-dashoffset="-190.1" transform="rotate(-90 100 90)"/>
-
-                    <!-- Center label -->
-                    <circle cx="100" cy="90" r="30" fill="white"/>
-                    <text x="100" y="88" font-size="12" fill="#1e3a5f" text-anchor="middle" font-weight="700">100%</text>
-                    <text x="100" y="100" font-size="7" fill="#64748b" text-anchor="middle">Total</text>
-
-                    <!-- Legend -->
-                    <rect x="180" y="45" width="12" height="12" rx="2" fill="#c9a227"/>
-                    <text x="197" y="55" font-size="9" fill="#2d3748">Your Product</text>
-                    <text x="265" y="55" font-size="9" fill="#c9a227" font-weight="600">42%</text>
-
-                    <rect x="180" y="68" width="12" height="12" rx="2" fill="#3b82f6"/>
-                    <text x="197" y="78" font-size="9" fill="#2d3748">Competitor A</text>
-                    <text x="265" y="78" font-size="9" fill="#3b82f6" font-weight="600">35%</text>
-
-                    <rect x="180" y="91" width="12" height="12" rx="2" fill="#8b5cf6"/>
-                    <text x="197" y="101" font-size="9" fill="#2d3748">Competitor B</text>
-                    <text x="265" y="101" font-size="9" fill="#8b5cf6" font-weight="600">23%</text>
-
-                    <!-- What-if arrow -->
-                    <path d="M180,125 L265,125" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
-                    <defs>
-                        <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                            <path d="M0,0 L0,6 L6,3 z" fill="#10b981"/>
-                        </marker>
-                    </defs>
-                    <text x="222" y="140" font-size="7" fill="#10b981" text-anchor="middle">+10% price = 38% share</text>
-                </svg>
+            <div class="step-arrow">&#8594;</div>
+            <div class="step">
+                <div class="step-icon">&#128295;</div>
+                <h4>Configure</h4>
+                <p>Products</p>
+            </div>
+            <div class="step-arrow">&#8594;</div>
+            <div class="step">
+                <div class="step-icon">&#127919;</div>
+                <h4>Simulate</h4>
+                <p>Shares</p>
             </div>
         </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📤</div>
-                        <h4>Upload</h4>
-                        <p>Part-worth utilities</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🎛️</div>
-                        <h4>Configure</h4>
-                        <p>Test scenarios</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Simulate</h4>
-                        <p>See results</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Simulation-tested products achieve 31% higher market share*</div>
-                    <p>Eliminate guesswork from product strategy</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Interactive Simulator</span>
-                    <span class="tag">✓ Scenario Comparison Tool</span>
-                    <span class="tag">✓ Sensitivity Analysis</span>
-                    <span class="tag">✓ PowerPoint Export</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Market Research</span>
-                    <span class="tag">Product Management</span>
-                    <span class="tag">Corporate Strategy</span>
-                    <span class="tag">Pricing Teams</span>
-                    <span class="tag">Brand Management</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to De-Risk Your Launch?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Conjoint%20Simulator%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Translate conjoint insights into market predictions</div>
+            <p>Make data-driven product decisions</p>
         </div>
     </div>
 
+    <!-- Right: What You Get -->
+    <div class="section">
+        <h3><span class="icon">&#128230;</span> What You Get</h3>
+        <ul class="features-list">
+            <li>Interactive web-based simulator</li>
+            <li>Multiple choice models (Logit, First Choice, BTL)</li>
+            <li>What-if scenario comparison</li>
+            <li>CSV import for part-worth utilities</li>
+            <li>Export charts and data reports</li>
+            <li>Comprehensive user documentation</li>
+        </ul>
+        <h3 style="margin-top: 14px;"><span class="icon">&#127970;</span> Who Uses This</h3>
+        <div class="tags">
+            <span class="tag">Product Managers</span>
+            <span class="tag">Market Researchers</span>
+            <span class="tag">Pricing Teams</span>
+            <span class="tag">Strategists</span>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Simulate Your Market?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA &middot; #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Conjoint%20Simulator%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

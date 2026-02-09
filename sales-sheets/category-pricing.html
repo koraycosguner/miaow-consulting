@@ -4,91 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category Pricing Optimizer | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -102,9 +47,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -118,7 +61,6 @@
             font-weight: 600;
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
             border-radius: 12px;
@@ -164,7 +106,6 @@
             font-size: 9pt;
         }
 
-        /* Chart */
         .chart-container {
             background: white;
             border-radius: 10px;
@@ -173,7 +114,6 @@
         }
         .chart-svg { width: 100%; height: 100%; }
 
-        /* Two Column Grid */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -182,7 +122,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,20 +138,35 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
+        .role-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            gap: 12px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 8px;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
 
-        /* Stat Box */
+        .role-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .role-dot.traffic { background: #3b82f6; }
+        .role-dot.profit { background: #10b981; }
+        .role-dot.cash { background: #8b5cf6; }
+
+        .role-item h4 {
+            font-size: 11pt;
+            color: var(--navy);
+            margin-bottom: 2px;
+        }
+        .role-item p {
+            font-size: 9pt;
+            color: var(--text-light);
+        }
+
         .stat-box {
             background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
             color: white;
@@ -222,7 +177,6 @@
         .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
 
-        /* Tags */
         .tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag {
             background: white;
@@ -233,7 +187,6 @@
             color: var(--text-main);
         }
 
-        /* Credibility Footer */
         .credibility {
             background: var(--navy);
             border-radius: 12px;
@@ -295,199 +248,169 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Category Pricing Optimizer</h1>
-                <div class="tagline">Unlock Hidden Portfolio Profits</div>
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Category Pricing Optimizer</h1>
+        <div class="tagline">Strategic Price Architecture Across Your Portfolio</div>
+    </div>
+</div>
+
+<div class="hero">
+    <div class="hero-text">
+        <h2>Optimize Your Price Ladder</h2>
+        <p>Assign strategic roles to each product and optimize prices to maximize category performance. Balance traffic, profit, and cash flow objectives.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Optimized Prices</strong>
+                <span>By product role</span>
+            </div>
+            <div class="hero-output">
+                <strong>Price Architecture</strong>
+                <span>Visual price ladder</span>
+            </div>
+            <div class="hero-output">
+                <strong>Category Profit</strong>
+                <span>Total impact analysis</span>
+            </div>
+            <div class="hero-output">
+                <strong>Role Balance</strong>
+                <span>Portfolio health check</span>
+            </div>
+        </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 160">
+            <!-- Price ladder illustration -->
+            <text x="150" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Price Architecture by Role</text>
+
+            <!-- Bars -->
+            <rect x="30" y="100" width="50" height="40" fill="#3b82f6" rx="4"/>
+            <text x="55" y="125" font-size="8" fill="white" text-anchor="middle">Traffic</text>
+            <text x="55" y="95" font-size="9" fill="#1e3a5f" text-anchor="middle">$1.49</text>
+
+            <rect x="95" y="70" width="50" height="70" fill="#8b5cf6" rx="4"/>
+            <text x="120" y="110" font-size="8" fill="white" text-anchor="middle">Cash</text>
+            <text x="120" y="65" font-size="9" fill="#1e3a5f" text-anchor="middle">$5.49</text>
+
+            <rect x="160" y="50" width="50" height="90" fill="#10b981" rx="4"/>
+            <text x="185" y="100" font-size="8" fill="white" text-anchor="middle">Profit</text>
+            <text x="185" y="45" font-size="9" fill="#1e3a5f" text-anchor="middle">$7.99</text>
+
+            <rect x="225" y="35" width="50" height="105" fill="#10b981" rx="4"/>
+            <text x="250" y="90" font-size="8" fill="white" text-anchor="middle">Premium</text>
+            <text x="250" y="30" font-size="9" fill="#1e3a5f" text-anchor="middle">$9.99</text>
+
+            <!-- Y-axis label -->
+            <text x="15" y="80" font-size="8" fill="#64748b" transform="rotate(-90 15 80)">Price</text>
+        </svg>
+    </div>
+</div>
+
+<div class="main-grid">
+    <div class="section">
+        <h3><span class="icon">🎯</span> Product Roles</h3>
+
+        <div class="role-item">
+            <div class="role-dot traffic"></div>
+            <div>
+                <h4>Traffic Builder</h4>
+                <p>Drive store visits with competitive entry prices</p>
             </div>
         </div>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Stop Cannibalizing Your Own Products</h2>
-                <p>Every price change ripples through your portfolio. Quantify substitution effects, optimize tier spacing, and maximize total category profit - not just individual SKU margins.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Portfolio Profit Maximizer</strong>
-                        <span>Total $ optimization</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Cannibalization Matrix</strong>
-                        <span>SKU-to-SKU impact</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Price Ladder Optimizer</strong>
-                        <span>Optimal tier gaps</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Mix Migration Forecast</strong>
-                        <span>Volume shift predictor</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-
-                    <!-- Y-axis -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">$</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">Price</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">$$</text>
-
-                    <!-- Product price ladder steps -->
-                    <rect x="50" y="110" width="50" height="30" fill="#1e3a5f" rx="4"/>
-                    <text x="75" y="128" font-size="9" fill="white" text-anchor="middle" font-weight="600">$19</text>
-                    <text x="75" y="153" font-size="8" fill="#64748b" text-anchor="middle">Basic</text>
-
-                    <rect x="110" y="80" width="50" height="60" fill="#2d4a6f" rx="4"/>
-                    <text x="135" y="113" font-size="9" fill="white" text-anchor="middle" font-weight="600">$39</text>
-                    <text x="135" y="153" font-size="8" fill="#64748b" text-anchor="middle">Standard</text>
-
-                    <rect x="170" y="50" width="50" height="90" fill="#c9a227" rx="4"/>
-                    <text x="195" y="98" font-size="9" fill="white" text-anchor="middle" font-weight="600">$79</text>
-                    <text x="195" y="153" font-size="8" fill="#64748b" text-anchor="middle">Pro</text>
-
-                    <rect x="230" y="25" width="50" height="115" fill="#22c55e" rx="4"/>
-                    <text x="255" y="85" font-size="9" fill="white" text-anchor="middle" font-weight="600">$149</text>
-                    <text x="255" y="153" font-size="8" fill="#64748b" text-anchor="middle">Enterprise</text>
-
-                    <!-- Price gap indicators -->
-                    <line x1="100" y1="95" x2="110" y2="95" stroke="#c9a227" stroke-width="2"/>
-                    <text x="105" y="92" font-size="7" fill="#c9a227" text-anchor="middle">2x</text>
-
-                    <line x1="160" y1="65" x2="170" y2="65" stroke="#c9a227" stroke-width="2"/>
-                    <text x="165" y="62" font-size="7" fill="#c9a227" text-anchor="middle">2x</text>
-
-                    <line x1="220" y1="38" x2="230" y2="38" stroke="#c9a227" stroke-width="2"/>
-                    <text x="225" y="35" font-size="7" fill="#c9a227" text-anchor="middle">1.9x</text>
-                </svg>
+        <div class="role-item">
+            <div class="role-dot profit"></div>
+            <div>
+                <h4>Profit Driver</h4>
+                <p>Capture value with premium positioning</p>
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📦</div>
-                        <h4>Map</h4>
-                        <p>Product portfolio</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🔄</div>
-                        <h4>Model</h4>
-                        <p>Substitution</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📈</div>
-                        <h4>Optimize</h4>
-                        <p>Price ladder</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Clients capture 2-5% margin lift across portfolios*</div>
-                    <p>When products work together, profits multiply</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Cross-Elasticity Calculator</span>
-                    <span class="tag">✓ Price Ladder Simulator</span>
-                    <span class="tag">✓ Cannibalization Dashboard</span>
-                    <span class="tag">✓ Portfolio Profit Report</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Retail</span>
-                    <span class="tag">CPG</span>
-                    <span class="tag">E-commerce</span>
-                    <span class="tag">Consumer Electronics</span>
-                    <span class="tag">SaaS</span>
-                </div>
+        <div class="role-item">
+            <div class="role-dot cash"></div>
+            <div>
+                <h4>Cash Generator</h4>
+                <p>Consistent volume with balanced margins</p>
             </div>
         </div>
 
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Optimize Your Category?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Category%20Pricing%20Optimizer%20Demo%20Request" class="cta-button">Optimize My Portfolio</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: McKinsey Pricing Practice | © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box" style="margin-top: 14px;">
+            <div class="big-stat">Optimize the whole, not the parts</div>
+            <p>Category-level thinking outperforms SKU-level</p>
         </div>
     </div>
 
+    <div class="section">
+        <h3><span class="icon">📦</span> What You Get</h3>
+        <div class="tags">
+            <span class="tag">Price Ladder Visualization</span>
+            <span class="tag">Role-Based Optimization</span>
+            <span class="tag">Profit Impact Analysis</span>
+            <span class="tag">CSV Export</span>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
+        <div class="tags">
+            <span class="tag">Category Managers</span>
+            <span class="tag">Brand Directors</span>
+            <span class="tag">Pricing Teams</span>
+            <span class="tag">Private Label</span>
+            <span class="tag">Retail Buyers</span>
+        </div>
+    </div>
+</div>
+
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Build Your Price Architecture</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Category%20Pricing%20Demo" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

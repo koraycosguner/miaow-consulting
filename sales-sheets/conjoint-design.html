@@ -3,88 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conjoint Design Generator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Conjoint Analysis Design Tool | MIAOW LLC</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,35 +48,18 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
             font-family: 'Raleway', sans-serif;
             font-size: 18pt;
             color: var(--navy);
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 10px;
         }
         .tagline {
             font-size: 13pt;
             color: var(--gold);
             font-weight: 600;
-        }
-
-        /* R Shiny Badge */
-        .r-shiny-badge {
-            background: linear-gradient(135deg, #276DC3 0%, #1a4d8c 100%);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 10pt;
-            font-weight: 600;
-            font-family: 'Inter', sans-serif;
         }
 
         /* Hero Section */
@@ -140,7 +69,7 @@
             padding: 24px;
             margin-bottom: 20px;
             display: grid;
-            grid-template-columns: 1fr 1.1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 24px;
             align-items: center;
         }
@@ -179,14 +108,36 @@
             font-size: 9pt;
         }
 
-        /* Chart */
-        .chart-container {
+        /* Design Visual */
+        .design-visual {
             background: white;
             border-radius: 10px;
             padding: 16px;
-            height: 200px;
         }
-        .chart-svg { width: 100%; height: 100%; }
+        .design-visual h4 {
+            font-size: 10pt;
+            color: var(--navy);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .design-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9pt;
+        }
+        .design-table th, .design-table td {
+            padding: 6px 8px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
+        .design-table th {
+            background: var(--navy);
+            color: white;
+            font-weight: 600;
+        }
+        .design-table tr:nth-child(even) {
+            background: var(--bg-light);
+        }
 
         /* Two Column Grid */
         .main-grid {
@@ -197,7 +148,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -246,6 +197,28 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+        }
+        .benefits-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 10pt;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+        .check-icon {
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 14pt;
         }
 
         /* Credibility Footer */
@@ -310,204 +283,168 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-            .header-right h1 { justify-content: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Conjoint Design Generator <span class="r-shiny-badge">R Shiny</span></h1>
-                <div class="tagline">Research-Grade Designs in Minutes, Not Days</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Conjoint Analysis Design Tool</h1>
+        <div class="tagline">Create Optimal Experimental Designs in Seconds</div>
+    </div>
+</div>
+
+<!-- Hero with Design Visual -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Reduce Survey Fatigue, Maximize Insights</h2>
+        <p>Generate statistically efficient fractional factorial designs for conjoint studies. Transform hundreds of product combinations into a manageable set of profiles for respondent evaluation.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Fractional Design</strong>
+                <span>Reduced profile set</span>
+            </div>
+            <div class="hero-output">
+                <strong>Full Factorial</strong>
+                <span>All combinations shown</span>
+            </div>
+            <div class="hero-output">
+                <strong>Dummy Coding</strong>
+                <span>Analysis-ready matrix</span>
+            </div>
+            <div class="hero-output">
+                <strong>R Script Export</strong>
+                <span>Reproducible research</span>
             </div>
         </div>
+    </div>
+    <div class="design-visual">
+        <h4>Example: 4 Attributes, 108 -> 9 Profiles</h4>
+        <table class="design-table">
+            <tr>
+                <th>#</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Size</th>
+                <th>Color</th>
+            </tr>
+            <tr><td>1</td><td>Apple</td><td>$999</td><td>Small</td><td>Black</td></tr>
+            <tr><td>2</td><td>Apple</td><td>$1199</td><td>Medium</td><td>Silver</td></tr>
+            <tr><td>3</td><td>Apple</td><td>$1399</td><td>Large</td><td>Gold</td></tr>
+            <tr><td>4</td><td>Samsung</td><td>$999</td><td>Medium</td><td>Gold</td></tr>
+            <tr><td>5</td><td>Samsung</td><td>$1199</td><td>Large</td><td>Black</td></tr>
+            <tr><td>6</td><td>Samsung</td><td>$1399</td><td>Small</td><td>Silver</td></tr>
+            <tr><td>7</td><td>Google</td><td>$999</td><td>Large</td><td>Silver</td></tr>
+            <tr><td>8</td><td>Google</td><td>$1199</td><td>Small</td><td>Gold</td></tr>
+            <tr><td>9</td><td>Google</td><td>$1399</td><td>Medium</td><td>Black</td></tr>
+        </table>
+    </div>
+</div>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Build Statistically Optimal Survey Designs</h2>
-                <p>Stop wasting respondent attention on inefficient designs. Generate D-optimal, orthogonal, or balanced overlap designs that maximize statistical power while minimizing sample requirements and respondent fatigue.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>D-Efficiency Score</strong>
-                        <span>95%+ optimal designs</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Correlation Matrix</strong>
-                        <span>Zero multicollinearity</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Sample Size Calculator</strong>
-                        <span>Power-based estimation</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Qualtrics Export</strong>
-                        <span>One-click deployment</span>
-                    </div>
-                </div>
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: How It Works -->
+    <div class="section">
+        <h3><span class="icon">&#9889;</span> How It Works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">&#128221;</div>
+                <h4>Define</h4>
+                <p>Add attributes & levels</p>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Design Matrix Table -->
-                    <text x="150" y="15" font-size="9" fill="#1e3a5f" text-anchor="middle" font-weight="600">Orthogonal Design Matrix</text>
-
-                    <!-- Table Header -->
-                    <rect x="30" y="25" width="240" height="20" fill="#1e3a5f" rx="3"/>
-                    <text x="55" y="38" font-size="8" fill="white" text-anchor="middle">Profile</text>
-                    <text x="105" y="38" font-size="8" fill="white" text-anchor="middle">Brand</text>
-                    <text x="160" y="38" font-size="8" fill="white" text-anchor="middle">Price</text>
-                    <text x="215" y="38" font-size="8" fill="white" text-anchor="middle">Feature</text>
-
-                    <!-- Row 1 -->
-                    <rect x="30" y="47" width="240" height="18" fill="#f8f9fa"/>
-                    <text x="55" y="59" font-size="7" fill="#64748b" text-anchor="middle">1</text>
-                    <text x="105" y="59" font-size="7" fill="#2d3748" text-anchor="middle">Alpha</text>
-                    <text x="160" y="59" font-size="7" fill="#2d3748" text-anchor="middle">$99</text>
-                    <text x="215" y="59" font-size="7" fill="#2d3748" text-anchor="middle">Basic</text>
-
-                    <!-- Row 2 -->
-                    <rect x="30" y="67" width="240" height="18" fill="white"/>
-                    <text x="55" y="79" font-size="7" fill="#64748b" text-anchor="middle">2</text>
-                    <text x="105" y="79" font-size="7" fill="#2d3748" text-anchor="middle">Beta</text>
-                    <text x="160" y="79" font-size="7" fill="#2d3748" text-anchor="middle">$149</text>
-                    <text x="215" y="79" font-size="7" fill="#2d3748" text-anchor="middle">Pro</text>
-
-                    <!-- Row 3 -->
-                    <rect x="30" y="87" width="240" height="18" fill="#f8f9fa"/>
-                    <text x="55" y="99" font-size="7" fill="#64748b" text-anchor="middle">3</text>
-                    <text x="105" y="99" font-size="7" fill="#2d3748" text-anchor="middle">Gamma</text>
-                    <text x="160" y="99" font-size="7" fill="#2d3748" text-anchor="middle">$199</text>
-                    <text x="215" y="99" font-size="7" fill="#2d3748" text-anchor="middle">Enterprise</text>
-
-                    <!-- Row 4 -->
-                    <rect x="30" y="107" width="240" height="18" fill="white"/>
-                    <text x="55" y="119" font-size="7" fill="#64748b" text-anchor="middle">4</text>
-                    <text x="105" y="119" font-size="7" fill="#2d3748" text-anchor="middle">Alpha</text>
-                    <text x="160" y="119" font-size="7" fill="#2d3748" text-anchor="middle">$149</text>
-                    <text x="215" y="119" font-size="7" fill="#2d3748" text-anchor="middle">Enterprise</text>
-
-                    <!-- Orthogonality indicator -->
-                    <rect x="95" y="135" width="110" height="18" rx="4" fill="#10b981"/>
-                    <text x="150" y="147" font-size="8" fill="white" text-anchor="middle" font-weight="600">Orthogonal Design</text>
-                </svg>
+            <div class="step-arrow">&#8594;</div>
+            <div class="step">
+                <div class="step-icon">&#9881;</div>
+                <h4>Generate</h4>
+                <p>Click one button</p>
+            </div>
+            <div class="step-arrow">&#8594;</div>
+            <div class="step">
+                <div class="step-icon">&#128202;</div>
+                <h4>Export</h4>
+                <p>Copy to Excel or R</p>
             </div>
         </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">🔧</div>
-                        <h4>Configure</h4>
-                        <p>Attributes & levels</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">⚙️</div>
-                        <h4>Generate</h4>
-                        <p>Optimal design</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📥</div>
-                        <h4>Export</h4>
-                        <p>Survey-ready</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">D-optimal designs reduce sample costs by 25-40%*</div>
-                    <p>Same precision, fewer respondents, faster insights</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ R Shiny Application</span>
-                    <span class="tag">✓ Qualtrics Integration</span>
-                    <span class="tag">✓ 25-Page Design Guide</span>
-                    <span class="tag">✓ Sample Size Calculator</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Market Research Firms</span>
-                    <span class="tag">CPG / FMCG</span>
-                    <span class="tag">Technology</span>
-                    <span class="tag">Healthcare</span>
-                    <span class="tag">Financial Services</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Build Better Research?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Conjoint%20Design%20Generator%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Conjoint analysis can increase product success rates by 20-30%*</div>
+            <p>Make data-driven product decisions</p>
         </div>
     </div>
 
+    <!-- Right: Key Benefits -->
+    <div class="section">
+        <h3><span class="icon">&#9733;</span> Key Benefits</h3>
+        <ul class="benefits-list">
+            <li><span class="check-icon">&#10003;</span> Reduce full factorial to efficient subset</li>
+            <li><span class="check-icon">&#10003;</span> Powered by R's proven conjoint package</li>
+            <li><span class="check-icon">&#10003;</span> Instant dummy-coded design matrix</li>
+            <li><span class="check-icon">&#10003;</span> One-click Excel compatibility</li>
+            <li><span class="check-icon">&#10003;</span> Reproducible R script export</li>
+        </ul>
+        <h3 style="margin-top: 14px;"><span class="icon">&#127970;</span> Who Uses This</h3>
+        <div class="tags">
+            <span class="tag">Product Managers</span>
+            <span class="tag">Market Researchers</span>
+            <span class="tag">Pricing Analysts</span>
+            <span class="tag">Brand Strategists</span>
+            <span class="tag">Academics</span>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Optimize Your Conjoint Study?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA | #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Conjoint%20Design%20Tool%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    *Source: Harvard Business Review | &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

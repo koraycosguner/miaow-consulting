@@ -4,87 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price Index Calculator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -182,7 +126,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +142,28 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Index Types */
+        .index-types {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-bottom: 14px;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+        .index-type {
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        .index-type h4 {
+            font-size: 10pt;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+        .index-type p {
+            font-size: 9pt;
+            color: var(--text-light);
+        }
 
         /* Stat Box */
         .stat-box {
@@ -232,6 +186,24 @@
             font-size: 10pt;
             color: var(--text-main);
         }
+
+        /* Use Cases */
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .use-case {
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .use-case .emoji { font-size: 20pt; margin-bottom: 6px; }
+        .use-case h4 { font-size: 10pt; color: var(--navy); margin-bottom: 4px; }
+        .use-case p { font-size: 8pt; color: var(--text-light); }
 
         /* Credibility Footer */
         .credibility {
@@ -295,208 +267,209 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Price Index Calculator</h1>
-                <div class="tagline">Track Inflation Like a Central Banker</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Price Index Calculator</h1>
+        <div class="tagline">Track Inflation with Precision</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Measure Price Changes Accurately</h2>
+        <p>Calculate Laspeyres, Paasche, and Fisher price indices to track inflation, deflation, and purchasing power changes across any product basket.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Laspeyres Index</strong>
+                <span>Base period weights</span>
+            </div>
+            <div class="hero-output">
+                <strong>Paasche Index</strong>
+                <span>Current period weights</span>
+            </div>
+            <div class="hero-output">
+                <strong>Fisher Index</strong>
+                <span>Geometric mean</span>
+            </div>
+            <div class="hero-output">
+                <strong>Time Series</strong>
+                <span>Track trends over time</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 160">
+            <!-- Grid -->
+            <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Measure Price Movements with Precision</h2>
-                <p>Calculate Laspeyres, Paasche, and Fisher Ideal price indices using the same methodology as central banks and government agencies. Make informed pricing decisions with professional-grade inflation analysis.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Fisher Ideal Index</strong>
-                        <span>Gold-standard accuracy</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Inflation Rate</strong>
-                        <span>YoY and period comparison</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Component Breakdown</strong>
-                        <span>Category-level drivers</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Trend Visualization</strong>
-                        <span>Interactive time series</span>
-                    </div>
-                </div>
+            <!-- Y-axis labels -->
+            <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">95</text>
+            <text x="35" y="108" font-size="8" fill="#64748b" text-anchor="end">100</text>
+            <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">105</text>
+            <text x="35" y="38" font-size="8" fill="#64748b" text-anchor="end">110</text>
+
+            <!-- X-axis labels -->
+            <text x="70" y="153" font-size="8" fill="#64748b" text-anchor="middle">Q1</text>
+            <text x="130" y="153" font-size="8" fill="#64748b" text-anchor="middle">Q2</text>
+            <text x="190" y="153" font-size="8" fill="#64748b" text-anchor="middle">Q3</text>
+            <text x="250" y="153" font-size="8" fill="#64748b" text-anchor="middle">Q4</text>
+
+            <!-- Base line at 100 -->
+            <line x1="40" y1="105" x2="280" y2="105" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4"/>
+
+            <!-- Laspeyres line (navy) -->
+            <polyline points="70,105 130,85 190,65 250,50" fill="none" stroke="#1e3a5f" stroke-width="2.5"/>
+            <circle cx="70" cy="105" r="4" fill="#1e3a5f"/>
+            <circle cx="130" cy="85" r="4" fill="#1e3a5f"/>
+            <circle cx="190" cy="65" r="4" fill="#1e3a5f"/>
+            <circle cx="250" cy="50" r="4" fill="#1e3a5f"/>
+
+            <!-- Paasche line (lighter navy) -->
+            <polyline points="70,105 130,88 190,70 250,55" fill="none" stroke="#2d4a6f" stroke-width="2.5"/>
+            <circle cx="70" cy="105" r="4" fill="#2d4a6f"/>
+            <circle cx="130" cy="88" r="4" fill="#2d4a6f"/>
+            <circle cx="190" cy="70" r="4" fill="#2d4a6f"/>
+            <circle cx="250" cy="55" r="4" fill="#2d4a6f"/>
+
+            <!-- Fisher line (gold) -->
+            <polyline points="70,105 130,86 190,67 250,52" fill="none" stroke="#c9a227" stroke-width="3"/>
+            <circle cx="70" cy="105" r="5" fill="#c9a227"/>
+            <circle cx="130" cy="86" r="5" fill="#c9a227"/>
+            <circle cx="190" cy="67" r="5" fill="#c9a227"/>
+            <circle cx="250" cy="52" r="5" fill="#c9a227"/>
+
+            <!-- Legend -->
+            <line x1="55" y1="12" x2="75" y2="12" stroke="#1e3a5f" stroke-width="2.5"/>
+            <text x="80" y="15" font-size="8" fill="#64748b">Laspeyres</text>
+            <line x1="135" y1="12" x2="155" y2="12" stroke="#2d4a6f" stroke-width="2.5"/>
+            <text x="160" y="15" font-size="8" fill="#64748b">Paasche</text>
+            <line x1="205" y1="12" x2="225" y2="12" stroke="#c9a227" stroke-width="3"/>
+            <text x="230" y="15" font-size="8" fill="#64748b">Fisher</text>
+        </svg>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Index Types -->
+    <div class="section">
+        <h3><span class="icon">&#128200;</span> Four Index Types</h3>
+        <div class="index-types">
+            <div class="index-type">
+                <h4>Laspeyres</h4>
+                <p>Uses base period quantities as weights. Tends to overstate inflation.</p>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-
-                    <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">100</text>
-                    <text x="35" y="108" font-size="8" fill="#64748b" text-anchor="end">110</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">120</text>
-                    <text x="35" y="38" font-size="8" fill="#64748b" text-anchor="end">130</text>
-
-                    <!-- X-axis labels (years) -->
-                    <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">2021</text>
-                    <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">2022</text>
-                    <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">2023</text>
-                    <text x="240" y="153" font-size="8" fill="#64748b" text-anchor="middle">2024</text>
-
-                    <!-- Laspeyres Index (blue) -->
-                    <path d="M60,140 L120,115 L180,85 L240,55" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
-                    <circle cx="60" cy="140" r="4" fill="#3b82f6"/>
-                    <circle cx="120" cy="115" r="4" fill="#3b82f6"/>
-                    <circle cx="180" cy="85" r="4" fill="#3b82f6"/>
-                    <circle cx="240" cy="55" r="4" fill="#3b82f6"/>
-
-                    <!-- Paasche Index (green) -->
-                    <path d="M60,140 L120,118 L180,92 L240,65" fill="none" stroke="#22c55e" stroke-width="2.5"/>
-                    <circle cx="60" cy="140" r="4" fill="#22c55e"/>
-                    <circle cx="120" cy="118" r="4" fill="#22c55e"/>
-                    <circle cx="180" cy="92" r="4" fill="#22c55e"/>
-                    <circle cx="240" cy="65" r="4" fill="#22c55e"/>
-
-                    <!-- Fisher Index (gold) -->
-                    <path d="M60,140 L120,116 L180,88 L240,60" fill="none" stroke="#c9a227" stroke-width="2.5"/>
-                    <circle cx="60" cy="140" r="4" fill="#c9a227"/>
-                    <circle cx="120" cy="116" r="4" fill="#c9a227"/>
-                    <circle cx="180" cy="88" r="4" fill="#c9a227"/>
-                    <circle cx="240" cy="60" r="4" fill="#c9a227"/>
-
-                    <!-- Legend -->
-                    <line x1="55" y1="12" x2="75" y2="12" stroke="#3b82f6" stroke-width="2.5"/>
-                    <text x="80" y="15" font-size="8" fill="#64748b">Laspeyres</text>
-                    <line x1="125" y1="12" x2="145" y2="12" stroke="#22c55e" stroke-width="2.5"/>
-                    <text x="150" y="15" font-size="8" fill="#64748b">Paasche</text>
-                    <line x1="195" y1="12" x2="215" y2="12" stroke="#c9a227" stroke-width="2.5"/>
-                    <text x="220" y="15" font-size="8" fill="#64748b">Fisher</text>
-                </svg>
+            <div class="index-type">
+                <h4>Paasche</h4>
+                <p>Uses current period quantities. Tends to understate inflation.</p>
             </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">🛒</div>
-                        <h4>Define Basket</h4>
-                        <p>Select items & weights</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Input Prices</h4>
-                        <p>Base & current periods</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📈</div>
-                        <h4>Calculate</h4>
-                        <p>All index types</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Companies with pricing intelligence outperform by 2-4%*</div>
-                    <p>Turn price data into competitive advantage</p>
-                </div>
+            <div class="index-type">
+                <h4>Fisher</h4>
+                <p>Geometric mean of both. Most accurate overall measure.</p>
             </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Web-Based Calculator</span>
-                    <span class="tag">✓ 15-Page User Guide</span>
-                    <span class="tag">✓ Sample Datasets</span>
-                    <span class="tag">✓ Excel Export</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Retail</span>
-                    <span class="tag">CPG</span>
-                    <span class="tag">Manufacturing</span>
-                    <span class="tag">Economic Research</span>
-                    <span class="tag">Procurement</span>
-                </div>
+            <div class="index-type">
+                <h4>CPI-Style</h4>
+                <p>Weighted average approach used by government statistics.</p>
             </div>
         </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Master Price Tracking?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Price%20Index%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Instant calculation with visual trends</div>
+            <p>Upload your data and get results in seconds</p>
         </div>
     </div>
 
+    <!-- Right: Use Cases & Features -->
+    <div class="section">
+        <h3><span class="icon">&#128188;</span> Key Applications</h3>
+        <div class="use-cases">
+            <div class="use-case">
+                <div class="emoji">&#128176;</div>
+                <h4>Inflation Analysis</h4>
+                <p>Track price changes over time</p>
+            </div>
+            <div class="use-case">
+                <div class="emoji">&#128722;</div>
+                <h4>Cost of Living</h4>
+                <p>Consumer basket analysis</p>
+            </div>
+            <div class="use-case">
+                <div class="emoji">&#127981;</div>
+                <h4>Procurement</h4>
+                <p>Supplier price monitoring</p>
+            </div>
+        </div>
+        <h3 style="margin-top: 16px;"><span class="icon">&#128230;</span> What You Get</h3>
+        <div class="tags">
+            <span class="tag">Web-Based Tool</span>
+            <span class="tag">CSV Import/Export</span>
+            <span class="tag">Time Series Charts</span>
+            <span class="tag">User Manual</span>
+            <span class="tag">Sample Data</span>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Track Your Price Indices?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA | #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Price%20Index%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved. | Dr. Koray Cosguner | Kelley School of Business
+</div>
 
 </body>
 </html>

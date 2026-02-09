@@ -4,87 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Pricing Simulator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -182,7 +126,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +142,24 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
+        /* Features List */
+        .features {
+            list-style: none;
+            padding: 0;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+        .features li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 10pt;
+        }
+        .features li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: 700;
+        }
 
         /* Stat Box */
         .stat-box {
@@ -218,8 +168,9 @@
             padding: 14px;
             border-radius: 10px;
             text-align: center;
+            margin-top: 14px;
         }
-        .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
+        .stat-box .big-stat { font-size: 14pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
 
         /* Tags */
@@ -232,6 +183,24 @@
             font-size: 10pt;
             color: var(--text-main);
         }
+
+        /* Use Cases */
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .use-case {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .use-case .emoji { font-size: 20pt; margin-bottom: 6px; }
+        .use-case h4 { font-size: 10pt; color: var(--navy); margin-bottom: 4px; }
+        .use-case p { font-size: 8pt; color: var(--text-light); }
 
         /* Credibility Footer */
         .credibility {
@@ -295,200 +264,203 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Dynamic Pricing Simulator</h1>
-                <div class="tagline">Price in Real-Time</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Dynamic Pricing Simulator</h1>
+        <div class="tagline">Maximize Revenue with Smart Pricing</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Turn Demand Fluctuations into Profit</h2>
+        <p>Model and optimize time-varying prices based on demand patterns, inventory levels, and competitive dynamics. See exactly how dynamic pricing outperforms fixed pricing.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Optimal Prices</strong>
+                <span>For each time period</span>
+            </div>
+            <div class="hero-output">
+                <strong>Revenue Lift</strong>
+                <span>vs. fixed pricing</span>
+            </div>
+            <div class="hero-output">
+                <strong>Demand Forecast</strong>
+                <span>With price effects</span>
+            </div>
+            <div class="hero-output">
+                <strong>Capacity Utilization</strong>
+                <span>Optimization</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 160">
+            <!-- Grid -->
+            <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Simulate Dynamic Pricing Strategies</h2>
-                <p>Simulate dynamic pricing based on demand, inventory, and time. Model surge pricing and markdowns to maximize revenue.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Dynamic Price</strong>
-                        <span>Real-time optimization</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Revenue Lift</strong>
-                        <span>vs. static pricing</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Demand Patterns</strong>
-                        <span>Time-based trends</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Optimal Timing</strong>
-                        <span>When to adjust</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <!-- Y-axis labels -->
+            <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">$50</text>
+            <text x="35" y="108" font-size="8" fill="#64748b" text-anchor="end">$100</text>
+            <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">$150</text>
+            <text x="35" y="38" font-size="8" fill="#64748b" text-anchor="end">$200</text>
 
-                    <!-- Axis labels -->
-                    <text x="160" y="155" font-size="9" fill="#64748b" text-anchor="middle">Time</text>
+            <!-- X-axis labels -->
+            <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">Mon</text>
+            <text x="110" y="153" font-size="8" fill="#64748b" text-anchor="middle">Wed</text>
+            <text x="160" y="153" font-size="8" fill="#64748b" text-anchor="middle">Fri</text>
+            <text x="210" y="153" font-size="8" fill="#64748b" text-anchor="middle">Sat</text>
+            <text x="260" y="153" font-size="8" fill="#64748b" text-anchor="middle">Sun</text>
 
-                    <!-- Y-axis -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">$50</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">$100</text>
-                    <text x="35" y="23" font-size="8" fill="#64748b" text-anchor="end">$150</text>
+            <!-- Fixed Price (dashed gray line) -->
+            <line x1="50" y1="105" x2="270" y2="105" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6,4"/>
 
-                    <!-- X-axis time labels -->
-                    <text x="60" y="153" font-size="7" fill="#64748b" text-anchor="middle">6am</text>
-                    <text x="120" y="153" font-size="7" fill="#64748b" text-anchor="middle">12pm</text>
-                    <text x="180" y="153" font-size="7" fill="#64748b" text-anchor="middle">6pm</text>
-                    <text x="240" y="153" font-size="7" fill="#64748b" text-anchor="middle">12am</text>
+            <!-- Dynamic Price (gold line) -->
+            <path d="M50,120 L85,115 L110,105 L140,90 L160,60 L190,45 L220,40 L250,50 L270,55"
+                  fill="none" stroke="#c9a227" stroke-width="3"/>
 
-                    <!-- Static price line (baseline) -->
-                    <line x1="50" y1="85" x2="270" y2="85" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
+            <!-- Revenue area (gold fill) -->
+            <path d="M50,120 L85,115 L110,105 L140,90 L160,60 L190,45 L220,40 L250,50 L270,55 L270,105 L50,105 Z"
+                  fill="rgba(201,162,39,0.2)"/>
 
-                    <!-- Dynamic price line with surge -->
-                    <path d="M50,100 L80,95 L100,80 L120,55 L140,40 L160,35 L180,45 L200,70 L220,90 L240,100 L270,110" fill="none" stroke="#c9a227" stroke-width="3"/>
+            <!-- Legend -->
+            <line x1="55" y1="15" x2="80" y2="15" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6,4"/>
+            <text x="85" y="18" font-size="9" fill="#64748b">Fixed Price</text>
+            <line x1="165" y1="15" x2="190" y2="15" stroke="#c9a227" stroke-width="3"/>
+            <text x="195" y="18" font-size="9" fill="#64748b">Dynamic Price</text>
 
-                    <!-- Surge zone highlight -->
-                    <rect x="110" y="30" width="60" height="60" fill="#c9a227" opacity="0.1" rx="4"/>
-                    <text x="140" y="25" font-size="8" fill="#c9a227" text-anchor="middle" font-weight="600">Surge</text>
+            <!-- Revenue gain label -->
+            <rect x="185" y="65" width="75" height="22" rx="5" fill="#1e3a5f"/>
+            <text x="222" y="80" font-size="10" fill="white" text-anchor="middle" font-weight="600">+15-25% Rev</text>
+        </svg>
+    </div>
+</div>
 
-                    <!-- Revenue lift annotation -->
-                    <rect x="190" y="55" width="70" height="20" rx="4" fill="#22c55e"/>
-                    <text x="225" y="69" font-size="9" fill="white" text-anchor="middle" font-weight="600">+18% Rev</text>
-
-                    <!-- Legend -->
-                    <line x1="55" y1="12" x2="80" y2="12" stroke="#c9a227" stroke-width="2.5"/>
-                    <text x="85" y="15" font-size="9" fill="#64748b">Dynamic</text>
-                    <line x1="140" y1="12" x2="165" y2="12" stroke="#64748b" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="170" y="15" font-size="9" fill="#64748b">Static</text>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Input</h4>
-                        <p>Demand & inventory</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">⚙️</div>
-                        <h4>Simulate</h4>
-                        <p>Run scenarios</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">💰</div>
-                        <h4>Optimize</h4>
-                        <p>Max revenue</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Dynamic pricing can boost revenue 10-25%</div>
-                    <p>Capture value when demand peaks</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ Surge Modeling</span>
-                    <span class="tag">✓ Markdown Optimizer</span>
-                    <span class="tag">✓ Revenue Projections</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Airlines</span>
-                    <span class="tag">Hotels</span>
-                    <span class="tag">E-commerce</span>
-                    <span class="tag">Ride-sharing</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Price Dynamically?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Dynamic%20Pricing%20Simulator%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Key Features -->
+    <div class="section">
+        <h3><span class="icon">&#9889;</span> Key Capabilities</h3>
+        <ul class="features">
+            <li><strong>Demand-Based Pricing:</strong> Automatically adjust prices based on time-of-day, day-of-week, and seasonal demand patterns</li>
+            <li><strong>Scarcity Pricing:</strong> Increase prices as inventory depletes to maximize revenue from limited capacity</li>
+            <li><strong>Competitor Response:</strong> Factor in competitor pricing to stay competitive while maximizing margins</li>
+            <li><strong>Price Elasticity Modeling:</strong> Predict demand changes from price adjustments</li>
+            <li><strong>Revenue Comparison:</strong> Side-by-side analysis of fixed vs. dynamic pricing strategies</li>
+        </ul>
+        <div class="stat-box">
+            <div class="big-stat">Companies using dynamic pricing see 2-8% revenue gains*</div>
+            <p>*Source: McKinsey Pricing Practice</p>
         </div>
     </div>
 
+    <!-- Right: Industries & Deliverables -->
+    <div class="section">
+        <h3><span class="icon">&#128230;</span> What You Get</h3>
+        <div class="tags">
+            <span class="tag">Web-Based Simulator</span>
+            <span class="tag">User Manual</span>
+            <span class="tag">Sample Scenarios</span>
+            <span class="tag">Export to CSV</span>
+            <span class="tag">Interactive Charts</span>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">&#127970;</span> Industries</h3>
+        <div class="use-cases">
+            <div class="use-case">
+                <div class="emoji">&#9992;</div>
+                <h4>Airlines</h4>
+                <p>Seat pricing</p>
+            </div>
+            <div class="use-case">
+                <div class="emoji">&#127976;</div>
+                <h4>Hotels</h4>
+                <p>Room rates</p>
+            </div>
+            <div class="use-case">
+                <div class="emoji">&#127903;</div>
+                <h4>Events</h4>
+                <p>Ticket sales</p>
+            </div>
+            <div class="use-case">
+                <div class="emoji">&#128663;</div>
+                <h4>Rideshare</h4>
+                <p>Surge pricing</p>
+            </div>
+            <div class="use-case">
+                <div class="emoji">&#128722;</div>
+                <h4>E-commerce</h4>
+                <p>Flash sales</p>
+            </div>
+            <div class="use-case">
+                <div class="emoji">&#9193;</div>
+                <h4>SaaS</h4>
+                <p>Usage-based</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Optimize Your Pricing?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA - #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Dynamic%20Pricing%20Demo%20Request" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

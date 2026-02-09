@@ -3,486 +3,346 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Position Mapper | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Market Position Analyzer - Sales Sheet | MIAOW</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --navy: #1e3a5f;
-            --navy-dark: #0f2744;
+            --navy-dark: #1e3a5f;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
             --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
-            --text-main: #2d3748;
-            --text-light: #64748b;
-            --border: #e5e7eb;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
-            max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
-            padding: 0.4in;
-            background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
+            --gray-100: #f1f5f9;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
-            @page { size: letter; margin: 0; }
+            body { margin: 0; }
+            .page { page-break-after: always; }
         }
 
-        /* Header */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-800);
+            line-height: 1.5;
+            background: var(--white);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+        }
+
+        .page {
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            min-height: 11in;
+        }
+
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            border-bottom: 3px solid var(--gold);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .logo {
-            font-family: 'Raleway', sans-serif;
-            font-size: 32pt;
-            font-weight: 800;
-            color: var(--navy);
-        }
-        .logo span {
+        .brand {
             color: var(--gold);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
         }
 
-        .header-right { text-align: right; }
-        .header-right h1 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 18pt;
-            color: var(--navy);
+        .header h1 {
+            color: var(--navy-dark);
+            font-size: 2rem;
+            margin-top: 0.25rem;
         }
+
+        .logo-area {
+            text-align: right;
+        }
+
         .tagline {
-            font-size: 13pt;
-            color: var(--gold);
-            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--navy-light);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
         }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+        .hero-section {
+            background: linear-gradient(135deg, var(--navy-dark), var(--navy-light));
+            color: var(--white);
+            padding: 1.5rem;
             border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 24px;
-            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
-        .hero-text { color: white; }
-        .hero-text h2 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 15pt;
-            color: var(--gold);
-            margin-bottom: 10px;
-        }
-        .hero-text p {
-            font-size: 11pt;
-            color: rgba(255,255,255,0.9);
-            line-height: 1.5;
-            margin-bottom: 16px;
+        .hero-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
         }
 
-        .hero-outputs {
+        .hero-section p {
+            opacity: 0.9;
+        }
+
+        .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
-        .hero-output {
-            background: rgba(255,255,255,0.12);
-            padding: 10px 12px;
+
+        .feature-box {
+            background: var(--gray-100);
+            padding: 1.25rem;
             border-radius: 8px;
-        }
-        .hero-output strong {
-            color: var(--gold);
-            display: block;
-            font-size: 11pt;
-        }
-        .hero-output span {
-            color: rgba(255,255,255,0.8);
-            font-size: 9pt;
+            border-left: 4px solid var(--gold);
         }
 
-        /* Chart */
-        .chart-container {
-            background: white;
-            border-radius: 10px;
-            padding: 16px;
-            height: 200px;
+        .feature-box h3 {
+            color: var(--navy-dark);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
         }
-        .chart-svg { width: 100%; height: 100%; }
 
-        /* Two Column Grid */
-        .main-grid {
+        .feature-box p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .benefits-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .section {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 18px;
-        }
-
-        h3 {
-            font-family: 'Raleway', sans-serif;
-            font-size: 13pt;
-            color: var(--navy);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        h3 .icon { font-size: 18pt; }
-
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-        }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
-
-        /* Stat Box */
-        .stat-box {
-            background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
-            color: white;
-            padding: 14px;
-            border-radius: 10px;
+        .benefit-card {
             text-align: center;
-        }
-        .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
-        .stat-box p { font-size: 10pt; margin-top: 4px; }
-
-        /* Tags */
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tag {
-            background: white;
-            border: 1px solid #e5e7eb;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 10pt;
-            color: var(--text-main);
-        }
-
-        /* Credibility Footer */
-        .credibility {
-            background: var(--navy);
-            border-radius: 12px;
-            padding: 20px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-
-        .cred-left h3 {
-            color: var(--gold);
-            font-size: 14pt;
-            margin-bottom: 6px;
-        }
-        .cred-left .name {
-            font-size: 12pt;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .cred-left .title {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 8px;
-        }
-        .cred-left .contact {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.7);
-        }
-        .cred-left .contact a {
-            color: var(--gold);
-            text-decoration: none;
-        }
-
-        .cred-right { text-align: right; }
-        .cred-badge {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid var(--gold);
-            padding: 12px 18px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        .cred-badge .school {
-            font-size: 11pt;
-            font-weight: 600;
-            color: white;
-        }
-        .cred-badge .ranks {
-            font-size: 10pt;
-            color: var(--gold);
-            margin-top: 4px;
-        }
-        .cta-button {
-            background: var(--gold);
-            color: white;
-            padding: 14px 28px;
+            padding: 1rem;
+            background: var(--white);
+            border: 1px solid var(--gold);
             border-radius: 8px;
-            text-decoration: none;
+        }
+
+        .benefit-card .number {
+            font-size: 2rem;
             font-weight: 700;
-            font-size: 12pt;
-            display: inline-block;
-            transition: background 0.2s ease;
-        }
-        .cta-button:hover { background: var(--gold-light); }
-
-        /* Sheet Footer */
-        .sheet-footer {
-            margin-top: 12px;
-            text-align: center;
-            font-size: 8pt;
-            color: var(--text-light);
+            color: var(--gold);
         }
 
-        /* Site Footer */
-        .site-footer {
+        .benefit-card .label {
+            font-size: 0.85rem;
+            color: var(--navy-dark);
+            font-weight: 600;
+        }
+
+        .section-title {
+            color: var(--navy-dark);
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .use-cases {
+            margin-bottom: 1.5rem;
+        }
+
+        .use-case-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        .use-case-bullet {
+            width: 24px;
+            height: 24px;
+            background: var(--gold);
+            color: var(--navy-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .use-case-text {
+            font-size: 0.9rem;
+        }
+
+        .use-case-text strong {
+            color: var(--navy-dark);
+        }
+
+        .cta-section {
             background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
+            color: var(--white);
+            padding: 1.25rem;
+            border-radius: 8px;
             text-align: center;
-            margin-top: 60px;
         }
 
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
+        .cta-section h3 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
         }
+
+        .footer {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-100);
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .footer .copyright {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .footer .author {
+            color: var(--gray-600);
+        }
+
+        .output-preview {
+            background: var(--gray-100);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .output-preview h3 {
+            font-size: 1rem;
+            color: var(--navy-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .quadrant-preview {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .quadrant-preview div {
+            padding: 0.5rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .q-premium { background: #d1fae5; color: #065f46; }
+        .q-economy { background: #fef3c7; color: #92400e; }
+        .q-overpriced { background: #fee2e2; color: #991b1b; }
+        .q-underpriced { background: #dbeafe; color: #1e40af; }
     </style>
 </head>
 <body>
+    <div class="page">
+        <header class="header">
+            <div>
+                <div class="brand">MIAOW PRICING TOOLS</div>
+                <h1>Market Position Analyzer</h1>
+            </div>
+            <div class="logo-area">
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--navy-dark);">Tool #40</div>
+            </div>
+        </header>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+        <p class="tagline">Visualize your competitive position on price-value maps and identify strategic opportunities</p>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Market Position Mapper</h1>
-                <div class="tagline">See Your Competitive Landscape</div>
+        <div class="hero-section">
+            <h2>See Where You Stand. Know Where to Go.</h2>
+            <p>The Market Position Analyzer creates visual price-value maps that reveal your competitive positioning at a glance. Understand whether you're capturing fair value for your offering and identify strategic moves to improve your market position.</p>
+        </div>
+
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="number">4</div>
+                <div class="label">Position Quadrants Analyzed</div>
+            </div>
+            <div class="benefit-card">
+                <div class="number">2x</div>
+                <div class="label">Faster Pricing Decisions</div>
+            </div>
+            <div class="benefit-card">
+                <div class="number">100%</div>
+                <div class="label">Visual Clarity</div>
             </div>
         </div>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Visualize Your Position</h2>
-                <p>Map price vs value position. Visualize competitive landscape and identify white space opportunities for strategic positioning.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Position Map</strong>
-                        <span>Visual landscape</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Value Scores</strong>
-                        <span>Attribute ratings</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Competitive Gaps</strong>
-                        <span>White space analysis</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Strategic Options</strong>
-                        <span>Positioning moves</span>
-                    </div>
-                </div>
+        <div class="two-column">
+            <div class="feature-box">
+                <h3>Price-Value Position Map</h3>
+                <p>Interactive scatter plot showing your position relative to all competitors on price and value dimensions.</p>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="80" x2="280" y2="80" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="160" y1="10" x2="160" y2="150" stroke="#e5e7eb" stroke-width="1"/>
-
-                    <!-- Quadrant labels -->
-                    <text x="100" y="25" font-size="8" fill="#64748b" text-anchor="middle">Premium</text>
-                    <text x="220" y="25" font-size="8" fill="#64748b" text-anchor="middle">Overpriced</text>
-                    <text x="100" y="145" font-size="8" fill="#64748b" text-anchor="middle">Value Leader</text>
-                    <text x="220" y="145" font-size="8" fill="#64748b" text-anchor="middle">Economy</text>
-
-                    <!-- Axis labels -->
-                    <text x="280" y="75" font-size="8" fill="#1e3a5f" font-weight="600">Low Value</text>
-                    <text x="50" y="75" font-size="8" fill="#1e3a5f" font-weight="600">High Value</text>
-                    <text x="160" y="8" font-size="8" fill="#1e3a5f" font-weight="600" text-anchor="middle">High Price</text>
-                    <text x="160" y="158" font-size="8" fill="#1e3a5f" font-weight="600" text-anchor="middle">Low Price</text>
-
-                    <!-- Competitor bubbles -->
-                    <circle cx="80" cy="45" r="15" fill="#64748b" opacity="0.6"/>
-                    <text x="80" y="48" font-size="7" fill="white" text-anchor="middle">A</text>
-
-                    <circle cx="200" cy="50" r="12" fill="#64748b" opacity="0.6"/>
-                    <text x="200" y="53" font-size="7" fill="white" text-anchor="middle">B</text>
-
-                    <circle cx="230" cy="110" r="14" fill="#64748b" opacity="0.6"/>
-                    <text x="230" y="113" font-size="7" fill="white" text-anchor="middle">C</text>
-
-                    <circle cx="90" cy="115" r="11" fill="#64748b" opacity="0.6"/>
-                    <text x="90" y="118" font-size="7" fill="white" text-anchor="middle">D</text>
-
-                    <!-- Your position (gold, larger) -->
-                    <circle cx="110" cy="60" r="18" fill="#c9a227"/>
-                    <text x="110" y="64" font-size="8" fill="white" text-anchor="middle" font-weight="600">You</text>
-
-                    <!-- White space opportunity (dashed circle) -->
-                    <circle cx="140" cy="100" r="20" fill="none" stroke="#22c55e" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="140" y="103" font-size="7" fill="#22c55e" text-anchor="middle">Opportunity</text>
-                </svg>
+            <div class="feature-box">
+                <h3>Quadrant Classification</h3>
+                <p>Automatic categorization into Premium, Economy, Overpriced, or Underpriced positions with strategic implications.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Value-Price Ratio Ranking</h3>
+                <p>See how your value proposition compares to competitors with clear rankings and benchmarks.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Strategic Recommendations</h3>
+                <p>Actionable guidance based on your position, including pricing opportunities and competitive responses.</p>
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Input</h4>
-                        <p>Competitor data</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🗺️</div>
-                        <h4>Map</h4>
-                        <p>Position plot</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🎯</div>
-                        <h4>Strategy</h4>
-                        <p>Find white space</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Companies in optimal positions see 23% higher margins</div>
-                    <p>Position determines profitability</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Web-Based Tool</span>
-                    <span class="tag">✓ Interactive Maps</span>
-                    <span class="tag">✓ Scenario Modeling</span>
-                    <span class="tag">✓ Export to PowerPoint</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Any Competitive Market</span>
-                </div>
+        <div class="output-preview">
+            <h3>Position Quadrant Framework</h3>
+            <div class="quadrant-preview">
+                <div class="q-premium"><strong>Premium:</strong> High Price + High Value</div>
+                <div class="q-overpriced"><strong>Overpriced:</strong> High Price + Low Value</div>
+                <div class="q-underpriced"><strong>Underpriced:</strong> Low Price + High Value</div>
+                <div class="q-economy"><strong>Economy:</strong> Low Price + Low Value</div>
             </div>
         </div>
 
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Map Your Competitive Position?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
+        <h3 class="section-title">Key Use Cases</h3>
+        <div class="use-cases">
+            <div class="use-case-item">
+                <div class="use-case-bullet">1</div>
+                <div class="use-case-text"><strong>Pricing Strategy Review:</strong> Visualize your current market position and identify whether prices align with delivered value.</div>
             </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Market%20Position%20Mapper%20Demo%20Request" class="cta-button">Request Demo</a>
+            <div class="use-case-item">
+                <div class="use-case-bullet">2</div>
+                <div class="use-case-text"><strong>New Product Positioning:</strong> Determine optimal price-value position for new product launches.</div>
+            </div>
+            <div class="use-case-item">
+                <div class="use-case-bullet">3</div>
+                <div class="use-case-text"><strong>Competitive Response:</strong> Understand how competitor actions affect your relative position.</div>
+            </div>
+            <div class="use-case-item">
+                <div class="use-case-bullet">4</div>
+                <div class="use-case-text"><strong>Value Communication:</strong> Build compelling value stories based on objective positioning data.</div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="cta-section">
+            <h3>Map Your Market Position</h3>
+            <p>Transform competitive intelligence into clear visual insights with position mapping.</p>
         </div>
+
+        <footer class="footer">
+            <p class="copyright">&copy; 2026 MIAOW LLC. All Rights Reserved.</p>
+            <p class="author">Dr. Koray Cosguner &middot; Kelley School of Business</p>
+        </footer>
     </div>
-
-
 </body>
 </html>

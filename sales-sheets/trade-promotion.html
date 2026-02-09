@@ -4,91 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trade Promotion Analyzer | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -102,9 +47,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -118,7 +61,6 @@
             font-weight: 600;
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
             border-radius: 12px;
@@ -164,7 +106,6 @@
             font-size: 9pt;
         }
 
-        /* Chart */
         .chart-container {
             background: white;
             border-radius: 10px;
@@ -173,7 +114,6 @@
         }
         .chart-svg { width: 100%; height: 100%; }
 
-        /* Two Column Grid */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -182,7 +122,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,7 +138,6 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
         .steps {
             display: flex;
             justify-content: space-between;
@@ -211,7 +150,6 @@
         .step p { font-size: 9pt; color: var(--text-light); }
         .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
 
-        /* Stat Box */
         .stat-box {
             background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
             color: white;
@@ -222,7 +160,6 @@
         .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
 
-        /* Tags */
         .tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag {
             background: white;
@@ -233,7 +170,6 @@
             color: var(--text-main);
         }
 
-        /* Credibility Footer */
         .credibility {
             background: var(--navy);
             border-radius: 12px;
@@ -295,210 +231,169 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Trade Promotion Analyzer</h1>
-                <div class="tagline">Turn Trade Spend Into Measurable ROI</div>
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Trade Promotion Analyzer</h1>
+        <div class="tagline">Measure What Promotions Really Deliver</div>
+    </div>
+</div>
+
+<div class="hero">
+    <div class="hero-text">
+        <h2>Know Your Promotion ROI</h2>
+        <p>Decompose trade promotion results into true incremental sales, borrowed sales, and cannibalization. Make data-driven decisions about promotion investments.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Promotion ROI</strong>
+                <span>Investment return</span>
+            </div>
+            <div class="hero-output">
+                <strong>Incremental Lift</strong>
+                <span>True new demand</span>
+            </div>
+            <div class="hero-output">
+                <strong>Borrowed Sales</strong>
+                <span>Forward pull effect</span>
+            </div>
+            <div class="hero-output">
+                <strong>Cannibalization</strong>
+                <span>Portfolio impact</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 160">
+            <!-- Waterfall chart illustration -->
+            <rect x="30" y="80" width="40" height="60" fill="#64748b" rx="4"/>
+            <text x="50" y="150" font-size="8" fill="#64748b" text-anchor="middle">Base</text>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Stop Wasting 59% of Your Trade Budget</h2>
-                <p>Know exactly which promotions drive profit and which drain your margins. Get actionable lift analysis, pass-through tracking, and ROI calculations that turn guesswork into guaranteed returns.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Promotion ROI Calculator</strong>
-                        <span>$ return per $ spent</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Lift Decomposition</strong>
-                        <span>Baseline vs incremental</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Retailer Pass-Through Audit</strong>
-                        <span>Compliance by account</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Promo Optimization Engine</strong>
-                        <span>Best tactic mix</span>
-                    </div>
-                </div>
+            <rect x="80" y="60" width="40" height="20" fill="#f59e0b" rx="4"/>
+            <text x="100" y="150" font-size="8" fill="#64748b" text-anchor="middle">Borrow</text>
+
+            <rect x="130" y="45" width="40" height="15" fill="#ef4444" rx="4"/>
+            <text x="150" y="150" font-size="8" fill="#64748b" text-anchor="middle">Cannib</text>
+
+            <rect x="180" y="20" width="40" height="25" fill="#10b981" rx="4"/>
+            <text x="200" y="150" font-size="8" fill="#64748b" text-anchor="middle">Increm</text>
+
+            <rect x="230" y="20" width="40" height="120" fill="#1e3a5f" rx="4"/>
+            <text x="250" y="150" font-size="8" fill="#64748b" text-anchor="middle">Total</text>
+
+            <!-- Labels -->
+            <text x="150" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Sales Decomposition</text>
+
+            <!-- Legend -->
+            <rect x="40" y="10" width="10" height="10" fill="#64748b"/>
+            <text x="55" y="18" font-size="7" fill="#64748b">Baseline</text>
+            <rect x="100" y="10" width="10" height="10" fill="#10b981"/>
+            <text x="115" y="18" font-size="7" fill="#64748b">Incremental</text>
+            <rect x="170" y="10" width="10" height="10" fill="#f59e0b"/>
+            <text x="185" y="18" font-size="7" fill="#64748b">Borrowed</text>
+            <rect x="230" y="10" width="10" height="10" fill="#ef4444"/>
+            <text x="245" y="18" font-size="7" fill="#64748b">Cannib.</text>
+        </svg>
+    </div>
+</div>
+
+<div class="main-grid">
+    <div class="section">
+        <h3><span class="icon">⚡</span> How It Works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">📊</div>
+                <h4>Input Data</h4>
+                <p>Prices & sales</p>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-
-                    <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">500</text>
-                    <text x="35" y="38" font-size="8" fill="#64748b" text-anchor="end">1000</text>
-                    <text x="20" y="90" font-size="7" fill="#64748b" text-anchor="middle" transform="rotate(-90, 20, 90)">Units</text>
-
-                    <!-- X-axis labels (weeks) -->
-                    <text x="70" y="153" font-size="8" fill="#64748b" text-anchor="middle">W1</text>
-                    <text x="110" y="153" font-size="8" fill="#64748b" text-anchor="middle">W2</text>
-                    <text x="150" y="153" font-size="8" fill="#64748b" text-anchor="middle">W3</text>
-                    <text x="190" y="153" font-size="8" fill="#64748b" text-anchor="middle">W4</text>
-                    <text x="230" y="153" font-size="8" fill="#64748b" text-anchor="middle">W5</text>
-
-                    <!-- Baseline bars -->
-                    <rect x="55" y="105" width="30" height="35" fill="#94a3b8" rx="2"/>
-                    <rect x="95" y="105" width="30" height="35" fill="#94a3b8" rx="2"/>
-                    <rect x="135" y="105" width="30" height="35" fill="#94a3b8" rx="2"/>
-                    <rect x="175" y="105" width="30" height="35" fill="#94a3b8" rx="2"/>
-                    <rect x="215" y="105" width="30" height="35" fill="#94a3b8" rx="2"/>
-
-                    <!-- Promotion period highlight -->
-                    <rect x="130" y="25" width="80" height="115" fill="rgba(201,162,39,0.1)" rx="4"/>
-
-                    <!-- Incremental lift (stacked on baseline) -->
-                    <rect x="135" y="45" width="30" height="60" fill="#c9a227" rx="2"/>
-                    <rect x="175" y="55" width="30" height="50" fill="#c9a227" rx="2"/>
-
-                    <!-- Lift annotation -->
-                    <line x1="150" y1="45" x2="150" y2="25" stroke="#1e3a5f" stroke-width="1"/>
-                    <rect x="125" y="12" width="50" height="16" rx="3" fill="#1e3a5f"/>
-                    <text x="150" y="23" font-size="8" fill="white" text-anchor="middle" font-weight="600">+85% Lift</text>
-
-                    <!-- ROI callout -->
-                    <rect x="230" y="50" width="55" height="35" rx="4" fill="#10b981"/>
-                    <text x="257" y="65" font-size="8" fill="white" text-anchor="middle" font-weight="600">ROI</text>
-                    <text x="257" y="78" font-size="11" fill="white" text-anchor="middle" font-weight="700">2.4x</text>
-
-                    <!-- Legend -->
-                    <rect x="55" y="8" width="12" height="8" fill="#94a3b8" rx="1"/>
-                    <text x="72" y="15" font-size="8" fill="#64748b">Baseline</text>
-                    <rect x="120" y="8" width="12" height="8" fill="#c9a227" rx="1"/>
-                    <text x="137" y="15" font-size="8" fill="#64748b">Incremental</text>
-                </svg>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-icon">🔍</div>
+                <h4>Decompose</h4>
+                <p>Break down lift</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-icon">💰</div>
+                <h4>ROI</h4>
+                <p>True profitability</p>
             </div>
         </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Upload</h4>
-                        <p>Sales & promo data</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📈</div>
-                        <h4>Analyze</h4>
-                        <p>Lift & baseline</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">💰</div>
-                        <h4>Optimize</h4>
-                        <p>ROI by tactic</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Clients recover 15-20% of wasted trade spend*</div>
-                    <p>Turn losing promotions into profitable ones</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Lift Decomposition Tool</span>
-                    <span class="tag">✓ ROI Scenario Simulator</span>
-                    <span class="tag">✓ Pass-Through Compliance Dashboard</span>
-                    <span class="tag">✓ Promotion Mix Optimizer</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">CPG</span>
-                    <span class="tag">Food & Beverage</span>
-                    <span class="tag">Retail</span>
-                    <span class="tag">Consumer Electronics</span>
-                    <span class="tag">Personal Care</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Maximize Trade Spend?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Trade%20Promotion%20Analyzer%20Demo%20Request" class="cta-button">See Your Trade ROI Now</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: Nielsen, "Trade Promotion Effectiveness" | © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Only 16% of trade promotions are profitable*</div>
+            <p>Know which ones work for you</p>
         </div>
     </div>
 
+    <div class="section">
+        <h3><span class="icon">📦</span> What You Get</h3>
+        <div class="tags">
+            <span class="tag">Waterfall Decomposition</span>
+            <span class="tag">ROI Calculator</span>
+            <span class="tag">Baseline Analysis</span>
+            <span class="tag">CSV Export</span>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
+        <div class="tags">
+            <span class="tag">CPG Brands</span>
+            <span class="tag">Retail Buyers</span>
+            <span class="tag">Trade Marketing</span>
+            <span class="tag">Category Managers</span>
+            <span class="tag">Revenue Growth</span>
+        </div>
+    </div>
+</div>
+
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Stop Guessing About Promotions</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Trade%20Promotion%20Analyzer%20Demo" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<div class="footer">
+    *Source: Nielsen Trade Promotion Effectiveness Study | &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

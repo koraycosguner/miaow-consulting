@@ -4,87 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multinomial Logit Tool | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -116,18 +60,6 @@
             font-size: 13pt;
             color: var(--gold);
             font-weight: 600;
-        }
-
-        .r-shiny-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #276DC3 0%, #4a90d9 100%);
-            color: white;
-            font-size: 9pt;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 12px;
-            margin-left: 10px;
-            vertical-align: middle;
         }
 
         /* Hero Section */
@@ -176,14 +108,23 @@
             font-size: 9pt;
         }
 
-        /* Chart */
-        .chart-container {
+        /* Formula */
+        .formula-container {
             background: white;
             border-radius: 10px;
             padding: 16px;
-            height: 200px;
+            text-align: center;
         }
-        .chart-svg { width: 100%; height: 100%; }
+        .formula {
+            font-family: 'Georgia', serif;
+            font-size: 14pt;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+        .formula-label {
+            font-size: 9pt;
+            color: var(--text-light);
+        }
 
         /* Two Column Grid */
         .main-grid {
@@ -194,7 +135,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -210,18 +151,51 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
+        /* Benefits List */
+        .benefits-list {
+            list-style: none;
+            padding: 0;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+        .benefits-list li {
+            padding: 8px 0;
+            padding-left: 24px;
+            position: relative;
+            font-size: 10pt;
+            color: var(--text-main);
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .benefits-list li:last-child {
+            border-bottom: none;
+        }
+        .benefits-list li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .use-case {
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 3px solid var(--gold);
+        }
+        .use-case h4 {
+            font-size: 10pt;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+        .use-case p {
+            font-size: 9pt;
+            color: var(--text-light);
+        }
 
         /* Stat Box */
         .stat-box {
@@ -230,11 +204,12 @@
             padding: 14px;
             border-radius: 10px;
             text-align: center;
+            margin-top: 14px;
         }
-        .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
+        .stat-box .big-stat { font-size: 14pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
 
-        /* Tags */
+        /* Features Tags */
         .tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag {
             background: white;
@@ -269,231 +244,152 @@
         .cred-left .title {
             font-size: 10pt;
             color: rgba(255,255,255,0.8);
-            margin-bottom: 8px;
-        }
-        .cred-left .contact {
-            font-size: 10pt;
-            color: rgba(255,255,255,0.7);
-        }
-        .cred-left .contact a {
-            color: var(--gold);
-            text-decoration: none;
         }
 
-        .cred-right { text-align: right; }
-        .cred-badge {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid var(--gold);
-            padding: 12px 18px;
-            border-radius: 10px;
-            margin-bottom: 10px;
+        .cred-right {
+            text-align: right;
         }
-        .cred-badge .school {
-            font-size: 11pt;
-            font-weight: 600;
-            color: white;
-        }
-        .cred-badge .ranks {
-            font-size: 10pt;
-            color: var(--gold);
-            margin-top: 4px;
-        }
-        .cta-button {
-            background: var(--gold);
-            color: white;
-            padding: 14px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
+        .cred-right .email {
             font-size: 12pt;
-            display: inline-block;
-            transition: background 0.2s ease;
+            color: var(--gold);
+            font-weight: 600;
         }
-        .cta-button:hover { background: var(--gold-light); }
+        .cred-right .web {
+            font-size: 10pt;
+            color: rgba(255,255,255,0.8);
+        }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
-
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Multinomial Logit Tool</h1>
+        <div class="tagline">Discrete Choice Modeling Made Simple</div>
+    </div>
+</div>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Multinomial Logit Tool <span class="r-shiny-badge">R Shiny</span></h1>
-                <div class="tagline">Decode the DNA of Customer Choice</div>
+<!-- Hero Section -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Understand Consumer Choice Behavior</h2>
+        <p>Model how customers choose between competing alternatives. Quantify the impact of price, features, and brand on purchase decisions to optimize your product portfolio and pricing strategy.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Coefficient Estimates</strong>
+                <span>Price sensitivity & feature effects</span>
+            </div>
+            <div class="hero-output">
+                <strong>Choice Probabilities</strong>
+                <span>Predict market share by scenario</span>
+            </div>
+            <div class="hero-output">
+                <strong>Model Fit Statistics</strong>
+                <span>AIC, Log-Likelihood</span>
+            </div>
+            <div class="hero-output">
+                <strong>Utility Equations</strong>
+                <span>Ready for optimization tools</span>
             </div>
         </div>
-
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Quantify What Really Drives Purchase Decisions</h2>
-                <p>Enterprise-grade discrete choice modeling made accessible. Estimate part-worth utilities, calculate exact willingness-to-pay, and predict market shares with Nobel Prize-winning methodology.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Part-Worth Utilities</strong>
-                        <span>Feature value in dollars</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Willingness to Pay</strong>
-                        <span>Exact $ per attribute</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Price Elasticity</strong>
-                        <span>Own & cross effects</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Share Prediction</strong>
-                        <span>85%+ accuracy typical</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-
-                    <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0%</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">25%</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">50%</text>
-
-                    <!-- X-axis labels -->
-                    <text x="80" y="153" font-size="8" fill="#64748b" text-anchor="middle">Product A</text>
-                    <text x="140" y="153" font-size="8" fill="#64748b" text-anchor="middle">Product B</text>
-                    <text x="200" y="153" font-size="8" fill="#64748b" text-anchor="middle">Product C</text>
-                    <text x="260" y="153" font-size="8" fill="#64748b" text-anchor="middle">Product D</text>
-
-                    <!-- Bars representing choice probabilities -->
-                    <rect x="60" y="55" width="40" height="85" fill="#c9a227" rx="4"/>
-                    <rect x="120" y="75" width="40" height="65" fill="#1e3a5f" rx="4"/>
-                    <rect x="180" y="95" width="40" height="45" fill="#2d4a6f" rx="4"/>
-                    <rect x="240" y="110" width="40" height="30" fill="#4a6a8f" rx="4"/>
-
-                    <!-- Probability labels on bars -->
-                    <text x="80" y="48" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">38%</text>
-                    <text x="140" y="68" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">29%</text>
-                    <text x="200" y="88" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">20%</text>
-                    <text x="260" y="103" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">13%</text>
-
-                    <!-- Title -->
-                    <text x="160" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Predicted Choice Shares</text>
-                </svg>
-            </div>
+    </div>
+    <div class="formula-container">
+        <div class="formula">P(choice = j) = exp(V<sub>j</sub>) / Sum(exp(V<sub>k</sub>))</div>
+        <div class="formula-label">Multinomial Logit Choice Probability</div>
+        <div style="margin-top: 12px; font-size: 10pt; color: var(--text-light); text-align: left;">
+            <strong style="color: var(--navy);">Where:</strong><br>
+            V<sub>j</sub> = Utility of alternative j<br>
+            = Intercept + B<sub>1</sub>(Price) + B<sub>2</sub>(Feature) + ...
         </div>
+    </div>
+</div>
 
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Data</h4>
-                        <p>Load choice data</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🔧</div>
-                        <h4>Estimate</h4>
-                        <p>Fit MNL model</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🎯</div>
-                        <h4>Simulate</h4>
-                        <p>Predict shares</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Companies using choice models see 15-25% pricing uplift*</div>
-                    <p>Stop leaving money on the table</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ R Shiny Application</span>
-                    <span class="tag">✓ mlogit Integration</span>
-                    <span class="tag">✓ 30-Page User Guide</span>
-                    <span class="tag">✓ Sample Datasets</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Market Research Firms</span>
-                    <span class="tag">CPG / FMCG</span>
-                    <span class="tag">Retail Analytics</span>
-                    <span class="tag">Automotive</span>
-                    <span class="tag">Financial Services</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Decode Customer Choice?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Multinomial%20Logit%20Tool%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+<!-- Main Grid -->
+<div class="main-grid">
+    <!-- Left Column: Benefits -->
+    <div class="section">
+        <h3><span class="icon">$</span> Key Benefits</h3>
+        <ul class="benefits-list">
+            <li><strong>Price Optimization:</strong> Quantify price sensitivity to find revenue-maximizing prices</li>
+            <li><strong>Feature Prioritization:</strong> Identify which product features drive choice most</li>
+            <li><strong>Competitive Analysis:</strong> Understand how your brand compares to alternatives</li>
+            <li><strong>Market Share Simulation:</strong> Predict share under different scenarios</li>
+            <li><strong>Segment Targeting:</strong> Identify customer segments with distinct preferences</li>
+        </ul>
+        <div class="stat-box">
+            <div class="big-stat">1% Price Improvement = 11% Profit Increase</div>
+            <p>*Average across industries (McKinsey)</p>
         </div>
     </div>
 
+    <!-- Right Column: Use Cases -->
+    <div class="section">
+        <h3><span class="icon">:</span> Common Applications</h3>
+        <div class="use-cases">
+            <div class="use-case">
+                <h4>Consumer Packaged Goods</h4>
+                <p>Analyze scanner panel data to understand brand switching and price promotion effects</p>
+            </div>
+            <div class="use-case">
+                <h4>Conjoint Analysis</h4>
+                <p>Estimate part-worth utilities from choice-based conjoint experiments</p>
+            </div>
+            <div class="use-case">
+                <h4>Transportation & Logistics</h4>
+                <p>Model mode choice decisions between car, transit, bike, and walking</p>
+            </div>
+            <div class="use-case">
+                <h4>Subscription & SaaS</h4>
+                <p>Optimize pricing tiers and feature bundles to maximize conversions</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="section" style="margin-bottom: 20px;">
+    <h3><span class="icon">#</span> Tool Features</h3>
+    <div class="tags">
+        <span class="tag">Long & Wide Format Support</span>
+        <span class="tag">Dynamic Variable Builder</span>
+        <span class="tag">Alternative-Invariant Coefficients</span>
+        <span class="tag">Alternative-Specific Coefficients</span>
+        <span class="tag">Reference Level Selection</span>
+        <span class="tag">Intercept Options</span>
+        <span class="tag">Data Filtering</span>
+        <span class="tag">Exportable Equations</span>
+        <span class="tag">R Script Generation</span>
+        <span class="tag">Powered by mlogit Package</span>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Model Consumer Choice?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Kelley School of Business</p>
+    </div>
+    <div class="cred-right">
+        <p class="email">miaow.consulting@gmail.com</p>
+        <p class="web">koraycosguner.github.io/miaow-consulting</p>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    *Source: McKinsey & Company, "The Power of Pricing" | &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

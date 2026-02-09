@@ -4,87 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Price Bundling Analyzer | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -170,8 +114,47 @@
             border-radius: 10px;
             padding: 16px;
             height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .chart-svg { width: 100%; height: 100%; }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            height: 160px;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bar {
+            width: 50px;
+            border-radius: 4px 4px 0 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 4px;
+            font-size: 9pt;
+            font-weight: 600;
+            color: white;
+        }
+
+        .bar.component { background: #64748b; height: 80px; }
+        .bar.pure { background: var(--navy); height: 95px; }
+        .bar.mixed { background: var(--gold); height: 120px; }
+
+        .bar-label {
+            font-size: 8pt;
+            color: var(--text-light);
+            text-align: center;
+            max-width: 60px;
+        }
 
         /* Two Column Grid */
         .main-grid {
@@ -182,7 +165,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +181,45 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
+        /* Strategies */
+        .strategy-list {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
+            flex-direction: column;
+            gap: 12px;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+
+        .strategy-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .strategy-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16pt;
+            flex-shrink: 0;
+        }
+
+        .strategy-icon.component { background: rgba(100, 116, 139, 0.2); }
+        .strategy-icon.pure { background: rgba(30, 58, 95, 0.2); }
+        .strategy-icon.mixed { background: rgba(201, 162, 39, 0.2); }
+
+        .strategy-content h4 {
+            font-size: 11pt;
+            color: var(--navy);
+            margin-bottom: 2px;
+        }
+
+        .strategy-content p {
+            font-size: 9pt;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
 
         /* Stat Box */
         .stat-box {
@@ -218,6 +228,7 @@
             padding: 14px;
             border-radius: 10px;
             text-align: center;
+            margin-top: 14px;
         }
         .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
@@ -231,6 +242,28 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Use Cases */
+        .use-cases {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .use-case {
+            background: white;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 10pt;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .use-case-icon {
+            font-size: 14pt;
         }
 
         /* Credibility Footer */
@@ -295,185 +328,187 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Price Bundling Analyzer</h1>
-                <div class="tagline">Bundle for Profit</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Price Bundling Analyzer</h1>
+        <div class="tagline">Maximize Profit Through Strategic Bundling</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Find Your Optimal Bundling Strategy</h2>
+        <p>Compare pure bundling, mixed bundling, and component pricing to identify the profit-maximizing approach for your product portfolio.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Strategy Comparison</strong>
+                <span>Side-by-side profit analysis</span>
+            </div>
+            <div class="hero-output">
+                <strong>Optimal Price</strong>
+                <span>Profit-maximizing bundle price</span>
+            </div>
+            <div class="hero-output">
+                <strong>Cannibalization</strong>
+                <span>Impact on individual sales</span>
+            </div>
+            <div class="hero-output">
+                <strong>Customer Welfare</strong>
+                <span>Consumer surplus analysis</span>
             </div>
         </div>
-
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Optimize Your Bundle Strategy</h2>
-                <p>Find optimal bundle prices using economic modeling. Compare pure bundling, mixed bundling, and unbundled strategies to maximize revenue.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Optimal Bundle Price</strong>
-                        <span>Revenue-maximizing</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Revenue Comparison</strong>
-                        <span>Strategy analysis</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Consumer Surplus</strong>
-                        <span>Value captured</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Cannibalization</strong>
-                        <span>Risk assessment</span>
-                    </div>
-                </div>
+    </div>
+    <div class="chart-container">
+        <div class="chart-bars">
+            <div class="bar-group">
+                <div class="bar component">$42K</div>
+                <div class="bar-label">Component Pricing</div>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Revenue comparison bars -->
-                    <text x="150" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Revenue by Strategy</text>
-
-                    <!-- Unbundled -->
-                    <rect x="40" y="45" width="55" height="70" fill="#64748b" rx="4"/>
-                    <text x="67" y="35" font-size="8" fill="#64748b" text-anchor="middle">Unbundled</text>
-                    <text x="67" y="125" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">$85K</text>
-
-                    <!-- Pure Bundle -->
-                    <rect x="115" y="55" width="55" height="60" fill="#2d4a6f" rx="4"/>
-                    <text x="142" y="35" font-size="8" fill="#64748b" text-anchor="middle">Pure Bundle</text>
-                    <text x="142" y="125" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">$92K</text>
-
-                    <!-- Mixed Bundle - Winner -->
-                    <rect x="190" y="30" width="55" height="85" fill="#c9a227" rx="4"/>
-                    <text x="217" y="22" font-size="8" fill="#c9a227" text-anchor="middle" font-weight="600">Mixed Bundle</text>
-                    <text x="217" y="125" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">$108K</text>
-
-                    <!-- Winner badge -->
-                    <circle cx="245" cy="30" r="12" fill="#22c55e"/>
-                    <text x="245" y="34" font-size="10" fill="white" text-anchor="middle">✓</text>
-
-                    <!-- Improvement arrow -->
-                    <path d="M67 140 L217 140" stroke="#22c55e" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="142" y="153" font-size="9" fill="#22c55e" text-anchor="middle" font-weight="600">+27% Revenue</text>
-                </svg>
+            <div class="bar-group">
+                <div class="bar pure">$51K</div>
+                <div class="bar-label">Pure Bundling</div>
+            </div>
+            <div class="bar-group">
+                <div class="bar mixed">$58K</div>
+                <div class="bar-label">Mixed Bundling</div>
             </div>
         </div>
+    </div>
+</div>
 
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Input</h4>
-                        <p>Product WTP data</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🔧</div>
-                        <h4>Model</h4>
-                        <p>Bundle scenarios</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🎯</div>
-                        <h4>Optimize</h4>
-                        <p>Best strategy</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Mixed bundling can increase revenue 10-30%</div>
-                    <p>Capture more consumer surplus</p>
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Bundling Strategies -->
+    <div class="section">
+        <h3><span class="icon">&#128200;</span> Bundling Strategies Analyzed</h3>
+        <div class="strategy-list">
+            <div class="strategy-item">
+                <div class="strategy-icon component">&#128230;</div>
+                <div class="strategy-content">
+                    <h4>Component Pricing</h4>
+                    <p>Sell each product separately at standalone prices. Baseline for comparison.</p>
                 </div>
             </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">Web-Based Analyzer</span>
-                    <span class="tag">Strategy Comparison</span>
-                    <span class="tag">Cannibalization Model</span>
-                    <span class="tag">Price Recommendations</span>
+            <div class="strategy-item">
+                <div class="strategy-icon pure">&#127873;</div>
+                <div class="strategy-content">
+                    <h4>Pure Bundling</h4>
+                    <p>Products only available as a bundle. Captures high total-WTP customers.</p>
                 </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">Software</span>
-                    <span class="tag">Telecom</span>
-                    <span class="tag">Media</span>
+            </div>
+            <div class="strategy-item">
+                <div class="strategy-icon mixed">&#127775;</div>
+                <div class="strategy-content">
+                    <h4>Mixed Bundling</h4>
+                    <p>Bundle + individual options. Maximum flexibility and often highest profit.</p>
                 </div>
             </div>
         </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Optimize Your Bundles?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Price%20Bundling%20Analyzer%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Bundling can increase profits 10-30%*</div>
+            <p>Over component pricing when WTP correlation is moderate</p>
         </div>
     </div>
 
+    <!-- Right: What You Get & Use Cases -->
+    <div class="section">
+        <h3><span class="icon">&#128230;</span> What You Get</h3>
+        <div class="tags">
+            <span class="tag">&#10003; Web-Based Tool</span>
+            <span class="tag">&#10003; Multi-Product Support</span>
+            <span class="tag">&#10003; WTP Simulation</span>
+            <span class="tag">&#10003; Profit Optimization</span>
+            <span class="tag">&#10003; User Manual</span>
+            <span class="tag">&#10003; Export to CSV</span>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">&#127919;</span> Ideal Use Cases</h3>
+        <div class="use-cases">
+            <div class="use-case">
+                <span class="use-case-icon">&#128187;</span>
+                <span>SaaS Feature Bundles</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#128722;</span>
+                <span>Retail Product Sets</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#127828;</span>
+                <span>Restaurant Combos</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#128218;</span>
+                <span>Publishing Packages</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#127909;</span>
+                <span>Media Subscriptions</span>
+            </div>
+            <div class="use-case">
+                <span class="use-case-icon">&#128736;</span>
+                <span>Service Packages</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Optimize Your Bundling?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA &middot; #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Price%20Bundling%20Analyzer%20Demo" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    *Based on academic research; actual results vary by market conditions | &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

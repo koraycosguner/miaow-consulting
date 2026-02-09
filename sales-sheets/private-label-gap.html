@@ -4,91 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Private Label Gap Analyzer | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -102,9 +47,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -118,7 +61,6 @@
             font-weight: 600;
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
             border-radius: 12px;
@@ -164,7 +106,6 @@
             font-size: 9pt;
         }
 
-        /* Chart */
         .chart-container {
             background: white;
             border-radius: 10px;
@@ -173,7 +114,6 @@
         }
         .chart-svg { width: 100%; height: 100%; }
 
-        /* Two Column Grid */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -182,7 +122,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,7 +138,6 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
         .steps {
             display: flex;
             justify-content: space-between;
@@ -211,7 +150,6 @@
         .step p { font-size: 9pt; color: var(--text-light); }
         .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
 
-        /* Stat Box */
         .stat-box {
             background: linear-gradient(135deg, var(--gold) 0%, #dbb42c 100%);
             color: white;
@@ -222,7 +160,6 @@
         .stat-box .big-stat { font-size: 13pt; font-weight: 700; }
         .stat-box p { font-size: 10pt; margin-top: 4px; }
 
-        /* Tags */
         .tags { display: flex; flex-wrap: wrap; gap: 8px; }
         .tag {
             background: white;
@@ -233,7 +170,6 @@
             color: var(--text-main);
         }
 
-        /* Credibility Footer */
         .credibility {
             background: var(--navy);
             border-radius: 12px;
@@ -295,199 +231,175 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Private Label Gap Analyzer</h1>
-                <div class="tagline">Win the Private Label Battle</div>
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Private Label Gap Analyzer</h1>
+        <div class="tagline">Optimize National Brand vs Private Label Pricing</div>
+    </div>
+</div>
+
+<div class="hero">
+    <div class="hero-text">
+        <h2>Find Your Optimal Price Gap</h2>
+        <p>Model how customers switch between national brands and private label at different price gaps. Maximize category profit by finding the sweet spot.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>Optimal Gap</strong>
+                <span>Profit-maximizing spread</span>
+            </div>
+            <div class="hero-output">
+                <strong>Switching Curve</strong>
+                <span>Share vs gap model</span>
+            </div>
+            <div class="hero-output">
+                <strong>Share Forecast</strong>
+                <span>NB vs PL predictions</span>
+            </div>
+            <div class="hero-output">
+                <strong>Profit Impact</strong>
+                <span>Category-level analysis</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 160">
+            <!-- Switching curves -->
+            <text x="150" y="15" font-size="10" fill="#1e3a5f" text-anchor="middle" font-weight="600">Switching Curve Analysis</text>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Find Your Optimal Price Gap vs. Store Brands</h2>
-                <p>Private labels are stealing share at the wrong price gap. Discover the precise premium consumers will pay for your brand - and stop giving away margin or losing shoppers.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>Optimal Gap Calculator</strong>
-                        <span>Profit-maximizing premium</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Share Erosion Model</strong>
-                        <span>Gap vs volume tradeoff</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Defense Strategy Matrix</strong>
-                        <span>Fight, match, or niche</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Retailer Negotiation Brief</strong>
-                        <span>Data-backed leverage</span>
-                    </div>
-                </div>
+            <!-- Grid -->
+            <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+
+            <!-- Y-axis labels -->
+            <text x="35" y="143" font-size="7" fill="#64748b" text-anchor="end">0%</text>
+            <text x="35" y="108" font-size="7" fill="#64748b" text-anchor="end">50%</text>
+            <text x="35" y="38" font-size="7" fill="#64748b" text-anchor="end">100%</text>
+
+            <!-- X-axis labels -->
+            <text x="60" y="153" font-size="7" fill="#64748b" text-anchor="middle">15%</text>
+            <text x="120" y="153" font-size="7" fill="#64748b" text-anchor="middle">25%</text>
+            <text x="180" y="153" font-size="7" fill="#64748b" text-anchor="middle">35%</text>
+            <text x="240" y="153" font-size="7" fill="#64748b" text-anchor="middle">45%</text>
+
+            <!-- National Brand curve (decreasing) -->
+            <path d="M50,45 Q100,55 150,75 T260,120" fill="none" stroke="#3b82f6" stroke-width="3"/>
+
+            <!-- Private Label curve (increasing) -->
+            <path d="M50,125 Q100,115 150,95 T260,55" fill="none" stroke="#8b5cf6" stroke-width="3"/>
+
+            <!-- Optimal point marker -->
+            <circle cx="150" cy="85" r="8" fill="#c9a227"/>
+            <text x="150" y="75" font-size="8" fill="#1e3a5f" text-anchor="middle" font-weight="600">Optimal</text>
+
+            <!-- Legend -->
+            <line x1="60" y1="25" x2="80" y2="25" stroke="#3b82f6" stroke-width="2.5"/>
+            <text x="85" y="28" font-size="8" fill="#64748b">National Brand</text>
+            <line x1="170" y1="25" x2="190" y2="25" stroke="#8b5cf6" stroke-width="2.5"/>
+            <text x="195" y="28" font-size="8" fill="#64748b">Private Label</text>
+        </svg>
+    </div>
+</div>
+
+<div class="main-grid">
+    <div class="section">
+        <h3><span class="icon">⚡</span> How It Works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">📊</div>
+                <h4>Input</h4>
+                <p>Prices & shares</p>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-
-                    <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">0%</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">25%</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">50%</text>
-
-                    <!-- X-axis labels -->
-                    <text x="70" y="153" font-size="8" fill="#64748b" text-anchor="middle">10%</text>
-                    <text x="130" y="153" font-size="8" fill="#64748b" text-anchor="middle">20%</text>
-                    <text x="190" y="153" font-size="8" fill="#64748b" text-anchor="middle">30%</text>
-                    <text x="250" y="153" font-size="8" fill="#64748b" text-anchor="middle">40%</text>
-                    <text x="160" y="158" font-size="7" fill="#64748b" text-anchor="middle">Price Gap %</text>
-
-                    <!-- National Brand share curve (blue) -->
-                    <path d="M50,35 C90,40 130,55 160,75 C190,95 230,115 270,130" fill="none" stroke="#3b82f6" stroke-width="3"/>
-
-                    <!-- Private Label share curve (red) -->
-                    <path d="M50,130 C90,125 130,110 160,90 C190,70 230,50 270,35" fill="none" stroke="#ef4444" stroke-width="3"/>
-
-                    <!-- Optimal gap point -->
-                    <circle cx="145" cy="82" r="8" fill="#c9a227"/>
-                    <circle cx="145" cy="82" r="4" fill="white"/>
-
-                    <!-- Label -->
-                    <rect x="100" y="55" width="90" height="22" rx="5" fill="#1e3a5f"/>
-                    <text x="145" y="70" font-size="9" fill="white" text-anchor="middle" font-weight="600">Optimal Gap: 22%</text>
-
-                    <!-- Legend -->
-                    <line x1="55" y1="12" x2="80" y2="12" stroke="#3b82f6" stroke-width="2.5"/>
-                    <text x="85" y="15" font-size="9" fill="#64748b">National Brand</text>
-                    <line x1="175" y1="12" x2="200" y2="12" stroke="#ef4444" stroke-width="2.5"/>
-                    <text x="205" y="15" font-size="9" fill="#64748b">Private Label</text>
-                </svg>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-icon">📈</div>
+                <h4>Model</h4>
+                <p>Switching behavior</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+                <div class="step-icon">🎯</div>
+                <h4>Optimize</h4>
+                <p>Find best gap</p>
             </div>
         </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📊</div>
-                        <h4>Analyze</h4>
-                        <p>Price gap data</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📈</div>
-                        <h4>Model</h4>
-                        <p>Share sensitivity</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🛡️</div>
-                        <h4>Defend</h4>
-                        <p>Optimal strategy</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">Brands at optimal gaps retain 85%+ share vs private label*</div>
-                    <p>Wrong gap = lost share. Right gap = protected profits</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ Gap Sensitivity Analyzer</span>
-                    <span class="tag">✓ Share Erosion Simulator</span>
-                    <span class="tag">✓ Retailer Negotiation Kit</span>
-                    <span class="tag">✓ Defense Strategy Playbook</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">CPG</span>
-                    <span class="tag">Food & Beverage</span>
-                    <span class="tag">Retail</span>
-                    <span class="tag">Personal Care</span>
-                    <span class="tag">OTC Pharma</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Defend Your Brand?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Private%20Label%20Gap%20Analyzer%20Demo%20Request" class="cta-button">Defend My Brand Now</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: Private Label Manufacturers Association | © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Private label share growing 2-3x faster than national brands</div>
+            <p>Get your gap strategy right</p>
         </div>
     </div>
 
+    <div class="section">
+        <h3><span class="icon">📦</span> What You Get</h3>
+        <div class="tags">
+            <span class="tag">Switching Curve Chart</span>
+            <span class="tag">Gap Scenario Table</span>
+            <span class="tag">Profit Optimization</span>
+            <span class="tag">CSV Export</span>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
+        <div class="tags">
+            <span class="tag">Retail Pricing</span>
+            <span class="tag">Category Managers</span>
+            <span class="tag">Private Label Teams</span>
+            <span class="tag">Brand Managers</span>
+            <span class="tag">Trade Marketing</span>
+        </div>
+    </div>
+</div>
+
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Master the NB/PL Balance</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Private%20Label%20Gap%20Demo" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<div class="footer">
+    &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>

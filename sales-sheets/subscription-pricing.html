@@ -4,87 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subscription Pricing Calculator | MIAOW LLC</title>
-    <link rel="icon" type="image/png" href="../cat-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Raleway:wght@600;700;800&display=swap');
+
         :root {
             --navy: #1e3a5f;
-            --navy-dark: #0f2744;
             --navy-light: #2d4a6f;
             --gold: #c9a227;
-            --gold-light: #dbb42c;
-            --white: #ffffff;
-            --off-white: #fafafa;
-            --gray-200: #e9ecef;
             --text-main: #2d3748;
             --text-light: #64748b;
-            --border: #e5e7eb;
+            --bg-light: #f8f9fa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             color: var(--text-main);
-            background: var(--off-white);
-            line-height: 1.6;
-        }
-
-        /* Floating Buttons */
-        .floating-btn {
-            position: fixed;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 12pt;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-        }
-        .floating-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .back-btn {
-            top: 20px;
-            right: 20px;
-            background: var(--gold);
-            color: white;
-            border: none;
-        }
-        .back-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-        }
-
-        /* Sales Sheet Content */
-        .sales-sheet {
             max-width: 8.5in;
-            min-height: 11in;
-            margin: 40px auto;
+            height: 11in;
+            margin: 0 auto;
             padding: 0.4in;
             background: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-radius: 12px;
         }
 
         @media print {
-            .floating-btn { display: none !important; }
-            body { background: white; }
-            .sales-sheet {
-                margin: 0;
-                padding: 0.4in;
-                box-shadow: none;
-                border-radius: 0;
-            }
+            body { padding: 0.35in; }
+            .no-print { display: none; }
             @page { size: letter; margin: 0; }
         }
 
@@ -102,9 +48,7 @@
             font-weight: 800;
             color: var(--navy);
         }
-        .logo span {
-            color: var(--gold);
-        }
+        .logo span { color: var(--gold); }
 
         .header-right { text-align: right; }
         .header-right h1 {
@@ -182,7 +126,7 @@
         }
 
         .section {
-            background: #f8f9fa;
+            background: var(--bg-light);
             border-radius: 12px;
             padding: 18px;
         }
@@ -198,18 +142,30 @@
         }
         h3 .icon { font-size: 18pt; }
 
-        /* How It Works */
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Metrics */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
             margin-bottom: 14px;
         }
-        .step { text-align: center; flex: 1; }
-        .step-icon { font-size: 28pt; margin-bottom: 6px; }
-        .step h4 { font-size: 11pt; color: var(--navy); margin-bottom: 4px; }
-        .step p { font-size: 9pt; color: var(--text-light); }
-        .step-arrow { font-size: 20pt; color: var(--gold); padding: 0 6px; }
+        .metric {
+            background: white;
+            border: 1px solid #e5e7eb;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 18pt;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .metric-label {
+            font-size: 9pt;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
 
         /* Stat Box */
         .stat-box {
@@ -231,6 +187,27 @@
             border-radius: 20px;
             font-size: 10pt;
             color: var(--text-main);
+        }
+
+        /* Features List */
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+        .features-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 10pt;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+        .check {
+            color: var(--gold);
+            font-weight: bold;
         }
 
         /* Credibility Footer */
@@ -295,200 +272,214 @@
             font-weight: 700;
             font-size: 12pt;
             display: inline-block;
-            transition: background 0.2s ease;
         }
-        .cta-button:hover { background: var(--gold-light); }
 
-        /* Sheet Footer */
-        .sheet-footer {
+        /* Footer */
+        .footer {
             margin-top: 12px;
             text-align: center;
             font-size: 8pt;
             color: var(--text-light);
         }
 
-        /* Site Footer */
-        .site-footer {
-            background: var(--navy-dark);
-            color: rgba(255,255,255,0.6);
-            padding: 30px 24px;
-            text-align: center;
-            margin-top: 60px;
+        /* Print button */
+        .print-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--gold);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 12pt;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Mobile */
-        @media (max-width: 768px) {
-            .back-btn { right: 20px; top: 80px; }
-            .sales-sheet { margin: 20px; padding: 20px; }
-            .hero { grid-template-columns: 1fr; }
-            .main-grid { grid-template-columns: 1fr; }
-            .credibility { flex-direction: column; gap: 20px; text-align: center; }
-            .cred-right { text-align: center; }
-            .header { flex-direction: column; text-align: center; gap: 12px; }
-            .header-right { text-align: center; }
-        }
+        .print-btn:hover { background: var(--navy); }
     </style>
 </head>
 <body>
 
-    <a href="../tools.html" class="floating-btn back-btn">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        Back to Tools
-    </a>
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
 
-    <div class="sales-sheet">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">MIAOW<span>.</span></div>
-            <div class="header-right">
-                <h1>Subscription Pricing Calculator</h1>
-                <div class="tagline">Master Subscription Economics</div>
+<!-- Header -->
+<div class="header">
+    <div class="logo">MIAOW<span>.</span></div>
+    <div class="header-right">
+        <h1>Subscription Pricing Calculator</h1>
+        <div class="tagline">Master Your Recurring Revenue</div>
+    </div>
+</div>
+
+<!-- Hero with Chart -->
+<div class="hero">
+    <div class="hero-text">
+        <h2>Model, Analyze, Optimize</h2>
+        <p>Enter your subscription metrics and instantly see MRR projections, churn impact analysis, optimal tier pricing, and expansion revenue forecasts.</p>
+        <div class="hero-outputs">
+            <div class="hero-output">
+                <strong>MRR/ARR Forecast</strong>
+                <span>12-month projections</span>
+            </div>
+            <div class="hero-output">
+                <strong>Churn Analysis</strong>
+                <span>Revenue impact scenarios</span>
+            </div>
+            <div class="hero-output">
+                <strong>Tier Optimization</strong>
+                <span>Price point strategy</span>
+            </div>
+            <div class="hero-output">
+                <strong>Expansion Model</strong>
+                <span>Upsell revenue forecast</span>
             </div>
         </div>
+    </div>
+    <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 160">
+            <!-- Grid -->
+            <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
+            <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
 
-        <!-- Hero with Chart -->
-        <div class="hero">
-            <div class="hero-text">
-                <h2>Model Your Subscription Revenue</h2>
-                <p>Calculate MRR, ARR, and subscription metrics. Model expansion revenue, churn, and cohorts to understand your true business value.</p>
-                <div class="hero-outputs">
-                    <div class="hero-output">
-                        <strong>MRR</strong>
-                        <span>Monthly recurring</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>ARR</strong>
-                        <span>Annual recurring</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>LTV</strong>
-                        <span>Customer lifetime</span>
-                    </div>
-                    <div class="hero-output">
-                        <strong>Churn Impact</strong>
-                        <span>Revenue at risk</span>
-                    </div>
-                </div>
+            <!-- Y-axis labels -->
+            <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">$0</text>
+            <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">$50K</text>
+            <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">$100K</text>
+
+            <!-- X-axis labels -->
+            <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">M1</text>
+            <text x="120" y="153" font-size="8" fill="#64748b" text-anchor="middle">M4</text>
+            <text x="180" y="153" font-size="8" fill="#64748b" text-anchor="middle">M8</text>
+            <text x="250" y="153" font-size="8" fill="#64748b" text-anchor="middle">M12</text>
+
+            <!-- MRR Growth Area -->
+            <path d="M50,130 C80,125 110,118 140,108 C170,98 200,85 230,70 C260,55 270,45 280,35" fill="none" stroke="#c9a227" stroke-width="3"/>
+            <path d="M50,130 C80,125 110,118 140,108 C170,98 200,85 230,70 C260,55 270,45 280,35 L280,140 L50,140 Z" fill="rgba(201,162,39,0.15)"/>
+
+            <!-- Churn Impact Line -->
+            <path d="M50,130 C80,127 110,124 140,120 C170,116 200,112 230,108 C260,104 270,102 280,100" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+
+            <!-- Legend -->
+            <line x1="55" y1="12" x2="80" y2="12" stroke="#c9a227" stroke-width="2.5"/>
+            <text x="85" y="15" font-size="9" fill="#64748b">With Growth</text>
+            <line x1="165" y1="12" x2="190" y2="12" stroke="#ef4444" stroke-width="2" stroke-dasharray="4"/>
+            <text x="195" y="15" font-size="9" fill="#64748b">Churn Only</text>
+
+            <!-- Endpoint Labels -->
+            <circle cx="280" cy="35" r="5" fill="#c9a227"/>
+            <text x="265" y="28" font-size="9" fill="#1e3a5f" font-weight="600">$98K</text>
+        </svg>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-grid">
+    <!-- Left: Key Metrics -->
+    <div class="section">
+        <h3><span class="icon">&#128202;</span> Key Metrics Calculated</h3>
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-value">MRR</div>
+                <div class="metric-label">Monthly Recurring Revenue</div>
             </div>
-            <div class="chart-container">
-                <svg class="chart-svg" viewBox="0 0 300 160">
-                    <!-- Grid -->
-                    <line x1="40" y1="140" x2="280" y2="140" stroke="#e5e7eb" stroke-width="1"/>
-                    <line x1="40" y1="105" x2="280" y2="105" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="70" x2="280" y2="70" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-                    <line x1="40" y1="35" x2="280" y2="35" stroke="#e5e7eb" stroke-width="0.5" stroke-dasharray="4"/>
-
-                    <!-- Y-axis labels -->
-                    <text x="35" y="143" font-size="8" fill="#64748b" text-anchor="end">$0</text>
-                    <text x="35" y="73" font-size="8" fill="#64748b" text-anchor="end">$500K</text>
-                    <text x="35" y="18" font-size="8" fill="#64748b" text-anchor="end">$1M</text>
-
-                    <!-- X-axis labels (months) -->
-                    <text x="60" y="153" font-size="8" fill="#64748b" text-anchor="middle">Jan</text>
-                    <text x="110" y="153" font-size="8" fill="#64748b" text-anchor="middle">Apr</text>
-                    <text x="160" y="153" font-size="8" fill="#64748b" text-anchor="middle">Jul</text>
-                    <text x="210" y="153" font-size="8" fill="#64748b" text-anchor="middle">Oct</text>
-                    <text x="260" y="153" font-size="8" fill="#64748b" text-anchor="middle">Dec</text>
-
-                    <!-- MRR Growth Area -->
-                    <path d="M60,130 L90,120 L120,108 L150,95 L180,80 L210,65 L240,52 L270,40 L270,140 L60,140 Z" fill="rgba(201,162,39,0.2)"/>
-
-                    <!-- MRR Growth Line -->
-                    <path d="M60,130 L90,120 L120,108 L150,95 L180,80 L210,65 L240,52 L270,40" fill="none" stroke="#c9a227" stroke-width="3"/>
-
-                    <!-- Churn line (dashed) -->
-                    <path d="M60,130 L90,125 L120,118 L150,112 L180,105 L210,98 L240,92 L270,85" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3"/>
-
-                    <!-- Data points -->
-                    <circle cx="270" cy="40" r="5" fill="#c9a227"/>
-                    <circle cx="270" cy="85" r="4" fill="#ef4444"/>
-
-                    <!-- ARR Label -->
-                    <rect x="200" y="25" width="65" height="20" rx="4" fill="#1e3a5f"/>
-                    <text x="232" y="38" font-size="9" fill="white" text-anchor="middle" font-weight="600">ARR: $960K</text>
-
-                    <!-- Legend -->
-                    <line x1="55" y1="12" x2="80" y2="12" stroke="#c9a227" stroke-width="2.5"/>
-                    <text x="85" y="15" font-size="9" fill="#64748b">Net MRR</text>
-                    <line x1="155" y1="12" x2="180" y2="12" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,3"/>
-                    <text x="185" y="15" font-size="9" fill="#64748b">With Churn</text>
-                </svg>
+            <div class="metric">
+                <div class="metric-value">ARR</div>
+                <div class="metric-label">Annual Run Rate</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">NRR</div>
+                <div class="metric-label">Net Revenue Retention</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">LTV</div>
+                <div class="metric-label">Customer Lifetime Value</div>
             </div>
         </div>
-
-        <!-- Main Content -->
-        <div class="main-grid">
-            <!-- Left: How It Works -->
-            <div class="section">
-                <h3><span class="icon">⚡</span> How It Works</h3>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-icon">📥</div>
-                        <h4>Input</h4>
-                        <p>Pricing & metrics</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">🔄</div>
-                        <h4>Model</h4>
-                        <p>Cohort analysis</p>
-                    </div>
-                    <div class="step-arrow">→</div>
-                    <div class="step">
-                        <div class="step-icon">📈</div>
-                        <h4>Forecast</h4>
-                        <p>Revenue curves</p>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="big-stat">5% churn reduction = 25-95% profit increase*</div>
-                    <p>Understand your subscription economics</p>
-                </div>
-            </div>
-
-            <!-- Right: What You Get -->
-            <div class="section">
-                <h3><span class="icon">📦</span> What You Get</h3>
-                <div class="tags">
-                    <span class="tag">✓ MRR/ARR Calculator</span>
-                    <span class="tag">✓ Cohort Analyzer</span>
-                    <span class="tag">✓ Churn Modeler</span>
-                    <span class="tag">✓ Expansion Revenue</span>
-                </div>
-                <h3 style="margin-top: 18px;"><span class="icon">🏢</span> Who Uses This</h3>
-                <div class="tags">
-                    <span class="tag">SaaS</span>
-                    <span class="tag">Media</span>
-                    <span class="tag">Membership</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Credibility / CTA Footer -->
-        <div class="credibility">
-            <div class="cred-left">
-                <h3>Ready to Master Subscription Economics?</h3>
-                <p class="name">Dr. Koray Cosguner</p>
-                <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
-                <p class="contact">
-                    <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
-                </p>
-            </div>
-            <div class="cred-right">
-                <div class="cred-badge">
-                    <div class="school">Kelley School of Business</div>
-                    <div class="ranks">#1 Online MBA · #4 UG Marketing (U.S. News)</div>
-                </div>
-                <a href="mailto:miaow.consulting@gmail.com?subject=Subscription%20Pricing%20Calculator%20Demo%20Request" class="cta-button">Request Demo</a>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="sheet-footer">
-            *Source: Bain & Company, "Prescription for Cutting Costs" | © 2026 MIAOW LLC. All Rights Reserved.
+        <div class="stat-box">
+            <div class="big-stat">Companies with NRR >100% grow 2x faster*</div>
+            <p>Understand your true revenue health</p>
         </div>
     </div>
 
+    <!-- Right: Features -->
+    <div class="section">
+        <h3><span class="icon">&#128640;</span> Analysis Features</h3>
+        <ul class="features-list">
+            <li><span class="check">&#10003;</span> 12-month MRR/ARR projections with growth modeling</li>
+            <li><span class="check">&#10003;</span> Churn scenario analysis (low/current/high/critical)</li>
+            <li><span class="check">&#10003;</span> Three-tier pricing structure optimizer</li>
+            <li><span class="check">&#10003;</span> Annual vs monthly billing trade-off calculator</li>
+            <li><span class="check">&#10003;</span> Expansion revenue and NRR modeling</li>
+            <li><span class="check">&#10003;</span> Quick Ratio and unit economics dashboard</li>
+            <li><span class="check">&#10003;</span> CSV data import for historical analysis</li>
+            <li><span class="check">&#10003;</span> Export reports and visualizations</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Second Row -->
+<div class="main-grid">
+    <div class="section">
+        <h3><span class="icon">&#127919;</span> Who This Is For</h3>
+        <div class="tags">
+            <span class="tag">SaaS Founders</span>
+            <span class="tag">Product Leaders</span>
+            <span class="tag">Finance Teams</span>
+            <span class="tag">Pricing Analysts</span>
+            <span class="tag">Revenue Ops</span>
+            <span class="tag">Investors</span>
+        </div>
+        <h3 style="margin-top: 18px;"><span class="icon">&#128176;</span> Use Cases</h3>
+        <div class="tags">
+            <span class="tag">Price Testing</span>
+            <span class="tag">Tier Structure</span>
+            <span class="tag">Churn Analysis</span>
+            <span class="tag">Board Reporting</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3><span class="icon">&#128230;</span> What You Get</h3>
+        <div class="tags" style="margin-bottom: 12px;">
+            <span class="tag">&#10003; Web-Based Calculator</span>
+            <span class="tag">&#10003; User Manual</span>
+            <span class="tag">&#10003; Sample Data</span>
+            <span class="tag">&#10003; Data Documentation</span>
+        </div>
+        <div class="stat-box">
+            <div class="big-stat">Reduce churn by 1% = ~12% more LTV</div>
+            <p>Quantify the impact of retention improvements</p>
+        </div>
+    </div>
+</div>
+
+<!-- Credibility / CTA Footer -->
+<div class="credibility">
+    <div class="cred-left">
+        <h3>Ready to Optimize Your Pricing?</h3>
+        <p class="name">Dr. Koray Cosguner</p>
+        <p class="title">Founder & Principal Consultant<br>Associate Professor of Marketing</p>
+        <p class="contact">
+            <a href="mailto:miaow.consulting@gmail.com">miaow.consulting@gmail.com</a>
+        </p>
+    </div>
+    <div class="cred-right">
+        <div class="cred-badge">
+            <div class="school">Kelley School of Business</div>
+            <div class="ranks">#1 Online MBA | #4 UG Marketing (U.S. News)</div>
+        </div>
+        <a href="mailto:miaow.consulting@gmail.com?subject=Subscription%20Pricing%20Calculator%20Demo" class="cta-button">Request Demo</a>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    *Source: OpenView Partners, SaaS Benchmarks | &copy; 2026 MIAOW LLC. All Rights Reserved.
+</div>
 
 </body>
 </html>
