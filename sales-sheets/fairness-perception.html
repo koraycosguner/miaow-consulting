@@ -277,6 +277,123 @@
         footer .author {
             color: #666;
         }
+
+        /* Mobile Responsiveness */
+        @media screen and (max-width: 900px) {
+            body {
+                max-width: 100%;
+                height: auto;
+                padding: 16px;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 12px;
+            }
+            .header-right {
+                text-align: center;
+            }
+            .header-right h1 {
+                font-size: 14pt;
+            }
+            .logo {
+                font-size: 24pt;
+            }
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 16px;
+            }
+            .hero-outputs {
+                grid-template-columns: 1fr 1fr;
+            }
+            .chart-container {
+                height: 180px;
+                margin-top: 16px;
+            }
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .credibility {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+                padding: 16px;
+            }
+            .cred-right {
+                text-align: center;
+            }
+            .steps {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .step-arrow {
+                transform: rotate(90deg);
+                padding: 4px 0;
+            }
+            h3 {
+                font-size: 12pt;
+            }
+            .section {
+                padding: 14px;
+            }
+        }
+
+        @media screen and (max-width: 500px) {
+            body {
+                padding: 12px;
+            }
+            .logo {
+                font-size: 20pt;
+            }
+            .header-right h1 {
+                font-size: 12pt;
+            }
+            .tagline {
+                font-size: 11pt;
+            }
+            .hero {
+                padding: 12px;
+            }
+            .hero-text h2 {
+                font-size: 13pt;
+            }
+            .hero-text p {
+                font-size: 10pt;
+            }
+            .hero-outputs {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .hero-output {
+                padding: 8px 10px;
+            }
+            .hero-output strong {
+                font-size: 10pt;
+            }
+            .chart-container {
+                height: 150px;
+            }
+            .cta-button {
+                padding: 12px 20px;
+                font-size: 11pt;
+                width: 100%;
+                text-align: center;
+            }
+            .tags {
+                justify-content: center;
+            }
+            .tag {
+                font-size: 9pt;
+                padding: 5px 10px;
+            }
+            .print-btn {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px 16px;
+                font-size: 11pt;
+            }
+        }
     </style>
 </head>
 <body>
